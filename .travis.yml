@@ -1,6 +1,7 @@
 language: cpp
 compiler:
   - clang
+  - gcc
 env:
   - SWIGLANG=
 matrix:
@@ -19,11 +20,10 @@ before_install:
   - time sudo apt-get -qq install libboost-dev
 script:
   - ./autogen.sh && ./configure
+  - cat /proc/cpuinfo
   - make -s
   - echo SWIGLANG... $SWIGLANG
-  - test -n $SWIGLANG && echo Language is $SWIGLANG
-  - test -z $SWIGLANG && make check-ccache
-#  - make -k check-$SWIGLANG-examples check-$SWIGLANG-test-suite
+  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples; else make check-ccache; fi
 branches:
   only:
     - master

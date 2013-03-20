@@ -7,23 +7,21 @@ env:
 matrix:
   include:
     - compiler: gcc
-      env: SWIGLANG=python
-    - compiler: gcc
-      env: SWIGLANG=php
-    - compiler: gcc
       env: SWIGLANG=java
     - compiler: gcc
       env: SWIGLANG=perl5
+    - compiler: gcc
+      env: SWIGLANG=php
+    - compiler: gcc
+      env: SWIGLANG=python
     - compiler: gcc
       env: SWIGLANG=ruby
 before_install:
   - time sudo apt-get -qq install libboost-dev
 script:
   - ./autogen.sh && ./configure
-  - cat /proc/cpuinfo
   - make -s
-  - echo SWIGLANG... $SWIGLANG
-  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples; else make check-ccache; fi
+  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
 branches:
   only:
     - master

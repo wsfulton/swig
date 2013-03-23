@@ -7,7 +7,11 @@ env:
 matrix:
   include:
     - compiler: gcc
+      env: SWIGLANG=csharp
+    - compiler: gcc
       env: SWIGLANG=java
+    - compiler: gcc
+      env: SWIGLANG=lua
     - compiler: gcc
       env: SWIGLANG=perl5
     - compiler: gcc
@@ -15,13 +19,25 @@ matrix:
     - compiler: gcc
       env: SWIGLANG=python
     - compiler: gcc
+      env: SWIGLANG=octave
+    - compiler: gcc
       env: SWIGLANG=ruby
+    - compiler: gcc
+      env: SWIGLANG=tcl
 before_install:
+  - lsb_release -a
+  - uname -a
   - time sudo apt-get -qq install libboost-dev
+  - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
+  - if test "$SWIGLANG" = "lua"; then sudo apt-get -qq install lua5.2 liblua5.2-dev; fi
+  - if test "$SWIGLANG" = "octave"; then sudo apt-get -qq install octave3.2 octave3.2-headers; fi
+  - if test "$SWIGLANG" = "php"; then sudo apt-get -qq install php5-cli php5-dev; fi
+  - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
 script:
   - ./autogen.sh && ./configure
   - make -s
-  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
+#  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
+  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples; else make check-ccache; fi
 branches:
   only:
     - master

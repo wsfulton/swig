@@ -26,6 +26,11 @@ matrix:
       env: SWIGLANG=ruby
     - compiler: gcc
       env: SWIGLANG=tcl
+  allow_failures:
+    - compiler: gcc
+      env: SWIGLANG=go
+    - compiler: gcc
+      env: SWIGLANG=php
 before_install:
   - lsb_release -a
   - uname -a
@@ -41,11 +46,6 @@ script:
   - make -s
 #  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
   - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples; else make check-ccache; fi
-allow_failures:
-  - compiler: gcc
-    env: SWIGLANG=php
-  - compiler: gcc
-    env: SWIGLANG=go
 branches:
   only:
     - master

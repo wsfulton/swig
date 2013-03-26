@@ -205,7 +205,7 @@ then
 	*-*-next*)
 		if test "$ns_dyld"
 		then LDSHARED='$(CC) $(LDFLAGS) -bundle -prebind'
-		else LDSHARED='$(CC) $(CFLAGS) -nostdlib -r';
+		else LDSHARED='$(CC) $(CFLAGS) -nostdlib -r'
 		fi
                 if test "$with_next_framework" ; then
 		    LDSHARED="$LDSHARED \$(LDLIBRARY)"
@@ -243,9 +243,9 @@ AC_MSG_CHECKING(TRYLINKINGWITHCXX)
 if test -z "$TRYLINKINGWITHCXX"
 then
 	case $host in
-	*-*-solaris*) if test "$GCC" = yes;
-             then TRYLINKINGWITHCXX="CXXSHARED= $CXX -Wl,-G";
-             else TRYLINKINGWITHCXX="CXXSHARED= $CXX -G -L/opt/SUNWspro/lib -lCrun -lCstd";
+	*-*-solaris*) if test "$GCC" = yes
+             then TRYLINKINGWITHCXX="CXXSHARED= $CXX -Wl,-G"
+             else TRYLINKINGWITHCXX="CXXSHARED= $CXX -G -L/opt/SUNWspro/lib -lCrun -lCstd"
              fi;;
         *-*-hp*) TRYLINKINGWITHCXX="CXXSHARED= $CXX +z ";;
         *-*-darwin*) TRYLINKINGWITHCXX="CXXSHARED= $CXX -bundle -undefined suppress -flat_namespace";;
@@ -270,9 +270,9 @@ AC_MSG_CHECKING(CCSHARED)
 if test -z "$CCSHARED"
 then
 	case $host in
-	*-*-hp*) if test "$GCC" = yes;
-		 then CCSHARED="-fpic";
-		 else CCSHARED="+z";
+	*-*-hp*) if test "$GCC" = yes
+		 then CCSHARED="-fpic"
+		 else CCSHARED="+z"
 		 fi;;
 	*-*-linux*) CCSHARED="-fpic";;
 	*-*-freebsd* | *-*-openbsd*) CCSHARED="-fpic";;
@@ -320,7 +320,7 @@ AC_MSG_RESULT($LINKFORSHARED)
 # Optional CFLAGS used to silence/enhance compiler warnings on some platforms.
 AC_MSG_CHECKING(PLATFLAGS)
 case $host in
-  *-*-solaris*) if test "$GCC" = yes;
+  *-*-solaris*) if test "$GCC" = yes
     then PLATFLAGS=
     else PLATFLAGS=
       #    else PLATFLAGS="-errtags=yes" # Need more work as C examples use ld for linking
@@ -670,7 +670,7 @@ else
     AC_MSG_CHECKING(for Python lib dir)
     PYLIBDIR=`($PYTHON -c "import sys; print sys.lib") 2>/dev/null`
     if test -z "$PYLIBDIR"; then
-      # older versions don't have sys.lib  so the best we can do is assume lib
+      # Fedora patch Python to add sys.lib, for other distros we assume "lib".
       PYLIBDIR="lib" 
     fi
     AC_MSG_RESULT($PYLIBDIR)
@@ -703,18 +703,14 @@ else
       AC_MSG_RESULT($PYLIB)
     fi
 
-    # Check for really old versions
-    if test -r $PYLIB/libPython.a; then
-      PYLINK="-lModules -lPython -lObjects -lParser"
-    else
-      PYLINK="-l$PYVERSION"
-    fi
+    PYLINK="-l$PYVERSION"
   fi
 
   # Cygwin (Windows) needs the library for dynamic linking
   case $host in
-  *-*-cygwin* | *-*-mingw*) PYTHONDYNAMICLINKING="-L$PYLIB $PYLINK"
-    DEFS="-DUSE_DL_IMPORT $DEFS" PYINCLUDE="$PYINCLUDE"
+  *-*-cygwin* | *-*-mingw*)
+    PYTHONDYNAMICLINKING="-L$PYLIB $PYLINK"
+    DEFS="-DUSE_DL_IMPORT $DEFS"
     ;;
   *)PYTHONDYNAMICLINKING="";;
   esac
@@ -808,8 +804,9 @@ else
 
   # Cygwin (Windows) needs the library for dynamic linking
   case $host in
-  *-*-cygwin* | *-*-mingw*) PYTHON3DYNAMICLINKING="-L$PYLIB $PY3LINK"
-    DEFS="-DUSE_DL_IMPORT $DEFS" PY3INCLUDE="$PY3INCLUDE"
+  *-*-cygwin* | *-*-mingw*)
+    PYTHON3DYNAMICLINKING="-L$PYLIB $PY3LINK"
+    DEFS="-DUSE_DL_IMPORT $DEFS"
     ;;
   *)PYTHON3DYNAMICLINKING="";;
   esac
@@ -857,7 +854,7 @@ if test -n "$PERL"; then
 			if test -r $i/perl.h; then
 				AC_MSG_RESULT($i)
 				PERL5EXT="$i"
-				break;
+				break
 			fi
 		done
 		if test "$PERL5EXT" = none; then
@@ -1300,7 +1297,7 @@ else
     AC_MSG_CHECKING(for MzScheme dynext object) 
     MZDYNOBJ=`$MZSCHEME --eval '(begin (require dynext/link) (with-handlers (((lambda args #t) (lambda args #f))) (for-each (lambda (x) (printf "~a" x)) (expand-for-link-variant (current-standard-link-libraries)))))' 2>/dev/null`
     if test -f "$MZDYNOBJ"; then
-      MZDYNOBJ="$MZDYNOBJ"
+      :
     else
       # older versions (3.72 approx and earlier)
       MZDYNOBJ=`$MZSCHEME --mute-banner --version --eval '(begin (require (lib "link.ss" "dynext")) (with-handlers (((lambda args #t) (lambda args #f))) (for-each (lambda (x) (display x) (display " ")) ((current-make-standard-link-libraries)))) (with-handlers (((lambda args #t) (lambda args #f))) (for-each (lambda (x) (display x)) (expand-for-link-variant (current-standard-link-libraries)))))' 2>/dev/null`
@@ -1354,7 +1351,7 @@ if test -n "$RUBY"; then
 			if test -r $i/ruby.h; then
 				AC_MSG_RESULT($i)
 				RUBYINCLUDE="-I$i"
-				break;
+				break
 			fi
 		done
 		if test x"$RUBYARCH" != x""; then
@@ -1404,7 +1401,7 @@ if test -n "$RUBY"; then
 			for i in $dirs; do
 				if (test -r $i/$rb_libruby;) then
 					RUBYLIB="$i"
-					break;
+					break
 				fi
 			done
 		fi
@@ -1504,47 +1501,37 @@ AC_ARG_WITH(ocamlmktop,[  --with-ocamlmktop=path  Set location of ocamlmktop exe
 
 # First, check for "--without-ocaml" or "--with-ocaml=no".
 if test x"${OCAMLBIN}" = xno -o x"${with_alllang}" = xno ; then 
-AC_MSG_NOTICE([Disabling OCaml])
-OCAMLBIN=
+    AC_MSG_NOTICE([Disabling OCaml])
+    OCAMLBIN=
 else
 
-AC_MSG_CHECKING(for Ocaml DL load generator)
-if test -z "$OCAMLDLGEN"; then
-AC_CHECK_PROGS(OCAMLDLGEN, ocamldlgen, :)
-else
-OCAMLDLGEN="$OCAMLDLGEN"
-fi
+    AC_MSG_CHECKING(for Ocaml DL load generator)
+    if test -z "$OCAMLDLGEN"; then
+	AC_CHECK_PROGS(OCAMLDLGEN, ocamldlgen, :)
+    fi
 
-AC_MSG_CHECKING(for Ocaml package tool)
-if test -z "$OCAMLFIND"; then
-AC_CHECK_PROGS(OCAMLFIND, ocamlfind, :)
-else
-OCAMLFIND="$OCAMLFIND"
-fi
+    AC_MSG_CHECKING(for Ocaml package tool)
+	if test -z "$OCAMLFIND"; then
+	AC_CHECK_PROGS(OCAMLFIND, ocamlfind, :)
+    fi
 
-AC_MSG_CHECKING(for Ocaml compiler)
-if test -z "$OCAMLC"; then
-AC_CHECK_PROGS(OCAMLC, ocamlc, :)
-else
-OCAMLC="$OCAMLC"
-fi
+    AC_MSG_CHECKING(for Ocaml compiler)
+	if test -z "$OCAMLC"; then
+	AC_CHECK_PROGS(OCAMLC, ocamlc, :)
+    fi
 
-AC_MSG_CHECKING(for Ocaml interpreter)
-if test "x$OCAMLBIN" = xyes; then
-AC_CHECK_PROGS(OCAMLBIN, ocaml, :)
-else
-OCAMLBIN="$OCAMLBIN"
-fi
+    AC_MSG_CHECKING(for Ocaml interpreter)
+	if test "x$OCAMLBIN" = xyes; then
+	AC_CHECK_PROGS(OCAMLBIN, ocaml, :)
+    fi
 
-AC_MSG_CHECKING(for Ocaml toplevel creator)
-if test -z "$OCAMLMKTOP"; then
-AC_CHECK_PROGS(OCAMLMKTOP, ocamlmktop, :)
-else
-OCAMLMKTOP="$OCAMLMKTOP"
-fi
+    AC_MSG_CHECKING(for Ocaml toplevel creator)
+    if test -z "$OCAMLMKTOP"; then
+	AC_CHECK_PROGS(OCAMLMKTOP, ocamlmktop, :)
+    fi
 
-OCAMLLOC=loc
-if test "$OCAMLC" != ":" ; then
+    OCAMLLOC=loc
+    if test "$OCAMLC" != ":" ; then
 	AC_MSG_CHECKING(for Ocaml header files)
 	dirs="/usr/lib/ocaml/caml /usr/local/lib/ocaml/caml"
 	dir="`$OCAMLC -where 2>/dev/null`"
@@ -1556,7 +1543,7 @@ if test "$OCAMLC" != ":" ; then
 			AC_MSG_RESULT($i)
 			OCAMLEXT="$i"
 			OCAMLINC="-I$OCAMLEXT"
-			break;
+			break
 		fi
 	done
 	if test -z "$OCAMLINC"; then
@@ -1567,7 +1554,7 @@ if test "$OCAMLC" != ":" ; then
 	OCAMLVER=`$OCAMLC -version | sed -e 's/.*version //g'`
 	AC_COMPARE_VERSION([$OCAMLVER],[3.08.2],[:],[:],[OCAMLLOC=_loc])
 	AC_MSG_RESULT($OCAMLVER)
-fi
+    fi
 fi # Disabling ocaml
 
 export OCAMLLOC
@@ -1600,8 +1587,8 @@ AS_HELP_STRING([--with-pike=path], [Set location of Pike executable]),[PIKEBIN="
 
 # First, check for "--without-pike" or "--with-pike=no".
 if test x"${PIKEBIN}" = xno -o x"${with_alllang}" = xno ; then 
-AC_MSG_NOTICE([Disabling Pike])
-PIKEBIN=
+    AC_MSG_NOTICE([Disabling Pike])
+    PIKEBIN=
 else
 
 if test "x$PIKEBIN" = xyes; then
@@ -1802,7 +1789,7 @@ if test -z "$CSHARPBIN" ; then
       # The Mono compiler should emit: Mono C# compiler version a.b.c.d
       csharp_version_raw=`(mcs --version) 2>/dev/null`
       csharp_version_searched=`(mcs --version | sed -e "/C#/b" -e "/Mono/b" -e d) 2>/dev/null` # return string if contains 'Mono' or 'C#'
-      CSHARPCOMPILER="";
+      CSHARPCOMPILER=""
       if test -n "$csharp_version_raw" ; then
         if test "$csharp_version_raw" = "$csharp_version_searched" ; then
           CSHARPCOMPILER="mcs"
@@ -1959,7 +1946,7 @@ else
       if test -r $i/lua.h; then
         AC_MSG_RESULT($i/lua.h)
 	LUAFLAGS="$ISYSTEM$i"
-	break;
+	break
       fi
     done
     if test -z "$LUAFLAGS"; then
@@ -2482,4 +2469,4 @@ AC_CONFIG_FILES([preinst-swig], [chmod +x preinst-swig])
 AC_CONFIG_FILES([CCache/ccache_swig_config.h])
 
 AC_OUTPUT
-dnl configure.in ends here
+dnl configure.ac ends here

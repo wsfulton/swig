@@ -15,13 +15,13 @@ matrix:
     - compiler: gcc
       env: SWIGLANG=lua
     - compiler: gcc
+      env: SWIGLANG=octave SWIGJOBS=-j4
+    - compiler: gcc
       env: SWIGLANG=perl5
     - compiler: gcc
       env: SWIGLANG=php
     - compiler: gcc
       env: SWIGLANG=python
-    - compiler: gcc
-      env: SWIGLANG=octave
     - compiler: gcc
       env: SWIGLANG=ruby
     - compiler: gcc
@@ -44,7 +44,7 @@ before_install:
 script:
   - ./autogen.sh && ./configure
   - make -s
-  - if test -n "$SWIGLANG"; then make -k check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
+  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
 branches:
   only:
     - master

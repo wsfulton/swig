@@ -44,8 +44,7 @@ before_install:
 script:
   - ./autogen.sh && ./configure
   - make -s
-#  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
-  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-examples; else make check-ccache; fi
+  - if test -n "$SWIGLANG"; then make -k check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
 branches:
   only:
     - master

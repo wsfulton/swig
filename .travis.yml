@@ -43,8 +43,10 @@ before_install:
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
 script:
   - ./autogen.sh && ./configure
-  - make -s
-  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples check-$SWIGLANG-test-suite; else make check-ccache; fi
+  - make -s $SWIGJOBS
+  - if test -z "$SWIGLANG"; then make check-ccache; fi
+  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
+  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
 branches:
   only:
     - master

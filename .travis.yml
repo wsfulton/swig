@@ -44,7 +44,7 @@ before_install:
 script:
   - ./autogen.sh && ./configure
   - make -s $SWIGJOBS
-  - if test -z "$SWIGLANG"; then make check-ccache; fi
+  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
 branches:

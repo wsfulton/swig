@@ -27,8 +27,7 @@ matrix:
     - compiler: gcc
       env: SWIGLANG=tcl
   allow_failures:
-    - compiler: gcc
-      env: SWIGLANG=php
+      # None
 before_install:
   - lsb_release -a
   - uname -a

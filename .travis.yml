@@ -40,8 +40,8 @@ before_install:
   - echo "Compilers: $CXX $CC"
   - gcc --version
   - clang --version
-#  - sudo apt-get -qq update
-#  - time sudo apt-get -qq install libboost-dev
+  - sudo apt-get -qq update
+  - time sudo apt-get -qq install libboost-dev
 #  - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
 #  - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
 #  - if test "$SWIGLANG" = "guile"; then sudo apt-get -qq install guile-2.0-dev; fi

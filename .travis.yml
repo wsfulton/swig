@@ -18,18 +18,18 @@ matrix:
 #      env: SWIGLANG=lua
 #    - compiler: gcc
 #      env: SWIGLANG=octave SWIGJOBS=-j4
-#    - compiler: gcc
-#      env: SWIGLANG=perl5
-#    - compiler: gcc
-#      env: SWIGLANG=php
+    - compiler: gcc
+      env: SWIGLANG=perl5
+    - compiler: gcc
+      env: SWIGLANG=php
     - compiler: gcc
       env: SWIGLANG=python
-#    - compiler: gcc
-#      env: SWIGLANG=python PY3=1
+    - compiler: gcc
+      env: SWIGLANG=python PY3=1
     - compiler: gcc
       env: SWIGLANG=ruby
-#    - compiler: gcc
-#      env: SWIGLANG=tcl
+    - compiler: gcc
+      env: SWIGLANG=tcl
   allow_failures:
       # None
 before_install:
@@ -37,8 +37,9 @@ before_install:
   - uname -a
   - brew update
   - brew list
-  - brew install pcre
-  - brew list pcre
+  - echo "Compilers: $CXX $CC"
+  - gcc --version
+  - clang --version
 #  - sudo apt-get -qq update
 #  - time sudo apt-get -qq install libboost-dev
 #  - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
@@ -51,14 +52,12 @@ before_install:
 #  - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
 script:
   - ./autogen.sh && ./configure
-#  - make -s $SWIGJOBS
-  - make $SWIGJOBS
-#  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
-  - if test -z "$SWIGLANG"; then make check-ccache; fi
+  - make -s $SWIGJOBS
+  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - ./swig -version
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
-#  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
+  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
 branches:
   only:
     - master

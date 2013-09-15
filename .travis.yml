@@ -37,7 +37,8 @@ before_install:
   - uname -a
   - brew update
   - brew list
-  - echo Compilers $CXX $CC
+  - brew install pcre
+  - brew install boost
   - set
   - gcc --version
   - clang --version
@@ -55,7 +56,7 @@ script:
   - ./autogen.sh && ./configure
   - make -s $SWIGJOBS
   - if test -z "$SWIGLANG"; then make -s check-ccache; fi
-  - ./swig -version
+  - ./swig -version && ./swig -pcreversion
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi

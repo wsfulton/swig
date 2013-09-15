@@ -37,7 +37,7 @@ before_install:
   - uname -a
   - brew update
   - brew list
-  - echo "Compilers: $CXX $CC"
+  - echo Compilers $CXX $CC
   - gcc --version
   - clang --version
   - sudo apt-get -qq update

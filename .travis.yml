@@ -43,7 +43,7 @@ before_install:
   - if test "$SWIGLANG" = "lua"; then brew install lua; fi
   - if test "$SWIGLANG" = "python" -a "$PY3"; then brew install python3 && brew list -v python3; fi
 script:
-  - ./autogen.sh && ./configure CC=$CC CXX=$CXX; fi
+  - ./autogen.sh && ./configure CC=$CC CXX=$CXX
   - make -s $SWIGJOBS
   - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - ./swig -version

@@ -33,7 +33,7 @@ matrix:
   allow_failures:
       # None
 before_install:
-  - lsb_release -a
+#  - lsb_release -a
   - uname -a
   - brew update
   - brew list

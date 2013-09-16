@@ -22,7 +22,6 @@ before_install:
   - uname -a
   - brew update
   - brew list
-  - brew search
   - brew install pcre
   - brew install boost
   - brew install valgrind
@@ -48,10 +47,9 @@ script:
   - make -s $SWIGJOBS
   - ./swig -version
   - ./swig -pcreversion
-  - (cd Examples/test-suite/$SWIGLANG && make li_std_except.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
-  - (cd Examples/test-suite/$SWIGLANG && make li_std_except_as_class.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
-  - (cd Examples/test-suite/$SWIGLANG && make li_std_vector.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
-  - (cd Examples/test-suite/$SWIGLANG && make li_std_vector.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_except.cpptest CFLAGS=-ggdb CXXFLAGS=-ggdb RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30 --dsymutil=yes")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_except_as_class.cpptest CFLAGS=-ggdb CXXFLAGS=-ggdb RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30 --dsymutil=yes")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_vector.cpptest CFLAGS=-ggdb CXXFLAGS=-ggdb RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30 --dsymutil=yes")
 #  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
 #  - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
 #  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi

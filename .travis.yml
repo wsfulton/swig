@@ -4,18 +4,18 @@ env:
   - SWIGLANG= CC=clang CXX=clang++
 matrix:
   include:
-    - env: SWIGLANG=csharp
-    - env: SWIGLANG=go
-    - env: SWIGLANG=guile
-    - env: SWIGLANG=java
+#    - env: SWIGLANG=csharp
+#    - env: SWIGLANG=go
+#    - env: SWIGLANG=guile
+#    - env: SWIGLANG=java
     - env: SWIGLANG=lua
-#    - env: SWIGLANG=octave SWIGJOBS=-j4
-    - env: SWIGLANG=perl5
-    - env: SWIGLANG=php
+##    - env: SWIGLANG=octave SWIGJOBS=-j4
+#    - env: SWIGLANG=perl5
+#    - env: SWIGLANG=php
     - env: SWIGLANG=python
-    - env: SWIGLANG=python PY3=1
-    - env: SWIGLANG=ruby
-    - env: SWIGLANG=tcl
+#    - env: SWIGLANG=python PY3=1
+#    - env: SWIGLANG=ruby
+#    - env: SWIGLANG=tcl
   allow_failures:
       # None
 before_install:
@@ -25,6 +25,7 @@ before_install:
   - brew search
   - brew install pcre
   - brew install boost
+  - brew install valgrind
   - gcc --version
   - clang --version
 #  - sudo apt-get -qq update
@@ -45,12 +46,16 @@ before_install:
 script:
   - ./autogen.sh && ./configure CC=$CC CXX=$CXX
   - make -s $SWIGJOBS
-  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - ./swig -version
   - ./swig -pcreversion
-  - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
-  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
-  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_except.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_except_as_class.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_vector.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
+  - (cd Examples/test-suite/$SWIGLANG && make li_std_vector.cpptest CFLAGS=-g CXXFLAGS=-g RUNTOOL="valgrind --error-limit=no --trace-children=yes --track-origins=yes --error-limit=no --num-callers=30")
+#  - if test -z "$SWIGLANG"; then make -s check-ccache; fi
+#  - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
+#  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
+#  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
 branches:
   only:
     - master

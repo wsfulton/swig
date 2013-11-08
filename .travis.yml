@@ -4,16 +4,16 @@ env:
   - SWIGLANG= CC=clang CXX=clang++
 matrix:
   include:
-#    - env: SWIGLANG=csharp
-#    - env: SWIGLANG=go
-    - env: SWIGLANG=guile CC=clang CXX=clang++
+    - env: SWIGLANG=csharp
+    - env: SWIGLANG=go
+    - env: SWIGLANG=guile
     - env: SWIGLANG=java
-    - env: SWIGLANG=lua CC=clang CXX=clang++
-#    - env: SWIGLANG=octave SWIGJOBS=-j4
-    - env: SWIGLANG=perl5 CC=clang CXX=clang++
+    - env: SWIGLANG=lua
+# - env: SWIGLANG=octave SWIGJOBS=-j4
+    - env: SWIGLANG=perl5
     - env: SWIGLANG=php
-    - env: SWIGLANG=python CC=clang CXX=clang++
-#    - env: SWIGLANG=python PY3=1
+    - env: SWIGLANG=python
+    - env: SWIGLANG=python PY3=1
     - env: SWIGLANG=ruby
     - env: SWIGLANG=tcl
   allow_failures:
@@ -27,28 +27,17 @@ before_install:
   - brew install boost
   - gcc --version
   - clang --version
-#  - sudo apt-get -qq update
-#  - time sudo apt-get -qq install libboost-dev
-#  - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
-#  - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
-#  - if test "$SWIGLANG" = "guile"; then sudo apt-get -qq install guile-2.0-dev; fi
-#  - if test "$SWIGLANG" = "lua"; then sudo apt-get -qq install lua5.1 liblua5.1-dev; fi
-#  - if test "$SWIGLANG" = "octave"; then sudo apt-get -qq install octave3.2 octave3.2-headers; fi
-#  - if test "$SWIGLANG" = "php"; then sudo apt-get install php5-cli php5-dev; fi
-#  - if test "$SWIGLANG" = "python" -a "$PY3"; then sudo apt-get install python3-dev; fi
-#  - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi
   - if test "$SWIGLANG" = "go"; then brew install go && go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
-  - if test "$SWIGLANG" = "guile"; then brew install --verbose guile; fi
-  - if test "$SWIGLANG" = "lua"; then brew install --verbose lua; fi
+  - if test "$SWIGLANG" = "guile"; then brew install guile; fi
+  - if test "$SWIGLANG" = "lua"; then brew install lua; fi
   - if test "$SWIGLANG" = "python" -a "$PY3"; then brew install python3 && brew list -v python3; fi
-  - if test "$SWIGLANG" = "perl"; then perl -V; fi
 script:
   - ./autogen.sh && ./configure CC=$CC CXX=$CXX
   - make -s $SWIGJOBS
   - ./swig -version
-  - ./swig -pcreversion
   - if test -z "$SWIGLANG"; then make -s check-ccache; fi
+  - ./swig -pcreversion
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi

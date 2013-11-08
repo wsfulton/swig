@@ -20,9 +20,9 @@ matrix:
       # None
 before_install:
   - uname -a
-  - brew search guile
-  - brew versions guile
-  - brew update
+#  - brew search guile
+#  - brew versions guile
+#  - brew update
   - brew list
   - brew search
   - brew search guile
@@ -33,7 +33,8 @@ before_install:
   - clang --version
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi
   - if test "$SWIGLANG" = "go"; then brew install go && go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
-  - if test "$SWIGLANG" = "guile"; then brew tap homebrew/versions && brew install guile18; fi
+#  - if test "$SWIGLANG" = "guile"; then brew tap homebrew/versions && brew install guile18; fi
+  - if test "$SWIGLANG" = "guile"; then brew install guile; fi
   - if test "$SWIGLANG" = "lua"; then brew install lua; fi
   - if test "$SWIGLANG" = "python" -a "$PY3"; then brew install python3 && brew list -v python3; fi
 script:

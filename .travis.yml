@@ -20,6 +20,7 @@ matrix:
       # None
 before_install:
   - uname -a
+  - sw_vers
 #  - brew search guile
 #  - brew versions guile
 #  - brew update

@@ -19,6 +19,7 @@ matrix:
   allow_failures:
       # None
 before_install:
+  - date --utc
   - uname -a
   - sw_vers
   - brew search guile

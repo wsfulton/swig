@@ -26,7 +26,7 @@ script:
   - make -s $SWIGJOBS
   - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - ./swig -version
-  - if test -z "$SWIGLANG"; then sudo make -s install && swig -version && ccache-swig -version; fi
+  - if test -z "$SWIGLANG"; then sudo make -s install && swig -version && ccache-swig -V; fi
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples; fi
   - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi

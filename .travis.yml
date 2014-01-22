@@ -29,10 +29,13 @@ before_install:
   - brew search
   - brew search guile
   - brew versions guile
-  - brew install pcre
-  - brew install boost
   - gcc --version
   - clang --version
+  - if test "$CC" = "gcc"; then brew install apple-gcc42; fi
+  - gcc --version
+  - clang --version
+  - brew install pcre
+  - brew install boost
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi
   - if test "$SWIGLANG" = "go"; then brew install go && go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
   - if test "$SWIGLANG" = "guile"; then brew install guile; fi

@@ -30,12 +30,16 @@ before_install:
 #  - brew search guile
 #  - brew versions guile
   - echo $PATH
+  - which gcc
+  - which gcc-4.2
   - gcc --version
   - gcc-4.2 --version
   - clang --version
-  - which gcc
-  - which gcc-4.2 || true
   - which clang
+  - which g++
+  - which g++-4.2
+  - g++ --version
+  - g++-4.2 --version
   - ls -la /usr/local/bin
   - ls -la /usr/bin
   - ls -la /bin
@@ -47,10 +51,17 @@ before_install:
   - sudo ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
   - sudo ln -nsf $(which g++-4.2) /usr/local/bin/g++
   - ls -la /usr/local/bin
+  - which gcc
+  - which gcc-4.2
   - gcc --version
+  - /usr/local/bin/gcc --version
   - gcc-4.2 --version
   - clang --version
+  - which g++
+  - which g++-4.2
   - g++ --version
+  - /usr/local/bin/g++ --version
+  - g++-4.2 --version
   - brew install pcre
   - brew install boost
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi

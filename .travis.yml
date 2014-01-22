@@ -41,8 +41,8 @@ before_install:
   - ls -la /usr/local/bin
   - ls -la /usr/bin
   - ls -la /bin
-  - ln -sf $(which gcc-4.2) $(which gcc)
-  - ln -sf $(which g++-4.2) $(which g++)
+  - sudo ln -sf $(which gcc-4.2) $(which gcc)
+  - sudo ln -sf $(which g++-4.2) $(which g++)
   - ls -la /usr/local/bin
   - ls -la $(which gcc)
   - ls -la $(which g++)

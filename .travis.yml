@@ -23,12 +23,12 @@ before_install:
   - uname -a
   - sw_vers
   - brew update
-  - brew search guile
-  - brew versions guile
+#  - brew search guile
+#  - brew versions guile
   - brew list
-  - brew search
-  - brew search guile
-  - brew versions guile
+#  - brew search
+#  - brew search guile
+#  - brew versions guile
   - gcc --version
   - clang --version
   - echo $CC ... $CXX

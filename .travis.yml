@@ -43,14 +43,11 @@ before_install:
   - ls -la /usr/local/bin
   - ls -la /usr/bin
   - ls -la /bin
-  - sudo ls -la /usr/sbin
-  - sudo ls -la /sbin
 #  - if test -z "$CC"; then brew install apple-gcc42; fi
 #  - brew unlink apple-gcc42 && brew link --force apple-gcc42
 #  - sudo ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
-  - sudo ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
-  - sudo ln -nsf $(which g++-4.2) /usr/local/bin/g++
-  - sleep 10 # soft link taking a while to take effect?
+  - ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
+  - ln -nsf $(which g++-4.2) /usr/local/bin/g++
   - ls -la /usr/local/bin
   - which gcc
   - which gcc-4.2

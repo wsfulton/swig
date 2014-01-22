@@ -35,7 +35,11 @@ before_install:
   - which gcc
   - which gcc-4.2 || true
   - which clang
+  - ls -la /usr/local/bin
   - ls -la /usr/bin
+  - ls -la /bin
+  - sudo ls -la /usr/sbin
+  - sudo ls -la /sbin
   - if test -z "$CC"; then brew install apple-gcc42; fi
   - brew link --force apple-gcc42
   - sudo ln -nsf $(which gcc-4.2) /usr/bin/gcc-4.2

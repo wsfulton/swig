@@ -31,14 +31,13 @@ before_install:
 #  - brew versions guile
   - gcc --version
   - clang --version
-  - echo $CC ... $CXX
-  - which $CC
-  - which $CXX
-  - if test "$CC" != "clang"; then brew install apple-gcc42; fi
-  - if test "$CC" = "gcc"; then brew install apple-gcc42; fi
-  - if test "$CC" = "cc"; then brew install apple-gcc42; fi
+  - which gcc
+  - which clang
+  - locate gcc || true
+  - if test -z "$CC"; then brew install apple-gcc42; fi
   - gcc --version
   - clang --version
+  - locate gcc || true
   - brew install pcre
   - brew install boost
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi

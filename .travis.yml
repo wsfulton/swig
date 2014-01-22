@@ -22,9 +22,9 @@ before_install:
   - date -u
   - uname -a
   - sw_vers
+  - brew update
   - brew search guile
   - brew versions guile
-  - brew update
   - brew list
   - brew search
   - brew search guile

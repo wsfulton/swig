@@ -30,36 +30,26 @@ before_install:
 #  - brew search guile
 #  - brew versions guile
   - echo $PATH
-  - which gcc
-  - which gcc-4.2
+  - ls -la $(which gcc)
+  - ls -la $(which g++)
+  - ls -la $(which gcc-4.2)
+  - ls -la $(which g++-4.2)
   - gcc --version
   - gcc-4.2 --version
-  - clang --version
-  - which clang
-  - which g++
-  - which g++-4.2
   - g++ --version
   - g++-4.2 --version
   - ls -la /usr/local/bin
   - ls -la /usr/bin
   - ls -la /bin
-#  - if test -z "$CC"; then brew install apple-gcc42; fi
-#  - brew unlink apple-gcc42 && brew link --force apple-gcc42
-#  - sudo ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
-  - ln -nsf $(which gcc-4.2) /usr/local/bin/gcc
-  - ln -nsf $(which g++-4.2) /usr/local/bin/g++
+  - ln -sf $(which gcc-4.2) $(which gcc)
+  - ln -sf $(which g++-4.2) $(which g++)
   - ls -la /usr/local/bin
-  - which gcc
-  - which gcc-4.2
+  - ls -la $(which gcc)
+  - ls -la $(which g++)
   - gcc --version
-  - /usr/local/bin/gcc --version
-  - gcc-4.2 --version
-  - clang --version
-  - which g++
-  - which g++-4.2
+  - /usr/bin/gcc --version
   - g++ --version
-  - /usr/local/bin/g++ --version
-  - g++-4.2 --version
+  - /usr/bin/g++ --version
   - brew install pcre
   - brew install boost
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi

@@ -6,7 +6,7 @@ matrix:
   include:
 #    - env: SWIGLANG=csharp
 #    - env: SWIGLANG=go
-    - env: SWIGLANG=guile
+#    - env: SWIGLANG=guile
 #    - env: SWIGLANG=java
 #    - env: SWIGLANG=lua
 # - env: SWIGLANG=octave SWIGJOBS=-j4
@@ -31,7 +31,12 @@ before_install:
   - brew versions guile
   - gcc --version
   - clang --version
+  - echo $CC ... $CXX
+  - which $CC
+  - which $CXX
+  - if test "$CC" != "clang"; then brew install apple-gcc42; fi
   - if test "$CC" = "gcc"; then brew install apple-gcc42; fi
+  - if test "$CC" = "cc"; then brew install apple-gcc42; fi
   - gcc --version
   - clang --version
   - brew install pcre

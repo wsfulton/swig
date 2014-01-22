@@ -31,6 +31,7 @@ before_install:
 #  - brew versions guile
   - echo $PATH
   - gcc --version
+  - gcc-4.2 --version
   - clang --version
   - which gcc
   - which gcc-4.2 || true
@@ -41,10 +42,11 @@ before_install:
   - sudo ls -la /usr/sbin
   - sudo ls -la /sbin
   - if test -z "$CC"; then brew install apple-gcc42; fi
-  - brew link --force apple-gcc42
+  - brew unlink apple-gcc42 && brew link --force apple-gcc42
   - sudo ln -nsf $(which gcc-4.2) /usr/bin/gcc-4.2
   - ls -la /usr/bin
   - gcc --version
+  - gcc-4.2 --version
   - clang --version
   - brew install pcre
   - brew install boost

@@ -1,41 +1,44 @@
 language: objective-c
 env:
   - SWIGLANG=
-#  - SWIGLANG= CC=clang CXX=clang++
+  - SWIGLANG= CC=clang CXX=clang++
 matrix:
   include:
 #    - env: SWIGLANG=csharp
     - env: SWIGLANG=go
-#    - env: SWIGLANG=guile
-#    - env: SWIGLANG=java
-#    - env: SWIGLANG=lua
-## - env: SWIGLANG=octave SWIGJOBS=-j4
-#    - env: SWIGLANG=perl5
-#    - env: SWIGLANG=php
-#    - env: SWIGLANG=python
+    - env: SWIGLANG=go CC=clang CXX=clang++
+    - env: SWIGLANG=java
+    - env: SWIGLANG=java CC=clang CXX=clang++
+    - env: SWIGLANG=lua
+    - env: SWIGLANG=lua CC=clang CXX=clang++
+    - env: SWIGLANG=perl5
+    - env: SWIGLANG=perl5 CC=clang CXX=clang++
+    - env: SWIGLANG=php
+    - env: SWIGLANG=php CC=clang CXX=clang++
+    - env: SWIGLANG=python
 #    - env: SWIGLANG=python PY3=1
-#    - env: SWIGLANG=ruby
-#    - env: SWIGLANG=tcl
+    - env: SWIGLANG=ruby
+    - env: SWIGLANG=ruby CC=clang CXX=clang++
+    - env: SWIGLANG=tcl
+    - env: SWIGLANG=tcl CC=clang CXX=clang++
   allow_failures:
-      # None
+    - env: SWIGLANG=guile
+    - env: SWIGLANG=octave SWIGJOBS=-j4
 before_install:
   - date -u
   - uname -a
   - sw_vers
   - brew update
-#  - brew search guile
-#  - brew versions guile
   - brew list
   - ls -la /usr/local/bin
 #  - brew search
-#  - brew search guile
-#  - brew versions guile
   - ls -la $(which gcc)
   - ls -la $(which g++)
   - ls -la $(which gcc-4.2)
   - ls -la $(which g++-4.2)
   - gcc --version
   - g++ --version
+  - clang++ --version
   # Use real gcc-4.2
   - sudo ln -sf $(which gcc-4.2) $(which gcc)
   - sudo ln -sf $(which g++-4.2) $(which g++)
@@ -47,7 +50,7 @@ before_install:
   - brew install boost
 #  - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/shtirlic/4696903/raw/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi
   - if test "$SWIGLANG" = "csharp"; then brew install https://gist.github.com/raw/4696903/243c2f92961a285bb721aa67954c1efee4cd6a84/mono.rb; fi
-  - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
+#  - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
   - if test "$SWIGLANG" = "guile"; then brew install guile; fi
   - if test "$SWIGLANG" = "lua"; then brew install lua; fi
   - if test "$SWIGLANG" = "python" -a "$PY3"; then brew install python3 && brew list -v python3; fi

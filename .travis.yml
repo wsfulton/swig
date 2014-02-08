@@ -22,9 +22,8 @@ before_install:
   - if test "$SWIGLANG" = "php"; then sudo apt-get install php5-cli php5-dev; fi
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
 script:
-  - which sh
-  - ls -la $(which sh)
-  - bash -x ./autogen.sh && ./configure
+  - ./autogen.sh
+  - ./configure
   - make -s $SWIGJOBS
   - if test -z "$SWIGLANG"; then make -s check-ccache; fi
   - ./swig -version

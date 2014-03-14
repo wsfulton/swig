@@ -20,8 +20,8 @@ matrix:
 #    - env: SWIGLANG=ruby CC=clang CXX=clang++
 #    - env: SWIGLANG=tcl CC=gcc-4.2 CXX=g++-4.2
 #    - env: SWIGLANG=tcl CC=clang CXX=clang++
-    - env: SWIGLANG=guile CC=gcc-4.2 CXX=g++-4.2
-    - env: SWIGLANG=guile CC=clang CXX=clang++
+#    - env: SWIGLANG=guile CC=gcc-4.2 CXX=g++-4.2
+#    - env: SWIGLANG=guile CC=clang CXX=clang++
   allow_failures:
 #    - env: SWIGLANG=csharp CC=gcc-4.2 CXX=g++-4.2
 #    - env: SWIGLANG=csharp CC=clang CXX=clang++
@@ -33,6 +33,8 @@ before_install:
   - date -u
   - uname -a
   - sw_vers
+  - locale -a
+  - set
   - brew update
   - brew list
 #  - brew search

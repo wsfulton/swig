@@ -33,8 +33,6 @@ before_install:
   - date -u
   - uname -a
   - sw_vers
-  - locale -a
-  - set
   - brew update
   - brew list
 #  - brew search

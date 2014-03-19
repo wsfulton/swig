@@ -7,26 +7,43 @@ env:
 matrix:
   include:
     - compiler: gcc
+      env: SWIGLANG=csharp
+    - compiler: gcc
+      env: SWIGLANG=go
+    - compiler: gcc
+      env: SWIGLANG=guile
+    - compiler: gcc
+      env: SWIGLANG=java
+    - compiler: gcc
+      env: SWIGLANG=lua
+    - compiler: gcc
+      env: SWIGLANG=octave SWIGJOBS=-j4
+    - compiler: gcc
+      env: SWIGLANG=perl5
+    - compiler: gcc
+      env: SWIGLANG=php
+    - compiler: gcc
       env: SWIGLANG=python
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.4
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.5
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.6
     - compiler: gcc
       env: SWIGLANG=python PY3=1
     - compiler: gcc
       env: SWIGLANG=python PY3=1 VER=3.3
+    - compiler: gcc
+      env: SWIGLANG=ruby
+    - compiler: gcc
+      env: SWIGLANG=tcl
   allow_failures:
-      # None
+    # None
 before_install:
+  - date -u
   - lsb_release -a
   - uname -a
+  - sudo apt-get -qq update
   - time sudo apt-get -qq install libboost-dev
   - if test -z "$SWIGLANG"; then sudo apt-get -qq install yodl; fi
   - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
   - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
+  - if test "$SWIGLANG" = "guile"; then sudo apt-get -qq install guile-2.0-dev; fi
   - if test "$SWIGLANG" = "lua"; then sudo apt-get -qq install lua5.1 liblua5.1-dev; fi
   - if test "$SWIGLANG" = "octave"; then sudo apt-get -qq install octave3.2 octave3.2-headers; fi
   - if test "$SWIGLANG" = "php"; then sudo apt-get install php5-cli php5-dev; fi
@@ -46,4 +63,3 @@ script:
 branches:
   only:
     - master
-    - travis

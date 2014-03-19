@@ -19,7 +19,7 @@ AH_BOTTOM([
 /* Default language */
 #define SWIG_LANG               "-tcl"
 
-/* Deal with Microsofts attempt at deprecating C standard runtime functions */
+/* Deal with Microsoft's attempt at deprecating C standard runtime functions */
 #if defined(_MSC_VER)
 # define _CRT_SECURE_NO_DEPRECATE
 #endif
@@ -352,6 +352,19 @@ if test x"$enable_cpp11_testing" = xyes; then
   fi
 fi
 
+# On darwin 10.7,10.8,10.9 using clang++, need to ensure using
+# libc++ for tests and examples to run under mono. May affect 
+# other language targets as well - problem is an OSX incompatibility
+# between libraries depending on libstdc++ and libc++.
+CLANGXX=
+$CXX -v 2>&1 | grep -i clang >/dev/null && CLANGXX=yes
+case $host in
+  *-*-darwin11* | *-*-darwin12* |*-*-darwin13*  ) if test "$CLANGXX" = "yes";
+    then PLATCXXFLAGS="$PLATCXXFLAGS -stdlib=libc++"
+    fi;;
+  *) ;;
+esac
+
 # Set info about shared libraries.
 AC_SUBST(SO)
 AC_SUBST(LDSHARED)
@@ -481,10 +494,10 @@ if test x"${with_tclconfig}" != x ; then
 fi
 # check in a few common install locations
 if test x"${TCLCONFIG}" = x ; then
-    for i in `ls -d /usr/lib/ 2>/dev/null` \
-	     `ls -d -r /usr/lib/tcl*/ 2>/dev/null` \
-	     `ls -d /usr/local/lib/ 2>/dev/null` \
-	     `ls -d -r /usr/local/lib/tcl*/ 2>/dev/null` ; do
+    for i in `ls -d -r /usr/lib*/ 2>/dev/null` \
+	     `ls -d -r /usr/lib*/tcl*/ 2>/dev/null` \
+	     `ls -d -r /usr/local/lib*/ 2>/dev/null` \
+	     `ls -d -r /usr/local/lib*/tcl*/ 2>/dev/null` ; do
 	if test -f $i"tclConfig.sh" ; then
 	    TCLCONFIG=`(cd $i; pwd)`
 	    break
@@ -694,15 +707,21 @@ AS_HELP_STRING([--with-python3=path], [Set location of Python 3.x executable]),[
 if test x"${PY3BIN}" = xno -o x"${with_alllang}" = xno ; then
   AC_MSG_NOTICE([Disabling Python 3.x support])
 else
-  for py_ver in 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0; do
-    AC_CHECK_PROGS(PYTHON3, [python$py_ver])
-    if test -n "$PYTHON3"; then
-      AC_CHECK_PROGS(PY3CONFIG, [$PYTHON3-config])
-      if test -n "$PY3CONFIG"; then
-        break
+  if test "x$PY3BIN" = xyes; then
+    for py_ver in 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0; do
+      AC_CHECK_PROGS(PYTHON3, [python$py_ver])
+      if test -n "$PYTHON3"; then
+        AC_CHECK_PROGS(PY3CONFIG, [$PYTHON3-config])
+        if test -n "$PY3CONFIG"; then
+          break
+        fi
       fi
-    fi
-  done
+    done
+  else
+    PYTHON3="$PY3BIN"
+    AC_CHECK_PROGS(PY3CONFIG, [$PYTHON3-config])
+  fi
+
 
   if test -n "$PYTHON3" -a -n "$PY3CONFIG"; then
     AC_MSG_CHECKING([for Python 3.x prefix])
@@ -851,6 +870,13 @@ if test -n "$PERL"; then
       else
       AC_MSG_RESULT($PERL5LDFLAGS)
     fi
+    AC_MSG_CHECKING(for Perl5 Test::More module) # For test-suite
+    PERL5TESTMORE=`($PERL -e 'use Test::More; print "good";') 2>/dev/null`
+    if test -z "$PERL5TESTMORE" ; then
+      AC_MSG_RESULT(not found)
+      else
+      AC_MSG_RESULT(found)
+    fi
 	else
 		AC_MSG_RESULT(unable to determine perl5 configuration)
 		PERL5EXT=$PERL5DIR
@@ -912,13 +938,13 @@ if test -n "$OCTAVE"; then
    AC_MSG_CHECKING([for Octave preprocessor flags])
    OCTAVE_CPPFLAGS=
    for n in CPPFLAGS INCFLAGS; do
-     OCTAVE_CPPFLAGS="${OCTAVE_CPPFLAGS} "`${mkoctfile} -p $n`
+     OCTAVE_CPPFLAGS="${OCTAVE_CPPFLAGS} "`unset CPPFLAGS; ${mkoctfile} -p $n`
    done
    AC_MSG_RESULT([$OCTAVE_CPPFLAGS])
    AC_MSG_CHECKING([for Octave compiler flags])
    OCTAVE_CXXFLAGS=
    for n in ALL_CXXFLAGS; do
-     OCTAVE_CXXFLAGS="${OCTAVE_CXXFLAGS} "`${mkoctfile} -p $n`
+     OCTAVE_CXXFLAGS="${OCTAVE_CXXFLAGS} "`unset CXXFLAGS; ${mkoctfile} -p $n`
    done
    AC_MSG_RESULT([$OCTAVE_CXXFLAGS])
    AC_MSG_CHECKING([for Octave linker flags])
@@ -975,7 +1001,7 @@ AC_MSG_CHECKING(for java include file jni.h)
 AC_ARG_WITH(javaincl, [  --with-javaincl=path    Set location of Java include directory], [JAVAINCDIR="$withval"], [JAVAINCDIR=])
 
 if test -z "$JAVAINCDIR" ; then
-  JAVAINCDIR="/usr/j2sdk*/include /usr/local/j2sdk*/include /usr/jdk*/include /usr/local/jdk*/include /opt/j2sdk*/include /opt/jdk*/include /usr/java/include /usr/java/j2sdk*/include /usr/java/jdk*/include /usr/local/java/include /opt/java/include /usr/include/java /usr/local/include/java /usr/lib/java/include /usr/lib/jvm/java*/include /usr/include/kaffe /usr/local/include/kaffe /usr/include"
+  JAVAINCDIR="/usr/j2sdk*/include /usr/local/j2sdk*/include /usr/jdk*/include /usr/local/jdk*/include /opt/j2sdk*/include /opt/jdk*/include /usr/java/include /usr/java/j2sdk*/include /usr/java/jdk*/include /usr/local/java/include /opt/java/include /usr/include/java /usr/local/include/java /usr/lib/java/include /usr/lib/jvm/java*/include /usr/lib64/jvm/java*/include /usr/include/kaffe /usr/local/include/kaffe /usr/include"
 
   # Add in default installation directory on Windows for Cygwin
   case $host in
@@ -1267,7 +1293,7 @@ fi
 
 AC_MSG_CHECKING(for Ruby header files)
 if test -n "$RUBY"; then
-        # Try Ruby1.9 first
+        # Try Ruby1.9+ first
         RUBYDIR=`($RUBY -rrbconfig -e 'print RbConfig::CONFIG[["rubyhdrdir"]] || $rubyhdrdir') 2>/dev/null`
 	if test x"$RUBYDIR" = x"" || test x"$RUBYDIR" = x"nil"; then
 		RUBYDIR=`($RUBY -rmkmf -e 'print Config::CONFIG[["archdir"]] || $archdir') 2>/dev/null`
@@ -1276,20 +1302,20 @@ if test -n "$RUBY"; then
         fi
 	if test x"$RUBYDIR" != x""; then
 		dirs="$RUBYDIR"
-		RUBYINCLUDE=none
+		RUBYINCLUDE=
 		for i in $dirs; do
 			if test -r $i/ruby.h; then
-				AC_MSG_RESULT($i)
-				RUBYINCLUDE="-I$i"
+				if test x"$RUBYARCH" = x""; then
+					RUBYINCLUDE="-I$i"
+				else
+					RUBYINCLUDE="-I$i -I$i/$RUBYARCH"
+				fi
+				AC_MSG_RESULT($RUBYINCLUDE)
 				break
 			fi
 		done
-		if test x"$RUBYARCH" != x""; then
-			RUBYINCLUDE="-I$RUBYDIR -I$RUBYDIR/$RUBYARCH"
-		fi
-		if test "$RUBYINCLUDE" = none; then
-			RUBYINCLUDE="-I$RUBYDIR"
-			AC_MSG_RESULT(could not locate ruby.h...using $RUBYINCLUDE)
+		if test x"$RUBYINCLUDE" = x""; then
+			AC_MSG_RESULT(could not locate ruby.h)
 		fi
 
 		# Find library and path for linking.
@@ -1343,8 +1369,6 @@ if test -n "$RUBY"; then
 		fi
 	else
 		AC_MSG_RESULT(unable to determine ruby configuration)
-		RUBYINCLUDE="-I$RUBYDIR"
-		RUBYLIB="$RUBYDIR"
 	fi
 
 	case $host in
@@ -1356,9 +1380,6 @@ if test -n "$RUBY"; then
 	RUBYSO=.`($RUBY -rrbconfig -e 'print Config::CONFIG[["DLEXT"]]') 2>/dev/null`
 else
 	AC_MSG_RESULT(could not figure out how to run ruby)
-	RUBYINCLUDE="-I/usr/local/lib/ruby/1.4/arch"
-	RUBYLIB="/usr/local/lib/ruby/1.4/arch"
-	RUBYLINK="-lruby -lm"
 fi
 
 case $host in
@@ -2185,7 +2206,7 @@ AC_SUBST(SKIP_TCL)
 
 
 SKIP_PERL5=
-if test -z "$PERL" || test -z "$PERL5EXT" ; then
+if test -z "$PERL" || test -z "$PERL5EXT" || test -z "$PERL5TESTMORE"; then
     SKIP_PERL5="1"
 fi
 AC_SUBST(SKIP_PERL5)
@@ -2388,35 +2409,34 @@ case $build in
 esac
 AC_DEFINE_UNQUOTED(SWIG_LIB_WIN_UNIX, ["$SWIG_LIB_WIN_UNIX"], [Directory for SWIG system-independent libraries (Unix install on native Windows)])
 
-AC_CONFIG_FILES([			        \
-    Makefile				        \
-    swig.spec				        \
-    Source/Makefile			        \
-    Examples/Makefile			        \
-    Examples/xml/Makefile		        \
-    Examples/test-suite/errors/Makefile		\
-    Examples/test-suite/chicken/Makefile	\
-    Examples/test-suite/csharp/Makefile	        \
-    Examples/test-suite/d/Makefile	        \
-    Examples/test-suite/guile/Makefile	        \
-    Examples/test-suite/java/Makefile	        \
-    Examples/test-suite/mzscheme/Makefile	\
-    Examples/test-suite/ocaml/Makefile	        \
-    Examples/test-suite/octave/Makefile	        \
-    Examples/test-suite/perl5/Makefile	        \
-    Examples/test-suite/php/Makefile	        \
-    Examples/test-suite/pike/Makefile	        \
-    Examples/test-suite/python/Makefile	        \
-    Examples/test-suite/ruby/Makefile	        \
-    Examples/test-suite/tcl/Makefile	        \
-    Examples/test-suite/lua/Makefile	        \
-    Examples/test-suite/allegrocl/Makefile	\
-    Examples/test-suite/clisp/Makefile		\
-    Examples/test-suite/cffi/Makefile		\
-    Examples/test-suite/uffi/Makefile		\
-    Examples/test-suite/r/Makefile		\
-    Examples/test-suite/go/Makefile		\
-    Lib/ocaml/swigp4.ml
+AC_CONFIG_FILES([
+    Makefile
+    swig.spec
+    Source/Makefile
+    Examples/Makefile
+    Examples/xml/Makefile
+    Examples/test-suite/errors/Makefile
+    Examples/test-suite/chicken/Makefile
+    Examples/test-suite/csharp/Makefile
+    Examples/test-suite/d/Makefile
+    Examples/test-suite/guile/Makefile
+    Examples/test-suite/java/Makefile
+    Examples/test-suite/mzscheme/Makefile
+    Examples/test-suite/ocaml/Makefile
+    Examples/test-suite/octave/Makefile
+    Examples/test-suite/perl5/Makefile
+    Examples/test-suite/php/Makefile
+    Examples/test-suite/pike/Makefile
+    Examples/test-suite/python/Makefile
+    Examples/test-suite/ruby/Makefile
+    Examples/test-suite/tcl/Makefile
+    Examples/test-suite/lua/Makefile
+    Examples/test-suite/allegrocl/Makefile
+    Examples/test-suite/clisp/Makefile
+    Examples/test-suite/cffi/Makefile
+    Examples/test-suite/uffi/Makefile
+    Examples/test-suite/r/Makefile
+    Examples/test-suite/go/Makefile
 ])
 AC_CONFIG_FILES([preinst-swig], [chmod +x preinst-swig])
 AC_CONFIG_FILES([CCache/ccache_swig_config.h])

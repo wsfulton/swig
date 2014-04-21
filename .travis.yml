@@ -47,3 +47,4 @@ branches:
   only:
     - master
     - javascript
+    - javascript-experiment

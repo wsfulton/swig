@@ -81,3 +81,4 @@ script:
 branches:
   only:
     - master
+    - out-of-source

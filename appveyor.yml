@@ -12,13 +12,10 @@ install:
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
-  - date /T & time /T
+  - type C:\MinGW\msys\1.0\msys.bat
+  - bash -cl "echo.exe 'C:\MinGW /mingw' >> C:\MinGW\msys\1.0\etc\fstab"
   - type C:\MinGW\msys\1.0\etc\fstab
   - cat.exe C:\MinGW\msys\1.0\etc\fstab
-  - date /T & time /T
-  - cat C:\MinGW\msys\1.0\msys.bat
-  - echo.exe "C:\MinGW /mingw" >> C:\MinGW\msys\1.0\etc\fstab
-  - dir C:\MinGW\msys\1.0\etc\fstab
 
 before_build:
   - gcc --version

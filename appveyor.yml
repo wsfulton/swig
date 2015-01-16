@@ -9,7 +9,7 @@ install:
   - date /T & time /T
   - cinst php
 #  - cinst mingw-get
-  - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
+  - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin;C:\tools\php
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
@@ -17,14 +17,12 @@ install:
 before_build:
   - gcc --version
   - make --version
-  - dir C:\tools\php
+  - php.exe --version
 
 build_script:
-  - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   - path
-  - bash ./autogen.sh
-  - bash ./configure.sh
-  - make
+  - bash -cl "./autogen.sh && ./configure"
+  - bash -cl "make"
 
 test_script:
   - make check-errors-test-suite

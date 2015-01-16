@@ -1,0 +1,27 @@
+
+platform:
+  - x86
+
+configuration:
+  - Release
+
+install:
+  - cinst winflexbison
+  - cinst php
+
+before_build:
+  - cmd: dir
+  - cmd: dir C:\MinGW
+
+build_script:
+  - SET PATH=C:\MinGW\;%PATH%
+  - ./autogen.sh
+  - ./configure.sh
+  - make --version
+  - make -s
+
+test_script:
+  - make check-errors-test-suite
+
+# Do not build on tags (GitHub only)
+skip_tags: true 

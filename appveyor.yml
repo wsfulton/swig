@@ -7,25 +7,24 @@ configuration:
 
 install:
   - date /T & time /T
-  - cinst winflexbison
   - cinst php
-  - cinst mingw-get
+#  - cinst mingw-get
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
 
 before_build:
-  - cmd: php --version
   - gcc --version
   - make --version
+  - dir C:\tools\php
 
 build_script:
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
   - path
   - bash ./autogen.sh
   - bash ./configure.sh
-  - make -s
+  - make
 
 test_script:
   - make check-errors-test-suite

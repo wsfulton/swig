@@ -12,11 +12,17 @@ install:
 before_build:
   - cmd: dir
   - cmd: dir C:\MinGW
+  - cmd: dir C:\MinGW\bin
+  - cmd: dir C:\MinGW\msys
+  - cmd: dir C:\MinGW\msys\bin
+  - cmd: dir C:\MinGW\mingw32
+  - cmd: php --version
 
 build_script:
-  - SET PATH=C:\MinGW\;%PATH%
-  - ./autogen.sh
-  - ./configure.sh
+  - SET PATH=C:\MinGW\bin;C:\MinGW\msys\bin;%PATH%
+  - bash ./autogen.sh
+  - bash ./configure.sh
+  - gcc --version
   - make --version
   - make -s
 

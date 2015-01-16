@@ -8,12 +8,14 @@ configuration:
 install:
   - date /T & time /T
   - cinst php
-#  - cinst mingw-get
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin;C:\tools\php
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
-
+  - cat C:\MinGW\msys\1.0\etc\fstab
+  - echo "C:\MinGW /mingw" >> C:\MinGW\msys\1.0\etc\fstab
+  - cat C:\MinGW\msys\1.0\etc\fstab
+  - cat C:\MinGW\msys\1.0\msys.bat
 before_build:
   - gcc --version
   - make --version

@@ -13,9 +13,9 @@ install:
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
   - cat C:\MinGW\msys\1.0\etc\fstab
-  - echo "C:\MinGW /mingw" >> C:\MinGW\msys\1.0\etc\fstab
-  - dir C:\MinGW\msys\1.0\etc\fstab
   - cat C:\MinGW\msys\1.0\msys.bat
+  - echo.exe "C:\MinGW /mingw" >> C:\MinGW\msys\1.0\etc\fstab
+  - dir C:\MinGW\msys\1.0\etc\fstab
 
 before_build:
   - gcc --version

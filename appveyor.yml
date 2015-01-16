@@ -6,27 +6,25 @@ configuration:
   - Release
 
 install:
+  - date /T & time /T
   - cinst winflexbison
   - cinst php
   - cinst mingw-get
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
-  - mingw-get install mingw-developer-toolkit
+  - set
+  - dir C:\MinGW\bin
+  - dir C:\MinGW\msys\1.0\bin
 
 before_build:
-  - cmd: dir
-  - cmd: dir C:\MinGW
-  - cmd: dir C:\MinGW\bin
-  - cmd: dir C:\MinGW\msys
-  - cmd: dir C:\MinGW\msys\bin
-  - cmd: dir C:\MinGW\mingw32
   - cmd: php --version
+  - gcc --version
+  - make --version
 
 build_script:
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
+  - path
   - bash ./autogen.sh
   - bash ./configure.sh
-  - gcc --version
-  - make --version
   - make -s
 
 test_script:

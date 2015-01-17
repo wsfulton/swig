@@ -11,6 +11,7 @@ install:
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
 #  - set PATH=%PATH%;C:\tools\php
   - set
+  - dir C:\MinGW
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
 
@@ -24,8 +25,9 @@ build_script:
   - echo. >> C:\MinGW\msys\1.0\etc\fstab
   - type C:\MinGW\msys\1.0\etc\fstab
   - set
+  - bash -cl "echo $PATH"
   - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx; ls /usr/lib/perl5/5.8.8/msys; echo xxxx; ls  /usr/lib/perl5/5.8.8; ls /usr/lib/perl5/site_perl/5.8.8/msys; ls /usr/lib/perl5/site_perl/5.8.8; ls /usr/lib/perl5/site_perl"
-  - dir "C:\MinGW\share"
+  - dir "C:\MinGW\share\automake-1.11"
   - bash -cl "./autogen.sh && ./configure"
   - bash -cl "make"
 

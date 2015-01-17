@@ -31,7 +31,7 @@ build_script:
   - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
-  - bash "pwd && ./autogen.sh && ./configure"
+  - bash -c "pwd && ./autogen.sh && ./configure"
   - make
 
 test_script:

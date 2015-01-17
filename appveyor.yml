@@ -32,6 +32,7 @@ build_script:
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
   - bash autogen.sh
+  - dir
   - bash configure.sh
   - bash -cl "pwd && ./autogen.sh && ./configure"
   - make

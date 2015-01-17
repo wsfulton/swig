@@ -8,6 +8,8 @@ configuration:
 install:
   - date /T & time /T
 #  - cinst php
+  - C:\MinGW\bin\which bash.exe; echo continuing
+  - C:\MinGW\bin\which msysmnt.exe; echo continuing
   - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set
@@ -30,8 +32,11 @@ build_script:
   - bash -cl "ls -la /bin; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
   - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
   - dir "C:\MinGW\share\automake-1.11\Automake"
-  - bash -cl "./autogen.sh && ./configure"
-  - bash -cl "make"
+  - pwd
+  - bash autogen.sh
+  - bash configure.sh
+  - bash -cl "pwd && ./autogen.sh && ./configure"
+  - make
 
 test_script:
   - make check-errors-test-suite

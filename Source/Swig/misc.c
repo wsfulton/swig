@@ -151,7 +151,7 @@ String *Swig_strip_c_comments(const String *s) {
 static int is_directory(String *directory) {
   int last = Len(directory) - 1;
   int statres;
-  struct stat st;
+  struct _stat st;
   char *dir = Char(directory);
   if (dir[last] == SWIG_FILE_DELIMITER[0]) {
     /* remove trailing slash - can cause S_ISDIR to fail on Windows, at least */

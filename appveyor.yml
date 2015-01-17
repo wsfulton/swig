@@ -45,6 +45,7 @@ test_script:
   - .\swig.exe -version
 #  - .\ccache-swig.exe -V
   - make check-errors-test-suite
+  - make -k check-python-examples
   - make -k check-examples
 
 # Do not build on tags (GitHub only)

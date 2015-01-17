@@ -1,17 +1,21 @@
+os: MinGW
 
 platform:
   - x86
 
-configuration:
-  - Release
-
+#
+#configuration:
+#  - Release
+#
 install:
   - date /T & time /T
+  - path
 #  - cinst php
   - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set
+  - dir C:\
   - dir C:\MinGW
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin

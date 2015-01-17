@@ -8,7 +8,8 @@ configuration:
 install:
   - date /T & time /T
 #  - cinst php
-  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
+  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
+#  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set
   - dir C:\MinGW
@@ -16,7 +17,7 @@ install:
   - dir C:\MinGW\msys\1.0\bin
 
 before_build:
-  - gcc --version
+  - gcc -v
   - make --version
 #  - php.exe --version
 
@@ -25,10 +26,12 @@ build_script:
   - echo. >> C:\MinGW\msys\1.0\etc\fstab
   - type C:\MinGW\msys\1.0\etc\fstab
   - set
+  - uname -a
   - bash -cl "echo $PATH"
   - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
-  - bash -cl "ls -la /bin; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
-  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
+#  - bash -cl "ls -la /bin; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
+#  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
+  - bash -cl "set"
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
   - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra'"
@@ -36,7 +39,9 @@ build_script:
 
 test_script:
   - .\swig.exe -version
+  - .\ccache-swig.exe -V
   - make check-errors-test-suite
+  - make -k check-examples
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

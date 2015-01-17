@@ -19,6 +19,9 @@
 #include <sys/stat.h>
 
 #ifdef _WIN32
+#ifndef off64_t
+#define off64_t _off64_t
+#endif
 #include <direct.h>
 #ifndef S_ISDIR
 #define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)

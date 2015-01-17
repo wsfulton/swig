@@ -26,8 +26,9 @@ build_script:
   - type C:\MinGW\msys\1.0\etc\fstab
   - set
   - bash -cl "echo $PATH"
+  - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
   - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx; ls /usr/lib/perl5/5.8.8/msys; echo xxxx; ls  /usr/lib/perl5/5.8.8; ls /usr/lib/perl5/site_perl/5.8.8/msys; ls /usr/lib/perl5/site_perl/5.8.8; ls /usr/lib/perl5/site_perl"
-  - dir "C:\MinGW\share\automake-1.11"
+  - dir "C:\MinGW\share\automake-1.11\Automake"
   - bash -cl "./autogen.sh && ./configure"
   - bash -cl "make"
 

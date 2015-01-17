@@ -7,8 +7,9 @@ configuration:
 
 install:
   - date /T & time /T
-  - cinst php
-  - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin;C:\tools\php
+#  - cinst php
+  - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin
+#  - set PATH=%PATH%;C:\tools\php
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
@@ -16,11 +17,11 @@ install:
 before_build:
   - gcc --version
   - make --version
-  - php.exe --version
+#  - php.exe --version
 
 build_script:
   - type C:\MinGW\msys\1.0\msys.bat
-  - echo.exe C:\MinGW /mingw > C:\MinGW\msys\1.0\etc\fstab
+  - echo C:\MinGW /mingw > C:\MinGW\msys\1.0\etc\fstab
   - type C:\MinGW\msys\1.0\etc\fstab
   - path
   - bash -cl "./autogen.sh && ./configure"

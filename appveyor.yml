@@ -13,7 +13,6 @@ install:
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
-  - dir C:\MinGW\msys\1.0\local\bin
 
 before_build:
   - gcc --version

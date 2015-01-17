@@ -31,11 +31,11 @@ build_script:
   - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
-  - bash -cl "pwd && ./autogen.sh && ./configure"
+  - bash "pwd && ./autogen.sh && ./configure"
   - make
 
 test_script:
-  - ./swig.exe -version
+  - .\swig.exe -version
   - make check-errors-test-suite
 
 # Do not build on tags (GitHub only)

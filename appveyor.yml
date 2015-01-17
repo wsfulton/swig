@@ -8,9 +8,11 @@ configuration:
 install:
   - date /T & time /T
 #  - cinst php
-  - C:\MinGW\bin\which bash.exe; echo continuing
-  - C:\MinGW\bin\which msysmnt.exe; echo continuing
+  - C:\MinGW\msys\1.0\bin\which.exe bash.exe
+  - C:\MinGW\msys\1.0\bin\which.exe msysmnt.exe
   - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
+  - C:\MinGW\msys\1.0\bin\which.exe bash.exe
+  - C:\MinGW\msys\1.0\bin\which.exe msysmnt.exe
 #  - set PATH=%PATH%;C:\tools\php
   - set
   - dir C:\MinGW

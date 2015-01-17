@@ -14,10 +14,10 @@ install:
   - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
-  - set PATH=C:\Python34;%PATH%
+  - set PATH=C:\Python27;%PATH%
   - set
   - dir C:\
-  - dir C:\Python34
+  - dir C:\Python27
   - dir C:\msys
   - dir C:\msys\1.0
   - dir C:\msys\1.0\bin
@@ -43,7 +43,12 @@ build_script:
   - bash -cl "set"
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
-  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra'"
+  - set JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
+  - dir %JAVA_HOME%
+  - dir %JAVA_HOME%/bin
+  - set PATH=%JAVA_HOME%;%PATH%
+  - java -version
+  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='$JAVA_HOME/bin/java.exe' --with-javac='$JAVA_HOME/bin/javac.exe' --with-javaincl='$JAVA_HOME/include' --without-perl5"
   - make -s
 
 test_script:

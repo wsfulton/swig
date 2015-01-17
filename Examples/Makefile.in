@@ -596,7 +596,7 @@ java_cpp: $(SRCDIR_SRCS)
 # ----------------------------------------------------------------
 
 java_compile: $(SRCDIR_SRCS)
-	$(COMPILETOOL) $(JAVAC) -d32 $(addprefix $(SRCDIR),$(JAVASRCS))
+	$(COMPILETOOL) $(JAVAC) $(addprefix $(SRCDIR),$(JAVASRCS))
 
 # -----------------------------------------------------------------
 # Run java example
@@ -1378,7 +1378,7 @@ SRCDIR_CSHARPSRCS =
 endif
 
 csharp_compile: $(SRCDIR_SRCS)
-	$(COMPILETOOL) $(CSHARPCOMPILER) $(CSHARPFLAGS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
+        $(COMPILETOOL) $(CSHARPCOMPILER) -platform:x86 $(CSHARPFLAGS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
 
 # -----------------------------------------------------------------
 # Run CSharp example

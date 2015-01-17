@@ -32,7 +32,7 @@ build_script:
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
   - bash -c "pwd && ./autogen.sh && ./configure --without-pcre"
-  - make
+  - make -s
 
 test_script:
   - .\swig.exe -version

@@ -43,10 +43,10 @@ build_script:
   - bash -cl "set"
   - dir "C:\MinGW\share\automake-1.11\Automake"
   - pwd
-  - set JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
-  - dir %JAVA_HOME%
-  - dir %JAVA_HOME%/bin
-  - set PATH=%JAVA_HOME%;%PATH%
+  - set JAVA_HOME="c:\Program Files (x86)\Java\jdk1.8.0"
+  - path
+  - dir %JAVA_HOME%\bin
+  - set PATH=%JAVA_HOME%\bin;%PATH%
   - java -version
   - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='$JAVA_HOME/bin/java.exe' --with-javac='$JAVA_HOME/bin/javac.exe' --with-javaincl='$JAVA_HOME/include' --without-perl5"
   - make -s

@@ -19,9 +19,6 @@
 #include <sys/stat.h>
 
 #ifdef _WIN32
-#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
-#undef __STRICT_ANSI__
-#endif
 #include <direct.h>
 #ifndef S_ISDIR
 #define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)

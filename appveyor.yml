@@ -39,7 +39,7 @@ build_script:
 
 test_script:
   - .\swig.exe -version
-  - .\ccache-swig.exe -V
+#  - .\ccache-swig.exe -V
   - make check-errors-test-suite
   - make -k check-examples
 

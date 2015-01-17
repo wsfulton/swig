@@ -1378,7 +1378,7 @@ SRCDIR_CSHARPSRCS =
 endif
 
 csharp_compile: $(SRCDIR_SRCS)
-        $(COMPILETOOL) $(CSHARPCOMPILER) -platform:x86 $(CSHARPFLAGS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
+        $(COMPILETOOL) $(CSHARPCOMPILER) "-platform:x86" $(CSHARPFLAGS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
 
 # -----------------------------------------------------------------
 # Run CSharp example

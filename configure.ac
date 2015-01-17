@@ -1020,6 +1020,7 @@ fi
 AC_MSG_CHECKING(for java include file jni.h)
 AC_ARG_WITH(javaincl, [  --with-javaincl=path    Set location of Java include directory], [JAVAINCDIR="$withval"], [JAVAINCDIR=])
 
+JAVAINC=""
 if test -z "$JAVAINCDIR" ; then
   JAVAINCDIR="/usr/j2sdk*/include /usr/local/j2sdk*/include /usr/jdk*/include /usr/local/jdk*/include /opt/j2sdk*/include /opt/jdk*/include /usr/java/include /usr/java/j2sdk*/include /usr/java/jdk*/include /usr/local/java/include /opt/java/include /usr/include/java /usr/local/include/java /usr/lib/java/include /usr/lib/jvm/java*/include /usr/lib64/jvm/java*/include /usr/include/kaffe /usr/local/include/kaffe /usr/include"
 
@@ -1029,21 +1030,25 @@ if test -z "$JAVAINCDIR" ; then
   *-*-darwin*) JAVAINCDIR="/System/Library/Frameworks/JavaVM.framework/Headers $JAVAINCDIR";;
   *);;
   esac
-fi
 
-JAVAINC=""
-for d in $JAVAINCDIR ; do
+  for d in $JAVAINCDIR ; do
+    if test -r "$d/jni.h" ; then
+      JAVAINCDIR=$d
+      JAVAINC=-I\"$d\"
+      break
+    fi
+  done
+else
   if test -r "$d/jni.h" ; then
-    AC_MSG_RESULT($d)
     JAVAINCDIR=$d
     JAVAINC=-I\"$d\"
-    break
   fi
-done
+fi
 
 if test "$JAVAINC" = "" ; then
   AC_MSG_RESULT(not found)
 else
+  AC_MSG_RESULT($JAVAINC)
   # now look for <arch>/jni_md.h
   AC_MSG_CHECKING(for java include file jni_md.h)
   JAVAMDDIR=`find "$JAVAINCDIR" -follow -name jni_md.h -print`

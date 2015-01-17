@@ -18,7 +18,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#if defined(_WIN32) && !defined(__MINGW32__)
+#ifdef _WIN32
+#if defined(__MINGW32__) && defined(__STRICT_ANSI__)
+#undef __STRICT_ANSI__
+#endif
 #include <direct.h>
 #ifndef S_ISDIR
 #define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)
@@ -181,7 +184,7 @@ String *Swig_new_subdirectory(String *basedirectory, String *subdirectory) {
       int result;
       String *subdirectory = it.item;
       Printf(dir, "%s", subdirectory);
-#if defined(_WIN32) && !defined(__MINGW32__)
+#ifdef _WIN32
       result = _mkdir(Char(dir));
 #else
       result = mkdir(Char(dir), 0777);

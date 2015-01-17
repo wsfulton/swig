@@ -11,11 +11,8 @@ install:
   - set PATH=%PATH%;C:\MinGW\msys\1.0\bin;C:\MinGW\bin;C:\tools\php
   - set
   - dir C:\MinGW\bin
+  - echo "between directory listings"
   - dir C:\MinGW\msys\1.0\bin
-  - type C:\MinGW\msys\1.0\msys.bat
-  - bash -cl "echo.exe 'C:\MinGW /mingw' >> C:\MinGW\msys\1.0\etc\fstab"
-  - type C:\MinGW\msys\1.0\etc\fstab
-  - cat.exe C:\MinGW\msys\1.0\etc\fstab
 
 before_build:
   - gcc --version
@@ -23,6 +20,10 @@ before_build:
   - php.exe --version
 
 build_script:
+  - type C:\MinGW\msys\1.0\msys.bat
+  - bash -cl "echo.exe 'C:\MinGW /mingw' > C:\MinGW\msys\1.0\etc\fstab"
+  - type C:\MinGW\msys\1.0\etc\fstab
+  - cat.exe C:\MinGW\msys\1.0\etc\fstab
   - path
   - bash -cl "./autogen.sh && ./configure"
   - bash -cl "make"

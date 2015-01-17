@@ -13,6 +13,7 @@ install:
   - set
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin
+  - dir C:\MinGW\msys\1.0\local\bin
 
 before_build:
   - gcc --version
@@ -24,6 +25,8 @@ build_script:
   - echo. >> C:\MinGW\msys\1.0\etc\fstab
   - type C:\MinGW\msys\1.0\etc\fstab
   - set
+  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx; ls /usr/lib/perl5/5.8.8/msys; echo xxxx; ls  /usr/lib/perl5/5.8.8; ls /usr/lib/perl5/site_perl/5.8.8/msys; ls /usr/lib/perl5/site_perl/5.8.8; ls /usr/lib/perl5/site_perl"
+  - dir "C:\MinGW\share"
   - bash -cl "./autogen.sh && ./configure"
   - bash -cl "make"
 

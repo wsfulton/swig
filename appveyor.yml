@@ -20,11 +20,9 @@ before_build:
 #  - php.exe --version
 
 build_script:
-  - echo C:\MinGW /mingw > C:\MinGW\msys\1.0\etc\fstab
+  - echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
+  - echo. >> C:\MinGW\msys\1.0\etc\fstab
   - type C:\MinGW\msys\1.0\etc\fstab
-  - path
-  - type C:\MinGW\msys\1.0\msys.bat
-  - C:\MinGW\msys\1.0\msys.bat
   - set
   - bash -cl "./autogen.sh && ./configure"
   - bash -cl "make"

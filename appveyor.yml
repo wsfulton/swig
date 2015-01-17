@@ -11,8 +11,7 @@ install:
   - date /T & time /T
   - path
 #  - cinst php
-  - set PATH=C:\MinGW\bin;C:\msys\1.0\bin;%PATH%
-#  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
+  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set PATH=C:\Python34;%PATH%
@@ -20,6 +19,8 @@ install:
   - dir C:\
   - dir C:\Python34
   - dir C:\msys
+  - dir C:\msys\1.0
+  - dir C:\msys\1.0\bin
   - dir C:\MinGW
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin

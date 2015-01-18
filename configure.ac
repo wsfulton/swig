@@ -632,7 +632,7 @@ else
     # Need to do this hack since autoconf replaces __file__ with the name of the configure file
     filehack="file__"
 #    PYVERSION=`($PYTHON -c "import string,operator,os.path; print operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1)")`
-    PYVERSION=`($PYTHON -c "import string,operator,os.path; print string.__$filehack")`
+    PYVERSION=`($PYTHON -c "import string,operator,os.path; print operator.getitem(os.path.split(operator.getitem(os.path.split(os.path.dirname(string.__$filehack)),0)),1)")`
     AC_MSG_RESULT($PYVERSION)
 
     # Find the directory for libraries this is necessary to deal with

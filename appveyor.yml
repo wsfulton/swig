@@ -54,9 +54,10 @@ build_script:
 test_script:
   - .\swig.exe -version
 #  - .\ccache-swig.exe -V
-  - make check-errors-test-suite
+#  - make check-errors-test-suite
   - bash -c "make -k check-examples || true"
   - bash -c "make -k check-versions || true"
+  - bash -c "make -k check-java-test-suite || true"
   - bash -c "make -k check-csharp-test-suite"
 
 # Do not build on tags (GitHub only)

@@ -631,7 +631,8 @@ else
 
     # Need to do this hack since autoconf replaces __file__ with the name of the configure file
     filehack="file__"
-    PYVERSION=`($PYTHON -c "import string,operator,os.path; print operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1)")`
+#    PYVERSION=`($PYTHON -c "import string,operator,os.path; print operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1)")`
+    PYVERSION=`($PYTHON -c "import string,operator,os.path; print string.__$filehack")`
     AC_MSG_RESULT($PYVERSION)
 
     # Find the directory for libraries this is necessary to deal with
@@ -1020,6 +1021,9 @@ fi
 AC_MSG_CHECKING(for java include file jni.h)
 AC_ARG_WITH(javaincl, [  --with-javaincl=path    Set location of Java include directory], [JAVAINCDIR="$withval"], [JAVAINCDIR=])
 
+echo "JAVABIN $JAVABIN"
+echo "JAVACBIN $JAVACBIN"
+echo "JAVAINCDIR $JAVAINCDIR"
 JAVAINC=""
 if test -z "$JAVAINCDIR" ; then
   JAVAINCDIR="/usr/j2sdk*/include /usr/local/j2sdk*/include /usr/jdk*/include /usr/local/jdk*/include /opt/j2sdk*/include /opt/jdk*/include /usr/java/include /usr/java/j2sdk*/include /usr/java/jdk*/include /usr/local/java/include /opt/java/include /usr/include/java /usr/local/include/java /usr/lib/java/include /usr/lib/jvm/java*/include /usr/lib64/jvm/java*/include /usr/include/kaffe /usr/local/include/kaffe /usr/include"
@@ -1039,8 +1043,8 @@ if test -z "$JAVAINCDIR" ; then
     fi
   done
 else
-  if test -r "$d/jni.h" ; then
-    JAVAINCDIR=$d
+  echo "JAVAINCDIR 2 $JAVAINCDIR"
+  if test -r "$JAVAINCDIR/jni.h" ; then
     JAVAINC=-I\"$d\"
   fi
 fi

@@ -1,3 +1,8 @@
+# Important to have C:\MinGW\bin at beginning of path as there is a version of bash in the default path
+# TODO: where is it - with Git?
+# This 32 bit version of MinGW doesn't seem to configured correctly, possibly because it is running on
+# 64 bit Windows - direct.h does not compile off64_t is not defined and struct stat is missing.
+
 os: MinGW
 
 platform:
@@ -60,7 +65,9 @@ test_script:
 #  - bash -c "make -k check-java-test-suite || true"
   - bash -c "cd Examples/test-suite/csharp && make allprotected.cpptest || true"
   - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" || true"
-  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" | exec echo \"{}\" \\+"
+  - bash -c "echo 'cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\+ || true'"
+  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\; || true"
+  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\+ || true"
 #  - bash -c "make -k check-csharp-test-suite"
 
 # Do not build on tags (GitHub only)

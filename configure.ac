@@ -1997,7 +1997,7 @@ if test -z "$CSHARPBIN" ; then
     else
       if test "csc" = "$CSHARPCOMPILER"; then
           CSHARPPATHSEPARATOR="\\\\"
-#          CSHARPCYGPATH_W='cygpath -w'
+          CSHARPCYGPATH_W='cmd //c echo'
       fi
     fi
   fi

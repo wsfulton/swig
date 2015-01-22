@@ -1970,7 +1970,7 @@ fi
 
 CSHARPPATHSEPARATOR="/"
 #CSHARPCYGPATH_W=echo
-CSHARPCYGPATH_W="`pwd`/Tools/windowspath"
+CSHARPCYGPATH_W="`pwd`/Tools/windowspath -w"
 if test -z "$CSHARPBIN" ; then
   CSHARPCILINTERPRETER=""
   CSHARPCILINTERPRETER_FLAGS=""
@@ -1998,7 +1998,7 @@ if test -z "$CSHARPBIN" ; then
     else
       if test "csc" = "$CSHARPCOMPILER"; then
           CSHARPPATHSEPARATOR="\\\\"
-          CSHARPCYGPATH_W="`pwd`/Tools/windowspath"
+          CSHARPCYGPATH_W="`pwd`/Tools/windowspath -w"
       fi
     fi
   fi

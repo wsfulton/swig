@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Unix to Windows relative path conversion in a script to avoid backslash
+# quoting difficulties in Makefiles. Acts as a dumbed down 'cygpath -w' script.
+
+#echo $@ | sed -e 's,/,\\,g'
+echo $@ | sed -e 's,\\,/,g'

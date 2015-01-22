@@ -133,8 +133,6 @@ CPP_TEST_CASES += \
 	autodoc \
 	bloody_hell \
 	bools \
-
-CPP_IGNORED=\
 	catches \
 	cast_operator \
 	casts \
@@ -603,8 +601,6 @@ C_TEST_CASES += \
 	funcptr \
 	function_typedef \
 	global_functions \
-
-C_IGNORED=\
 	immutable_values \
 	inctest \
 	infinity \

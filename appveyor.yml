@@ -73,6 +73,7 @@ test_script:
   - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec msys_p2w \"{}\" \\+ || true"
   - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e \"s,\\\\\\\\,/,g\" \\; || true"
   - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e 's,\\\\,/,g' \\; || true"
+  - bash -c "grep -i cygpath Source/Makefile* || true"
   - bash -c "make -k check-csharp-test-suite"
 
 # Do not build on tags (GitHub only)

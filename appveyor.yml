@@ -57,7 +57,7 @@ build_script:
   - make -s
 
 test_script:
-  - time .\swig.exe -version
+  - .\swig.exe -version
 #  - .\ccache-swig.exe -V
 #  - make check-errors-test-suite
 #  - bash -c "make -k check-examples || true"
@@ -74,8 +74,8 @@ test_script:
 #  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e \"s,\\\\\\\\,/,g\" \\; || true"
 #  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e 's,\\\\,/,g' \\; || true"
 #  - bash -c "grep -i cygpath Source/Makefile* || true"
-  - time bash -c "make -k check-csharp-test-suite || true"
-  - time bash -c "make -k check-csharp-examples || true"
+  - bash -c "make -k check-csharp-test-suite || true"
+  - bash -c "make -k check-csharp-examples || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

@@ -19,9 +19,6 @@
 #include <sys/stat.h>
 
 #ifdef _WIN32
-#ifndef off64_t
-#define off64_t _off64_t
-#endif
 #include <direct.h>
 #ifndef S_ISDIR
 #define S_ISDIR(mode) (((mode) & S_IFDIR) == S_IFDIR)
@@ -151,7 +148,7 @@ String *Swig_strip_c_comments(const String *s) {
 static int is_directory(String *directory) {
   int last = Len(directory) - 1;
   int statres;
-  struct _stat st;
+  struct stat st;
   char *dir = Char(directory);
   if (dir[last] == SWIG_FILE_DELIMITER[0]) {
     /* remove trailing slash - can cause S_ISDIR to fail on Windows, at least */

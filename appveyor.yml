@@ -54,7 +54,7 @@ build_script:
   - path
   - java -version
   - gcc --version
-  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
+  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost=C:\\Libraries\\boost"
   - make -s
 
 test_script:

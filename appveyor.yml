@@ -23,6 +23,7 @@ install:
 #  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set PATH=C:\Python27;%PATH%
+  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
   - set
   - dir C:\
   - dir C:\Python27

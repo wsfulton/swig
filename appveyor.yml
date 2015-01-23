@@ -26,9 +26,6 @@ install:
   - set
   - dir C:\
   - dir C:\Python27
-  - dir C:\msys
-  - dir C:\msys\1.0
-  - dir C:\msys\1.0\bin
   - dir C:\MinGW
   - dir C:\MinGW\bin
   - dir C:\MinGW\msys\1.0\bin

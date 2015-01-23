@@ -18,7 +18,7 @@ platform:
 #
 install:
   - date /T & time /T
-  - set PATH=C:\Cygwin\bin;%PATH%
+  - set PATH=C:\cygwin\bin;%PATH%
 #  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - cinst php
 #  - set PATH=%PATH%;C:\tools\php
@@ -55,10 +55,11 @@ build_script:
   - java -version
   - bash -c "which cl.exe || true"
   - bash -c "which csc.exe || true"
-  - bash -c "cl.exe -? | head -n 2 || true"
+  - bash -c "cl.exe /? | head -n 2 || true"
   - bash -c "csc.exe /? | head -n 2 || true"
   - bash -c "which cccl || true"
-  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries"
+  #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
+  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries"
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
   - make -s
 
@@ -80,8 +81,9 @@ test_script:
 #  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e \"s,\\\\\\\\,/,g\" \\; || true"
 #  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e 's,\\\\,/,g' \\; || true"
 #  - bash -c "grep -i cygpath Source/Makefile* || true"
-  - bash -c "make -k check-csharp-test-suite || true"
+#  - bash -c "make -k check-csharp-test-suite || true"
   - bash -c "make -k check-csharp-examples || true"
+  - bash -c "make -k check-java-examples || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

@@ -3,7 +3,10 @@
 # This 32 bit version of MinGW doesn't seem to configured correctly, possibly because it is running on
 # 64 bit Windows - direct.h does not compile off64_t is not defined and struct stat is missing.
 
-os: MinGW
+os:
+- Visual Studio 2014 CTP4
+#- MinGW
+#- Visual Studio 2015 CTP
 
 platform:
   - x86
@@ -46,15 +49,22 @@ build_script:
 #  - bash -cl "ls -la /bin; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
 #  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
   - bash -cl "set"
-  - dir "C:\MinGW\share\automake-1.11\Automake"
-  - bash -c "find C:/Libraries -maxdepth 3 -type d || true"
+#  - dir "C:\MinGW\share\automake-1.11\Automake"
+#  - bash -c "find C:/Libraries -maxdepth 3 -type d || true"
   - pwd
   - set JAVA_HOME=c:\Program Files (x86)\Java\jdk1.8.0
   - set PATH=%JAVA_HOME%\bin;%PATH%
+  - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
   - path
   - java -version
   - gcc --version
-  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
+  - bash -c "which cl.exe || true"
+  - bash -c "which csc.exe || true"
+  - bash -c "cl.exe /? | head -n 2 || true"
+  - bash -c "csc.exe /? | head -n 2 || true"
+  - bash -c "which cccl || true"
+  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries"
+#  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
   - make -s
 
 test_script:

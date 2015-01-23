@@ -4,7 +4,8 @@
 # 64 bit Windows - direct.h does not compile off64_t is not defined and struct stat is missing.
 
 os:
-- Visual Studio 2014 CTP4
+  - Unstable
+#- Visual Studio 2014 CTP4
 #- MinGW
 #- Visual Studio 2015 CTP
 
@@ -17,48 +18,44 @@ platform:
 #
 install:
   - date /T & time /T
-  - path
+  - set PATH=C:\Cygwin\bin;%PATH%
+#  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - cinst php
-  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
-#  - set PATH=C:\MinGW\msys\1.0\bin;C:\MinGW\bin;%PATH%
 #  - set PATH=%PATH%;C:\tools\php
   - set PATH=C:\Python27;%PATH%
   - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
   - set
   - dir C:\
   - dir C:\Python27
-  - dir C:\MinGW
-  - dir C:\MinGW\bin
-  - dir C:\MinGW\msys\1.0\bin
+#  - dir C:\MinGW
+#  - dir C:\MinGW\bin
+#  - dir C:\MinGW\msys\1.0\bin
 
 before_build:
   - gcc -v
   - make --version
 #  - php.exe --version
-
-build_script:
-  - echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
-  - echo. >> C:\MinGW\msys\1.0\etc\fstab
-  - type C:\MinGW\msys\1.0\etc\fstab
+  - cygcheck -s
   - set
   - uname -a
+
+build_script:
+#  - echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
+#  - echo. >> C:\MinGW\msys\1.0\etc\fstab
+#  - type C:\MinGW\msys\1.0\etc\fstab
   - bash -cl "echo $PATH"
-  - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
-#  - bash -cl "ls -la /bin; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
+#  - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
 #  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
   - bash -cl "set"
-#  - dir "C:\MinGW\share\automake-1.11\Automake"
 #  - bash -c "find C:/Libraries -maxdepth 3 -type d || true"
   - pwd
   - set JAVA_HOME=c:\Program Files (x86)\Java\jdk1.8.0
   - set PATH=%JAVA_HOME%\bin;%PATH%
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-  - path
   - java -version
-  - gcc --version
   - bash -c "which cl.exe || true"
   - bash -c "which csc.exe || true"
-  - bash -c "cl.exe /? | head -n 2 || true"
+  - bash -c "cl.exe -? | head -n 2 || true"
   - bash -c "csc.exe /? | head -n 2 || true"
   - bash -c "which cccl || true"
   - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries"

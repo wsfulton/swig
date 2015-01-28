@@ -234,6 +234,7 @@ javascript_examples:=$(shell sed '/^\#/d' $(srcdir)/Examples/javascript/check.li
 
 # all examples
 check-%-examples :
+	echo "CFLAGS: $(CFLAGS)"
 	@if test -z "$(skip-$*)"; then				\
 	  echo $* unknown;					\
 	  exit 1;						\

@@ -1,6 +1,6 @@
 language: cpp
 compiler:
-  - clang
+#  - clang
   - gcc
 env:
   - SWIGLANG=
@@ -44,8 +44,8 @@ matrix:
 #      env: SWIGLANG=python PY3=3 # 3.2
 #    - compiler: gcc
 #      env: SWIGLANG=python PY3=3 VER=3.3
-    - compiler: gcc
-      env: SWIGLANG=python PY3=3 VER=3.4
+#    - compiler: gcc
+#      env: SWIGLANG=python PY3=3 VER=3.4
 #    - compiler: gcc
 #      env: SWIGLANG=python SWIG_FEATURES=-builtin
 #    - compiler: gcc
@@ -129,9 +129,14 @@ script:
   - echo 'Installing...' && echo -en 'travis_fold:start:script.2\\r'
   - if test -z "$SWIGLANG"; then sudo make -s install && swig -version && ccache-swig -V; fi
   - echo -en 'travis_fold:end:script.2\\r'
+  - echo shell $SHELL
+  - $SHELL --version || true
+  - set
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
-  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang $SWIGLANG ... ${CFLAGS_EXAMPLES[$SWIGLANG]}"; fi
-  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-examples CFLAGS="${CFLAGS_EXAMPLES[$SWIGLANG]}" CXXFLAGS="${CXXFLAGS_EXAMPLES[$SWIGLANG]}"; fi
+  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 1 ... ${CFLAGS_EXAMPLES[$SWIGLANG]}"; fi
+  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 2 ... ${CFLAGS_EXAMPLES['python']}"; fi
+  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 3 ... ${CFLAGS_EXAMPLES[python]}"; fi
+  - if test -n "$SWIGLANG"; then make FLAGS=-k $SWIGJOBS check-$SWIGLANG-examples CFLAGS="${CFLAGS_EXAMPLES[$SWIGLANG]}" CXXFLAGS="${CXXFLAGS_EXAMPLES[$SWIGLANG]}"; fi
 #  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
   - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
 #  - make check-maintainer-clean && ../../configure $CONFIGOPTS

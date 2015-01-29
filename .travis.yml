@@ -85,10 +85,10 @@ before_install:
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
   - export TESTER1="tester1"
-  - echo $TESTER1
-  - declare -x TESTER2="tester2" || true
-  - declare -p TESTER2 || true
-  - echo $TESTER2 || true
+  echo $TESTER1
+  declare -x TESTER2="tester2" || true
+  declare -p TESTER2 || true
+  echo $TESTER2 || true
   - declare -x -A CFLAGS_EXAMPLES=(
         ["csharp"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
              ["d"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"

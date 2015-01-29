@@ -84,7 +84,12 @@ before_install:
   - if test "$SWIGLANG" = "scilab"; then sudo apt-get -qq install scilab; fi
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - declare -x -A CFLAGS_EXAMPLES && CFLAGS_EXAMPLES=(
+  - export TESTER1="tester1"
+  - echo $TESTER1
+  - declare -x TESTER2="tester2" || true
+  - declare -p TESTER2 || true
+  - echo $TESTER2 || true
+  - declare -x -A CFLAGS_EXAMPLES=(
         ["csharp"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
              ["d"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
             ["go"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
@@ -100,8 +105,8 @@ before_install:
            ["tcl"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
         ["scilab"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
     )
-  - declare -p CFLAGS_EXAMPLES
-  - declare -A CXXFLAGS_EXAMPLES && CXXFLAGS_EXAMPLES=(
+  - declare -p CFLAGS_EXAMPLES || true
+  - declare -A CXXFLAGS_EXAMPLES=(
         ["csharp"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
              ["d"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
             ["go"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
@@ -117,7 +122,7 @@ before_install:
            ["tcl"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
         ["scilab"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
     )
-  - declare -p CXXFLAGS_EXAMPLES
+  - declare -p CXXFLAGS_EXAMPLES || true
   - set
   - $CC --version
   - $CXX --version

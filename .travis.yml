@@ -84,7 +84,7 @@ before_install:
   - if test "$SWIGLANG" = "scilab"; then sudo apt-get -qq install scilab; fi
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - declare -A CFLAGS_EXAMPLES && CFLAGS_EXAMPLES=(
+  - declare -x -A CFLAGS_EXAMPLES && CFLAGS_EXAMPLES=(
         ["csharp"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
              ["d"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
             ["go"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
@@ -100,6 +100,7 @@ before_install:
            ["tcl"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
         ["scilab"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
     )
+  - declare -p CFLAGS_EXAMPLES
   - declare -A CXXFLAGS_EXAMPLES && CXXFLAGS_EXAMPLES=(
         ["csharp"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
              ["d"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
@@ -116,6 +117,8 @@ before_install:
            ["tcl"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
         ["scilab"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
     )
+  - declare -p CXXFLAGS_EXAMPLES
+  - set
   - $CC --version
   - $CXX --version
 script:
@@ -131,7 +134,10 @@ script:
   - echo -en 'travis_fold:end:script.2\\r'
   - echo shell $SHELL
   - $SHELL --version || true
+  - ps -p $$ || true
   - set
+  - declare -p CFLAGS_EXAMPLES
+  - declare -p CXXFLAGS_EXAMPLES
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 1 ... ${CFLAGS_EXAMPLES[$SWIGLANG]}"; fi
   - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 2 ... ${CFLAGS_EXAMPLES['python']}"; fi

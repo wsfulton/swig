@@ -84,49 +84,6 @@ before_install:
   - if test "$SWIGLANG" = "scilab"; then sudo apt-get -qq install scilab; fi
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - export TESTER1="tester1"
-  - echo $TESTER1
-  - declare -x TESTER2="tester2" && declare -p TESTER2
-  - declare -p TESTER2 || true
-  - echo $TESTER2 || true
-  - declare -x TESTER3="tester3" && declare -p TESTER3 && export TESTER3 && declare -p TESTER3
-  - declare -p TESTER3 || true
-  - echo $TESTER3 || true
-  - declare -A CFLAGS_EXAMPLES=(
-        ["csharp"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-             ["d"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-            ["go"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-         ["guile"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-          ["java"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-    ["javascript"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-           ["lua"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-        ["octave"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-         ["perl5"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-           ["php"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-        ["python"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-          ["ruby"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-           ["tcl"]="-Werror -std=gnu89 -fdiagnostics-show-option -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-        ["scilab"]="-Werror -std=gnu89 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
-    ) && export CFLAGS_EXAMPLES
-  - declare -p CFLAGS_EXAMPLES || true
-  - declare -x -A CXXFLAGS_EXAMPLES=(
-        ["csharp"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-             ["d"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-            ["go"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-         ["guile"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
-          ["java"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-    ["javascript"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-           ["lua"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-        ["octave"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
-         ["perl5"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
-           ["php"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-        ["python"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-          ["ruby"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-           ["tcl"]="-Werror -std=c++98 -fdiagnostics-show-option -Wno-long-long -Wreturn-type"
-        ["scilab"]="-Werror -std=c++98 -fdiagnostics-show-option -pedantic -Wno-long-long -Wreturn-type"
-    )
-  - declare -p CXXFLAGS_EXAMPLES || true
-  - set
   - $CC --version
   - $CXX --version
 script:
@@ -147,10 +104,7 @@ script:
   - declare -p CFLAGS_EXAMPLES
   - declare -p CXXFLAGS_EXAMPLES
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
-  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 1 ... ${CFLAGS_EXAMPLES[$SWIGLANG]}"; fi
-  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 2 ... ${CFLAGS_EXAMPLES['python']}"; fi
-  - if test -n "$SWIGLANG"; then echo "CFLAGS passing in for lang ${SWIGLANG} 3 ... ${CFLAGS_EXAMPLES[python]}"; fi
-  - if test -n "$SWIGLANG"; then make FLAGS=-k $SWIGJOBS check-$SWIGLANG-examples CFLAGS="${CFLAGS_EXAMPLES[$SWIGLANG]}" CXXFLAGS="${CXXFLAGS_EXAMPLES[$SWIGLANG]}"; fi
+  - if test -n "$SWIGLANG"; then make FLAGS=-k $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$(./testflags.py --language $SWIGLANG --cflags)" CXXFLAGS="$(./testflags.py --language $SWIGLANG --cxxflags)"; fi
 #  - if test -n "$SWIGLANG"; then make -k $SWIGJOBS check-$SWIGLANG-test-suite; fi
   - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
 #  - make check-maintainer-clean && ../../configure $CONFIGOPTS

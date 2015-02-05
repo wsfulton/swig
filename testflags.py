@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 c_common = "-Werror -fdiagnostics-show-option -std=gnu89 -Wno-long-long -Wreturn-type -Wdeclaration-after-statement"
 cflags = {
         "csharp":c_common,

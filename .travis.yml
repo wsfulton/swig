@@ -6,56 +6,56 @@ env:
   - SWIGLANG=
 matrix:
   include:
-#    - compiler: gcc
-#      env: SWIGLANG=csharp
-#    - compiler: gcc
-#      env: SWIGLANG=d
-#    - compiler: gcc
-#      env: SWIGLANG=go
-#    - compiler: gcc
-#      env: SWIGLANG=guile
-#    - compiler: gcc
-#      env: SWIGLANG=java
-#    - compiler: gcc
-#      env: SWIGLANG=javascript ENGINE=node
-#    - compiler: gcc
-#      env: SWIGLANG=javascript ENGINE=jsc
-#    - compiler: gcc
-#      env: SWIGLANG=javascript ENGINE=v8
-#    - compiler: gcc
-#      env: SWIGLANG=lua
-#    - compiler: gcc
-#      env: SWIGLANG=octave SWIGJOBS=-j3 # 3.2
-#    - compiler: gcc
-#      env: SWIGLANG=octave SWIGJOBS=-j3 VER=3.8
-#    - compiler: gcc
-#      env: SWIGLANG=perl5
-#    - compiler: gcc
-#      env: SWIGLANG=php
-#    - compiler: gcc
-#      env: SWIGLANG=python VER=2.4
-#    - compiler: gcc
-#      env: SWIGLANG=python VER=2.5
-#    - compiler: gcc
-#      env: SWIGLANG=python VER=2.6
+    - compiler: gcc
+      env: SWIGLANG=csharp
+    - compiler: gcc
+      env: SWIGLANG=d
+    - compiler: gcc
+      env: SWIGLANG=go
+    - compiler: gcc
+      env: SWIGLANG=guile
+    - compiler: gcc
+      env: SWIGLANG=java
+    - compiler: gcc
+      env: SWIGLANG=javascript ENGINE=node
+    - compiler: gcc
+      env: SWIGLANG=javascript ENGINE=jsc
+    - compiler: gcc
+      env: SWIGLANG=javascript ENGINE=v8
+    - compiler: gcc
+      env: SWIGLANG=lua
+    - compiler: gcc
+      env: SWIGLANG=octave SWIGJOBS=-j3 # 3.2
+    - compiler: gcc
+      env: SWIGLANG=octave SWIGJOBS=-j3 VER=3.8
+    - compiler: gcc
+      env: SWIGLANG=perl5
+    - compiler: gcc
+      env: SWIGLANG=php
+    - compiler: gcc
+      env: SWIGLANG=python VER=2.4
+    - compiler: gcc
+      env: SWIGLANG=python VER=2.5
+    - compiler: gcc
+      env: SWIGLANG=python VER=2.6
     - compiler: gcc
       env: SWIGLANG=python # 2.7
-#    - compiler: gcc
-#      env: SWIGLANG=python PY3=3 # 3.2
-#    - compiler: gcc
-#      env: SWIGLANG=python PY3=3 VER=3.3
-#    - compiler: gcc
-#      env: SWIGLANG=python PY3=3 VER=3.4
-#    - compiler: gcc
-#      env: SWIGLANG=python SWIG_FEATURES=-builtin
-#    - compiler: gcc
-#      env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3
-#    - compiler: gcc
-#      env: SWIGLANG=ruby
-#    - compiler: gcc
-#      env: SWIGLANG=scilab
-#    - compiler: gcc
-#      env: SWIGLANG=tcl
+    - compiler: gcc
+      env: SWIGLANG=python PY3=3 # 3.2
+    - compiler: gcc
+      env: SWIGLANG=python PY3=3 VER=3.3
+    - compiler: gcc
+      env: SWIGLANG=python PY3=3 VER=3.4
+    - compiler: gcc
+      env: SWIGLANG=python SWIG_FEATURES=-builtin
+    - compiler: gcc
+      env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3
+    - compiler: gcc
+      env: SWIGLANG=ruby
+    - compiler: gcc
+      env: SWIGLANG=scilab
+    - compiler: gcc
+      env: SWIGLANG=tcl
   allow_failures:
     # Occasional gcc internal compiler error
     - compiler: gcc
@@ -86,8 +86,8 @@ before_install:
   - $CC --version
   - $CXX --version
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - export cflags=$(./testflags.py --language $SWIGLANG --cflags && echo $cflags)
-  - export cxxflags=$(./testflags.py --language $SWIGLANG --cxxflags && echo $cxxflags)
+  - export cflags=$(./testflags.py --language $SWIGLANG --cflags) && echo $cflags
+  - export cxxflags=$(./testflags.py --language $SWIGLANG --cxxflags) && echo $cxxflags
 script:
   - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
   - ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure $CONFIGOPTS
@@ -101,7 +101,7 @@ script:
   - echo -en 'travis_fold:end:script.2\\r'
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
-  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
+#  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
   - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
 #  - make check-maintainer-clean && ../../configure $CONFIGOPTS
   - echo -en 'travis_fold:end:script.3\\r'

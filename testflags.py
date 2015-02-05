@@ -37,9 +37,10 @@ cxxflags = {
 
 import argparse
 parser = argparse.ArgumentParser(description="Display CFLAGS or CXXFLAGS to use for testing the SWIG examples and test-suite.")
-parser.add_argument('-c', '--cflags', action='store_true', default=False, help='show CFLAGS')
-parser.add_argument('-x', '--cxxflags', action='store_true', default=False, help='show CXXFLAGS')
-parser.add_argument('-l', '--language', help='Language to show flags for')
+parser.add_argument('-l', '--language', required=True, help='set language to show flags for')
+flags = parser.add_mutually_exclusive_group(required=True)
+flags.add_argument('-c', '--cflags', action='store_true', default=False, help='show CFLAGS')
+flags.add_argument('-x', '--cxxflags', action='store_true', default=False, help='show CXXFLAGS')
 args = parser.parse_args()
 
 if args.cflags:

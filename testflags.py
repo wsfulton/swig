@@ -7,7 +7,7 @@ cflags = {
          "guile":c_common,
           "java":c_common + " -pedantic",
     "javascript":c_common + " -pedantic",
-           "lua":c_common + " -pedantic",
+           "lua":c_common,
         "octave":c_common + " -pedantic",
          "perl5":c_common,
            "php":c_common,
@@ -19,19 +19,19 @@ cflags = {
 
 cxx_common = "-Werror -fdiagnostics-show-option -std=c++98 -Wno-long-long -Wreturn-type"
 cxxflags = {
-        "csharp":cxx_common + " -pedantic",
+        "csharp":cxx_common,
              "d":cxx_common + " -pedantic",
             "go":cxx_common + " -pedantic",
          "guile":cxx_common,
-          "java":cxx_common + " -pedantic",
+          "java":cxx_common,
     "javascript":cxx_common + " -pedantic",
-           "lua":cxx_common + " -pedantic",
+           "lua":cxx_common,
         "octave":cxx_common,
          "perl5":cxx_common,
            "php":cxx_common + " -pedantic",
         "python":cxx_common + " -pedantic",
-          "ruby":cxx_common + " -pedantic",
-        "scilab":cxx_common + " -pedantic",
+          "ruby":cxx_common,
+        "scilab":cxx_common,
            "tcl":cxx_common,
 }
 

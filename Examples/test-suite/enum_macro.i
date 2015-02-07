@@ -2,7 +2,7 @@
 
 %inline %{
 
-#if __GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
+#if __GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
 /* comma at end of enumerator list [-Werror=pedantic] */
 #pragma GCC diagnostic ignored "-Wpedantic"
 #endif

@@ -330,7 +330,7 @@ static void SWIGV8_SetPrivateData(v8::Handle<v8::Object> obj, void *ptr, swig_ty
 
 }
 
-static int SWIG_V8_ConvertPtr(v8::Handle<v8::Value> valRef, void **ptr, swig_type_info *info, int flags) {
+SWIGRUNTIME int SWIG_V8_ConvertPtr(v8::Handle<v8::Value> valRef, void **ptr, swig_type_info *info, int flags) {
   SWIGV8_HANDLESCOPE();
   
   /* special case: JavaScript null => C NULL pointer */
@@ -345,7 +345,7 @@ static int SWIG_V8_ConvertPtr(v8::Handle<v8::Value> valRef, void **ptr, swig_typ
   return SWIG_V8_ConvertInstancePtr(objRef, ptr, info, flags);
 }
 
-static v8::Handle<v8::Value> SWIG_V8_NewPointerObj(void *ptr, swig_type_info *info, int flags) {
+SWIGRUNTIME v8::Handle<v8::Value> SWIG_V8_NewPointerObj(void *ptr, swig_type_info *info, int flags) {
   SWIGV8_HANDLESCOPE_ESC();
   
   v8::Handle<v8::FunctionTemplate> class_templ;

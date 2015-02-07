@@ -11,6 +11,103 @@
 #include "cparse.h"
 #include <ctype.h>
 
+/* ----------------------------------------------------------------------
+ * siphash()
+ *
+ * 64-bit SipHash-2-4 to generate unique id for each module
+ * ---------------------------------------------------------------------- */
+
+// An unsigned 64-bit integer that works on a 32-bit host.
+typedef struct {
+  // Assume unsigned long is at least 32 bits.
+  unsigned long hi;
+  unsigned long lo;
+} swig_uint64;
+
+// Rotate v left by bits, which must be <= 32.
+static inline void _rotl(swig_uint64 *v, int bits) {
+  assert(bits <= 32);
+  unsigned long tmp = v->hi;
+  if (bits == 32) {
+    v->hi = v->lo;
+    v->lo = tmp;
+  } else {
+    v->hi = (tmp << bits) | ((0xfffffffful & v->lo) >> (32 - bits));
+    v->lo = (v->lo << bits) | ((0xfffffffful & tmp) >> (32 - bits));
+  }
+}
+
+// dst ^= src
+static inline void _xor(swig_uint64 *dst, swig_uint64 *src) {
+  dst->lo ^= src->lo;
+  dst->hi ^= src->hi;
+}
+
+// dst += src
+static inline void _add(swig_uint64 *dst, swig_uint64 *src) {
+  dst->lo += src->lo;
+  dst->hi += src->hi + ((dst->lo & 0xfffffffful) < (src->lo&0xfffffffful) ? 1 : 0);
+}
+#define SIPROUND                                        \
+  do {                                                  \
+    _add(&v0, &v1); _rotl(&v1, 13); _xor(&v1, &v0); _rotl(&v0, 32); \
+    _add(&v2, &v3); _rotl(&v3, 16); _xor(&v3, &v2); \
+    _add(&v0, &v3); _rotl(&v3, 21); _xor(&v3, &v0); \
+    _add(&v2, &v1); _rotl(&v1, 17); _xor(&v1, &v2); _rotl(&v2, 32); \
+  } while(0)
+
+// Set out to the hash of inc/inlen.
+static void siphash(swig_uint64 *out, const char *inc, unsigned long inlen) {
+  /* "somepseudorandomlygeneratedbytes" */
+  swig_uint64 v0 = {0x736f6d65UL, 0x70736575UL};
+  swig_uint64 v1 = {0x646f7261UL, 0x6e646f6dUL};
+  swig_uint64 v2 = {0x6c796765UL, 0x6e657261UL};
+  swig_uint64 v3 = {0x74656462UL, 0x79746573UL};
+  swig_uint64 b;
+  /* hard-coded k. */
+  swig_uint64 k0 = {0x07060504UL, 0x03020100UL};
+  swig_uint64 k1 = {0x0F0E0D0CUL, 0x0B0A0908UL};
+  int i;
+  const int cROUNDS = 2, dROUNDS = 4;
+  const unsigned char *in = (const unsigned char *)inc;
+  const unsigned char *end = in + inlen - (inlen % 8);
+  int left = inlen & 7;
+  _xor(&v3, &k1); _xor(&v2, &k0); _xor(&v1, &k1); _xor(&v0, &k0);
+  for (; in != end; in += 8) {
+    b.hi = 0; b.lo = 0;
+    for (i = 0; i < 4; i++) {
+      b.lo |= ((unsigned long)in[i]) << (8*i);
+    }
+    for (i = 0; i < 4; i++) {
+      b.hi |= ((unsigned long)in[i+4]) << (8*i);
+    }
+    _xor(&v3, &b);
+    for (i = 0; i < cROUNDS; i++) {
+      SIPROUND;
+    }
+    _xor(&v0, &b);
+  }
+  b.hi = (inlen & 0xff)<<24; b.lo = 0;
+  for (; left; left--) {
+    if (left > 4) {
+      b.hi |= ((unsigned long)in[left-1]) << (8*left-8-32);
+    } else {
+      b.lo |= ((unsigned long)in[left-1]) << (8*left-8);
+    }
+  }
+  _xor(&v3, &b);
+  for(i=0; i<cROUNDS; i++) {
+    SIPROUND;
+  }
+  _xor(&v0, &b); v2.lo ^= 0xff;
+  for(i=0; i<dROUNDS; i++) {
+    SIPROUND;
+  }
+  out->lo = 0; out->hi = 0;
+  _xor(out, &v0); _xor(out, &v1); _xor(out, &v2); _xor(out, &v3);
+}
+#undef SIPROUND
+
 class GO:public Language {
   static const char *const usage;
 
@@ -91,6 +188,8 @@ class GO:public Language {
   // A hash table of all the go_imports already imported. The index is a full
   // import name e.g. '"runtime"' or '_ "runtime/cgo"' or 'sc "syscall"'.
   Hash *go_imports;
+  // A unique ID used to make public symbols unique.
+  String *unique_id;
 
 public:
   GO():package(NULL),
@@ -333,6 +432,20 @@ private:
       Printf(gc_filename, "%s%s_gc.c", SWIG_output_directory(), module);
     }
 
+    // Generate a unique ID based on a hash of the SWIG input.
+    swig_uint64 hash = {0, 0};
+    FILE *swig_input = Swig_open(swig_filename);
+    if (swig_input == NULL) {
+      FileErrorDisplay(swig_filename);
+      SWIG_exit(EXIT_FAILURE);
+    }
+    String *swig_input_content = Swig_read_file(swig_input);
+    siphash(&hash, Char(swig_input_content), Len(swig_input_content));
+    Delete(swig_input_content);
+    fclose(swig_input);
+    unique_id = NewString("");
+    Printf(unique_id, "_%s_%08x%08x", package, hash.hi, hash.lo);
+
     // Open files.
 
     f_c_begin = NewFile(c_filename, "w", SWIG_output_files());
@@ -421,6 +534,7 @@ private:
 
       Printf(f_c_directors_h, "#ifndef SWIG_%s_WRAP_H_\n", module);
       Printf(f_c_directors_h, "#define SWIG_%s_WRAP_H_\n\n", module);
+      Printf(f_c_directors_h, "class Swig_memory;\n\n");
 
       Printf(f_c_directors, "\n// C++ director class methods.\n");
       String *filename = Swig_file_filename(c_filename_h);
@@ -744,6 +858,7 @@ private:
     if (overname) {
       Append(wname, overname);
     }
+    Append(wname, unique_id);
     Setattr(n, "wrap:name", wname);
 
     ParmList *parms = Getattr(n, "parms");
@@ -895,7 +1010,7 @@ private:
       receiver = NULL;
     }
 
-    String *goout = Swig_typemap_lookup("goout", n, "swig_r", NULL);
+    String *goout = goTypemapLookup("goout", n, "swig_r");
 
     bool add_to_interface = (interfaces && !is_constructor && !is_destructor && !is_static && !overname && checkFunctionVisibility(n, NULL));
 
@@ -913,10 +1028,10 @@ private:
     for (int i = 0; i < parm_count; ++i) {
       p = getParm(p);
       String *ty = Getattr(p, "type");
-      if (Getattr(p, "tmap:goargout")) {
+      if (goGetattr(p, "tmap:goargout")) {
 	has_goout = true;
 	needs_wrapper = true;
-      } else if (goTypeIsInterface(p, ty) || Getattr(p, "tmap:goin")) {
+      } else if (goTypeIsInterface(p, ty) || goGetattr(p, "tmap:goin")) {
 	needs_wrapper = true;
       }
 
@@ -1188,7 +1303,7 @@ private:
 	SwigType *pt = Getattr(p, "type");
 	String *ln = Getattr(p, "lname");
 
-	String *goin = Getattr(p, "tmap:goin");
+	String *goin = goGetattr(p, "tmap:goin");
 	if (goin == NULL) {
 	  Printv(call, ln, NULL);
 	  if ((i == 0 && is_destructor) || ((i > 0 || !receiver || base || is_constructor) && goTypeIsInterface(p, pt))) {
@@ -1238,7 +1353,7 @@ private:
 	  Printv(f_go_wrappers, "\tvar swig_r_1 ", tm, "\n", NULL);
 	  Replaceall(goout, "$input", "swig_r");
 	  Replaceall(goout, "$result", "swig_r_1");
-	  Printv(f_go_wrappers, goout, NULL);
+	  Printv(f_go_wrappers, goout, "\n", NULL);
 	  Printv(f_go_wrappers, "\treturn swig_r_1\n", NULL);
 	}
       }
@@ -1745,7 +1860,7 @@ private:
     Parm *p = parms;
     for (int i = 0; i < parm_count; ++i) {
       p = getParm(p);
-      String *tm = Getattr(p, "tmap:goargout");
+      String *tm = goGetattr(p, "tmap:goargout");
       if (!tm) {
 	p = nextSibling(p);
       } else {
@@ -2044,6 +2159,7 @@ private:
     Append(go_name, sname);
 
     String *wname = Swig_name_wrapper(sname);
+    Append(wname, unique_id);
     Setattr(n, "wrap:name", wname);
 
     int r = makeWrappers(n, sname, go_name, NULL, wname, NULL, NULL, type, true);
@@ -2332,6 +2448,7 @@ private:
     if (overname) {
       Append(wname, overname);
     }
+    Append(wname, unique_id);
 
     String *result = NewString(Getattr(method, "type"));
     SwigType_push(result, Getattr(method, "decl"));
@@ -2419,6 +2536,7 @@ private:
       Swig_MembersetToFunction(var, class_name, flags);
 
       String *wname = Swig_name_wrapper(mname_set);
+      Append(wname, unique_id);
       ParmList *parms = NewParm(vt, var_name, var);
       String *result = NewString("void");
       int r = makeWrappers(var, mname_set, go_name, NULL, wname, bases, parms, result, false);
@@ -2448,6 +2566,7 @@ private:
     Append(go_name, var_name);
 
     String *wname = Swig_name_wrapper(mname_get);
+    Append(wname, unique_id);
 
     int r = makeWrappers(var, mname_get, go_name, NULL, wname, bases, NULL, vt, false);
     if (r != SWIG_OK) {
@@ -2559,6 +2678,7 @@ private:
       Delete(c1);
 
       String *wname = Swig_name_wrapper(name);
+      Append(wname, unique_id);
       Setattr(n, "wrap:name", wname);
 
       SwigType *result = Copy(Getattr(b.item, "classtypeobj"));
@@ -2772,6 +2892,7 @@ private:
     if (overname) {
       Append(wname, overname);
     }
+    Append(wname, unique_id);
     Setattr(n, "wrap:name", wname);
 
     bool is_static = isStatic(n);
@@ -2885,7 +3006,9 @@ private:
 
       Swig_save("classDirectorConstructor", n, "wrap:name", "wrap:action", NULL);
 
-      Setattr(n, "wrap:name", Swig_name_wrapper(name));
+      String *dwname = Swig_name_wrapper(name);
+      Append(dwname, unique_id);
+      Setattr(n, "wrap:name", dwname);
 
       String *action = NewString("");
       Printv(action, Swig_cresult_name(), " = new SwigDirector_", class_name, "(", NULL);
@@ -2954,7 +3077,7 @@ private:
       p = nextParm(p);
     }
     Printv(f_c_directors, "),\n", NULL);
-    Printv(f_c_directors, "      go_val(swig_p)\n", NULL);
+    Printv(f_c_directors, "      go_val(swig_p), swig_mem(0)\n", NULL);
     Printv(f_c_directors, "{ }\n\n", NULL);
 
     if (Getattr(n, "sym:overloaded") && !Getattr(n, "sym:nextSibling")) {
@@ -2999,6 +3122,7 @@ private:
       Delete(c1);
 
       String *wname = Swig_name_wrapper(fnname);
+      Append(wname, unique_id);
 
       Setattr(n, "wrap:name", fnname);
 
@@ -3078,6 +3202,7 @@ private:
       } else {
 	Printv(f_c_directors, "  ", wname, "(go_val);\n", NULL);
       }
+      Printv(f_c_directors, "  delete swig_mem;\n", NULL);
     }
 
     Printv(f_c_directors, "}\n\n", NULL);
@@ -3134,6 +3259,7 @@ private:
 	  // set.
 	  String *wn = Swig_name_wrapper(Getattr(on, "sym:name"));
 	  Append(wn, Getattr(on, "sym:overname"));
+	  Append(wn, unique_id);
 	  Setattr(on, "wrap:name", wn);
 	  Delete(wn);
 	  Setattr(on, "wrap:parms", Getattr(on, "parms"));
@@ -3252,6 +3378,7 @@ private:
     }
 
     String *callback_wname = Swig_name_wrapper(callback_name);
+    Append(callback_wname, unique_id);
 
     String *upcall_name = Copy(director_struct_name);
     Append(upcall_name, "_upcall_");
@@ -3261,6 +3388,7 @@ private:
     if (overname) {
       Append(upcall_wname, overname);
     }
+    Append(upcall_wname, unique_id);
 
     String *upcall_gc_name = buildGoWrapperName(upcall_name, overname);
 
@@ -3405,7 +3533,7 @@ private:
 	String *goout = NULL;
 	if (SwigType_type(result) != T_VOID) {
 	  Printv(f_go_wrappers, "\tvar swig_r ", goImType(n, result), "\n", NULL);
-	  goout = Swig_typemap_lookup("goout", n, "swig_r", NULL);
+	  goout = goTypemapLookup("goout", n, "swig_r");
 	  if (goout) {
 	    has_goout = true;
 	  }
@@ -3414,7 +3542,7 @@ private:
 	p = parms;
 	for (int i = 0; i < parm_count; ++i) {
 	  p = getParm(p);
-	  if (Getattr(p, "tmap:goargout")) {
+	  if (goGetattr(p, "tmap:goargout")) {
 	    has_goout = true;
 	  }
 	  p = nextParm(p);
@@ -3446,7 +3574,7 @@ private:
 
 	  // This is an ordinary call from Go to C++, so adjust using
 	  // the goin typemap.
-	  String *goin = Getattr(p, "tmap:goin");
+	  String *goin = goGetattr(p, "tmap:goin");
 	  if (goin == NULL) {
 	    Printv(call, ln, NULL);
 	    if (goTypeIsInterface(p, pt)) {
@@ -3489,7 +3617,7 @@ private:
 	    Printv(f_go_wrappers, "\tvar swig_r_1 ", tm, "\n", NULL);
 	    Replaceall(goout, "$input", "swig_r");
 	    Replaceall(goout, "$result", "swig_r_1");
-	    Printv(f_go_wrappers, goout, NULL);
+	    Printv(f_go_wrappers, goout, "\n", NULL);
 	    Printv(f_go_wrappers, "\treturn swig_r_1\n", NULL);
 	  }
 	}
@@ -3628,7 +3756,7 @@ private:
 	String *goout = NULL;
 	if (SwigType_type(result) != T_VOID) {
 	  Printv(f_go_wrappers, "\tvar swig_r ", goImType(n, result), "\n", NULL);
-	  goout = Swig_typemap_lookup("goout", n, "swig_r", NULL);
+	  goout = goTypemapLookup("goout", n, "swig_r");
 	}
 
 	String *call = NewString("");
@@ -3658,7 +3786,7 @@ private:
 	    Printv(ln, ".Swigcptr()", NULL);
 	  }
 
-	  String *goin = Getattr(p, "tmap:goin");
+	  String *goin = goGetattr(p, "tmap:goin");
 	  if (goin == NULL) {
 	    Printv(call, ln, NULL);
 	    Setattr(p, "emit:goinput", ln);
@@ -3700,7 +3828,7 @@ private:
 	    Printv(f_go_wrappers, "\tvar swig_r_1 ", tm, "\n", NULL);
 	    Replaceall(goout, "$input", "swig_r");
 	    Replaceall(goout, "$result", "swig_r_1");
-	    Printv(f_go_wrappers, goout, NULL);
+	    Printv(f_go_wrappers, goout, "\n", NULL);
 	    Printv(f_go_wrappers, "\treturn swig_r_1\n", NULL);
 	  }
 	}
@@ -3744,19 +3872,10 @@ private:
 	    Printv(f_go_wrappers, result_wrapper, NULL);
 	  }
 	  Printv(f_go_wrappers, "\n", NULL);
-	  goout = Swig_typemap_lookup("godirectorout", n, "swig_r", NULL);
+	  goout = goTypemapLookup("godirectorout", n, "swig_r");
 	}
 
 	String *call = NewString("");
-
-	if (gccgo_flag) {
-	  if (goout != NULL) {
-	    Printv(call, "\tfunc() {\n", NULL);
-	  }
-	  Printv(call, "\tSwigCgocallBack()\n", NULL);
-	  Printv(call, "\tdefer SwigCgocallBackDone()\n", NULL);
-	}
-
 	Printv(call, "\t", NULL);
 
 	if (SwigType_type(result) != T_VOID) {
@@ -3766,6 +3885,8 @@ private:
 	  }
 	}
 	Printv(call, "p.", go_with_over_name, "(", NULL);
+
+	String *goincode = NewString("");
 
 	p = parms;
 	for (int i = 0; i < parm_count; ++i) {
@@ -3795,18 +3916,18 @@ private:
 	    Printv(ln, ")", NULL);
 	  }
 
-	  String *goin = Getattr(p, "tmap:godirectorin");
+	  String *goin = goGetattr(p, "tmap:godirectorin");
 	  if (goin == NULL) {
 	    Printv(call, ln, NULL);
 	  } else {
 	    String *ivar = NewString("");
 	    Printf(ivar, "_swig_i_%d", i);
 	    String *itm = goType(p, pt);
-	    Printv(f_go_wrappers, "\tvar ", ivar, " ", itm, NULL);
+	    Printv(f_go_wrappers, "\tvar ", ivar, " ", itm, "\n", NULL);
 	    goin = Copy(goin);
 	    Replaceall(goin, "$input", ln);
 	    Replaceall(goin, "$result", ivar);
-	    Printv(f_go_wrappers, goin, NULL);
+	    Printv(goincode, goin, "\n", NULL);
 	    Delete(goin);
 	    Printv(call, ivar, NULL);
 	    Delete(ivar);
@@ -3824,12 +3945,21 @@ private:
 	}
 	Printv(call, "\n", NULL);
 
-	if (gccgo_flag && goout != NULL) {
-	  Printv(call, "\t}()\n", NULL);
+	if (gccgo_flag) {
+	  if (goout != NULL) {
+	    Printv(f_go_wrappers, "\tfunc() {\n", NULL);
+	  }
+	  Printv(f_go_wrappers, "\tSwigCgocallBack()\n", NULL);
+	  Printv(f_go_wrappers, "\tdefer SwigCgocallBackDone()\n", NULL);
 	}
 
+	Printv(f_go_wrappers, goincode, NULL);
 	Printv(f_go_wrappers, call, NULL);
 	Delete(call);
+
+	if (gccgo_flag && goout != NULL) {
+	  Printv(f_go_wrappers, "\t}()\n", NULL);
+	}
 
 	if (SwigType_type(result) != T_VOID) {
 	  if (goout == NULL) {
@@ -3839,7 +3969,7 @@ private:
 	    Printv(f_go_wrappers, "\tvar swig_r_1 ", tm, "\n", NULL);
 	    Replaceall(goout, "$input", "swig_r");
 	    Replaceall(goout, "$result", "swig_r_1");
-	    Printv(f_go_wrappers, goout, NULL);
+	    Printv(f_go_wrappers, goout, "\n", NULL);
 	    Printv(f_go_wrappers, "\treturn swig_r_1\n", NULL);
 	  }
 	}
@@ -4140,6 +4270,7 @@ private:
 
     Printv(f_c_directors_h, " private:\n", NULL);
     Printv(f_c_directors_h, "  void *go_val;\n", NULL);
+    Printv(f_c_directors_h, "  Swig_memory *swig_mem;\n", NULL);
     Printv(f_c_directors_h, "};\n\n", NULL);
 
     class_name = NULL;
@@ -5418,6 +5549,32 @@ private:
   bool isFriend(Node *n) {
     String *storage = Getattr(n, "storage");
     return storage && Strcmp(storage, "friend") == 0;
+  }
+
+  /* ----------------------------------------------------------------------
+   * goGetattr
+   *
+   * Fetch an attribute from a node but return NULL if it is the empty string.
+   * ---------------------------------------------------------------------- */
+  Node *goGetattr(Node *n, const char *name) {
+    Node *ret = Getattr(n, name);
+    if (ret != NULL && Len(ret) == 0) {
+      ret = NULL;
+    }
+    return ret;
+  }
+
+  /* ----------------------------------------------------------------------
+   * goTypemapLookup
+   *
+   * Look up a typemap but return NULL if it is the empty string.
+   * ---------------------------------------------------------------------- */
+  String *goTypemapLookup(const char *name, Node *node, const char *lname) {
+    String *ret = Swig_typemap_lookup(name, node, lname, NULL);
+    if (ret != NULL && Len(ret) == 0) {
+      ret = NULL;
+    }
+    return ret;
   }
 
 };				/* class GO */

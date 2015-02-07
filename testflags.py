@@ -20,8 +20,8 @@ cflags = {
 cxx_common = "-Werror -fdiagnostics-show-option -std=c++98 -Wno-long-long -Wreturn-type"
 cxxflags = {
         "csharp":cxx_common,
-             "d":cxx_common + " -pedantic",
-            "go":cxx_common + " -pedantic",
+             "d":cxx_common,
+            "go":cxx_common,
          "guile":cxx_common,
           "java":cxx_common,
     "javascript":cxx_common + " -pedantic",

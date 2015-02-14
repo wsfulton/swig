@@ -16,13 +16,14 @@ CFLAGS=@CFLAGS@ -I.
 SWIG=swig
 SWIG_LIB=../$(srcdir)/../Lib
 EXEEXT=@EXEEXT@
+OBJEXT=@OBJEXT@
 
 # Use standard autoconf approach to transform executable name using --program-prefix and --program-suffix
 transform = @program_transform_name@
 
 LIBS= @LIBS@
-OBJS= ccache.o mdfour.o hash.o execute.o util.o args.o stats.o \
-	cleanup.o snprintf.o unify.o
+OBJS= ccache.$(OBJEXT) mdfour.$(OBJEXT) hash.$(OBJEXT) execute.$(OBJEXT) util.$(OBJEXT) args.$(OBJEXT) stats.$(OBJEXT) \
+	cleanup.$(OBJEXT) snprintf.$(OBJEXT) unify.$(OBJEXT)
 HEADERS = ccache.h mdfour.h
 
 all: $(PACKAGE_NAME)$(EXEEXT)

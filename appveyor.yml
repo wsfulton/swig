@@ -84,9 +84,8 @@ test_script:
 #  - bash -c "make -k check-csharp-test-suite || true"
   - bash -c "cat Examples/Makefile || true"
 #  - bash -c "make -k check-csharp-examples || true"
-  - bash -c "cd Examples/java/class && make || true"
-  - bash -c "make -k check-java-examples || true"
-  - bash -c "make -k check-csharp-examples || true"
+  - bash -c "make -k check-java-test-suite || true"
+#  - bash -c "make -k check-csharp-examples || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

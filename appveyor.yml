@@ -35,8 +35,8 @@ before_build:
   - gcc -v
   - make --version
 #  - php.exe --version
-  - cygcheck -s
-  - set
+#  - cygcheck -s
+#  - set
   - uname -a
 
 build_script:
@@ -46,13 +46,12 @@ build_script:
   - bash -cl "echo $PATH"
 #  - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
 #  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
-  - bash -cl "set"
+#  - bash -cl "set"
 #  - bash -c "find C:/Libraries -maxdepth 3 -type d || true"
   - pwd
-  - set JAVA_HOME=c:\Program Files (x86)\Java\jdk1.8.0
-  - set PATH=%JAVA_HOME%\bin;%PATH%
+#  - set JAVA_HOME=c:\Program Files (x86)\Java\jdk1.8.0
+#  - set PATH=%JAVA_HOME%\bin;%PATH%
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-  - java -version
   - bash -c "which cl.exe || true"
   - bash -c "which csc.exe || true"
   - bash -c "cl.exe /? | head -n 2 || true"
@@ -61,7 +60,7 @@ build_script:
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
   - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-ccache --without-pcre CC=cccl CXX=cccl --without-perl5 --without-go --with-boost-libdir=C:/Libraries"
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
-  - bash -c "cat Source/Makefile || true"
+#  - bash -c "cat Source/Makefile || true"
   - make
 
 test_script:
@@ -87,6 +86,7 @@ test_script:
 #  - bash -c "make -k check-csharp-examples || true"
   - bash -c "cd Examples/java/class && make || true"
   - bash -c "make -k check-java-examples || true"
+  - bash -c "make -k check-csharp-examples || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

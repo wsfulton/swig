@@ -72,7 +72,6 @@ AC_ARG_WITH([boost-libdir],
 )
 
 if test "x$want_boost" = "xyes"; then
-    echo "Starting the boost check.."
     boost_lib_version_req=ifelse([$1], ,1.20.0,$1)
     boost_lib_version_req_shorten=`expr $boost_lib_version_req : '\([[0-9]]*\.[[0-9]]*\)'`
     boost_lib_version_req_major=`expr $boost_lib_version_req : '\([[0-9]]*\)'`
@@ -147,9 +146,7 @@ if test "x$want_boost" = "xyes"; then
     LDFLAGS_SAVED="$LDFLAGS"
     LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
     export LDFLAGS
-    echo "Doing the boost check more.. BOOST_VERSION >= $WANT_BOOST_VERSION"
-    echo "Using CPPFLAGS... $CPPFLAGS"
-    echo "Using LDFLAGS... $LDFLAGS"
+
     AC_REQUIRE([AC_PROG_CXX])
     AC_LANG_PUSH(C++)
         AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -168,7 +165,6 @@ if test "x$want_boost" = "xyes"; then
         ])
     AC_LANG_POP([C++])
 
-    echo "Doing the boost check succeeded $succeeded"
 
 
     dnl if we found no boost with system layout we search for boost libraries
@@ -192,9 +188,7 @@ if test "x$want_boost" = "xyes"; then
                 done
                 dnl if nothing found search for layout used in Windows distributions
                 if test -z "$BOOST_CPPFLAGS"; then
-                    echo "New boost code..."
                     if test -d "$ac_boost_path/boost" && test -r "$ac_boost_path/boost"; then
-                        echo "New boost code working..."
                         BOOST_CPPFLAGS="-I$ac_boost_path"
                     fi
                 fi
@@ -246,9 +240,6 @@ if test "x$want_boost" = "xyes"; then
         export CPPFLAGS
         LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
         export LDFLAGS
-      echo "Trying 2nd time .. BOOST_VERSION >= $WANT_BOOST_VERSION"
-      echo "Using CPPFLAGS... $CPPFLAGS"
-      echo "Using LDFLAGS... $LDFLAGS"
 
         AC_LANG_PUSH(C++)
             AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[

@@ -24,6 +24,7 @@ install:
 #  - set PATH=%PATH%;C:\tools\php
   - set PATH=C:\Python27;%PATH%
   - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
+  - set CYGWIN=nodosfilewarning
   - set
   - dir C:\
   - dir C:\Python27
@@ -43,9 +44,6 @@ build_script:
 #  - echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
 #  - echo. >> C:\MinGW\msys\1.0\etc\fstab
 #  - type C:\MinGW\msys\1.0\etc\fstab
-  - bash -cl "ls -la C:/Libraries" || true
-  - bash -cl "export CYGWIN=nodosfilewarning && ls -la C:/Libraries" || true
-  - bash -cl "ls -la C:/Libraries" || true
   - bash -cl "echo $PATH"
 #  - bash -cl "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
 #  - bash -cl "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
@@ -66,7 +64,7 @@ build_script:
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make libfiles"
-  - bash -c "time make -j2 source"
+  - bash -c "time make source"
   - set CCCL_VERBOSE=1
   - bash -c "time make ccache || true"
 

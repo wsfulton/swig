@@ -62,9 +62,7 @@ build_script:
   - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
-  - date /T & time /T
-  - make -s || true
-  - date /T & time /T
+  - bash -c "time make -s -j2 || true"
 
 test_script:
   - .\swig.exe -version
@@ -87,11 +85,9 @@ test_script:
 #  - bash -c "make -k check-csharp-test-suite || true"
 #  - bash -c "cat Examples/Makefile || true"
 #  - bash -c "make -k check-csharp-examples || true"
-  - date /T & time /T
-  - bash -c "time make -k check-csharp-examples || true"
-  - bash -c "time make -k check-java-examples || true"
+  - bash -c "time make -j2 -k check-csharp-examples || true"
+  - bash -c "time make -j2 -k check-java-examples || true"
 #  - bash -c "make -k check-java-test-suite || true"
-  - date /T & time /T
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

@@ -64,7 +64,7 @@ build_script:
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make libfiles"
-  - bash -c "env CCCL_VERBOSE=1 time make -s source"
+  - bash -c "export CCCL_VERBOSE=1 && time make -s source"
 #  - set CCCL_VERBOSE=1
 #  - bash -c "time make ccache || true"
 

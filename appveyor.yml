@@ -91,7 +91,7 @@ test_script:
 #  - bash -c "make -k check-csharp-examples || true"
 #  - bash -c "time make -k check-csharp-examples || true"
 #  - bash -c "time make -k check-java-examples || true"
-  - bash -c "time make -k check-csharp-test-suite || true"
+  - bash -c "time make -k check-java-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

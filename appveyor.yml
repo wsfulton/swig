@@ -60,12 +60,12 @@ build_script:
   - bash -c "csc.exe /? | head -n 2 || true"
   - bash -c "which cccl || true"
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
-  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --without-pcre CC=cccl CXX=cccl --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
+  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --without-pcre --disable-ccache CC=cccl CXX=cccl --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make libfiles"
-  - bash -c "time make source"
-  - set CCCL_VERBOSE=1
+  - bash -c "time make -s source"
+#  - set CCCL_VERBOSE=1
   - bash -c "time make ccache || true"
 
 test_script:

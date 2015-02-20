@@ -31,11 +31,12 @@ install:
 #  - dir C:\MinGW
 #  - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
-  - nuget list || true
   - nuget list pcre || true
+  - nuget list PCRE.NET || true
   - nuget list pcre -verbose || true
+  - nuget list PCRE.NET -verbose || true
   - nuget list pcre -allversions || true
-  - nuget install pcre -o C:\pcre || true
+  - nuget install -verbosity detailed PCRE.NET -o C:\pcre || true
   - bash -c "find C:/pcre -maxdepth 3 -type d || true"
   - bash -c "find C:/pcre -maxdepth 3 -type f || true"
 

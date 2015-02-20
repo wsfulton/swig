@@ -31,6 +31,13 @@ install:
 #  - dir C:\MinGW
 #  - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
+  - nuget list || true
+  - nuget list pcre || true
+  - nuget list pcre -verbose || true
+  - nuget list pcre -allversions || true
+  - nuget install pcre -o C:\pcre || true
+  - bash -c "find C:/pcre -maxdepth 3 -type d || true"
+  - bash -c "find C:/pcre -maxdepth 3 -type f || true"
 
 before_build:
   - gcc -v
@@ -89,9 +96,9 @@ test_script:
 #  - bash -c "make -k check-csharp-test-suite || true"
 #  - bash -c "cat Examples/Makefile || true"
 #  - bash -c "make -k check-csharp-examples || true"
-#  - bash -c "time make -k check-csharp-examples || true"
+  - bash -c "time make -k check-csharp-examples || true"
 #  - bash -c "time make -k check-java-examples || true"
-  - bash -c "time make -k check-csharp-test-suite || true"
+#  - bash -c "time make -k check-csharp-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

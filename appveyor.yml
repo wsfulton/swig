@@ -67,7 +67,7 @@ build_script:
   - bash -c "csc.exe /? | head -n 2 || true"
   - bash -c "which cccl || true"
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
-  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' PCRE_CFLAGS='-I%PCRE_ROOT%/include' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
+  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
 #  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make libfiles"

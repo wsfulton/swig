@@ -95,10 +95,9 @@ test_script:
 #  - bash -c "grep -i cygpath Source/Makefile* || true"
 #  - bash -c "make -k check-csharp-test-suite || true"
 #  - bash -c "cat Examples/Makefile || true"
-#  - bash -c "make -k check-csharp-examples || true"
   - bash -c "time make -k check-csharp-examples || true"
 #  - bash -c "time make -k check-java-examples || true"
-#  - bash -c "time make -k check-csharp-test-suite || true"
+  - bash -c "time make -k check-csharp-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

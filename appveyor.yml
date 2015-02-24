@@ -36,7 +36,7 @@ install:
   - nuget list pcre -allversions || true
   - nuget install pcre -verbosity detailed -o C:\pcre || true
   - bash -c "find C:/pcre || true"
-  - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1
+  - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 
 before_build:
   - gcc -v

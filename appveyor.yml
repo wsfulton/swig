@@ -54,20 +54,19 @@ build_script:
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
   - pwd
   - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
-#  - set PATH=%JAVA_HOME%\bin;%PATH%
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-  - bash -c "which cl.exe || true"
-  - bash -c "which csc.exe || true"
-  - bash -c "cl.exe /? | head -n 2 || true"
-  - bash -c "csc.exe /? | head -n 2 || true"
-  - bash -c "which cccl || true"
+  - set CCCL_OPTIONS=--muffle
+  - bash -c "which cl.exe"
+  - bash -c "which csc.exe"
+  - bash -c "cl.exe /? | head -n 2"
+  - bash -c "csc.exe /? | head -n 2"
+  - bash -c "cccl /? | head -n 2"
+  - bash -c "cccl --version"
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
-  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='/O2 --muffle' CXXFLAGS='/O2 --muffle' LDFLAGS='/LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
-#  - bash -c "pwd && ./autogen.sh && ./configure --without-pcre CXXFLAGS='-g -O2 -Wall -Wextra' CFLAGS='-g -O2 -Wall -Wextra' --with-java='%JAVA_HOME%\\bin\\java.exe' --with-javac='%JAVA_HOME%\\bin\\javac.exe' --with-javaincl='%JAVA_HOME%\\include' --without-perl5 --without-go --with-boost-libdir=C:/Libraries/boost"
+  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='/O2' CXXFLAGS='/O2' LDFLAGS='/LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make libfiles"
-  - bash -c "time make source"
-#  - set CCCL_VERBOSE=1
+  - bash -c "time make -s source"
 #  - bash -c "time make ccache || true"
 
 test_script:
@@ -77,19 +76,6 @@ test_script:
 #  - bash -c "make -k check-examples || true"
   - bash -c "time make -k check-versions || true"
 #  - bash -c "make -k check-java-test-suite || true"
-#  - bash -c "cd Examples/test-suite/csharp && make allprotected.cpptest || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" || true"
-#  - bash -c "echo 'cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\+ || true'"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\; || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" \\+ || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec cmd //c echo \"{}\" \\+ || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec p2w \"{}\" \\+ || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec msys_p2w \"{}\" \\+ || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e \"s,\\\\\\\\,/,g\" \\; || true"
-#  - bash -c "cd Examples/test-suite/csharp && find allprotected -name \"*.cs\" -exec echo \"{}\" | sed -e 's,\\\\,/,g' \\; || true"
-#  - bash -c "grep -i cygpath Source/Makefile* || true"
-#  - bash -c "make -k check-csharp-test-suite || true"
-#  - bash -c "cat Examples/Makefile || true"
   - bash -c "time make -k check-csharp-examples || true"
 #  - bash -c "time make -k check-java-examples || true"
   - bash -c "time make -k check-csharp-test-suite || true"

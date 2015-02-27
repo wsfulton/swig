@@ -31,11 +31,7 @@ install:
 #  - dir C:\MinGW
 #  - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
-  - nuget list pcre || true
-  - nuget list pcre -verbose || true
-  - nuget list pcre -allversions || true
-  - nuget install pcre -verbosity detailed -o C:\pcre || true
-  - bash -c "find C:/pcre || true"
+  - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre || true
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 
 before_build:
@@ -47,7 +43,6 @@ before_build:
   - uname -a
 
 build_script:
-  - set
 #  - echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
 #  - echo. >> C:\MinGW\msys\1.0\etc\fstab
 #  - type C:\MinGW\msys\1.0\etc\fstab

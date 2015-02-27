@@ -5,9 +5,11 @@
 
 os:
 #  - Unstable
-  - Visual Studio 2014 CTP4
-#- MinGW
-  - Visual Studio 2015 CTP
+#  - Visual Studio 2014 CTP4
+  - MinGW
+#  - Visual Studio 2015 CTP
+  - Visual Studio 2015 Preview
+  - Windows Server 2012 R2
 
 platform:
   - x86
@@ -15,7 +17,7 @@ platform:
 environment:
   matrix:
   - SWIGLANG: csharp
-  - SWIGLANG: java
+#  - SWIGLANG: java
 
 #
 #configuration:

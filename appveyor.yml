@@ -4,18 +4,18 @@
 # 64 bit Windows - direct.h does not compile off64_t is not defined and struct stat is missing.
 
 os:
-  - Unstable
-#- Visual Studio 2014 CTP4
+#  - Unstable
+  - Visual Studio 2014 CTP4
 #- MinGW
-#- Visual Studio 2015 CTP
+  - Visual Studio 2015 CTP
 
 platform:
   - x86
 
 environment:
   matrix:
-  - SWIGLANG: java
   - SWIGLANG: csharp
+  - SWIGLANG: java
 
 #
 #configuration:
@@ -23,6 +23,9 @@ environment:
 #
 install:
   - date /T & time /T
+  - set
+  - dir "C:\Program Files (x86)"
+  - dir "C:\Program Files"
   - set PATH=C:\cygwin\bin;%PATH%
 #  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 #  - cinst php
@@ -30,13 +33,12 @@ install:
   - set PATH=C:\Python27;%PATH%
   - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
   - set CYGWIN=nodosfilewarning
-  - set
   - dir C:\
   - dir C:\Python27
 #  - dir C:\MinGW
 #  - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
-  - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre || true
+  - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 
 before_build:
@@ -62,7 +64,7 @@ build_script:
   - set CCCL_OPTIONS=--muffle
   - bash -c "which cl.exe"
   - bash -c "which csc.exe"
-  - bash -c "cl.exe /? | head -n 2"
+  - bash -c "cl.exe /? 2>&1 | head -n 2"
   - bash -c "csc.exe /? | head -n 2"
   - bash -c "cccl --version"
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
@@ -78,7 +80,7 @@ test_script:
 #  - make check-errors-test-suite
   - bash -c "time make -k check-%SWIGLANG%-version"
   - bash -c "time make -k check-%SWIGLANG%-examples"
-  - bash -c "time make -k check-%SWIGLANG%-test-suite || true"
+#  - bash -c "time make -k check-%SWIGLANG%-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

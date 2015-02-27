@@ -30,7 +30,7 @@ given by [OPTIONS] that Unix cc understands into parameters that cl understands.
 EOF
 }
 
-# Whitespace in paths is dealt with by setting IFS an using bash arrays
+# Whitespace in paths is dealt with by setting IFS and using bash arrays
 IFS=""
 
 # prog specifies the program that should be run cl.exe

@@ -12,6 +12,11 @@ os:
 platform:
   - x86
 
+environment:
+  matrix:
+  - SWIGLANG: java
+  - SWIGLANG: csharp
+
 #
 #configuration:
 #  - Release
@@ -52,7 +57,6 @@ build_script:
 #  - bash -cl "set"
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
-  - pwd
   - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
   - set CCCL_OPTIONS=--muffle
@@ -60,12 +64,11 @@ build_script:
   - bash -c "which csc.exe"
   - bash -c "cl.exe /? | head -n 2"
   - bash -c "csc.exe /? | head -n 2"
-  - bash -c "cccl /? | head -n 2"
   - bash -c "cccl --version"
   #Open dummy file descriptor to fix error: ./configure: line 560: 0: Bad file descriptor
   - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='/O2' CXXFLAGS='/O2' LDFLAGS='/LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost"
 #  - bash -c "cat Source/Makefile || true"
-  - bash -c "time make libfiles"
+  - bash -c "time make -s libfiles"
   - bash -c "time make -s source"
 #  - bash -c "time make ccache || true"
 
@@ -73,12 +76,9 @@ test_script:
   - .\swig.exe -version
 #  - .\ccache-swig.exe -V
 #  - make check-errors-test-suite
-#  - bash -c "make -k check-examples || true"
-  - bash -c "time make -k check-versions || true"
-#  - bash -c "make -k check-java-test-suite || true"
-  - bash -c "time make -k check-csharp-examples || true"
-#  - bash -c "time make -k check-java-examples || true"
-  - bash -c "time make -k check-csharp-test-suite || true"
+  - bash -c "time make -k check-%SWIGLANG%-version"
+  - bash -c "time make -k check-%SWIGLANG%-examples"
+  - bash -c "time make -k check-%SWIGLANG%-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

@@ -70,6 +70,7 @@ build_script:
   - set JAVA_HOME=c:/Program Files/Java/jdk1.8.0
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
   - set CCCL_OPTIONS=--muffle
+  - set CSHARPFLAGS=-platform:%Platform%
   - bash -c "which cl.exe"
   - bash -c "which csc.exe"
   - bash -c "cl.exe /? 2>&1 | head -n 2"

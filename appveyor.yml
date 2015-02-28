@@ -17,7 +17,7 @@ platform:
 environment:
   matrix:
   - SWIGLANG: csharp
-#  - SWIGLANG: java
+  - SWIGLANG: java
 
 #
 #configuration:
@@ -82,7 +82,7 @@ test_script:
 #  - make check-errors-test-suite
   - bash -c "time make -k check-%SWIGLANG%-version"
   - bash -c "time make -k check-%SWIGLANG%-examples"
-#  - bash -c "time make -k check-%SWIGLANG%-test-suite || true"
+  - bash -c "time make -k check-%SWIGLANG%-test-suite || true"
 
 # Do not build on tags (GitHub only)
 skip_tags: true 

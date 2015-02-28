@@ -12,7 +12,8 @@ os:
 #  - MinGW
 
 platform:
-  - x86
+#  - x86
+  - x64
 
 environment:
   matrix:
@@ -35,19 +36,23 @@ install:
 #  - cinst php
 #  - set PATH=%PATH%;C:\tools\php
 #  - set PATH=C:\Python27;%PATH%
-  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
+#  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
+  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" amd64
 #  - dir C:\Python27
   - dir C:\MinGW
   - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
   - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
+  - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
+#  - set PCRE_PLATFORM=Win32
+  - set PCRE_PLATFORM=x64
 
 before_build:
 #  - gcc -v
   - make --version
 #  - php.exe --version
-#  - cygcheck -s
+  - cygcheck -s
 #  - set
   - uname -a
 
@@ -61,7 +66,8 @@ build_script:
 #  - bash -cl "set"
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
-  - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
+#  - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
+  - set JAVA_HOME=c:/Program Files/Java/jdk1.8.0
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
   - set CCCL_OPTIONS=--muffle
   - bash -c "which cl.exe"
@@ -70,7 +76,7 @@ build_script:
   - bash -c "csc.exe /? | head -n 2"
   - bash -c "cccl --version"
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
-  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='/LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/Win32/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
+  - bash -c "exec 0</dev/null && pwd && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='/LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
 #  - bash -c "cat Source/Makefile || true"
   - bash -c "time make -s libfiles"
   - bash -c "time make -s source"
@@ -78,6 +84,7 @@ build_script:
 
 test_script:
   - .\swig.exe -version
+  - bash -c "file ./swig.exe"
 #  - .\ccache-swig.exe -V
 #  - make check-errors-test-suite
   - bash -c "time make -k check-%SWIGLANG%-version"

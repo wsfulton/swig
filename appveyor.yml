@@ -7,9 +7,9 @@ os:
 #  - Unstable
 #  - Visual Studio 2014 CTP4
   - MinGW
-#  - Visual Studio 2015 CTP
+  - Visual Studio 2015 CTP
 #  - Visual Studio 2015 Preview
-  - Windows Server 2012 R2
+#  - Windows Server 2012 R2
 
 platform:
   - x86
@@ -63,7 +63,7 @@ build_script:
 #  - bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
   - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-  - set CCCL_OPTIONS=--muffle --verbose
+  - set CCCL_OPTIONS=--muffle
   - bash -c "which cl.exe"
   - bash -c "which csc.exe"
   - bash -c "cl.exe /? 2>&1 | head -n 2"

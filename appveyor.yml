@@ -5,10 +5,10 @@
 
 os:
 #  - Unstable
-  - Visual Studio 2014 CTP4
-  - Visual Studio 2015 CTP
-  - Visual Studio 2015 Preview
-  - Windows Server 2012 R2
+#  - Visual Studio 2014 CTP4
+#  - Visual Studio 2015 CTP
+#  - Visual Studio 2015 Preview
+#  - Windows Server 2012 R2
   - MinGW
 
 platform:
@@ -17,7 +17,7 @@ platform:
 environment:
   matrix:
   - SWIGLANG: csharp
-#  - SWIGLANG: java
+  - SWIGLANG: java
 
 #
 #configuration:
@@ -39,7 +39,6 @@ install:
 #  - dir C:\Python27
   - dir C:\MinGW
   - dir C:\MinGW\bin
-  - bash -cl "find C:/MinGW"
 #  - dir C:\MinGW\msys\1.0\bin
   - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native

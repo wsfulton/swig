@@ -4,12 +4,12 @@
 # 64 bit Windows - direct.h does not compile off64_t is not defined and struct stat is missing.
 
 os:
-#  - Unstable
+  - Unstable
 #  - Visual Studio 2014 CTP4
 #  - Visual Studio 2015 CTP
 #  - Visual Studio 2015 Preview
 #  - Windows Server 2012 R2
-  - MinGW
+#  - MinGW
 
 platform:
   - x86
@@ -29,9 +29,9 @@ install:
   - dir C:\
   - dir "C:\Program Files (x86)"
   - dir "C:\Program Files"
-  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
-#  - set PATH=C:\cygwin\bin;%PATH%
-#  - set CYGWIN=nodosfilewarning
+#  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
+  - set PATH=C:\cygwin\bin;%PATH%
+  - set CYGWIN=nodosfilewarning
 #  - cinst php
 #  - set PATH=%PATH%;C:\tools\php
 #  - set PATH=C:\Python27;%PATH%

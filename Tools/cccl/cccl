@@ -23,7 +23,7 @@
 usage()
 {
     cat <<EOF
-Usage: cccl [--help] [--muffle] [--verbose] [--version] [OPTIONS]
+Usage: cccl [--cccl-muffle] [--cccl-verbose] [--help] [--version] [OPTIONS]
 
 cccl is a wrapper around Microsoft's cl.exe compiler.  It translates parameters
 given by [OPTIONS] that Unix cc understands into parameters that cl understands.

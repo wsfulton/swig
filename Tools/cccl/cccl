@@ -78,9 +78,9 @@ while test $# -gt 0; do
 	muffle=1
 	;;
 
-    --verbose)
-        verbose=1
-        ;;
+    --cccl-verbose)
+	verbose=1
+	;;
 
     --version)
 	cat <<EOF

@@ -73,9 +73,9 @@ while test $# -gt 0; do
         exit 0
         ;;
 
-    --muffle)
-        # Remove the unnecessary junk that the compiler outputs to stdout
-        muffle=1
+    --cccl-muffle)
+	# Remove the unnecessary junk that the compiler outputs to stdout
+	muffle=1
 	;;
 
     --verbose)

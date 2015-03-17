@@ -1,24 +1,23 @@
 #!/bin/bash
 
-# cccl 
+# cccl
 # Wrapper around MS's cl.exe to make it act more like Unix cc
 #
-# Copyright (C) 2000-2003 Geoffrey Wossum (gwossum@acm.org)
+# Copyright (C) 2000-2015 by contributors listed in the AUTHORS file.
 #
-# This program is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
+# the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 usage()
 {
@@ -79,11 +78,7 @@ while test $# -gt 0; do
 
     --version)
         cat <<EOF
-cccl 0.03 (modified for SWIG)
-
-Copyright 2000-2003 Geoffrey Wossum
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+cccl 1.0.0
 EOF
         exit 0;
         ;;
@@ -144,12 +139,13 @@ EOF
         case "$1" in
         *.o | *.obj)
             clopt+=("${slash}Fo$1")
-        ;;
+            ;;
 
         *.exe | *.dll | *.pyd)
             clopt+=("${slash}Fe$1")
+            ;;
+        esac
         ;;
-        esac;;
 
     -pedantic)
         #ignore pedantic
@@ -176,8 +172,17 @@ EOF
         ;;
 
     -shared)
-            shared_index=${#clopt[@]}
-            clopt+=("${slash}LD")
+        shared_index=${#clopt[@]}
+        clopt+=("${slash}LD")
+        ;;
+
+    -*)
+        # Remaining '-' options are passed to the compiler
+        if test x$optarg != x ; then
+            clopt+=("${slash}${1:1}=$optarg")
+        else
+            clopt+=("${slash}${1:1}")
+        fi
         ;;
 
     *.cc | *.cxx | *.C)
@@ -186,18 +191,26 @@ EOF
         clopt+=("${slash}Tp$1")
         ;;
 
-    /*)
-        # All / options are passed to the linker
-        linkopt+=("${slash}${1:1}")
+    /link)
+        # Same behaviour as cl - all options after /link are linker options
+        shift
+        while test $# -gt 0; do
+            case "$1" in
+            /*)
+                linkopt+=("${slash}${1:1}")
+                ;;
+
+            *)
+                linkopt+=("$1")
+                ;;
+            esac
+            shift
+        done
         ;;
 
-    -*)
-        # All - options are passed to the compiler
-        if test x$optarg != x ; then
-            clopt+=("${slash}${1:1}=$optarg")
-        else
-            clopt+=("${slash}${1:1}")
-        fi
+    /*)
+        # All '/' options are assumed to be for cl and are passed through
+        clopt+=("${slash}${1:1}")
         ;;
 
     *)
@@ -228,17 +241,12 @@ if test ${#linkopt[@]} -eq 1 ; then
     linkopt=()
 fi
 
-extraopt=(${slash}EHsc ${slash}GR ${slash}W3)
-
 if test x$V = x1 ; then
     verbose=1
 fi
 
 if test -n "$verbose" ; then
   echo -n "$prog"
-  for opt in "${extraopt[@]}" ; do
-    echo -n " \"$opt\""
-  done
   for opt in "${clopt[@]}" ; do
     echo -n " \"$opt\""
   done
@@ -249,10 +257,10 @@ if test -n "$verbose" ; then
 fi
 
 if test -z "$muffle" ; then
-    exec $prog ${extraopt[@]} ${clopt[@]} ${linkopt[@]}
+    exec $prog ${clopt[@]} ${linkopt[@]}
 else
   # tr needed below for $ in regex to work (simple alternative to dos2unix)
-    exec $prog ${extraopt[@]} ${clopt[@]} ${linkopt[@]} | tr -d '\r' | grep -v -e "\.cpp$" -e "\.cxx$" -e "\.cc$" -e "\.C$" -e "\.c$" -e "^   Creating library" -e "^Generating Code"
+    exec $prog ${clopt[@]} ${linkopt[@]} | tr -d '\r' | grep -v -e "\.cpp$" -e "\.cxx$" -e "\.cc$" -e "\.C$" -e "\.c$" -e "^   Creating library" -e "^Generating Code"
     exit ${PIPESTATUS[0]}
 fi
 

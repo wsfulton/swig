@@ -68,7 +68,7 @@ build_script:
   - set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
 #  - set JAVA_HOME=c:/Program Files/Java/jdk1.8.0
   - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-  - set CCCL_OPTIONS=--cccl-muffle /W4
+  - set CCCL_OPTIONS=--cccl-muffle /W3
   - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   - bash -c "which cl.exe"
   - bash -c "which csc.exe"

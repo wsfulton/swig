@@ -34,23 +34,23 @@ install:
 #  - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
   - set PATH=C:\cygwin\bin;%PATH%
   - set CYGWIN=nodosfilewarning
-  - dir C:\MinGW
-  - dir C:\MinGW\bin
+# - dir C:\MinGW
+# - dir C:\MinGW\bin
 #  - dir C:\MinGW\msys\1.0\bin
+  - if "%Platform%" == "x86" (
+  - '   set PCRE_PLATFORM=Win32'
+  - '   set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0'
+  - '   set VCVARS_PLATFORM=x86'
+  - '   set LANG_PLATFORM='
+  - ) else (
+  - '   set PCRE_PLATFORM=x64'
+  - '   set JAVA_HOME=c:/Program Files/Java/jdk1.8.0'
+  - '   set VCVARS_PLATFORM=amd64'
+  - '   set LANG_PLATFORM=-x64'
+  - )
+  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
   - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
-  - if "%Platform%" == "x86" (
-      set PCRE_PLATFORM=Win32
-      set JAVA_HOME=c:/Program Files (x86)/Java/jdk1.8.0
-      set VCVARS_PLATFORM=x86
-      set LANG_PLATFORM=
-    ) else (
-      set PCRE_PLATFORM=x64
-      set JAVA_HOME=c:/Program Files/Java/jdk1.8.0
-      set VCVARS_PLATFORM=amd64
-      set LANG_PLATFORM=-x64
-    )
-  - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 #  - cinst php
 #  - set PATH=%PATH%;C:\tools\php
   - set PATH=C:\Python27%LANG_PLATFORM%;C:\Ruby200%LANG_PLATFORM%\bin;%PATH%
@@ -60,7 +60,7 @@ before_build:
 #  - gcc -v
   - make --version
 #  - php.exe --version
-  - cygcheck -s
+#  - cygcheck -s
 #  - set
   - uname -a
 

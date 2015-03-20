@@ -2638,6 +2638,10 @@ case $host in
     ROOT_DIR=`cygpath --mixed $ROOT_DIR`
   fi
   ;;
+*-*-mingw*)
+  # Translate path for native Windows compilers for use with 'make check'
+  ROOT_DIR=`pwd -W`
+  ;;
 esac
 
 case $host in

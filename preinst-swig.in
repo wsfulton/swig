@@ -1,7 +1,4 @@
 #!/bin/sh
-builddir=`dirname $0`
-srcdir=`cd "$builddir" && cd '@srcdir@' && pwd`
-#SWIG_LIB=$srcdir/Lib
-SWIG_LIB=`@CYGPATH_W@ $srcdir/Lib` # For native Windows version of SWIG
+SWIG_LIB=@ROOT_DIR@
 export SWIG_LIB
 exec "$builddir/swig" "$@"

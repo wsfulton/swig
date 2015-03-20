@@ -40,15 +40,10 @@ install:
   - ps: >-
     If ($env:Platform -Match "x86") {
           $env:PCRE_PLATFORM="Win32"
-          $env:JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
-          $env:VCVARS_PLATFORM="x86"
-          $env:LANG_PLATFORM=""
     } Else {
           $env:PCRE_PLATFORM="x64"
-          $env:JAVA_HOME="c:/Program Files/Java/jdk1.8.0"
-          $env:VCVARS_PLATFORM="amd64"
-          $env:LANG_PLATFORM="-x64"
     }
+  - echo %PCRE_PLATFORM%
   - call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
   - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
   - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native

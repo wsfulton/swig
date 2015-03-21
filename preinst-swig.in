@@ -1,4 +1,4 @@
 #!/bin/sh
-SWIG_LIB=@ROOT_DIR@
+SWIG_LIB=@SWIG_LIB_PREINST@
 export SWIG_LIB
 exec "$builddir/swig" "$@"

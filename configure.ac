@@ -2628,6 +2628,7 @@ AC_SUBST(SKIP_ANDROID)
 # Miscellaneous
 #----------------------------------------------------------------
 
+ABS_SRCDIR=`(cd ${srcdir} && pwd)`
 
 # Root directory
 ROOT_DIR=`pwd`
@@ -2637,10 +2638,6 @@ case $host in
   if (cygpath --mixed $ROOT_DIR) >/dev/null 2>/dev/null; then
     ROOT_DIR=`cygpath --mixed $ROOT_DIR`
   fi
-  ;;
-*-*-mingw*)
-  # Translate path for native Windows compilers for use with 'make check'
-  ROOT_DIR=`pwd -W`
   ;;
 esac
 
@@ -2669,6 +2666,16 @@ case $build in
         *) SWIG_LIB_WIN_UNIX="";;
 esac
 AC_DEFINE_UNQUOTED(SWIG_LIB_WIN_UNIX, ["$SWIG_LIB_WIN_UNIX"], [Directory for SWIG system-independent libraries (Unix install on native Windows)])
+
+# For testing - Windows builds of SWIG do not need SWIG_LIB set
+AC_MSG_CHECKING([SWIG_LIB for testing])
+AC_EGREP_CPP([yes],
+[#ifdef _WIN32
+  yes
+#endif
+], [SWIG_LIB_PREINST=], [SWIG_LIB_PREINST=$ABS_SRCDIR/Lib])
+AC_MSG_RESULT([$SWIG_LIB_PREINST])
+AC_SUBST(SWIG_LIB_PREINST)
 
 AC_CONFIG_FILES([
     Makefile

@@ -630,6 +630,7 @@ else
     if test x"$PYOSNAME" = x"nt"; then
       # Windows installations are quite different to posix installations
       PYPREFIX=`echo "$PYPREFIX" | sed -e 's,\\\\,/,g'` # Forward slashes are easier to use and even work on Windows most of the time
+      PYTHON_SO=.pyd # Cygwin is .dll - set here for when using Cygwin to target native Windows
 
       AC_MSG_CHECKING(for Python header files)
       if test -r $PYPREFIX/include/Python.h; then

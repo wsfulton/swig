@@ -599,6 +599,7 @@ AC_SUBST(TCLCXXSHARED)
 
 PYINCLUDE=
 PYLIB=
+PYLINK=
 PYPACKAGE=
 
 AC_ARG_WITH(python, AS_HELP_STRING([--without-python], [Disable Python])
@@ -617,35 +618,34 @@ else
 
   if test -n "$PYTHON"; then
     AC_MSG_CHECKING(for Python prefix)
-    PYPREFIX=`($PYTHON -c "import sys; print sys.prefix") 2>/dev/null`
+    PYPREFIX=`($PYTHON -c "import sys; sys.stdout.write(sys.prefix)") 2>/dev/null`
     AC_MSG_RESULT($PYPREFIX)
     AC_MSG_CHECKING(for Python exec-prefix)
-    PYEPREFIX=`($PYTHON -c "import sys; print sys.exec_prefix") 2>/dev/null`
+    PYEPREFIX=`($PYTHON -c "import sys; sys.stdout.write(sys.exec_prefix)") 2>/dev/null`
     AC_MSG_RESULT($PYEPREFIX)
-
     AC_MSG_CHECKING(for Python os.name)
-    PYOSNAME=`($PYTHON -c "import os; print os.name")`
+    PYOSNAME=`($PYTHON -c "import sys, os; sys.stdout.write(os.name)")`
     AC_MSG_RESULT($PYOSNAME)
 
     if test x"$PYOSNAME" = x"nt"; then
+      # Windows installations are quite different to posix installations
+      PYPREFIX=`echo "$PYPREFIX" | sed -e 's,\\\\,/,g'` # Forward slashes are easier to use and even work on Windows most of the time
+
       AC_MSG_CHECKING(for Python header files)
       if test -r $PYPREFIX/include/Python.h; then
         PYINCLUDE="-I$PYPREFIX/include"
       fi
       AC_MSG_RESULT($PYINCLUDE)
 
-      AC_MSG_CHECKING(for Python library)
-      if test -r $PYPREFIX/libs; then
+      AC_MSG_CHECKING(for Python library directory)
+      if test -d $PYPREFIX/libs; then
         PYLIB=$PYPREFIX/libs
-        PYLINKFILE=$PYLIB/python*.lib
+        PYLINKFILE=$PYLIB/python*.lib # There should be only one of these files
         if test -r $PYLINKFILE; then
-          PYLINK=-l`basename $PYLINKFILE | sed -e "s/\.lib$//"`
+          PYLINK=-l`basename $PYLINKFILE | sed -e 's/\.lib$//'`
+        else
+          PYLIB=
         fi
-      fi
-      if test -z "$PYLIB"; then
-        AC_MSG_RESULT(Not found)
-      else
-        AC_MSG_RESULT($PYLIB)
       fi
     else
       # Note: I could not think of a standard way to get the version string from different versions.
@@ -655,13 +655,13 @@ else
 
       # Need to do this hack since autoconf replaces __file__ with the name of the configure file
       filehack="file__"
-      PYVERSION=`($PYTHON -c "import string,operator,os.path; print operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1)")`
+      PYVERSION=`($PYTHON -c "import sys,string,operator,os.path; sys.stdout.write(operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1))")`
       AC_MSG_RESULT($PYVERSION)
 
       # Find the directory for libraries this is necessary to deal with
       # platforms that can have apps built for multiple archs: e.g. x86_64
       AC_MSG_CHECKING(for Python lib dir)
-      PYLIBDIR=`($PYTHON -c "import sys; print sys.lib") 2>/dev/null`
+      PYLIBDIR=`($PYTHON -c "import sys; sys.stdout.write(sys.lib)") 2>/dev/null`
       if test -z "$PYLIBDIR"; then
         # Fedora patch Python to add sys.lib, for other distros we assume "lib".
         PYLIBDIR="lib"
@@ -682,7 +682,7 @@ else
       AC_MSG_RESULT($PYINCLUDE)
 
       # Set the library directory blindly.   This probably won't work with older versions
-      AC_MSG_CHECKING(for Python library)
+      AC_MSG_CHECKING(for Python library directory)
       dirs="$PYVERSION/config $PYVERSION/$PYLIBDIR python/$PYLIBDIR"
       for i in $dirs; do
         if test -d $PYEPREFIX/$PYLIBDIR/$i; then
@@ -690,13 +690,20 @@ else
           break
         fi
       done
-      if test -z "$PYLIB"; then
-        AC_MSG_RESULT(Not found)
-      else
-        AC_MSG_RESULT($PYLIB)
-      fi
 
       PYLINK="-l$PYVERSION"
+    fi
+
+    if test -z "$PYLIB"; then
+      AC_MSG_RESULT(Not found)
+    else
+      AC_MSG_RESULT($PYLIB)
+    fi
+    AC_MSG_CHECKING(for Python library)
+    if test -z "$PYLINK"; then
+      AC_MSG_RESULT(Not found)
+    else
+      AC_MSG_RESULT($PYLINK)
     fi
   fi
 
@@ -725,6 +732,7 @@ AC_SUBST(PYTHONDYNAMICLINKING)
 
 PY3INCLUDE=
 PY3LIB=
+PY3LINK=
 PY3PACKAGE=
 
 AC_ARG_WITH(python3, AS_HELP_STRING([--without-python3], [Disable Python 3.x support])
@@ -785,7 +793,7 @@ else
     AC_MSG_RESULT($PY3INCLUDE)
 
     # Set the library directory blindly.   This probably won't work with older versions
-    AC_MSG_CHECKING([for Python 3.x library])
+    AC_MSG_CHECKING([for Python 3.x library directory])
     dirs="$PY3VERSION/config $PY3VERSION/$PY3LIBDIR python/$PY3LIBDIR"
     for i in $dirs; do
       if test -d $PY3EPREFIX/$PY3LIBDIR/$i; then
@@ -800,6 +808,13 @@ else
     fi
 
     PY3LINK="-l$PY3VERSION"
+
+    AC_MSG_CHECKING([for Python 3.x library])
+    if test -z "$PY3LINK"; then
+      AC_MSG_RESULT(Not found)
+    else
+      AC_MSG_RESULT($PY3LINK)
+    fi
   fi
 
   # Cygwin (Windows) needs the library for dynamic linking
@@ -2491,14 +2506,14 @@ AC_SUBST(SKIP_OCTAVE)
 
 
 SKIP_PYTHON=
-if (test -z "$PYINCLUDE") &&
-   (test -z "$PY3INCLUDE") ; then
+if (test -z "$PYINCLUDE" || test -z "$PYLINK") &&
+   (test -z "$PY3INCLUDE" || test -z "$PY3LINK") ; then
     SKIP_PYTHON="1"
 fi
 AC_SUBST(SKIP_PYTHON)
 
 SKIP_PYTHON3=
-if test -z "$PY3INCLUDE" ; then
+if test -z "$PY3INCLUDE" || test -z "$PY3LINK" ; then
     SKIP_PYTHON3="1"
 fi
 AC_SUBST(SKIP_PYTHON3)

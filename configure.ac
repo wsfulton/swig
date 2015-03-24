@@ -641,7 +641,7 @@ else
       AC_MSG_CHECKING(for Python library directory)
       if test -d $PYPREFIX/libs; then
         PYLIB=$PYPREFIX/libs
-        PYLINKFILE=$PYLIB/python*.lib # There should be only one of these files
+        PYLINKFILE=`ls $PYLIB/python*.lib | grep "python[0-9]\+\.lib"`
         if test -r $PYLINKFILE; then
           PYLINK=-l`basename $PYLINKFILE | sed -e 's/\.lib$//'`
         else
@@ -727,9 +727,6 @@ AC_SUBST(PYTHONDYNAMICLINKING)
 #----------------------------------------------------------------
 # Look for Python 3.x
 #----------------------------------------------------------------
-
-# mostly copy & pasted from "Look for Python" section,
-# did some trim, fix and rename
 
 PY3INCLUDE=
 PY3LIB=

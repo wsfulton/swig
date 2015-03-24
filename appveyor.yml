@@ -20,8 +20,8 @@ environment:
 #  - SWIGLANG: csharp
 #  - SWIGLANG: java
 #  - SWIGLANG: ruby
-  - SWIGLANG: python
-    VER: 27
+#  - SWIGLANG: python
+#    VER: 27
   - SWIGLANG: python
     VER: 34
     PY3: 1
@@ -35,6 +35,8 @@ install:
 - dir C:\
 - dir "C:\Program Files (x86)"
 - dir "C:\Program Files"
+- dir "C:\Python34"
+- dir "C:\Python34\libs"
 #- set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 - set PATH=C:\cygwin\bin;%PATH%
 - set CYGWIN=nodosfilewarning
@@ -100,7 +102,7 @@ build_script:
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
-- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717 # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
+#- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717 # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
 - .\swig.exe -version
 - bash -c "file ./swig.exe"
 #- .\ccache-swig.exe -V

@@ -21,11 +21,10 @@ environment:
 #  - SWIGLANG: java
 #  - SWIGLANG: ruby
   - SWIGLANG: python
+    VER: 27
+  - SWIGLANG: python
     VER: 34
     PY3: 1
-#  - SWIGLANG: python
-#    VER: 27
-
 #
 #configuration:
 #- Release
@@ -84,9 +83,7 @@ build_script:
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
 - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
-- set CCCL_OPTIONS=--cccl-verbose /W3 /wd4717
-# (Fixed in Python 2.7.9 headers) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
-#- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717
+- set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"
 - bash -c "which csc.exe"
@@ -103,13 +100,14 @@ build_script:
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
+- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717 # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
 - .\swig.exe -version
 - bash -c "file ./swig.exe"
 #- .\ccache-swig.exe -V
 #- make check-errors-test-suite
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-- bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS% || true"
+- bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

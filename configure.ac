@@ -641,8 +641,8 @@ else
       AC_MSG_CHECKING(for Python library directory)
       if test -d $PYPREFIX/libs; then
         PYLIB=$PYPREFIX/libs
-        PYLINKFILE=`ls $PYLIB/python*.lib | grep "python[0-9]\+\.lib"`
-        if test -r $PYLINKFILE; then
+        PYLINKFILE=`ls $PYLIB/python*.lib | grep "python[[0-9]][[0-9]]\.lib"`
+        if test -r "$PYLINKFILE"; then
           PYLINK=-l`basename $PYLINKFILE | sed -e 's/\.lib$//'`
         else
           PYLIB=

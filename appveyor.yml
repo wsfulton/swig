@@ -21,6 +21,10 @@ environment:
 #  - SWIGLANG: java
 #  - SWIGLANG: ruby
   - SWIGLANG: python
+    VER: 34
+    PY3: 1
+#  - SWIGLANG: python
+#    VER: 27
 
 #
 #configuration:
@@ -55,8 +59,7 @@ install:
 - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 #- cinst php
 #- set PATH=%PATH%;C:\tools\php
-- set PATH=C:\Python27%LANG_PLATFORM%;C:\Ruby200%LANG_PLATFORM%\bin;%PATH%
-#- dir C:\Python27
+- set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
 - path
 - python -V || true
 - bash -cl "python -V || true"

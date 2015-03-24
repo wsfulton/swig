@@ -82,6 +82,7 @@ build_script:
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
 - set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
 - set CCCL_OPTIONS=--cccl-muffle /W3
+- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717 # (Fixed in Python 2.7.9 headerrs) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"
 - bash -c "which csc.exe"

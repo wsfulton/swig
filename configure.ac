@@ -616,7 +616,17 @@ else
     PYTHON="$PYBIN"
   fi
 
+  PYVER=0
   if test -n "$PYTHON"; then
+    AC_MSG_CHECKING([for $PYTHON major version number])
+    PYVER=`($PYTHON -c "import sys; sys.stdout.write(sys.version[[0]])") 2>/dev/null`
+    AC_MSG_RESULT($PYVER)
+    if test -z "$PYVER"; then
+      PYVER=0
+    fi
+  fi
+
+  if test $PYVER -le 2; then
     AC_MSG_CHECKING(for Python prefix)
     PYPREFIX=`($PYTHON -c "import sys; sys.stdout.write(sys.prefix)") 2>/dev/null`
     AC_MSG_RESULT($PYPREFIX)
@@ -630,7 +640,7 @@ else
     if test x"$PYOSNAME" = x"nt"; then
       # Windows installations are quite different to posix installations
       PYPREFIX=`echo "$PYPREFIX" | sed -e 's,\\\\,/,g'` # Forward slashes are easier to use and even work on Windows most of the time
-      PYTHON_SO=.pyd # Cygwin is .dll - set here for when using Cygwin to target native Windows
+      PYTHON_SO=.pyd
 
       AC_MSG_CHECKING(for Python header files)
       if test -r $PYPREFIX/include/Python.h; then
@@ -741,7 +751,7 @@ if test x"${PY3BIN}" = xno -o x"${with_alllang}" = xno ; then
   AC_MSG_NOTICE([Disabling Python 3.x support])
 else
   if test "x$PY3BIN" = xyes; then
-    for py_ver in 3 3.6 3.5 3.4 3.3 3.2 3.1 3.0; do
+    for py_ver in 3 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0 ""; do
       AC_CHECK_PROGS(PYTHON3, [python$py_ver])
       if test -n "$PYTHON3"; then
         AC_CHECK_PROGS(PY3CONFIG, [$PYTHON3-config])
@@ -755,63 +765,99 @@ else
     AC_CHECK_PROGS(PY3CONFIG, [$PYTHON3-config])
   fi
 
-
-  if test -n "$PYTHON3" -a -n "$PY3CONFIG"; then
-    AC_MSG_CHECKING([for Python 3.x prefix])
-    PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
-    AC_MSG_RESULT($PY3PREFIX)
-    AC_MSG_CHECKING(for Python 3.x exec-prefix)
-    PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
-    AC_MSG_RESULT($PY3EPREFIX)
-
-    # Note: I could not think of a standard way to get the version string from different versions.
-    # This trick pulls it out of the file location for a standard library file.
-
-    AC_MSG_CHECKING([for Python 3.x version])
-
-    # Need to do this hack since autoconf replaces __file__ with the name of the configure file
-    filehack="file__"
-    PY3VERSION=`($PYTHON3 -c "import string,operator,os.path; print(operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1))")`
-    AC_MSG_RESULT($PY3VERSION)
-
-    # Find the directory for libraries this is necessary to deal with
-    # platforms that can have apps built for multiple archs: e.g. x86_64
-    AC_MSG_CHECKING([for Python 3.x lib dir])
-    PY3LIBDIR=`($PYTHON3 -c "import sys; print(sys.lib)") 2>/dev/null`
-    if test -z "$PY3LIBDIR"; then
-      # some dists don't have sys.lib  so the best we can do is assume lib
-      PY3LIBDIR="lib"
+  PYVER=0
+  if test -n "$PYTHON3"; then
+    AC_MSG_CHECKING([for $PYTHON3 major version number])
+    PYVER=`($PYTHON3 -c "import sys; sys.stdout.write(sys.version[[0]])") 2>/dev/null`
+    AC_MSG_RESULT($PYVER)
+    if test -z "$PYVER"; then
+      PYVER=0
     fi
-    AC_MSG_RESULT($PY3LIBDIR)
+  fi
 
-    # Set the include directory
+  if test $PYVER -ge 3; then
+    AC_MSG_CHECKING(for Python 3.x os.name)
+    PY3OSNAME=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.name)")`
+    AC_MSG_RESULT($PY3OSNAME)
 
-    AC_MSG_CHECKING([for Python 3.x header files])
-    PY3INCLUDE=`($PY3CONFIG --includes) 2>/dev/null`
-    AC_MSG_RESULT($PY3INCLUDE)
+    if test x"$PY3OSNAME" = x"nt"; then
+      # Windows installations are quite different to posix installations
+      PY3PREFIX=`echo "$PY3PREFIX" | sed -e 's,\\\\,/,g'` # Forward slashes are easier to use and even work on Windows most of the time
+      PYTHON_SO=.pyd
 
-    # Set the library directory blindly.   This probably won't work with older versions
-    AC_MSG_CHECKING([for Python 3.x library directory])
-    dirs="$PY3VERSION/config $PY3VERSION/$PY3LIBDIR python/$PY3LIBDIR"
-    for i in $dirs; do
-      if test -d $PY3EPREFIX/$PY3LIBDIR/$i; then
-        PY3LIB="$PY3EPREFIX/$PY3LIBDIR/$i"
-        break
+      AC_MSG_CHECKING(for Python 3.x header files)
+      if test -r $PY3PREFIX/include/Python.h; then
+        PY3INCLUDE="-I$PY3PREFIX/include"
       fi
-    done
-    if test -z "$PY3LIB"; then
-      AC_MSG_RESULT([Not found])
-    else
-      AC_MSG_RESULT($PY3LIB)
-    fi
+      AC_MSG_RESULT($PY3INCLUDE)
 
-    PY3LINK="-l$PY3VERSION"
+      AC_MSG_CHECKING(for Python 3.x library directory)
+      if test -d $PY3PREFIX/libs; then
+        PY3LIB=$PY3PREFIX/libs
+        PY3LINKFILE=`ls $PY3LIB/python*.lib | grep "python[[0-9]][[0-9]]\.lib"`
+        if test -r "$PY3LINKFILE"; then
+          PY3LINK=-l`basename $PY3LINKFILE | sed -e 's/\.lib$//'`
+        else
+          PY3LIB=
+        fi
+      fi
+    elif test -n "$PY3CONFIG"; then
+      AC_MSG_CHECKING([for Python 3.x prefix])
+      PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
+      AC_MSG_RESULT($PY3PREFIX)
+      AC_MSG_CHECKING(for Python 3.x exec-prefix)
+      PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
+      AC_MSG_RESULT($PY3EPREFIX)
 
-    AC_MSG_CHECKING([for Python 3.x library])
-    if test -z "$PY3LINK"; then
-      AC_MSG_RESULT(Not found)
-    else
-      AC_MSG_RESULT($PY3LINK)
+      # Note: I could not think of a standard way to get the version string from different versions.
+      # This trick pulls it out of the file location for a standard library file.
+
+      AC_MSG_CHECKING([for Python 3.x version])
+
+      # Need to do this hack since autoconf replaces __file__ with the name of the configure file
+      filehack="file__"
+      PY3VERSION=`($PYTHON3 -c "import string,operator,os.path; print(operator.getitem(os.path.split(operator.getitem(os.path.split(string.__$filehack),0)),1))")`
+      AC_MSG_RESULT($PY3VERSION)
+
+      # Find the directory for libraries this is necessary to deal with
+      # platforms that can have apps built for multiple archs: e.g. x86_64
+      AC_MSG_CHECKING([for Python 3.x lib dir])
+      PY3LIBDIR=`($PYTHON3 -c "import sys; print(sys.lib)") 2>/dev/null`
+      if test -z "$PY3LIBDIR"; then
+        # some dists don't have sys.lib  so the best we can do is assume lib
+        PY3LIBDIR="lib"
+      fi
+      AC_MSG_RESULT($PY3LIBDIR)
+
+      # Set the include directory
+
+      AC_MSG_CHECKING([for Python 3.x header files])
+      PY3INCLUDE=`($PY3CONFIG --includes) 2>/dev/null`
+      AC_MSG_RESULT($PY3INCLUDE)
+
+      # Set the library directory blindly.   This probably won't work with older versions
+      AC_MSG_CHECKING([for Python 3.x library directory])
+      dirs="$PY3VERSION/config $PY3VERSION/$PY3LIBDIR python/$PY3LIBDIR"
+      for i in $dirs; do
+        if test -d $PY3EPREFIX/$PY3LIBDIR/$i; then
+          PY3LIB="$PY3EPREFIX/$PY3LIBDIR/$i"
+          break
+        fi
+      done
+      if test -z "$PY3LIB"; then
+        AC_MSG_RESULT([Not found])
+      else
+        AC_MSG_RESULT($PY3LIB)
+      fi
+
+      PY3LINK="-l$PY3VERSION"
+
+      AC_MSG_CHECKING([for Python 3.x library])
+      if test -z "$PY3LINK"; then
+        AC_MSG_RESULT(Not found)
+      else
+        AC_MSG_RESULT($PY3LINK)
+      fi
     fi
   fi
 

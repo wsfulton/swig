@@ -776,6 +776,12 @@ else
   fi
 
   if test $PYVER -ge 3; then
+    AC_MSG_CHECKING([for Python 3.x prefix])
+    PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
+    AC_MSG_RESULT($PY3PREFIX)
+    AC_MSG_CHECKING(for Python 3.x exec-prefix)
+    PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
+    AC_MSG_RESULT($PY3EPREFIX)
     AC_MSG_CHECKING(for Python 3.x os.name)
     PY3OSNAME=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.name)")`
     AC_MSG_RESULT($PY3OSNAME)
@@ -802,13 +808,6 @@ else
         fi
       fi
     elif test -n "$PY3CONFIG"; then
-      AC_MSG_CHECKING([for Python 3.x prefix])
-      PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
-      AC_MSG_RESULT($PY3PREFIX)
-      AC_MSG_CHECKING(for Python 3.x exec-prefix)
-      PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
-      AC_MSG_RESULT($PY3EPREFIX)
-
       # Note: I could not think of a standard way to get the version string from different versions.
       # This trick pulls it out of the file location for a standard library file.
 

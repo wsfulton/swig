@@ -776,18 +776,16 @@ else
   fi
 
   if test $PYVER -ge 3; then
-    AC_MSG_CHECKING([for Python 3.x prefix])
-    PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
-    AC_MSG_RESULT($PY3PREFIX)
-    AC_MSG_CHECKING(for Python 3.x exec-prefix)
-    PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
-    AC_MSG_RESULT($PY3EPREFIX)
     AC_MSG_CHECKING(for Python 3.x os.name)
     PY3OSNAME=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.name)")`
     AC_MSG_RESULT($PY3OSNAME)
 
     if test x"$PY3OSNAME" = x"nt"; then
       # Windows installations are quite different to posix installations
+      # There is no python-config to use
+      AC_MSG_CHECKING(for Python 3.x prefix)
+      PY3PREFIX=`($PYTHON3 -c "import sys; sys.stdout.write(sys.prefix)") 2>/dev/null`
+      AC_MSG_RESULT($PY3PREFIX)
       PY3PREFIX=`echo "$PY3PREFIX" | sed -e 's,\\\\,/,g'` # Forward slashes are easier to use and even work on Windows most of the time
       PYTHON_SO=.pyd
 
@@ -808,6 +806,13 @@ else
         fi
       fi
     elif test -n "$PY3CONFIG"; then
+      AC_MSG_CHECKING([for Python 3.x prefix])
+      PY3PREFIX=`($PY3CONFIG --prefix) 2>/dev/null`
+      AC_MSG_RESULT($PY3PREFIX)
+      AC_MSG_CHECKING(for Python 3.x exec-prefix)
+      PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
+      AC_MSG_RESULT($PY3EPREFIX)
+
       # Note: I could not think of a standard way to get the version string from different versions.
       # This trick pulls it out of the file location for a standard library file.
 

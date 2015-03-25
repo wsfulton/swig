@@ -92,9 +92,6 @@ build_script:
 - bash -c "cl.exe /? 2>&1 | head -n 2"
 - bash -c "csc.exe /? | head -n 2"
 - bash -c "cccl --version"
-- bash -c "which 2to3 || true"
-- bash -c "which 2to3.exe || true"
-- bash -c "2to3 --version || true"
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - bash -c "exec 0</dev/null && pwd && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
 #- bash -c "cat Source/Makefile || true"
@@ -111,7 +108,7 @@ test_script:
 #- .\ccache-swig.exe -V
 #- make check-errors-test-suite
 - bash -c "time make -k check-%SWIGLANG%-version"
-- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS% || true"
+- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)

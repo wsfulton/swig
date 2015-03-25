@@ -65,6 +65,9 @@ install:
 - python -V || true
 - bash -cl "python -V || true"
 - bash -cl "which python || true"
+- bash -cl "rm `which python` || true"
+- bash -cl "which python || true"
+- bash -cl "python -V"
 
 before_build:
 #- gcc -v

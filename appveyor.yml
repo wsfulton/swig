@@ -43,6 +43,7 @@ install:
 # - dir C:\MinGW
 # - dir C:\MinGW\bin
 #- dir C:\MinGW\msys\1.0\bin
+- git clone -q --depth=1 --single-branch --branch cccl-0.1 git://github.com/swig/cccl.git %APPVEYOR_BUILD_FOLDER%\cccl
 - ps: >-
     If ($env:Platform -Match "x86") {
       $env:PCRE_PLATFORM="Win32"
@@ -87,7 +88,7 @@ build_script:
 #- bash -cl "set"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
-- set PATH=%APPVEYOR_BUILD_FOLDER%\Tools\cccl;%PATH%
+- set PATH=%APPVEYOR_BUILD_FOLDER%\cccl;%PATH%
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"

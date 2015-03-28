@@ -17,15 +17,14 @@ platform:
 
 environment:
   matrix:
-#  - SWIGLANG: csharp
-#  - SWIGLANG: java
-#  - SWIGLANG: ruby
-#  - SWIGLANG: python
-#    VER: 27
+  - SWIGLANG: csharp
+  - SWIGLANG: java
+  - SWIGLANG: python
+    VER: 27
   - SWIGLANG: python
     VER: 34
     PY3: 1
-#
+
 #configuration:
 #- Release
 #
@@ -93,6 +92,7 @@ build_script:
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"
 - bash -c "which csc.exe"
+- bash -c "which cccl || true"
 - bash -c "cl.exe /? 2>&1 | head -n 2"
 - bash -c "csc.exe /? | head -n 2"
 - bash -c "cccl --version"

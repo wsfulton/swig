@@ -64,14 +64,14 @@ install:
 - set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
 - path
 - python -V
-- bash -c "which python"
-- bash -c "python -V"
-- bash -c "which cl.exe"
-- bash -c "cl.exe /? 2>&1 | head -n 2"
-- bash -c "which csc.exe"
-- bash -c "csc.exe /? | head -n 2"
-- bash -c "which cccl"
-- bash -c "cccl --version"
+- bash -lc "which python"
+- bash -lc "python -V"
+- bash -lc "which cl.exe"
+- bash -lc "cl.exe /? 2>&1 | head -n 2"
+- bash -lc "which csc.exe"
+- bash -lc "csc.exe /? | head -n 2"
+- bash -lc "which cccl"
+- bash -lc "cccl --version"
 - make --version
 #- gcc -v
 #- php.exe --version
@@ -83,20 +83,20 @@ build_script:
 #- echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
 #- echo. >> C:\MinGW\msys\1.0\etc\fstab
 #- type C:\MinGW\msys\1.0\etc\fstab
-- bash -c "echo $PATH"
- #- bash -c "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
- #- bash -c "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
- #- bash -c "set"
-#- bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
-#- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
+- bash -lc "echo $PATH"
+#- bash -lc "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
+#- bash -lc "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
+#- bash -lc "set"
+#- bash -lc "find C:/Libraries/boost -maxdepth 3 -type d || true"
+#- bash -lc "find C:/Libraries/boost -maxdepth 3 -type f || true"
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
-- bash -c "exec 0</dev/null && pwd && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-#- bash -c "cat Source/Makefile || true"
-#- bash -c "cat Examples/Makefile || true"
-- bash -c "time make -s"
-#- bash -c "time make ccache || true"
+- bash -lc "exec 0</dev/null && pwd && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --with-java='%JAVA_HOME%/bin/java.exe' --with-javac='%JAVA_HOME%/bin/javac.exe' --with-javaincl='%JAVA_HOME%/include' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
+#- bash -lc "cat Source/Makefile || true"
+#- bash -lc "cat Examples/Makefile || true"
+- bash -lc "time make -s"
+#- bash -lc "time make ccache || true"
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
@@ -106,12 +106,12 @@ test_script:
       $env:CCCL_OPTIONS="$env:CCCL_OPTIONS /wd4717"
     }
 - .\swig.exe -version
-- bash -c "file ./swig.exe"
+- bash -lc "file ./swig.exe"
 #- .\ccache-swig.exe -V
 #- make check-errors-test-suite
-- bash -c "time make -k check-%SWIGLANG%-version"
-- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-- bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
+- bash -lc "time make -k check-%SWIGLANG%-version"
+- bash -lc "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
+- bash -lc "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

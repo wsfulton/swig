@@ -42,16 +42,16 @@ install:
 # - dir C:\MinGW
 # - dir C:\MinGW\bin
 #- dir C:\MinGW\msys\1.0\bin
-- git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git %APPVEYOR_BUILD_FOLDER%\cccl
+- git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0
 - ps: >-
     If ($env:Platform -Match "x86") {
       $env:PCRE_PLATFORM="Win32"
-      $env:JAVA_HOME="c:/Program Files (x86)/Java/jdk1.8.0"
+      $env:JAVA_HOME="C:/Program Files (x86)/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="x86"
       $env:LANG_PLATFORM=""
     } Else {
       $env:PCRE_PLATFORM="x64"
-      $env:JAVA_HOME="c:/Program Files/Java/jdk1.8.0"
+      $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="amd64"
       $env:LANG_PLATFORM="-x64"
     }
@@ -87,7 +87,7 @@ build_script:
 #- bash -cl "set"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
-- set PATH=%APPVEYOR_BUILD_FOLDER%\cccl;%PATH%
+- set PATH=c:\cccl-1.0;%PATH%
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"

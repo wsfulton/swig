@@ -43,6 +43,7 @@ install:
 # - dir C:\MinGW\bin
 #- dir C:\MinGW\msys\1.0\bin
 - git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0
+- bash -cl "cp C:/cccl-1.0/cccl /usr/local/bin"
 - ps: >-
     If ($env:Platform -Match "x86") {
       $env:PCRE_PLATFORM="Win32"
@@ -87,12 +88,11 @@ build_script:
 #- bash -cl "set"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type d || true"
 #- bash -c "find C:/Libraries/boost -maxdepth 3 -type f || true"
-- set PATH=c:\cccl-1.0;%PATH%
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - bash -c "which cl.exe"
 - bash -c "which csc.exe"
-- bash -c "which cccl || true"
+- bash -c "which cccl"
 - bash -c "cl.exe /? 2>&1 | head -n 2"
 - bash -c "csc.exe /? | head -n 2"
 - bash -c "cccl --version"

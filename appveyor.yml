@@ -42,7 +42,7 @@ install:
 # - dir C:\MinGW
 # - dir C:\MinGW\bin
 #- dir C:\MinGW\msys\1.0\bin
-- git clone -q --depth=1 --single-branch --branch cccl-0.1 git://github.com/swig/cccl.git %APPVEYOR_BUILD_FOLDER%\cccl
+- git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git %APPVEYOR_BUILD_FOLDER%\cccl
 - ps: >-
     If ($env:Platform -Match "x86") {
       $env:PCRE_PLATFORM="Win32"

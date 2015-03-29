@@ -106,7 +106,11 @@ build_script:
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
-#- set CCCL_OPTIONS=%CCCL_OPTIONS% /wd4717 # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
+- ps: >-
+    If ("$env:SWIGLANG$env:VER" -Match "python27") {
+      # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
+      $env:CCCL_OPTIONS="$env:CCCL_OPTIONS /wd4717"
+    }
 - .\swig.exe -version
 - bash -c "file ./swig.exe"
 #- .\ccache-swig.exe -V

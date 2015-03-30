@@ -115,8 +115,6 @@ CPP_TEST_CASES += \
 	abstract_virtual \
 	access_change \
 	add_link \
-
-# \
 	aggregate \
 	allowexcept \
 	allprotected \
@@ -567,8 +565,6 @@ CPP_STD_TEST_CASES += \
 	li_std_pair_using \
 	li_std_string \
 	li_std_vector \
-        
-# \
 	li_std_vector_enum \
 	li_std_vector_member_var\
 	naturalvar \
@@ -603,8 +599,6 @@ C_TEST_CASES += \
 	enum_missing \
 	extern_declaration \
 	funcptr \
-
-# \
 	function_typedef \
 	global_functions \
 	immutable_values \

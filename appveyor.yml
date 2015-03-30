@@ -31,11 +31,11 @@ environment:
 install:
 - date /T & time /T
 - set
-- dir C:\
-- dir "C:\Program Files (x86)"
-- dir "C:\Program Files"
-- dir "C:\Python34"
-- dir "C:\Python34\libs"
+#- dir C:\
+#- dir "C:\Program Files (x86)"
+#- dir "C:\Program Files"
+#- dir "C:\Python34"
+#- dir "C:\Python34\libs"
 #- set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0\bin;%PATH%
 - set PATH=C:\cygwin\bin;%PATH%
 - set CYGWIN=nodosfilewarning
@@ -62,7 +62,7 @@ install:
 #- cinst php
 #- set PATH=%PATH%;C:\tools\php
 - set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
-- path
+#- path
 - python -V
 - bash -c "which python"
 - bash -c "python -V"
@@ -83,7 +83,7 @@ build_script:
 #- echo C:\MinGW /mingw >> C:\MinGW\msys\1.0\etc\fstab
 #- echo. >> C:\MinGW\msys\1.0\etc\fstab
 #- type C:\MinGW\msys\1.0\etc\fstab
-- bash -c "echo $PATH"
+#- bash -c "echo $PATH"
 #- bash -c "ls -la /; echo xx; ls -la /c; echo xxx; ls -la /mingw; true"
 #- bash -c "mount; echo xx; ls /mingw/share/automake-1.11; echo xxx"
 #- bash -c "set"
@@ -100,9 +100,9 @@ build_script:
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
+# (Warning below is fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
 - ps: >-
     If ("$env:SWIGLANG$env:VER" -Match "python27") {
-      # (Fixed in newer versions of Python (2.7.9)) '_hypot' : recursive on all control paths, function will cause runtime stack overflow
       $env:CCCL_OPTIONS="$env:CCCL_OPTIONS /wd4717"
     }
 - .\swig.exe -version

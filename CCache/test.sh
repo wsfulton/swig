@@ -67,16 +67,12 @@ checkstat() {
     value=`getstat "$stat"`
 #    echo "exp: $expected_value got: $value $testname"
     if [ "$expected_value" != "$value" ]; then
-	pwd
-	find .. -type f -exec ls -la {} \;
 	test_failed "SUITE: $testsuite TEST: $testname - Expected $stat to be $expected_value got $value"
     fi
 }
 
 
 basetests() {
-    echo "showing stats at beginning..."
-    $CCACHE -s
     echo "starting testsuite $testsuite"
     rm -rf "$CCACHE_DIR"
     checkstat 'cache hit' 0
@@ -409,6 +405,7 @@ cd $TESTDIR || exit 1
 CCACHE_DIR="ccache dir" # with space in directory name (like Windows default)
 mkdir "$CCACHE_DIR"
 export CCACHE_DIR
+unset CCACHE_DISABLE
 
 testsuite="base"
 CCACHE_COMPILE="$CCACHE $COMPILER"

@@ -1,73 +1,8 @@
 language: cpp
 compiler:
-  - clang
   - gcc
 env:
   - SWIGLANG=
-matrix:
-  include:
-    - compiler: gcc
-      env: SWIGLANG=csharp
-    - compiler: gcc
-      env: SWIGLANG=d
-    - compiler: gcc
-      env: SWIGLANG=go
-    - compiler: gcc
-      env: SWIGLANG=guile
-    - compiler: gcc
-      env: SWIGLANG=java
-    - compiler: gcc
-      env: SWIGLANG=javascript ENGINE=node
-    - compiler: gcc
-      env: SWIGLANG=javascript ENGINE=jsc
-    - compiler: gcc
-      env: SWIGLANG=javascript ENGINE=v8
-    - compiler: gcc
-      env: SWIGLANG=lua
-    - compiler: gcc
-      env: SWIGLANG=octave SWIGJOBS=-j3 # 3.2
-    - compiler: gcc
-      env: SWIGLANG=octave SWIGJOBS=-j3 VER=3.8
-    - compiler: gcc
-      env: SWIGLANG=perl5
-    - compiler: gcc
-      env: SWIGLANG=php
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.4
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.5
-    - compiler: gcc
-      env: SWIGLANG=python VER=2.6
-    - compiler: gcc
-      env: SWIGLANG=python # 2.7
-    - compiler: gcc
-      env: SWIGLANG=python PY3=3 # 3.2
-    - compiler: gcc
-      env: SWIGLANG=python PY3=3 VER=3.3
-    - compiler: gcc
-      env: SWIGLANG=python PY3=3 VER=3.4
-    - compiler: gcc
-      env: SWIGLANG=python SWIG_FEATURES=-builtin
-    - compiler: gcc
-      env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3
-    - compiler: gcc
-      env: SWIGLANG=python SWIG_FEATURES=-classic
-    - compiler: gcc
-      env: SWIGLANG=ruby
-    - compiler: gcc
-      env: SWIGLANG=scilab
-    - compiler: gcc
-      env: SWIGLANG=tcl
-  allow_failures:
-    # Occasional gcc internal compiler error
-    - compiler: gcc
-      env: SWIGLANG=octave SWIGJOBS=-j3 VER=3.8
-    # Not quite working yet
-    - compiler: gcc
-      env: SWIGLANG=python SWIG_FEATURES=-classic
-    # Lots of failing tests currently
-    - compiler: gcc
-      env: SWIGLANG=ocaml
 before_install:
   - date -u
   - uname -a
@@ -104,7 +39,11 @@ script:
   - echo -en 'travis_fold:end:script.1\\r'
   - make -s $SWIGJOBS
   - ./swig -version && ./swig -pcreversion
-  - if test -z "$SWIGLANG"; then make -s $SWIGJOBS check-ccache; fi
+  - printenv | sort
+  - which ccache || true
+  - file ccache || true
+  - which gcc || true
+  - if test -z "$SWIGLANG"; then make $SWIGJOBS check-ccache; fi
   - if test -z "$SWIGLANG"; then make -s $SWIGJOBS check-errors-test-suite; fi
   - echo 'Installing...' && echo -en 'travis_fold:start:script.2\\r'
   - if test -z "$SWIGLANG"; then sudo make -s install && swig -version && ccache-swig -V; fi
@@ -115,6 +54,6 @@ script:
   - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
   - make check-maintainer-clean && ../../configure $CONFIGOPTS
   - echo -en 'travis_fold:end:script.3\\r'
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master

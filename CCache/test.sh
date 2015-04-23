@@ -67,12 +67,16 @@ checkstat() {
     value=`getstat "$stat"`
 #    echo "exp: $expected_value got: $value $testname"
     if [ "$expected_value" != "$value" ]; then
+	pwd
+	find .. -type f -exec ls -la {} \;
 	test_failed "SUITE: $testsuite TEST: $testname - Expected $stat to be $expected_value got $value"
     fi
 }
 
 
 basetests() {
+    echo "showing stats at beginning..."
+    $CCACHE -s
     echo "starting testsuite $testsuite"
     rm -rf "$CCACHE_DIR"
     checkstat 'cache hit' 0

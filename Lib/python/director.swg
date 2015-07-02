@@ -328,9 +328,8 @@ namespace Swig {
     }
 
   public:
-    /* wrap a python object, optionally taking ownership */
+    /* wrap a python object. */
     Director(PyObject *self) : swig_self(self), swig_disown_flag(false) {
-      swig_incref();
     }
 
     /* discard our reference at destruction */

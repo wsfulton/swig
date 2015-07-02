@@ -113,6 +113,22 @@ static char *_swig_topofstack() {
   }
 }
 
+static void _swig_gopanic(const char *p) {
+  struct {
+    const char *p;
+  } a;
+  a.p = p;
+  crosscall2(_cgo_panic, &a, (int) sizeof a);
+}
+
+%}
+
+#if !SWIGGO_CGO
+
+/* This is here for backward compatibility, but it will not work
+   with Go 1.5 or later.  Do not use it in new code.  */
+%insert(runtime) %{
+
 static void *_swig_goallocate(size_t len) {
   struct {
     size_t len;
@@ -123,15 +139,9 @@ static void *_swig_goallocate(size_t len) {
   return a.ret;
 }
 
-static void _swig_gopanic(const char *p) {
-  struct {
-    const char *p;
-  } a;
-  a.p = p;
-  crosscall2(_cgo_panic, &a, (int) sizeof a);
-}
-
 %}
+
+#endif
 
 #if !SWIGGO_CGO
 
@@ -244,8 +254,12 @@ void SwigCgocallBackDone() {
 
 #endif
 
+#if !SWIGGO_CGO
+
 %insert(runtime) %{
 
+/* This is here for backward compatibility, but it will not work
+   with Go 1.5 or later.  Do not use it in new code.  */
 static _gostring_ _swig_makegostring(const char *p, size_t l) {
   _gostring_ ret;
   ret.p = (char*)_swig_goallocate(l + 1);
@@ -253,6 +267,12 @@ static _gostring_ _swig_makegostring(const char *p, size_t l) {
   ret.n = l;
   return ret;
 }
+
+%}
+
+#endif
+
+%insert(runtime) %{
 
 #define SWIG_contract_assert(expr, msg) \
   if (!(expr)) { _swig_gopanic(msg); } else
@@ -286,8 +306,6 @@ type _ unsafe.Pointer
 
 %}
 
-#if !SWIGGO_CGO
-
 /* Swig_always_false is used to conditionally assign parameters to
    Swig_escape_val so that the compiler thinks that they escape.  We
    only assign them if Swig_always_false is true, which it never is.
@@ -297,8 +315,6 @@ type _ unsafe.Pointer
 var Swig_escape_always_false bool
 var Swig_escape_val interface{}
 %}
-
-#endif
 
 /* Function pointers are translated by the code in go.cxx into
    _swig_fnptr.  Member pointers are translated to _swig_memberptr.  */

@@ -1346,7 +1346,9 @@ SWIG_PROXY_CONSTRUCTOR(true, true, SWIGTYPE)
   $input = jb;
 }
 %typemap(directorargout) (char *STRING, size_t LENGTH)
-%{(jenv)->GetByteArrayRegion($input, 0, $2, (jbyte *)$1); %}
+%{(jenv)->GetByteArrayRegion($input, 0, $2, (jbyte *)$1);
+(jenv)->DeleteLocalRef($input);%}
+%typemap(javadirectorin, descriptor="[B") (char *STRING, size_t LENGTH) "$jniinput"
 %apply (char *STRING, size_t LENGTH) { (char *STRING, int LENGTH) }
 
 /* java keywords */

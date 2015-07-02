@@ -33,8 +33,8 @@ install:
       $env:VCVARS_PLATFORM="amd64"
       $env:LANG_PLATFORM="-x64"
     }
-    $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-    $echo "Using Visual Studio at $env:VSCOMNTOOLS"
+- ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
+- ps: $echo "Using Visual Studio at $env:VSCOMNTOOLS"
 - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - nuget install pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
 - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native

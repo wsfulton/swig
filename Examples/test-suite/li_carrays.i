@@ -2,6 +2,11 @@
 
 %warnfilter(SWIGWARN_RUBY_WRONG_NAME) doubleArray; /* Ruby, wrong class name */
 
+%exception %{
+  printf("Starting  $fulldecl\n"); fflush(stdout);
+  $action
+  printf("Finishing $fulldecl\n"); fflush(stdout);
+%}
 %include <carrays.i>
 
 %array_functions(int,intArray);

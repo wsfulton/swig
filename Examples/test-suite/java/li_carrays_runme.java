@@ -78,6 +78,25 @@ public class li_carrays_runme {
         Assert(li_carrays.ABArray_getitem(abArray, i).getB(), i*100);
       }
     }
+    {
+      int countdown = 500;
+      int expectedCount = 1;
+      while (true) {
+        WaitForGC();
+        if (--countdown == 0)
+          break;
+      }
+    }
+  }
+
+  private static void WaitForGC()
+  {
+    System.gc();
+    System.runFinalization();
+    try {
+      java.lang.Thread.sleep(10);
+    } catch (java.lang.InterruptedException e) {
+    }
   }
 
   private static void Assert(int val1, int val2) {

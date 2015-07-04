@@ -8,8 +8,8 @@ environment:
 #    VSVER: 14
 #  - SWIGLANG: csharp
 #    VSVER: 12
-  - SWIGLANG: java
-    VSVER: 10
+#  - SWIGLANG: java
+#    VSVER: 10
   - SWIGLANG: java
     VSVER: 12
 #  - SWIGLANG: python
@@ -74,9 +74,10 @@ test_script:
 - .\swig.exe -version
 - bash -c "file ./swig.exe"
 - bash -c "time make -k check-%SWIGLANG%-version"
+- bash -c "cd Examples/test-suite/java && make li_carrays.cpptest JAVAFLAGS='-verbose:gc'"
 - bash -c "cd Examples/test-suite/java && make li_carrays.ctest JAVAFLAGS='-verbose:gc'"
 #- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-#- bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
+- bash -c "time make -k check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

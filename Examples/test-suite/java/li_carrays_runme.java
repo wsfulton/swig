@@ -29,7 +29,6 @@ System.out.println("main loop 1 (20)");
 System.out.println("main loop 1 (30)");
         xyArray.setitem(i, xy);
 System.out.println("main loop 1 (40)");
-        xy.delete();
       }
       for (int i=0; i<length; i++) {
 System.out.println("main loop 2 (10)");
@@ -39,7 +38,6 @@ System.out.println("main loop 2 (20)");
 System.out.println("main loop 2 (30)");
       }
 System.out.println("main (40)");
-      xyArray.delete();
     }
 System.out.println("main (50)");
 
@@ -61,7 +59,6 @@ System.out.println("main loop 3 (30)");
 System.out.println("main loop 3 (40)");
         xyArray.setitem(i, xy);
 System.out.println("main loop 3 (50)");
-        xy.delete();
       }
       for (int i=0; i<length; i++) {
 System.out.println("main loop 4 (10)");
@@ -71,8 +68,6 @@ System.out.println("main loop 4 (20)");
 System.out.println("main loop 4 (30)");
       }
 System.out.println("main (130)");
-      xyArray.delete();
-      xyArrayPointer.delete();
     }
 System.out.println("main (140)");
 
@@ -92,7 +87,6 @@ System.out.println("main loop 5 (30)");
 System.out.println("main loop 5 (40)");
         li_carrays.ABArray_setitem(abArray, i, ab);
 System.out.println("main loop 5 (50)");
-        ab.delete();
       }
       for (int i=0; i<length; i++) {
 System.out.println("main loop 6 (10)");
@@ -104,7 +98,6 @@ System.out.println("main loop 6 (30)");
 System.out.println("main (220)");
       li_carrays.delete_ABArray(abArray);
 System.out.println("main (230)");
-      abArray.delete();
     }
 
     {
@@ -123,7 +116,6 @@ System.out.println("main loop 7 (30)");
 System.out.println("main loop 7 (40)");
         li_carrays.ABArray_setitem(abArray, i, ab);
 System.out.println("main loop 7 (40)");
-        ab.delete();
       }
       for (int i=0; i<length; i++) {
 System.out.println("main loop 8 (10)");
@@ -133,7 +125,6 @@ System.out.println("main loop 8 (20)");
 System.out.println("main loop 8 (30)");
       }
 System.out.println("main (320)");
-      abArray.delete();
     }
 System.out.println("main (330)");
   }

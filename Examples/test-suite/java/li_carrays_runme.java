@@ -78,7 +78,6 @@ public class li_carrays_runme {
         Assert(li_carrays.ABArray_getitem(abArray, i).getB(), i*100);
       }
     }
-    System.out.println("Fini");
   }
 
   private static void Assert(int val1, int val2) {

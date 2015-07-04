@@ -79,7 +79,7 @@ public class li_carrays_runme {
       }
     }
     {
-      int countdown = 500;
+      int countdown = 5;
       int expectedCount = 1;
       while (true) {
         WaitForGC();
@@ -87,6 +87,7 @@ public class li_carrays_runme {
           break;
       }
     }
+    System.out.println("Fini");
   }
 
   private static void WaitForGC()

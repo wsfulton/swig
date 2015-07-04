@@ -2,11 +2,17 @@
 
 %warnfilter(SWIGWARN_RUBY_WRONG_NAME) doubleArray; /* Ruby, wrong class name */
 
-%exception %{
+%define TRACERMACRO(FUNC)
+%exception FUNC %{
   printf("Starting  $fulldecl\n"); fflush(stdout);
   $action
   printf("Finishing $fulldecl\n"); fflush(stdout);
 %}
+%enddef
+
+TRACERMACRO(AB::~AB)
+TRACERMACRO(XY::~XY)
+TRACERMACRO(XYArray::~XYArray)
 %include <carrays.i>
 
 %array_functions(int,intArray);

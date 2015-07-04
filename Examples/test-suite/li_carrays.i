@@ -1,5 +1,6 @@
 %module li_carrays
 
+/*
 %begin %{
 #include <stdio.h>
 struct Printer {
@@ -8,6 +9,7 @@ struct Printer {
 };
 static Printer printerStart;
 %}
+*/
 %warnfilter(SWIGWARN_RUBY_WRONG_NAME) doubleArray; /* Ruby, wrong class name */
 
 %define TRACERMACRO(FUNC)
@@ -45,6 +47,8 @@ AB globalABArray[3];
 %array_class(XY, XYArray)
 %array_functions(AB, ABArray)
 
+/*
 %{
 static Printer printerEnd;
 %}
+*/

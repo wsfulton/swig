@@ -64,6 +64,7 @@ before_install:
 script:
   - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
   - echo 'CONFIGOPTS: "$CONFIGOPTS"'
+  - echo 'CONFIGOPTS: $CONFIGOPTS'
   - ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure "$CONFIGOPTS"
   - echo -en 'travis_fold:end:script.1\\r'
   - make $SWIGJOBS

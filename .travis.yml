@@ -35,8 +35,6 @@ before_install:
   - time sudo apt-get -qq install libboost-dev
   - if test -z "$SWIGLANG"; then sudo apt-get -qq install yodl; fi
   - if test "$CXX" = "g++-5"; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get install -qq g++-5; fi
-  - if test -n "$CPP11"; then export CONFIGOPTS+="--enable-cpp11-testing CXXFLAGS='-std=c++11 -Wall -Wextra -pedantic'"; fi
-  - if test -n "$CPP14"; then export CONFIGOPTS+="--enable-cpp11-testing CXXFLAGS='-std=c++14 -Wall -Wextra -pedantic'"; fi
   - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
   - if test "$SWIGLANG" = "d"; then wget http://downloads.dlang.org/releases/2014/dmd_2.066.0-0_amd64.deb; sudo dpkg -i dmd_2.066.0-0_amd64.deb; fi
   - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
@@ -56,6 +54,8 @@ before_install:
   - if test "$SWIGLANG" = "r"; then sudo apt-get -qq install r-base; fi
   - if test "$SWIGLANG" = "scilab"; then sudo apt-get -qq install scilab; fi
   - if test "$SWIGLANG" = "tcl"; then sudo apt-get -qq install tcl8.4-dev; fi
+  - if test -n "$CPP11"; then export CONFIGOPTS+="--enable-cpp11-testing CXXFLAGS=\'-std=c++11 -Wall -Wextra -pedantic\'"; fi
+  - if test -n "$CPP14"; then export CONFIGOPTS+="--enable-cpp11-testing CXXFLAGS=\'-std=c++14 -Wall -Wextra -pedantic\'"; fi
   - $CC --version
   - $CXX --version
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.

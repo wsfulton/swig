@@ -3,6 +3,8 @@ matrix:
   include:
     - compiler: clang
       env: SWIGLANG=
+    - compiler: clang CPP11=1
+      env: SWIGLANG=
     - compiler: gcc
       env: SWIGLANG=
     - compiler: gcc

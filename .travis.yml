@@ -6,9 +6,9 @@ matrix:
     - compiler: gcc
       env: SWIGLANG=
     - compiler: gcc
-      env: SWIGLANG= GCC5=1 CPP11=1
+      env: SWIGLANG= CC=gcc-5 CXX=g++-5 CPP11=1
     - compiler: gcc
-      env: SWIGLANG= GCC5=1 CPP14=1
+      env: SWIGLANG= CC=gcc-5 CXX=g++-5 CPP14=1
     - compiler: gcc
       env: SWIGLANG=java CXX=g++-5 CC=gcc-5 CPP11=1
   allow_failures:
@@ -34,7 +34,7 @@ before_install:
   - sudo apt-get -qq update
   - time sudo apt-get -qq install libboost-dev
   - if test -z "$SWIGLANG"; then sudo apt-get -qq install yodl; fi
-  - if test -n "$GCC5"; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get install -qq g++-5 && export CC=gcc-5 && export CXX=g++-5; fi
+  - if test "$CXX" = "g++-5"; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get install -qq g++-5; fi
   - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
   - if test "$SWIGLANG" = "d"; then wget http://downloads.dlang.org/releases/2014/dmd_2.066.0-0_amd64.deb; sudo dpkg -i dmd_2.066.0-0_amd64.deb; fi
   - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed
@@ -63,9 +63,7 @@ before_install:
   - export cxxflags=$(Tools/testflags.py --language $SWIGLANG --cxxflags) && echo $cxxflags
 script:
   - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
-  - echo 'CONFIGOPTS: "$CONFIGOPTS"'
-  - echo 'CONFIGOPTS: $CONFIGOPTS'
-  - ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure "$CONFIGOPTS"
+  - ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure $CONFIGOPTS
   - echo -en 'travis_fold:end:script.1\\r'
   - make $SWIGJOBS
   - ./swig -version && ./swig -pcreversion

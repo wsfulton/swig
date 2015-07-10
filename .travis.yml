@@ -41,7 +41,7 @@ before_install:
   - if test -z "$SWIGLANG"; then sudo apt-get -qq install yodl; fi
   - if test -n "$GCC5"; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get -qq update && sudo apt-get install -qq g++-5 && export CC=gcc-5 && export CXX=g++-5; fi
   - if test -z "$GCC5"; then time sudo apt-get -qq install libboost-dev; fi
-  - if test -n "$GCC5"; then time sudo add-apt-repository -y ppa:boost-latest/ppa && sudo apt-get -qq update && sudo apt-get install -qq boost1.55; fi
+  - if test -n "$GCC5"; then time sudo add-apt-repository -y ppa:boost-latest/ppa && sudo apt-get -qq update && sudo apt-get install -qq libboost1.55-dev; fi
   - if test "$SWIGLANG" = "csharp"; then sudo apt-get -qq install mono-devel; fi
   - if test "$SWIGLANG" = "d"; then wget http://downloads.dlang.org/releases/2014/dmd_2.066.0-0_amd64.deb; sudo dpkg -i dmd_2.066.0-0_amd64.deb; fi
   - if test "$SWIGLANG" = "go"; then go env | sed -e 's/^/export /' > goenvsetup && source goenvsetup && rm -f goenvsetup; fi # Until configure.ac is fixed

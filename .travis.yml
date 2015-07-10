@@ -65,8 +65,8 @@ before_install:
   - $CC --version
   - $CXX --version
   # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - export cflags=$(Tools/testflags.py --language $SWIGLANG --cflags --std=$CSTD) && echo $cflags
-  - export cxxflags=$(Tools/testflags.py --language $SWIGLANG --cxxflags --std=$CPPSTD) && echo $cxxflags
+  - if test -n "$SWIGLANG"; then export cflags=$(Tools/testflags.py --language $SWIGLANG --cflags --std=$CSTD) && echo $cflags; fi
+  - if test -n "$SWIGLANG"; then export cxxflags=$(Tools/testflags.py --language $SWIGLANG --cxxflags --std=$CPPSTD) && echo $cxxflags; fi
 script:
   - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
   - echo "${CONFIGOPTS[@]}"

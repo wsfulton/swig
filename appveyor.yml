@@ -1,22 +1,22 @@
 platform:
 - x86
-- x64
+  #- x64
 
 environment:
   matrix:
   - SWIGLANG: csharp
     VSVER: 14
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: java
-    VSVER: 12
-  - SWIGLANG: python
-    VSVER: 12
-    VER: 27
-  - SWIGLANG: python
-    VSVER: 12
-    VER: 34
-    PY3: 1
+#  - SWIGLANG: csharp
+#    VSVER: 12
+#  - SWIGLANG: java
+#    VSVER: 12
+#  - SWIGLANG: python
+#    VSVER: 12
+#    VER: 27
+#  - SWIGLANG: python
+#    VSVER: 12
+#    VER: 34
+#    PY3: 1
 
 matrix:
   allow_failures:
@@ -26,6 +26,7 @@ matrix:
       VER: 27
 
 install:
+- dir c:\
 - date /T & time /T
 - set PATH=C:\cygwin\bin;%PATH%
 - set CYGWIN=nodosfilewarning

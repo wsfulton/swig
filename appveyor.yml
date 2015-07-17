@@ -27,6 +27,8 @@ matrix:
 
 install:
 - dir c:\
+- dir c:\Libraries
+- dir c:\Tools
 - date /T & time /T
 - set PATH=C:\cygwin\bin;%PATH%
 - set CYGWIN=nodosfilewarning

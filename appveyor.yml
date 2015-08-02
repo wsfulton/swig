@@ -1,22 +1,13 @@
 platform:
 - x86
-- x64
 
 environment:
   matrix:
   - SWIGLANG: csharp
-    VSVER: 14
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: java
     VSVER: 12
   - SWIGLANG: python
     VSVER: 12
     VER: 27
-  - SWIGLANG: python
-    VSVER: 12
-    VER: 34
-    PY3: 1
 
 matrix:
   allow_failures:

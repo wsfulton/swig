@@ -1,7 +1,7 @@
 %module array_typedef_memberin
 
 #if defined(_MSC_VER)
-  #pragma warning(disable: 3106) // new behavior: elements of array 'xyz' will be default initialized
+  #pragma warning(disable: 4351) // new behavior: elements of array 'xyz' will be default initialized
 #endif
 
 #if defined(SWIGSCILAB)

@@ -114,7 +114,7 @@ public:
 void bar(F *) { }
 
 #if defined(_MSC_VER)
-  #pragma warning(disable: 4290) // destructor could not be generated because a base class destructor is inaccessible or deleted
+  #pragma warning(disable: 4624) // destructor could not be generated because a base class destructor is inaccessible or deleted
 #endif
 
 // Single inheritance, base has private destructor
@@ -128,7 +128,7 @@ class HHH : public F, public A {
 };
 
 #if defined(_MSC_VER)
-  #pragma warning(default: 4290) // destructor could not be generated because a base class destructor is inaccessible or deleted
+  #pragma warning(default: 4624) // destructor could not be generated because a base class destructor is inaccessible or deleted
 #endif
 
 /* A class with a protected destructor */

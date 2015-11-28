@@ -18,8 +18,8 @@ environment:
     VER: 34
     PY3: 1
   - SWIGLANG: python
-    VSVER: 15
-    VER: 34
+    VSVER: 14
+    VER: 35
     PY3: 1
 
 matrix:
@@ -53,7 +53,6 @@ install:
 - Tools\nuget-install.cmd pcre -Verbosity detailed -Version 8.33.0.1 -OutputDirectory C:\pcre
 - set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
-- dir C:\
 - python -V
 - bash -c "which python"
 - bash -c "python -V"

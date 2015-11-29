@@ -8,16 +8,16 @@
 // and pointers to boost::array are the same.
 
 %{
-#if __cplusplus < 201103 || (defined(_MSC_VER) && _MSC_VER <= 1600)
-#include <boost/array.hpp>
-namespace std {
-  using boost::array;
-}
-#else
+#if __cplusplus >= 201103 || (defined(_MSC_VER) && _MSC_VER >= 1900)
 // Use C++11 array as this is unfortunately sometimes included by <algorithm>
 #include <array>
 namespace boost {
   using std::array;
+}
+#else
+#include <boost/array.hpp>
+namespace std {
+  using boost::array;
 }
 #endif
 %}

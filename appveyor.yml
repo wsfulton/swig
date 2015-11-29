@@ -11,12 +11,16 @@ environment:
 #  - SWIGLANG: java
 #    VSVER: 12
   - SWIGLANG: python
-    VSVER: 12
-    VER: 27
-  - SWIGLANG: python
-    VSVER: 12
+    VSVER: 10
     VER: 34
     PY3: 1
+  - SWIGLANG: python
+    VSVER: 11
+    VER: 34
+    PY3: 1
+  - SWIGLANG: python
+    VSVER: 12
+    VER: 27
   - SWIGLANG: python
     VSVER: 14
     VER: 35

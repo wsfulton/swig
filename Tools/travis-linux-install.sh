@@ -97,7 +97,7 @@ case "$SWIGLANG" in
 			sudo add-apt-repository -y ppa:brightbox/ruby-ng
 			sudo apt-get -qq update
 			sudo apt-get -qq install ruby2.3 ruby2.3-dev
-			WITHLANG=$SWIGLANG$PY3=$SWIGLANG$VER
+			WITHLANG=$SWIGLANG=$SWIGLANG$VER
 		fi
 		;;
 	"scilab")

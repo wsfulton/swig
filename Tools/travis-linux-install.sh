@@ -93,7 +93,7 @@ case "$SWIGLANG" in
 		;;
 	"ruby")
 		if [[ "$VER" ]]; then
-			sudo apt-get install python-software-properties
+			sudo apt-get -qq install python-software-properties
 			sudo add-apt-repository -y ppa:brightbox/ruby-ng
 			sudo apt-get -qq update
 			sudo apt-get -qq install ruby2.3 ruby2.3-dev

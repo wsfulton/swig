@@ -1,4 +1,6 @@
 language: cpp
+sudo: required
+dist: trusty
 matrix:
   include:
     - compiler: gcc
@@ -7,8 +9,6 @@ matrix:
     - compiler: gcc
       os: linux
       env: SWIGLANG=ruby VER=2.3
-      sudo: required
-      dist: trusty
 
   allow_failures:
     # Not quite working yet

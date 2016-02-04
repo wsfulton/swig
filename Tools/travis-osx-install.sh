@@ -21,6 +21,7 @@ case "$SWIGLANG" in
 		brew install lua
 		;;
 	"python")
+		WITHLANG=$SWIGLANG$PY3
 		if [[ "$PY3" ]]; then
 			brew install python3
 			brew list -v python3

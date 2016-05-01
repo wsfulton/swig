@@ -33,6 +33,7 @@ case "$SWIGLANG" in
 			rm -f goenvsetup
 		else
 			sudo apt-get -qq install golang-${VER}-go
+			export PATH=/usr/lib/go-${VER}/bin/go:$PATH
 		fi
 		;;
 	"javascript")

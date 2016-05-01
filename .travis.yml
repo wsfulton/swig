@@ -9,12 +9,14 @@ matrix:
       env: SWIGLANG=go
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.6
+      env: SWIGLANG=go # Go 1.5
       sudo: required
       dist: trusty
 before_install:
   - date -u
   - uname -a
+  - set | grep "^[A-Z]"
+  - set | grep TRAVIS
   - if test "$TRAVIS_OS_NAME" = "linux"; then lscpu && cat /proc/cpuinfo | grep "model name" && cat /proc/meminfo | grep MemTotal; fi
   - if test "$TRAVIS_OS_NAME" = "osx"; then sysctl -a | grep brand_string; fi
     # Travis overrides CC environment with compiler predefined values

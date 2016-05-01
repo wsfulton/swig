@@ -32,8 +32,7 @@ case "$SWIGLANG" in
 			source goenvsetup
 			rm -f goenvsetup
 		else
-			sudo apt-get -qq install golang-${VER}-go
-			export PATH=/usr/lib/go-${VER}/bin/go:$PATH
+			# 1.5 is installed by default
 		fi
 		;;
 	"javascript")

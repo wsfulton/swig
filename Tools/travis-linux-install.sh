@@ -14,6 +14,7 @@ elif [[ "$CC" == gcc-6 ]]; then
 	sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 	sudo apt-get -qq update
 	sudo apt-get install -qq g++-6
+	sudo apt-get -qq install libboost-dev
 else
 	sudo apt-get -qq install libboost-dev
 fi

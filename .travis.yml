@@ -126,11 +126,11 @@ matrix:
 #      env: SWIGLANG=python PY3=3 VER=3.3
 #      sudo: required
 #      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=python PY3=3 VER=3.4
-      sudo: required
-      dist: trusty
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=python PY3=3 VER=3.4
+#     sudo: required
+#     dist: trusty
 #    - compiler: gcc
 #      os: linux
 #      env: SWIGLANG=python PY3=3 VER=3.5
@@ -146,11 +146,11 @@ matrix:
 #      env: SWIGLANG=python SWIG_FEATURES=-builtin
 #      sudo: required
 #      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3 VER=3.4
-      sudo: required
-      dist: trusty
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3 VER=3.4
+#     sudo: required
+#     dist: trusty
 #    - compiler: gcc
 #      os: linux
 #      env: SWIGLANG=python SWIG_FEATURES=-builtin PY3=3 VER=3.5
@@ -176,21 +176,21 @@ matrix:
 #      env: SWIGLANG=r
 #      sudo: required
 #      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=1.9.3
-      sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=2.0.0
-      sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=2.3.0
-      sudo: required
-      dist: trusty
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=ruby VER=1.9.3
+#      sudo: required
+#      dist: trusty
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=ruby VER=2.0.0
+#      sudo: required
+#      dist: trusty
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=ruby VER=2.3.0
+#      sudo: required
+#      dist: trusty
 #    - compiler: gcc
 #      os: linux
 #      env: SWIGLANG=scilab

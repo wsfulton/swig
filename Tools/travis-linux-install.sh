@@ -33,7 +33,11 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
-				sudo apt-get install -qq nodejs node-gyp
+#				sudo apt-get install -qq nodejs node-gyp
+				which node-gyp || true
+				node-gyp --version || true
+				which nodejs || true
+				nodejs --version || true
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

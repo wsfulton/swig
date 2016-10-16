@@ -183,7 +183,7 @@ matrix:
       dist: trusty
     - compiler: gcc
       os: linux
-      env: SWIGLANG=ruby VER=2.0.1
+      env: SWIGLANG=ruby VER=2.0.0
       sudo: required
       dist: trusty
     - compiler: gcc

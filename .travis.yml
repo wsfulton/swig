@@ -161,36 +161,39 @@ matrix:
     - compiler: clang
       os: osx
       env: SWIGLANG=csharp
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=go
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=guile
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=java
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=lua
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=perl5
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=php
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=python
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=python PY3=3
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=ruby
-#    - compiler: clang
-#      os: osx
-#      env: SWIGLANG=tcl
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=go
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=guile
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=java
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=javascript ENGINE=node
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=lua
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=perl5
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=php
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=python
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=python PY3=3
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=ruby
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=tcl
 
   allow_failures:
     # Lots of failing tests currently

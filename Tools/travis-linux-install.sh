@@ -40,8 +40,8 @@ case "$SWIGLANG" in
 				which node || true
 				node --version || true
 
-				sudo apt-get remove -qq node
-				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
+				sudo apt-get remove node
+				sudo apt-get install -qq nodejs nodejs-dev node-gyp
 #				sudo apt-get install -qq npm
 #				sudo add-apt-repository -y ppa:chris-lea/node.js
 #				sudo apt-get -qq update

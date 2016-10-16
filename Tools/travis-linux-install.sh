@@ -35,6 +35,7 @@ case "$SWIGLANG" in
 			"node")
 				node--version || true
 				sudo apt-get install -qq nodejs
+				sudo apt-get install -qq npm
 				sudo npm install -g node-gyp
 				which node-gyp || true
 				node-gyp --version || true

@@ -37,8 +37,8 @@ case "$SWIGLANG" in
 				nodejs --version || true
 				node --version || true
 #				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
-				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
-#				sudo apt-get install -qq npm
+#				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
+				sudo apt-get install -qq npm
 				sudo npm install -g node-gyp
 				which node-gyp || true
 				which nodejs || true

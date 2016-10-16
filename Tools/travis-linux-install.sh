@@ -33,27 +33,10 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
-				which node-gyp || true
-				node-gyp --version || true
-				which nodejs || true
-				nodejs --version || true
-				which node || true
-				node --version || true
-
-				sudo apt-get remove node
-				sudo apt-get install -qq nodejs nodejs-dev node-gyp
-#				sudo apt-get install -qq npm
-#				sudo add-apt-repository -y ppa:chris-lea/node.js
-#				sudo apt-get -qq update
-#				sudo apt-get install -qq nodejs rlwrap
-#				sudo npm install -g node-gyp
-
-				which node-gyp || true
-				node-gyp --version || true
-				which nodejs || true
-				nodejs --version || true
-				which node || true
-				node --version || true
+				sudo add-apt-repository -y ppa:chris-lea/node.js
+				sudo apt-get -qq update
+				sudo apt-get install -qq nodejs rlwrap
+				sudo npm install -g node-gyp
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

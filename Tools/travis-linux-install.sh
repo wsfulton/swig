@@ -36,10 +36,15 @@ case "$SWIGLANG" in
 				node-gyp --version || true
 				nodejs --version || true
 				node --version || true
+
 #				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
 #				sudo apt-get install -qq nodejs nodejs-dev #node-gyp
-				sudo apt-get install -qq npm
+#				sudo apt-get install -qq npm
+				sudo add-apt-repository -y ppa:chris-lea/node.js
+				sudo apt-get -qq update
+				sudo apt-get install -qq nodejs rlwrap
 				sudo npm install -g node-gyp
+
 				which node-gyp || true
 				which nodejs || true
 				which node || true

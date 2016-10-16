@@ -202,9 +202,10 @@ matrix:
       os: linux
       env: SWIGLANG=python SWIG_FEATURES=-O
 
-before_script:
-    # https://github.com/travis-ci/travis-ci/issues/6307
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rvm get head ; fi
+#before_script:
+#    # https://github.com/travis-ci/travis-ci/issues/6307
+#    # https://github.com/travis-ci/travis-ci/issues/6522
+#    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then rvm get head ; fi
 
 before_install:
   - date -u

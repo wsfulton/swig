@@ -33,10 +33,20 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
-				sudo add-apt-repository -y ppa:chris-lea/node.js
-				sudo apt-get -qq update
-				sudo apt-get install -qq nodejs rlwrap
-				sudo npm install -g node-gyp
+				sudo apt-get install -qq nodejs
+                                set -x
+                                which npm-install || true
+                                which npm || true
+                                which nvm || true
+                                npm --version || true
+                                nvm --version || true
+                                nvm help || true
+                                nvm help install || true
+                                nvm ls || true
+                                nvm use v0.10.40 || true
+#				sudo npm install -g node-gyp@v0.10.40 || true
+#				sudo npm install -g node-gyp@v0.10.40
+                                set +x
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

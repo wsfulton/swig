@@ -91,6 +91,12 @@ case "$SWIGLANG" in
 		sudo apt-get -qq install r-base
 		;;
 	"ruby")
+		set -x
+		rvm list default ruby
+		rvm list rubies
+		rvm list strings
+		rvm list known
+		set +x
 		if [[ "$VER" ]]; then
 			rvm install $VER
 		fi

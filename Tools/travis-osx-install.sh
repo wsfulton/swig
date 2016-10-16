@@ -12,7 +12,7 @@ WITHLANG=$SWIGLANG
 
 case "$SWIGLANG" in
 	"csharp")
-		Tools/brew-install https://s3.amazonaws.com/travisbuilds.swig.org/mono.rb
+		Tools/brew-install mono
 		;;
 	"guile")
 		Tools/brew-install guile

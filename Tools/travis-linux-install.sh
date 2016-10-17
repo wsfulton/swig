@@ -47,9 +47,14 @@ case "$SWIGLANG" in
                                 nvm use v0.10.40 || true
                                 echo "finished nvm use installed"
                                 which node-gyp || true
+                                which nodejs || true
+                                echo "install node-gyp"
 				sudo apt-get install -qq node-gyp
 #				sudo npm install -g node-gyp@v0.10.40 || true
 #				sudo npm install -g node-gyp@v0.10.40
+                                echo "installed node-gyp"
+                                which node-gyp || true
+                                which nodejs || true
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

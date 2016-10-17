@@ -37,17 +37,23 @@ case "$SWIGLANG" in
                                 which npm || true
                                 which nvm || true
                                 which node-gyp || true
+                                echo "alias"
+                                alias || true
                                 echo "npm version"
                                 npm --version || true
                                 echo "nvm version"
                                 nvm --version || true
                                 nvm help || true
-                                nvm help install || true
                                 nvm ls || true
                                 nvm use v0.10.40 || true
                                 echo "finished nvm use installed"
                                 which node-gyp || true
                                 which nodejs || true
+                                echo "NVM_DIR: $NVM_DIR"
+                                ls ~/.nvm
+                                rm -rf ~/.nvm
+                                echo "install nodejs"
+				sudo apt-get install -qq nodejs
                                 echo "install node-gyp"
 				sudo apt-get install -qq node-gyp
 #				sudo npm install -g node-gyp@v0.10.40 || true

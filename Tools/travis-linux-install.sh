@@ -33,20 +33,23 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
-				sudo apt-get install -qq nodejs
-                                set -x
                                 which npm-install || true
                                 which npm || true
                                 which nvm || true
+                                which node-gyp || true
+                                echo "npm version"
                                 npm --version || true
+                                echo "nvm version"
                                 nvm --version || true
                                 nvm help || true
                                 nvm help install || true
                                 nvm ls || true
                                 nvm use v0.10.40 || true
+                                echo "finished nvm use installed"
+                                which node-gyp || true
+				sudo apt-get install -qq node-gyp
 #				sudo npm install -g node-gyp@v0.10.40 || true
 #				sudo npm install -g node-gyp@v0.10.40
-                                set +x
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

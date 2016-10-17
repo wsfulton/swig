@@ -55,6 +55,10 @@ case "$SWIGLANG" in
                                 rm -rf ~/.nvm
                                 echo "install nodejs"
 				sudo apt-get install -qq nodejs
+                                echo "install npm"
+				sudo apt-get install -qq npm
+                                which npm || true
+                                npm --version || true
                                 echo "install node-gyp"
 #				sudo apt-get install -qq node-gyp
 				sudo npm install -g node-gyp

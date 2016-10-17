@@ -49,6 +49,7 @@ case "$SWIGLANG" in
                                 echo "finished nvm use installed"
                                 which node-gyp || true
                                 which nodejs || true
+                                nvm unload
                                 echo "NVM_DIR: $NVM_DIR"
                                 ls ~/.nvm
                                 rm -rf ~/.nvm

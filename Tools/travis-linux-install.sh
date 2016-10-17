@@ -50,6 +50,9 @@ case "$SWIGLANG" in
                                 which node-gyp || true
                                 which nodejs || true
                                 echo "NVM_DIR: $NVM_DIR"
+                                nvm alias * || true
+                                echo "deactivate..."
+                                nvm deactivate
                                 nvm unload
                                 ls ~/.nvm
                                 rm -rf ~/.nvm

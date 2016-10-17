@@ -58,6 +58,7 @@ case "$SWIGLANG" in
                                 rm -rf ~/.nvm
                                 echo "install nodejs"
 				sudo apt-get install -qq nodejs
+				sudo apt-get install -qq node
                                 echo "install npm"
 				sudo apt-get install -qq npm
                                 which npm || true
@@ -69,6 +70,10 @@ case "$SWIGLANG" in
                                 echo "installed node-gyp"
                                 which node-gyp || true
                                 which nodejs || true
+                                which node || true
+                                node-gyp --version || true
+                                nodejs --version || true
+                                node --version || true
 				;;
 			"jsc")
 				sudo apt-get install -qq libwebkitgtk-dev

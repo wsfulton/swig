@@ -6,6 +6,11 @@ matrix:
       env: SWIGLANG=python # 2.7
       sudo: required
       dist: trusty
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=python PY3=3 VER=3.5
+      sudo: required
+      dist: trusty
   allow_failures:
     # Lots of failing tests currently
     - compiler: gcc

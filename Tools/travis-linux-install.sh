@@ -80,11 +80,11 @@ case "$SWIGLANG" in
 		sudo apt-get -qq install php$VER-cli php$VER-dev
 		;;
 	"python")
-		sudo apt-get -qq install pep8
+#		sudo apt-get -qq install pep8
                 pep8 --version || true
                 which pip || true
                 pip --version || true
-                pip install pep8 || true
+                pip install pep8 -v -v || true
                 pep8 --version
 		if [[ "$PY3" ]]; then
 			sudo apt-get install -qq python3-dev

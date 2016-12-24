@@ -1448,7 +1448,7 @@ SRCDIR_CSHARPSRCS =
 endif
 
 csharp_compile: $(SRCDIR_SRCS)
-	$(COMPILETOOL) $(CSHARPCOMPILER) $(CSHARPFLAGS) $(CSHARPOPTIONS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
+	$(COMPILETOOL) $(CSHARPCOMPILER) -optimize+ $(CSHARPFLAGS) $(CSHARPOPTIONS) $(CSHARPSRCS) $(SRCDIR_CSHARPSRCS)
 
 # -----------------------------------------------------------------
 # Run CSharp example

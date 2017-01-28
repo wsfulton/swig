@@ -37,7 +37,7 @@ install:
       $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
       echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS"
     }
-- if not "OSENVIRON"=="cygwin" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+- if not "%OSENVIRON%"=="cygwin" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - ps: >-
     If ($env:OSENVIRON -ne "cygwin") {
       Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
@@ -60,7 +60,7 @@ build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
-- bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I$env:PCRE_ROOT/include -DPCRE_STATIC' PCRE_LIBS='-L$env:PCRE_ROOT/lib/v110/$env:PCRE_PLATFORM/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
+- if not "%OSENVIRON%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I$env:PCRE_ROOT/include -DPCRE_STATIC' PCRE_LIBS='-L$env:PCRE_ROOT/lib/v110/$env:PCRE_PLATFORM/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
 - bash -c "time make -s -j$env:MAKEJOBS"
 
 test_script:

@@ -44,6 +44,8 @@ install:
 - if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 1"
 - if not "%OSENVIRON%"=="cygwin" bash -c "which cccl"
 - if not "%OSENVIRON%"=="cygwin" bash -c "cccl --version"
+- if "%OSENVIRON%"=="cygwin" bash -c "gcc --version | head -n 1"
+- if "%OSENVIRON%"=="cygwin" bash -c "g++ --version | head -n 1"
 - python -V
 - bash -c "which python"
 - bash -c "python -V"

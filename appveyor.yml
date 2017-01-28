@@ -34,7 +34,7 @@ install:
 - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
 - ps: echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS"
 - set
-- ps: . cmd /c "$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat" $env:VCVARS_PLATFORM
+- ps: . cmd /c call "$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat" $env:VCVARS_PLATFORM
 - ps: Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - ps: $env:PCRE_ROOT="C:/pcre/pcre.8.33.0.1/build/native"
 - ps: $env:PATH="C:\Python$env:VER$env:LANG_PLATFORM;$env:PATH"

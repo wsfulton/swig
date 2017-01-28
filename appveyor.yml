@@ -52,8 +52,8 @@ install:
 - ps: uname -a
 
 build_script:
-- ps: $env:"CCCL_OPTIONS=--cccl-muffle /W3"
-- ps: $env:"CHECK_OPTIONS=CSHARPOPTIONS=-platform:$env:Platform"
+- ps: $env:CCCL_OPTIONS="--cccl-muffle /W3"
+- ps: $env:CHECK_OPTIONS="CSHARPOPTIONS=-platform:$env:Platform"
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - ps: echo "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I$env:PCRE_ROOT/include -DPCRE_STATIC' PCRE_LIBS='-L$env:PCRE_ROOT/lib/v110/$env:PCRE_PLATFORM/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
 - ps: bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I$env:PCRE_ROOT/include -DPCRE_STATIC' PCRE_LIBS='-L$env:PCRE_ROOT/lib/v110/$env:PCRE_PLATFORM/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"

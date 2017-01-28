@@ -33,7 +33,7 @@ install:
 - set CYGWIN=nodosfilewarning
 - ps: >-
     If ($env:OSENVIRON -ne "cygwin") {
-      curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz C:/
+      bash -c "curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz C:/"
       bash -c "cp C:/cccl-cccl-1.0/cccl /usr/bin"
       $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
       echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS"

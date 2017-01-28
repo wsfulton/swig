@@ -14,22 +14,23 @@ environment:
 
 install:
 - date /T & time /T
-- set PATH=C:\cygwin\bin;%PATH%
-- set CYGWIN=nodosfilewarning
-- git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0
-- bash -c "cp C:/cccl-1.0/cccl /usr/bin"
 - ps: >-
     If ($env:Platform -Match "x86") {
       $env:PCRE_PLATFORM="Win32"
       $env:JAVA_HOME="C:/Program Files (x86)/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="x86"
       $env:LANG_PLATFORM=""
+      $env:PATH="C:\cygwin\bin;$env:PATH"
     } Else {
       $env:PCRE_PLATFORM="x64"
       $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="amd64"
       $env:LANG_PLATFORM="-x64"
+      $env:PATH="C:\cygwin64\bin;$env:PATH"
     }
+- set CYGWIN=nodosfilewarning
+- git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0
+- bash -c "cp C:/cccl-1.0/cccl /usr/bin"
 - ps: $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
 - echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
 - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%

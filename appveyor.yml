@@ -2,10 +2,10 @@ platform:
 - x86
 - x64
 
-global:
-  MAKEJOBS: 2
-
 environment:
+  global:
+    MAKEJOBS: 2
+
   matrix:
   - SWIGLANG: python
     VSVER: 14

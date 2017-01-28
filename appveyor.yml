@@ -32,10 +32,10 @@ install:
 - set CYGWIN=nodosfilewarning
 - ps: >-
     If ($env:OSENVIRON -Match "cygwin") {
-      git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0;
-      bash -c "cp C:/cccl-1.0/cccl /usr/bin";
-      $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"));
-      echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS";
+      git clone -q --depth=1 --single-branch --branch cccl-1.0 git://github.com/swig/cccl.git C:\cccl-1.0
+      bash -c "cp C:/cccl-1.0/cccl /usr/bin"
+      $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
+      echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS"
     }
 - call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - ps: Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre

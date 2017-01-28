@@ -33,7 +33,7 @@ install:
 - set CYGWIN=nodosfilewarning
 - if not "%OSENVIRON%"=="cygwin" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - ps: if ($env:OSENVIRON -ne "cygwin") { $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS")) }
-- if not "%OSENVIRON%"=="cygwin" echo "Using Visual Studio $env:VSVER.0 at $env:VSCOMNTOOLS"
+- if not "%OSENVIRON%"=="cygwin" echo "Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%"
 - if not "%OSENVIRON%"=="cygwin" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - if not "%OSENVIRON%"=="cygwin" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if not "%OSENVIRON%"=="cygwin" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
@@ -54,8 +54,8 @@ build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
-- if not "%OSENVIRON%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I$env:PCRE_ROOT/include -DPCRE_STATIC' PCRE_LIBS='-L$env:PCRE_ROOT/lib/v110/$env:PCRE_PLATFORM/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-- bash -c "time make -s -j$env:MAKEJOBS"
+- if not "%OSENVIRON%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
+- bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
@@ -66,9 +66,9 @@ test_script:
     }
 - .\swig.exe -version
 - bash -c "file ./swig.exe"
-- bash -c "time make -k check-$env:SWIGLANG-version"
-- bash -c "time make -k check-$env:SWIGLANG-examples $env:CHECK_OPTIONS"
-- bash -c "time make -k check-$env:SWIGLANG-test-suite -j$env:MAKEJOBS $env:CHECK_OPTIONS"
+- bash -c "time make -k check-%SWIGLANG%-version"
+- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
+- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

@@ -1,16 +1,16 @@
 platform:
 - x86
-#- x64
+- x64
 
 environment:
   global:
     MAKEJOBS: 2
 
   matrix:
-#  - SWIGLANG: python
-#    VSVER: 14
-#    VER: 36
-#    PY3: 1
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 36
+    PY3: 1
   - SWIGLANG: python
     OSENVIRON: cygwin
 

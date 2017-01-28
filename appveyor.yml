@@ -39,15 +39,16 @@ install:
 - if not "%OSENVIRON%"=="cygwin" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - if not "%OSENVIRON%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
 - if not "%OSENVIRON%"=="cygwin" bash -c "which cl.exe"
-- if not "%OSENVIRON%"=="cygwin" bash -c "cl.exe /? 2>&1 | head -n 2"
+- if not "%OSENVIRON%"=="cygwin" bash -c "cl.exe /? 2>&1 | head -n 1"
 - if not "%OSENVIRON%"=="cygwin" bash -c "which csc.exe"
-- if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 2"
+- if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 1"
 - if not "%OSENVIRON%"=="cygwin" bash -c "which cccl"
 - if not "%OSENVIRON%"=="cygwin" bash -c "cccl --version"
 - python -V
 - bash -c "which python"
 - bash -c "python -V"
-- make --version
+- bash -c "make --version | head -n 2"
+- echo MAKEJOBS=%MAKEJOBS%
 - uname -a
 
 build_script:

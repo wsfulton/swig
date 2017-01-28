@@ -2,6 +2,9 @@ platform:
 - x86
 - x64
 
+global:
+  MAKEJOBS: 2
+
 environment:
   matrix:
   - SWIGLANG: python
@@ -44,14 +47,13 @@ install:
 - bash -c "cccl --version"
 - make --version
 - uname -a
-- bash -c "cat /proc/cpuinfo"
 
 build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-- bash -c "time make -s -j2"
+- bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
@@ -64,7 +66,7 @@ test_script:
 - bash -c "file ./swig.exe"
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-- bash -c "time make -k -j2 check-%SWIGLANG%-test-suite %CHECK_OPTIONS%"
+- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

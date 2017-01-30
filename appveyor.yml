@@ -7,10 +7,10 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-#  - SWIGLANG: python
-#    VSVER: 14
-#    VER: 36
-#    PY3: 1
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 36
+    PY3: 1
   - SWIGLANG: python
     OSVARIANT: cygwin
 
@@ -51,7 +51,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "csc.exe /? | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which cccl"
 - if "%OSVARIANT%"=="" bash -c "cccl --version"
-- if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% -q -P libpcre-devel
+- if "%OSVARIANT%"=="cygwin" bash -c "%CYGWINSETUP% --quiet-mode --local-install --packages libpcre-devel > /dev/null"
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - bash -c "which python"

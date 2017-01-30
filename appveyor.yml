@@ -12,7 +12,7 @@ environment:
 #    VER: 36
 #    PY3: 1
   - SWIGLANG: python
-    OSENVIRON: cygwin
+    OSVARIANT: cygwin
 
 init:
   # Display RDP connection information
@@ -37,22 +37,22 @@ install:
       $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
     }
 - set CYGWIN=nodosfilewarning
-- if not "%OSENVIRON%"=="cygwin" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
-- ps: if ($env:OSENVIRON -ne "cygwin") { $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS")) }
-- if not "%OSENVIRON%"=="cygwin" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
-- if not "%OSENVIRON%"=="cygwin" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
-- if not "%OSENVIRON%"=="cygwin" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
-- if not "%OSENVIRON%"=="cygwin" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
-- if not "%OSENVIRON%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
-- if not "%OSENVIRON%"=="cygwin" bash -c "which cl.exe"
-- if not "%OSENVIRON%"=="cygwin" bash -c "cl.exe /? 2>&1 | head -n 1"
-- if not "%OSENVIRON%"=="cygwin" bash -c "which csc.exe"
-- if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 1"
-- if not "%OSENVIRON%"=="cygwin" bash -c "which cccl"
-- if not "%OSENVIRON%"=="cygwin" bash -c "cccl --version"
-- if "%OSENVIRON%"=="cygwin" %CYGWINSETUP% -q -P libpcre-devel
-- if "%OSENVIRON%"=="cygwin" bash -c "gcc --version | head -n 1"
-- if "%OSENVIRON%"=="cygwin" bash -c "g++ --version | head -n 1"
+- if not "%OSVARIANT%"=="cygwin" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
+- ps: if ($env:OSVARIANT -ne "cygwin") { $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS")) }
+- if not "%OSVARIANT%"=="cygwin" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
+- if not "%OSVARIANT%"=="cygwin" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+- if not "%OSVARIANT%"=="cygwin" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
+- if not "%OSVARIANT%"=="cygwin" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
+- if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
+- if not "%OSVARIANT%"=="cygwin" bash -c "which cl.exe"
+- if not "%OSVARIANT%"=="cygwin" bash -c "cl.exe /? 2>&1 | head -n 1"
+- if not "%OSVARIANT%"=="cygwin" bash -c "which csc.exe"
+- if not "%OSVARIANT%"=="cygwin" bash -c "csc.exe /? | head -n 1"
+- if not "%OSVARIANT%"=="cygwin" bash -c "which cccl"
+- if not "%OSVARIANT%"=="cygwin" bash -c "cccl --version"
+- if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% -q -P libpcre-devel
+- if "%OSVARIANT%"=="cygwin" bash -c "gcc --version | head -n 1"
+- if "%OSVARIANT%"=="cygwin" bash -c "g++ --version | head -n 1"
 - bash -c "which python"
 - bash -c "python -V"
 - bash -c "make --version | head -n 2"
@@ -63,8 +63,8 @@ build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
-- if not "%OSENVIRON%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-- if "%OSENVIRON%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost || cat config.log"
+- if not "%OSVARIANT%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
+- if "%OSVARIANT%"=="cygwin" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost || cat config.log"
 - bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:

@@ -53,7 +53,6 @@ install:
 - if "%OSENVIRON%"=="cygwin" $CYGSETUP -q -P libpcre-devel-8.40-1
 - if "%OSENVIRON%"=="cygwin" bash -c "gcc --version | head -n 1"
 - if "%OSENVIRON%"=="cygwin" bash -c "g++ --version | head -n 1"
-- python -V
 - bash -c "which python"
 - bash -c "python -V"
 - bash -c "make --version | head -n 2"

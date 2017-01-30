@@ -27,14 +27,14 @@ install:
       $env:VCVARS_PLATFORM="x86"
       $env:LANG_PLATFORM=""
       $env:PATH="C:\cygwin\bin;$env:PATH"
-      $env:CYGSETUP="setup-x86.exe"
+      $env:CYGWINSETUP="C:/cygwin/setup-x86.exe"
     } Else {
       $env:PCRE_PLATFORM="x64"
       $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="amd64"
       $env:LANG_PLATFORM="-x64"
       $env:PATH="C:\cygwin64\bin;$env:PATH"
-      $env:CYGSETUP="setup-x86_64.exe"
+      $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
     }
 - set CYGWIN=nodosfilewarning
 - if not "%OSENVIRON%"=="cygwin" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
@@ -50,7 +50,7 @@ install:
 - if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 1"
 - if not "%OSENVIRON%"=="cygwin" bash -c "which cccl"
 - if not "%OSENVIRON%"=="cygwin" bash -c "cccl --version"
-- if "%OSENVIRON%"=="cygwin" %CYGSETUP% -q -P libpcre-devel-8.40-1
+- if "%OSENVIRON%"=="cygwin" %CYGWINSETUP% -q -P libpcre-devel
 - if "%OSENVIRON%"=="cygwin" bash -c "gcc --version | head -n 1"
 - if "%OSENVIRON%"=="cygwin" bash -c "g++ --version | head -n 1"
 - bash -c "which python"

@@ -7,12 +7,14 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 36
-    PY3: 1
+#  - SWIGLANG: python
+#    VSVER: 14
+#    VER: 36
+#    PY3: 1
   - SWIGLANG: python
     OSVARIANT: cygwin
+  - SWIGLANG: python
+    OSVARIANT: mingw
 
 init:
   # Display RDP connection information
@@ -21,20 +23,31 @@ init:
 install:
 - date /T & time /T
 - ps: >-
-    If ($env:Platform -ne "x86") {
+    if ($env:Platform -ne "x86") {
       $env:PCRE_PLATFORM="Win32"
       $env:JAVA_HOME="C:/Program Files (x86)/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="x86"
       $env:LANG_PLATFORM=""
-      $env:PATH="C:\cygwin\bin;$env:PATH"
+      $env:CYGWINBIN="C:\cygwin\bin"
       $env:CYGWINSETUP="C:/cygwin/setup-x86.exe"
-    } Else {
+      $env:MINGWBIN="C:\MinGW\bin"
+      $env:MSYSBIN="C:\MinGW\msys\1.0\bin"
+    } else {
       $env:PCRE_PLATFORM="x64"
       $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="amd64"
       $env:LANG_PLATFORM="-x64"
-      $env:PATH="C:\cygwin64\bin;$env:PATH"
+      $env:CYGWINBIN="C:\cygwin64\bin"
       $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
+      $env:MINGWBIN="C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw\bin"
+      $env:MSYSBIN="C:\msys64\bin"
+    }
+- ps: >-
+    if (!$env:OSVARIANT) {
+    } elseif ($env:OSVARIANT -eq "cygwin") {
+      $env:PATH="%CYGWINBIN%;$env:PATH"
+    } elseif ($env:OSVARIANT -eq "mingw") {
+      $env:PATH="%MINGWBIN%;%MSYSBIN%;$env:PATH"
     }
 - echo osvariant...%OSVARIANT%...
 - set CYGWIN=nodosfilewarning
@@ -51,7 +64,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "csc.exe /? | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which cccl"
 - if "%OSVARIANT%"=="" bash -c "cccl --version"
-- if "%OSVARIANT%"=="cygwin" bash -c "%CYGWINSETUP% --quiet-mode --local-install --packages libpcre-devel > /dev/null"
+- if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --local-install --packages libpcre-devel
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - bash -c "which python"

@@ -50,7 +50,7 @@ install:
 - if not "%OSENVIRON%"=="cygwin" bash -c "csc.exe /? | head -n 1"
 - if not "%OSENVIRON%"=="cygwin" bash -c "which cccl"
 - if not "%OSENVIRON%"=="cygwin" bash -c "cccl --version"
-- if "%OSENVIRON%"=="cygwin" $CYGSETUP -q -P libpcre-devel-8.40-1
+- if "%OSENVIRON%"=="cygwin" %CYGSETUP% -q -P libpcre-devel-8.40-1
 - if "%OSENVIRON%"=="cygwin" bash -c "gcc --version | head -n 1"
 - if "%OSENVIRON%"=="cygwin" bash -c "g++ --version | head -n 1"
 - bash -c "which python"

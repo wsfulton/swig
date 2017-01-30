@@ -7,10 +7,10 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-#  - SWIGLANG: python
-#    VSVER: 14
-#    VER: 36
-#    PY3: 1
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 36
+    PY3: 1
   - SWIGLANG: python
     OSVARIANT: cygwin
 
@@ -79,5 +79,3 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-#on_finish:
-#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

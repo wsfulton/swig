@@ -93,9 +93,10 @@ test_script:
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
+- ps:  while($true) { Start-Sleep -Seconds 1 }
 
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-on_finish:
-  - ps:  while($true) { Start-Sleep -Seconds 1 }
+#on_finish:
+#  - ps:  while($true) { Start-Sleep -Seconds 1 }

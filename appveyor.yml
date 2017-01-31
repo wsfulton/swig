@@ -69,6 +69,8 @@ install:
 - bash -c "make --version | head -n 2"
 - echo MAKEJOBS=%MAKEJOBS%
 - uname -a
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 
 build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
@@ -88,6 +90,3 @@ test_script:
 
 # Do not build on tags (GitHub only)
 skip_tags: true
-
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

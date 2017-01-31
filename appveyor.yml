@@ -39,9 +39,10 @@ install:
       $env:LANG_PLATFORM="-x64"
       $env:CYGWINBIN="C:\cygwin64\bin"
       $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
-      $env:MINGWBIN="C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw\bin"
-      $env:MSYSBIN="C:\msys64\bin"
+      $env:MINGWBIN="C:\MinGW\bin"
+      $env:MSYSBIN="C:\MinGW\msys\1.0\bin"
     }
+- echo path...%PATH%...
 - ps: >-
     if (!$env:OSVARIANT) {
     } elseif ($env:OSVARIANT -eq "cygwin") {
@@ -51,6 +52,17 @@ install:
     }
 - echo osvariant...%OSVARIANT%...
 - echo path...%PATH%...
+- which which
+- which gcc
+- gcc --version
+- g++ --version
+- bash -c "which which"
+- bash -c "which gcc"
+- bash -c "which g++"
+- bash -c "gcc --version"
+- bash -c "g++ --version"
+- if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
+- if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - set CYGWIN=nodosfilewarning
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - ps: if (!$env:OSVARIANT) { $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS")) }

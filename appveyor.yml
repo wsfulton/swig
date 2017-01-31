@@ -23,7 +23,7 @@ init:
 install:
 - date /T & time /T
 - ps: >-
-    if ($env:Platform -ne "x86") {
+    if ($env:Platform -eq "x86") {
       $env:PCRE_PLATFORM="Win32"
       $env:JAVA_HOME="C:/Program Files (x86)/Java/jdk1.8.0"
       $env:VCVARS_PLATFORM="x86"

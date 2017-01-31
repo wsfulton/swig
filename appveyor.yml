@@ -97,5 +97,5 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-#on_finish:
+on_finish:
   - ps:  while($true) { Start-Sleep -Seconds 1 }

@@ -51,6 +51,7 @@ install:
       $env:PATH="$env:MINGWBIN;$env:MSYSBIN;$env:PATH"
     }
 - echo osvariant...%OSVARIANT%...
+- ps:  while($true) { Start-Sleep -Seconds 1 }
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - set CYGWIN=nodosfilewarning
@@ -93,7 +94,6 @@ test_script:
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
-- ps:  while($true) { Start-Sleep -Seconds 1 }
 
 # Do not build on tags (GitHub only)
 skip_tags: true

@@ -46,9 +46,9 @@ install:
 - ps: >-
     if (!$env:OSVARIANT) {
     } elseif ($env:OSVARIANT -eq "cygwin") {
-      $env:PATH="%CYGWINBIN%;$env:PATH"
+      $env:PATH="$env:CYGWINBIN;$env:PATH"
     } elseif ($env:OSVARIANT -eq "mingw") {
-      $env:PATH="%MINGWBIN%;%MSYSBIN%;$env:PATH"
+      $env:PATH="$env:MINGWBIN;$env:MSYSBIN;$env:PATH"
     }
 - echo osvariant...%OSVARIANT%...
 - echo path...%PATH%...
@@ -105,5 +105,5 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-on_finish:
-  - ps:  while($true) { Start-Sleep -Seconds 1 }
+#on_finish:
+#  - ps:  while($true) { Start-Sleep -Seconds 1 }

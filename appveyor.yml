@@ -1,6 +1,6 @@
 platform:
 - x86
-- x64
+#- x64
 
 environment:
   global:
@@ -12,9 +12,9 @@ environment:
 #    VER: 36
 #    PY3: 1
   - SWIGLANG: python
-    OSVARIANT: cygwin
-  - SWIGLANG: python
     OSVARIANT: mingw
+  - SWIGLANG: python
+    OSVARIANT: cygwin
 
 init:
   # Display RDP connection information
@@ -50,6 +50,7 @@ install:
       $env:PATH="%MINGWBIN%;%MSYSBIN%;$env:PATH"
     }
 - echo osvariant...%OSVARIANT%...
+- echo path...%PATH%...
 - set CYGWIN=nodosfilewarning
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - ps: if (!$env:OSVARIANT) { $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS")) }
@@ -64,7 +65,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "csc.exe /? | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which cccl"
 - if "%OSVARIANT%"=="" bash -c "cccl --version"
-- if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --local-install --packages libpcre-devel
+- if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages libpcre-devel
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - bash -c "which python"

@@ -1,6 +1,6 @@
 platform:
-- x86
-#- x64
+#- x86
+- x64
 
 environment:
   global:
@@ -11,10 +11,10 @@ environment:
 #    VSVER: 14
 #    VER: 36
 #    PY3: 1
-#  - SWIGLANG: python
-#    OSVARIANT: mingw
   - SWIGLANG: python
-    OSVARIANT: cygwin
+    OSVARIANT: mingw
+#  - SWIGLANG: python
+#    OSVARIANT: cygwin
 
 init:
   # Display RDP connection information
@@ -39,8 +39,8 @@ install:
       $env:LANG_PLATFORM="-x64"
       $env:CYGWINBIN="C:\cygwin64\bin"
       $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
-      $env:MINGWBIN="C:\MinGW\bin"
-      $env:MSYSBIN="C:\MinGW\msys\1.0\bin"
+      $env:MINGWBIN="C:\msys64\usr\bin"
+      $env:MSYSBIN="C:\msys64\mingw64\bin"
     }
 - echo path...%PATH%...
 - ps: >-
@@ -68,6 +68,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "which cccl"
 - if "%OSVARIANT%"=="" bash -c "cccl --version"
 - if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages libpcre-devel
+- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync pcre-devel"
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - bash -c "which python"
@@ -93,7 +94,7 @@ test_script:
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
-- ps:  while($true) { Start-Sleep -Seconds 1 }
+#- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
 
 # Do not build on tags (GitHub only)
 skip_tags: true

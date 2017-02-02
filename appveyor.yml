@@ -70,7 +70,10 @@ install:
 - if "%OSVARIANT%"=="" bash -c "which cccl"
 - if "%OSVARIANT%"=="" bash -c "cccl --version"
 - if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages libpcre-devel
+- if "%OSVARIANT%"=="mingw" bash -c "echo MSYSTEM=$MSYSTEM"
 - if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync pcre-devel"
+- if not "%OSVARIANT%"=="" bash -c "which gcc"
+- if not "%OSVARIANT%"=="" bash -c "which g++"
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
 - if not "%OSVARIANT%"=="" bash -c "g++ --version | head -n 1"
 - bash -c "which python"
@@ -82,6 +85,7 @@ install:
 - uname -a
 
 build_script:
+- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
@@ -96,7 +100,6 @@ test_script:
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
-- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
 
 # Do not build on tags (GitHub only)
 skip_tags: true

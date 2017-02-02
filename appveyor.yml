@@ -1,5 +1,5 @@
 platform:
-#- x86
+- x86
 - x64
 
 environment:
@@ -30,8 +30,8 @@ install:
       $env:LANG_PLATFORM=""
       $env:CYGWINBIN="C:\cygwin\bin"
       $env:CYGWINSETUP="C:/cygwin/setup-x86.exe"
-      $env:MINGWBIN="C:\MinGW\bin"
-      $env:MSYSBIN="C:\MinGW\msys\1.0\bin"
+      $env:MINGWBIN="C:\msys64\usr\bin"
+      $env:MSYSBIN="C:\msys64\mingw32\bin"
     } else {
       $env:PCRE_PLATFORM="x64"
       $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"

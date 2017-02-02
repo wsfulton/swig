@@ -30,8 +30,9 @@ install:
       $env:LANG_PLATFORM=""
       $env:CYGWINBIN="C:\cygwin\bin"
       $env:CYGWINSETUP="C:/cygwin/setup-x86.exe"
-      $env:MINGWBIN="C:\msys64\usr\bin"
-      $env:MSYSBIN="C:\msys64\mingw32\bin"
+      $env:MSYSBIN="C:\msys64\usr\bin"
+      $env:MINGWBIN="C:\msys64\mingw32\bin"
+      $env:MBITS="32"
     } else {
       $env:PCRE_PLATFORM="x64"
       $env:JAVA_HOME="C:/Program Files/Java/jdk1.8.0"
@@ -39,16 +40,17 @@ install:
       $env:LANG_PLATFORM="-x64"
       $env:CYGWINBIN="C:\cygwin64\bin"
       $env:CYGWINSETUP="C:/cygwin64/setup-x86_64.exe"
-      $env:MINGWBIN="C:\msys64\usr\bin"
-      $env:MSYSBIN="C:\msys64\mingw64\bin"
+      $env:MSYSBIN="C:\msys64\usr\bin"
+      $env:MINGWBIN="C:\msys64\mingw64\bin"
+      $env:MBITS="64"
     }
-- echo path...%PATH%...
 - ps: >-
     if (!$env:OSVARIANT) {
     } elseif ($env:OSVARIANT -eq "cygwin") {
       $env:PATH="$env:CYGWINBIN;$env:PATH"
     } elseif ($env:OSVARIANT -eq "mingw") {
-      $env:PATH="$env:MINGWBIN;$env:MSYSBIN;$env:PATH"
+      $env:PATH="$env:MSYSBIN;$env:MINGWBIN;$env:PATH"
+      $env:MSYSTEM="MINGW$env:MBITS"
     }
 - echo osvariant...%OSVARIANT%...
 - if not "%OSVARIANT%"=="" bash -c "gcc --version | head -n 1"
@@ -84,7 +86,7 @@ build_script:
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - if "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=cccl CXX=cccl CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-- if not "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure CC=i686-w64-mingw32-gcc CXX=i686-w64-mingw32-g++ --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost || cat config.log"
+- if not "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure CC=i686-w64-mingw%MBITS%-gcc CXX=i686-w64-mingw32-g++ --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost || cat config.log"
 - bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:
@@ -94,7 +96,7 @@ test_script:
 - bash -c "time make -k check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
-#- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
+- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
 
 # Do not build on tags (GitHub only)
 skip_tags: true

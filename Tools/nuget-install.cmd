@@ -12,7 +12,7 @@ rem problem?
 IF ERRORLEVEL %errorCode% GOTO :RETRY
 
 rem everything is fine!
-@echo Installed, retries: %reTryNumber%
+@echo Installed nuget, retries: %reTryNumber%
 GOTO :EXIT
 
 :RETRY

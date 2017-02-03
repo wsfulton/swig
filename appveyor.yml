@@ -51,13 +51,13 @@ install:
       $env:PATH="$env:CYGWINBIN;$env:PATH"
       $env:CYGWIN="nodosfilewarning"
       $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-      $env:CC=cccl
-      $env:CXX=cccl
+      $env:CC="cccl"
+      $env:CXX="cccl"
     } elseif ($env:OSVARIANT -eq "cygwin") {
       $env:PATH="$env:CYGWINBIN;$env:PATH"
       $env:CYGWIN="nodosfilewarning"
-      $env:CC=gcc
-      $env:CXX=g++
+      $env:CC="gcc"
+      $env:CXX="g++"
     } elseif ($env:OSVARIANT -eq "mingw") {
       $env:PATH="$env:MSYSBIN;$env:MINGWBIN;$env:PATH"
       $env:MSYSTEM="MINGW$env:MBITS"

@@ -55,8 +55,8 @@ install:
     } elseif ($env:OSVARIANT -eq "mingw") {
       $env:PATH="$env:MSYSBIN;$env:MINGWBIN;$env:PATH"
       $env:MSYSTEM="MINGW$env:MBITS"
-      $env:CC="%MARCH%-w64-mingw32-gcc"
-      $env:CXX="%MARCH%-w64-mingw32-g++"
+      $env:CC="$env:MARCH-w64-mingw32-gcc"
+      $env:CXX="$env:MARCH-w64-mingw32-g++"
     }
 - echo osvariant...%OSVARIANT%...
 - if not "%OSVARIANT%"=="" bash -c "%CC% --version | head -n 1"

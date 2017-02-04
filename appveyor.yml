@@ -16,10 +16,6 @@ environment:
   - SWIGLANG: python
     OSVARIANT: cygwin
 
-init:
-  # Display RDP connection information
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-
 install:
 - date /T & time /T
 - ps: >-
@@ -93,7 +89,6 @@ build_script:
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - if "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=$CC CXX=$CXX CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
 - if not "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure CC=%CC% CXX=%CXX% --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost || cat config.log"
-#- ps:  while($true) { Start-Sleep -Seconds 1 } # Use to login via RDP
 - bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:
@@ -107,4 +102,3 @@ test_script:
 
 # Do not build on tags (GitHub only)
 skip_tags: true
-

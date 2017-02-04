@@ -21,9 +21,9 @@ environment:
     #    VER: 36
     #    PY3: 1
   - SWIGLANG: python
-    OSVARIANT: mingw
-  - SWIGLANG: python
     OSVARIANT: cygwin
+  - SWIGLANG: python
+    OSVARIANT: mingw
 
 install:
 - date /T & time /T
@@ -80,7 +80,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "which csc.exe"
 - if "%OSVARIANT%"=="" bash -c "csc.exe /? | head -n 1"
 - if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages libpcre-devel
-- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync mingw%MBITS%/mingw-w64-%MARCH%-pcre"
+- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync mingw%MBITS%/mingw-w64-%MARCH%-pcre mingw%MBITS%/mingw-w64-%MARCH%-boost"
 - bash -c "which $CC"
 - bash -c "which $CXX"
 - bash -c "$CC --version | head -n 1"

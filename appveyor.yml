@@ -103,7 +103,6 @@ test_script:
 - bash -c "make check-%SWIGLANG%-version"
 #- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
 #- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
-- bash -c "false"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

@@ -1,25 +1,25 @@
 platform:
 - x86
-- x64
+  #- x64
 
 environment:
   global:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: csharp
-    VSVER: 14
-  - SWIGLANG: java
-    VSVER: 14
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 27
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 36
-    PY3: 1
+    #  - SWIGLANG: csharp
+    #    VSVER: 12
+    #  - SWIGLANG: csharp
+    #    VSVER: 14
+    #  - SWIGLANG: java
+    #    VSVER: 14
+    #  - SWIGLANG: python
+    #    VSVER: 14
+    #    VER: 27
+    #  - SWIGLANG: python
+    #    VSVER: 14
+    #    VER: 36
+    #    PY3: 1
   - SWIGLANG: python
     OSVARIANT: mingw
   - SWIGLANG: python
@@ -91,13 +91,14 @@ install:
 - pwd
 - echo MAKEJOBS=%MAKEJOBS%
 - uname -a
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
   # Open dummy file descriptor to fix error on cygwin: ./configure: line 560: 0: Bad file descriptor
 - if "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure --disable-dependency-tracking --disable-ccache CC=$CC CXX=$CXX CFLAGS='-O2' CXXFLAGS='-O2' LDFLAGS='--cccl-link /LTCG' PCRE_CFLAGS='-I%PCRE_ROOT%/include -DPCRE_STATIC' PCRE_LIBS='-L%PCRE_ROOT%/lib/v110/%PCRE_PLATFORM%/Release/static/utf8 -lpcre8' --without-perl5 --without-go --with-boost=C:/Libraries/boost || cat config.log"
-- if not "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure CC=%CC% CXX=%CXX% --without-alllang --with-$SWIGLANG --with-boost=C:/Libraries/boost --enable-cpp11-testing || cat config.log"
+- if not "%OSVARIANT%"=="" bash -c "exec 0</dev/null && ./autogen.sh && time ./configure CC=%CC% CXX=%CXX% --without-alllang --with-$SWIGLANG --enable-cpp11-testing || cat config.log"
 - bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:

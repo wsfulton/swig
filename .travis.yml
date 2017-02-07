@@ -11,11 +11,11 @@ before_install:
   - uname -a
   - if test "$TRAVIS_OS_NAME" = "linux"; then lscpu && cat /proc/cpuinfo | grep "model name" && cat /proc/meminfo | grep MemTotal; fi
   - if test "$TRAVIS_OS_NAME" = "osx"; then sysctl -a | grep brand_string; fi
-  - set | grep "^[A-Z]\+"
 
 install:
   - docker build -t experiment -f Tools/Dockerfile Tools
   - docker ps -a
 
 script:
-  - docker run -it experiment bash -c "gcc-7 --version && g++-7 --version && git clone -q --branch=travis-docker https://github.com/wsfulton/swig.git && cd swig && ./autogen.sh && ./configure CC=gcc-7 CXX=g++-7 --without-alllang --with-$SWIGLANG && make -s -j2 && ./swig -version && make -s check && make install" 
+  - REPO=https://github.com/$TRAVIS_REPO_SLUG.git ; echo REPO=$REPO TRAVIS_BRANCH=$TRAVIS_BRANCH
+  - docker run -it experiment bash -c "gcc-7 --version && g++-7 --version && git clone -q --branch=$TRAVIS_BRANCH $REPO && cd swig && ./autogen.sh && ./configure CC=gcc-7 CXX=g++-7 --without-alllang --with-$SWIGLANG && make -s -j2 && ./swig -version && make -s check && make install" 

@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#if SCM_MAJOR_VERSION <= 2 || (SCM_MAJOR_VERSION == 2 && SCM_MINOR_VERSION == 0)
+#if SCM_MAJOR_VERSION < 2 || (SCM_MAJOR_VERSION == 2 && SCM_MINOR_VERSION == 0)
 /* Debugger interface (don't change the order of the following lines) */
 #define GDB_TYPE SCM
 #include <libguile/gdb_interface.h>

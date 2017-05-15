@@ -91,6 +91,7 @@ install:
 - pwd
 - echo MAKEJOBS=%MAKEJOBS%
 - uname -a
+- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 build_script:
 - set CCCL_OPTIONS=--cccl-muffle /W3

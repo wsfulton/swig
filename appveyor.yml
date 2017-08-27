@@ -1,5 +1,5 @@
 platform:
-- x86
+#- x86
 - x64
 
 environment:
@@ -8,10 +8,6 @@ environment:
     SWIG_FEATURES: -O
 
   matrix:
-  - SWIGLANG: python
-    VSVER: 10
-    VER: 36
-    PY3: 1
   - SWIGLANG: python
     VSVER: 14
     VER: 36

@@ -33,10 +33,6 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
-				travis_retry sudo add-apt-repository -y ppa:chris-lea/node.js
-				travis_retry sudo apt-get -qq update
-				travis_retry sudo apt-get install -qq nodejs rlwrap
-				travis_retry sudo npm install -g node-gyp
 				;;
 			"jsc")
 				travis_retry sudo apt-get install -qq libwebkitgtk-dev

@@ -33,6 +33,7 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
+				travis_retry sudo apt-get install -qq nodejs node-gyp
 				;;
 			"jsc")
 				travis_retry sudo apt-get install -qq libwebkitgtk-dev

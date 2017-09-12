@@ -41,6 +41,12 @@ install:
   - ls -la $(which $CXX)
   - $CC --version
   - $CXX --version
+  - node --version || true
+  - nodejs --version || true
+  - node-gyp --version || true
+  - which node || true
+  - which nodejs || true
+  - which node-gyp || true
 script:
   - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
   - if test -n "$SWIGLANG"; then CONFIGOPTS+=(--without-alllang --with-$WITHLANG); fi
@@ -60,7 +66,7 @@ script:
   - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
   - if test -n "$SWIGLANG"; then make check-$SWIGLANG-enabled; fi
   - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
-  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
+#  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
   - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
   - make check-maintainer-clean && ../../configure $CONFIGOPTS
   - echo -en 'travis_fold:end:script.3\\r'

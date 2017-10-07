@@ -14,7 +14,7 @@ elif [[ "$CC" == gcc-6 ]]; then
 	travis_retry sudo apt-get -qq update
 	travis_retry sudo apt-get install -qq g++-6
 elif [[ "$CC" == gcc-7 ]]; then
-	travis_retry sudo add-apt-repository -y ppa:jonathonf/gcc-7.2
+	travis_retry sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 	travis_retry sudo apt-get -qq update
 	travis_retry sudo apt-get install -qq g++-7
 fi

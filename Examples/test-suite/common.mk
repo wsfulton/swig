@@ -102,66 +102,6 @@ C_TEST_BROKEN += \
 
 # C++ test cases. (Can be run individually using: make testcase.cpptest)
 CPP_TEST_CASES += \
-	abstract_access \
-	abstract_inherit \
-	abstract_inherit_ok \
-	abstract_signature \
-	abstract_typedef \
-	abstract_typedef2 \
-	abstract_virtual \
-	access_change \
-	add_link \
-	aggregate \
-	allowexcept \
-	allprotected \
-	allprotected_not \
-	anonymous_bitfield \
-	apply_signed_char \
-	apply_strings \
-	argout \
-	array_member \
-	array_typedef_memberin \
-	arrayref \
-	arrays_dimensionless \
-	arrays_global \
-	arrays_global_twodim \
-	arrays_scope \
-	autodoc \
-	bloody_hell \
-	bools \
-	catches \
-	cast_operator \
-	casts \
-	char_binary \
-	char_strings \
-	chartest \
-	class_scope_namespace \
-	class_forward \
-	class_ignore \
-	class_scope_weird \
-	compactdefaultargs \
-	const_const_2 \
-	constant_directive \
-	constant_pointers \
-	constover \
-	constructor_copy \
-	constructor_exception \
-	constructor_explicit \
-	constructor_ignore \
-	constructor_rename \
-	constructor_value \
-	contract \
-	conversion \
-	conversion_namespace \
-	conversion_ns_template \
-	conversion_operators \
-	cplusplus_throw \
-	cpp_basic \
-	cpp_enum \
-	cpp_namespace \
-	cpp_nodefault \
-	cpp_static \
-	cpp_typedef \
 	curiously_recurring_template_pattern \
 	default_args \
 	default_arg_values \

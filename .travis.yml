@@ -1,9 +1,15 @@
 language: cpp
 matrix:
   include:
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=perl5
+    - os: linux
+      env: SWIGLANG=java SWIG_CC=gcc-7 SWIG_CXX=g++-7 CPP14=1
+      sudo: required
+      dist: trusty
+
+    - os: linux
+      env: SWIGLANG=python SWIG_CC=gcc-7 SWIG_CXX=g++-7 CPP14=1
+      sudo: required
+      dist: trusty
 
 before_install:
   - date -u

@@ -1,11 +1,15 @@
 language: cpp
 matrix:
   include:
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=python PY3=3 VER=3.6
+      sudo: required
+      dist: trusty
     - os: linux
       env: SWIGLANG=java SWIG_CC=gcc-7 SWIG_CXX=g++-7 CPP14=1
       sudo: required
       dist: trusty
-
     - os: linux
       env: SWIGLANG=python SWIG_CC=gcc-7 SWIG_CXX=g++-7 CPP14=1
       sudo: required

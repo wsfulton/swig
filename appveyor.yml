@@ -1,5 +1,4 @@
 platform:
-- x86
 - x64
 
 environment:
@@ -8,22 +7,7 @@ environment:
 
   matrix:
   - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: csharp
-    VSVER: 14
-  - SWIGLANG: java
-    VSVER: 14
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 27
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 36
-    PY3: 1
-  - SWIGLANG: python
-    OSVARIANT: cygwin
-  - SWIGLANG: python
-    OSVARIANT: mingw
+    VSVER: 17
 
 install:
 - date /T & time /T

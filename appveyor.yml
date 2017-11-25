@@ -9,6 +9,7 @@ environment:
   - SWIGLANG: csharp
     VSVER: 17
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#    VS170COMNTOOLS: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build
 
 install:
 - date /T & time /T
@@ -56,8 +57,9 @@ install:
       $env:CXX="$env:MARCH-w64-mingw32-g++"
     }
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
-- if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
-- if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+#- if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
+#- if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+- if "%OSVARIANT%"=="" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - if "%OSVARIANT%"=="" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - if "%OSVARIANT%"=="" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%

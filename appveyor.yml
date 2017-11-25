@@ -42,7 +42,7 @@ install:
     if (!$env:OSVARIANT) {
       $env:PATH="$env:CYGWINBIN;$env:PATH"
       $env:CYGWIN="nodosfilewarning"
-      $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
+      #      $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
       $env:CC="cccl"
       $env:CXX="cccl"
     } elseif ($env:OSVARIANT -eq "cygwin") {

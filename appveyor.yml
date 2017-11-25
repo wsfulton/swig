@@ -8,6 +8,7 @@ environment:
   matrix:
   - SWIGLANG: csharp
     VSVER: 17
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
 install:
 - date /T & time /T

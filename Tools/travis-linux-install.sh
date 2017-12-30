@@ -95,8 +95,7 @@ case "$SWIGLANG" in
 		fi
 		WITHLANG=$SWIGLANG$PY3
 		if [[ "$VER" ]]; then
-			travis_retry sudo add-apt-repository -y ppa:fkrull/deadsnakes
-			travis_retry sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BB92C09DB82666C
+			travis_retry sudo add-apt-repository -y ppa:deadsnakes/ppa
 			travis_retry sudo apt-get -qq update
 			travis_retry sudo apt-get -qq install python${VER}-dev
 			WITHLANG=$SWIGLANG$PY3=$SWIGLANG$VER

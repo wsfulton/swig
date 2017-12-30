@@ -1,5 +1,4 @@
 language: cpp
-group: deprecated-2017Q4
 matrix:
   include:
     - compiler: gcc

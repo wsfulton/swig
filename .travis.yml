@@ -3,6 +3,10 @@ matrix:
   include:
     - compiler: clang
       os: osx
+      env: SWIGLANG=python
+
+    - compiler: clang
+      os: osx
       env: SWIGLANG=python PY3=3
 
   allow_failures:

@@ -24,8 +24,6 @@ case "$SWIGLANG" in
 		WITHLANG=$SWIGLANG$PY3
 		if [[ "$PY3" ]]; then
 			travis_retry brew upgrade python
-                else
-			travis_retry brew install python@2
 		fi
                 which python3 || echo "oops py3"
                 which python2 || echo "oops py2"

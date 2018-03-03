@@ -23,8 +23,13 @@ case "$SWIGLANG" in
 	"python")
 		WITHLANG=$SWIGLANG$PY3
 		if [[ "$PY3" ]]; then
-			travis_retry brew install python3
-			travis_retry brew list -v python3
+			travis_retry brew install python@3
+                        which python3 || echo "oops py3"
+                        which python2 || echo "oops py2"
+                        which python || echo "oops py"
+                        python -V || echo "oops a"
+                        python3 -V || echo "oops b"
+			travis_retry brew list -v python@3
 		fi
 		;;
 esac

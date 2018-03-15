@@ -22,7 +22,7 @@ environment:
     #    PY3: 1
     #  - SWIGLANG: python
     #    OSVARIANT: cygwin
-  - SWIGLANG: python
+  - SWIGLANG: python3
     OSVARIANT: mingw
     PY3: 3
 
@@ -91,6 +91,9 @@ install:
 - bash -c "$CXX --version | head -n 1"
 - bash -c "which python"
 - bash -c "python -V"
+- if "%OSVARIANT%"=="mingw" bash -c "which python3"
+- if "%OSVARIANT%"=="mingw" bash -c "python3 -V"
+- if "%OSVARIANT%"=="mingw" bash -c "echo $PY3"
 - bash -c "make --version | head -n 2"
 - pwd
 - echo MAKEJOBS=%MAKEJOBS%

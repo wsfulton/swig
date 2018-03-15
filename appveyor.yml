@@ -24,7 +24,6 @@ environment:
     #    OSVARIANT: cygwin
   - SWIGLANG: python
     OSVARIANT: mingw
-    PY3: 3
 
 install:
 - date /T & time /T
@@ -83,9 +82,7 @@ install:
 - if "%OSVARIANT%"=="" bash -c "csc.exe /? | head -n 1"
 - if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages python-devel,libpcre-devel,libboost-devel > cygwin-install.txt || bash -c "cat cygwin-install.txt"
 - if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync mingw%MBITS%/mingw-w64-%MARCH%-pcre mingw%MBITS%/mingw-w64-%MARCH%-boost"
-- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm -Qs python"
-- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm -Qs python2"
-- if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm -Qs 2to3"
+- if "%OSVARIANT%"=="mingw" bash -c "mv /c/Python27 /c/Python27-removed" # python.exe is in PATH by default and MinGW has python2.exe
 - bash -c "which $CC"
 - bash -c "which $CXX"
 - bash -c "$CC --version | head -n 1"

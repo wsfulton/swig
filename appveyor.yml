@@ -87,8 +87,6 @@ install:
 - bash -c "which $CXX"
 - bash -c "$CC --version | head -n 1"
 - bash -c "$CXX --version | head -n 1"
-- bash -c "which python$PY3"
-- bash -c "python$PY3 -V"
 - bash -c "make --version | head -n 2"
 - pwd
 - echo MAKEJOBS=%MAKEJOBS%

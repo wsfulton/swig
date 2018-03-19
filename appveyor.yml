@@ -22,8 +22,7 @@ environment:
     #    PY3: 1
     #  - SWIGLANG: python
     #    OSVARIANT: cygwin
-  - SWIGLANG: python
-    OSVARIANT: mingw
+  - OSVARIANT: mingw
 
 install:
 - date /T & time /T

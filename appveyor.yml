@@ -105,9 +105,9 @@ test_script:
 - .\swig.exe -version
 - if not "%OSVARIANT%"=="" CCache\ccache-swig -V
 - bash -c "file ./swig.exe"
-- bash -c "make if test -n "$SWIGLANG"; then check-%SWIGLANG%-version %CHECK_OPTIONS%; fi"
-- bash -c "time if test -n "$SWIGLANG"; then make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%; fi"
-- bash -c "time if test -n "$SWIGLANG"; then make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%; fi"
+- bash -c "if test -n "$SWIGLANG"; then make check-%SWIGLANG%-version %CHECK_OPTIONS%; fi"
+- bash -c "if test -n "$SWIGLANG"; then make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%; fi"
+- bash -c "if test -n "$SWIGLANG"; then make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%; fi"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

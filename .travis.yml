@@ -26,11 +26,11 @@ matrix:
       sudo: required
       dist: trusty
     - os: linux
-      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-7 CPP17=1
+      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
       sudo: required
       dist: trusty
     - os: linux
-      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-7 CPP17=1
+      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
       sudo: required
       dist: trusty
 

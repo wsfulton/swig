@@ -34,15 +34,27 @@ matrix:
       sudo: required
       dist: trusty
     - os: linux
-      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
+      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
       sudo: required
       dist: trusty
     - os: linux
-      env: SWIGLANG=perl5 SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
+      env: SWIGLANG=perl5 SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
       sudo: required
       dist: trusty
     - os: linux
-      env: SWIGLANG=tcl SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
+      env: SWIGLANG=tcl SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
+      sudo: required
+      dist: trusty
+    - os: linux
+      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
+      sudo: required
+      dist: trusty
+    - os: linux
+      env: SWIGLANG=perl5 SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
+      sudo: required
+      dist: trusty
+    - os: linux
+      env: SWIGLANG=tcl SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
       sudo: required
       dist: trusty
 

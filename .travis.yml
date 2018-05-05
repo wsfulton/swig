@@ -2,27 +2,15 @@ language: cpp
 matrix:
   include:
     - os: linux
+      env: SWIGLANG=java
+      sudo: required
+      dist: trusty
+    - os: linux
       env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8
       sudo: required
       dist: trusty
     - os: linux
       env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 PY3=3 VER=3.6
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1 PY3=3 VER=3.6
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1 PY3=3 VER=3.6
       sudo: required
       dist: trusty
     - os: linux
@@ -35,30 +23,6 @@ matrix:
       dist: trusty
     - os: linux
       env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1 PY3=3 VER=3.6
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=perl5 SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=tcl SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP14=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=perl5 SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=tcl SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP11=1
       sudo: required
       dist: trusty
 

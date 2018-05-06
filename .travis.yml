@@ -1,28 +1,19 @@
 language: cpp
 matrix:
   include:
-    - os: linux
-      env: SWIGLANG=java
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node
       sudo: required
       dist: trusty
-    - os: linux
-      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=jsc
       sudo: required
       dist: trusty
-    - os: linux
-      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 PY3=3 VER=3.6
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=csharp SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=java SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=python SWIG_CC=gcc-8 SWIG_CXX=g++-8 CPP17=1 PY3=3 VER=3.6
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=v8
       sudo: required
       dist: trusty
 

@@ -7,17 +7,17 @@ environment:
     MAKEJOBS: 2
 
   matrix:
+#  - SWIGLANG: csharp
+#    VSVER: 12
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#  - SWIGLANG: csharp
+#    VSVER: 14
+#  - SWIGLANG: csharp
+#    VSVER: 14
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: csharp
-    VSVER: 12
+    VSVER: 15
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#  - SWIGLANG: csharp
-#    VSVER: 14
-#  - SWIGLANG: csharp
-#    VSVER: 14
-#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#  - SWIGLANG: csharp
-#    VSVER: 15
-#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 # - SWIGLANG: java
 #   VSVER: 14
 # - SWIGLANG: python
@@ -35,6 +35,7 @@ environment:
 
 install:
 - date /T & time /T
+- ps: $env:VS150COMNTOOLS="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\" # Add as no longer set in newer Appveyor images
 - ps: >-
     if ($env:Platform -eq "x86") {
       $env:PCRE_PLATFORM="Win32"
@@ -77,9 +78,8 @@ install:
       $env:CC="$env:MARCH-w64-mingw32-gcc"
       $env:CXX="$env:MARCH-w64-mingw32-g++"
     }
-- set
-- dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build"
-- dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build"
+#- set
+#- dir "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build"
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
 - if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
@@ -121,5 +121,5 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-on_finish: # Display RDP connection information
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish: # Display RDP connection information
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

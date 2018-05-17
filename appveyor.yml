@@ -114,11 +114,11 @@ test_script:
 - if not "%OSVARIANT%"=="" CCache\ccache-swig -V
 - bash -c "file ./swig.exe"
 - if not "%SWIGLANG%"=="" bash -c "make check-%SWIGLANG%-version %CHECK_OPTIONS%"
-- if not "%SWIGLANG%"=="" bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-- if not "%SWIGLANG%"=="" bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
+#- if not "%SWIGLANG%"=="" bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
+#- if not "%SWIGLANG%"=="" bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-#on_finish: # Display RDP connection information
+on_finish: # Display RDP connection information
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

@@ -66,7 +66,7 @@ install:
       $env:CC="cccl"
       $env:CXX="cccl"
       if ($env:VSVER -eq "15") {
-        $env:VCVARSALL=""C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
+        $env:VCVARSALL="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
       } else {
         $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
         $env:VCVARSALL="%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat"

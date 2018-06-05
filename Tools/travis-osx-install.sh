@@ -19,6 +19,7 @@ case "$SWIGLANG" in
 		;;
 	"lua")
 		travis_retry brew install lua
+                find / -name lua.h
 		;;
 	"python")
 		WITHLANG=$SWIGLANG$PY3

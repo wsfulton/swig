@@ -1,11 +1,9 @@
 language: cpp
 matrix:
   include:
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.4 CPP11=1
-      sudo: required
-      dist: trusty
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=lua
 
   allow_failures:
     # Lots of failing tests currently

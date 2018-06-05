@@ -5,19 +5,6 @@ matrix:
       os: osx
       env: SWIGLANG=lua
 
-  allow_failures:
-    # Lots of failing tests currently
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ocaml
-      sudo: required
-      dist: trusty
-    # Not quite working yet
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=python SWIG_FEATURES=-O
-      sudo: required
-      dist: trusty
 before_install:
   - date -u
   - uname -a

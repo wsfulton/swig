@@ -19,6 +19,10 @@ case "$SWIGLANG" in
 		;;
 	"lua")
 		travis_retry brew install lua
+                ls -la /usr/local/include
+                ls -la /usr/include
+                ls -la /usr/local/include/lua*
+                ls -la /usr/include/lua*
                 find / -name lua.h
 		;;
 	"python")

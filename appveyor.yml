@@ -32,7 +32,7 @@ environment:
     VSVER: 14
     VER: 36
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#   PY3: 1
+    PY3: 1
 #  - SWIGLANG: python
 #    OSVARIANT: cygwin
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017

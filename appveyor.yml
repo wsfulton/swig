@@ -15,21 +15,21 @@ environment:
 #  - SWIGLANG: csharp
 #    VSVER: 14
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#  - SWIGLANG: csharp
+#    VSVER: 15
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: csharp
     VSVER: 15
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-  - SWIGLANG: csharp
-    VSVER: 14
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: java
-    VSVER: 14
+    VSVER: 15
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: python
-    VSVER: 14
+    VSVER: 15
     VER: 27
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: python
-    VSVER: 14
+    VSVER: 15
     VER: 36
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
     PY3: 1

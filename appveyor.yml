@@ -21,14 +21,17 @@ environment:
   - SWIGLANG: csharp
     VSVER: 14
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-# - SWIGLANG: java
-#   VSVER: 14
-# - SWIGLANG: python
-#   VSVER: 14
-#   VER: 27
-# - SWIGLANG: python
-#   VSVER: 14
-#   VER: 36
+  - SWIGLANG: java
+    VSVER: 14
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 27
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 36
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #   PY3: 1
 #  - SWIGLANG: python
 #    OSVARIANT: cygwin

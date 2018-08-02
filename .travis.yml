@@ -53,6 +53,8 @@ install:
   - ls -la $(which $CC)
   - ls -la $(which $CXX)
   - ls -la /usr/lib
+  - locate tclConfig.sh || true
+  - find / -name tclConfig.sh || true
   - find /usr/lib -type f | grep tcl || true
   - $CC --version
   - $CXX --version

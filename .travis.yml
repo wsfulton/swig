@@ -52,6 +52,8 @@ install:
   - if test -n "$CPP17"; then CONFIGOPTS+=(--enable-cpp11-testing --without-maximum-compile-warnings "CXXFLAGS=-std=c++17 -Wall -Wextra" "CFLAGS=-std=c17 -Wall -Wextra") && export CSTD=c17 && export CPPSTD=c++17; fi
   - ls -la $(which $CC)
   - ls -la $(which $CXX)
+  - ls -la /usr/lib
+  - find /usr/lib -type f | grep tcl || true
   - $CC --version
   - $CXX --version
 script:

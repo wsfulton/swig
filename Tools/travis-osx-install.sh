@@ -26,9 +26,6 @@ case "$SWIGLANG" in
 			travis_retry brew upgrade python
 		fi
 		;;
-	"ruby")
-		travis_retry brew install ruby
-		;;
 esac
 
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6522

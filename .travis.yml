@@ -7,8 +7,11 @@ matrix:
       env: SWIGLANG=ruby
     - compiler: clang
       os: osx
-      osx_image: xcode8.3
-      env: SWIGLANG=tcl
+      env: SWIGLANG=ruby
+#    - compiler: clang
+#      os: osx
+#      osx_image: xcode8.3
+#      env: SWIGLANG=tcl
 
   allow_failures:
     # Lots of failing tests currently
@@ -53,25 +56,9 @@ install:
   - $CC --version
   - $CXX --version
 script:
-  - echo 'Configuring...' && echo -en 'travis_fold:start:script.1\\r'
-  - if test -n "$SWIGLANG"; then CONFIGOPTS+=(--without-alllang --with-$WITHLANG); fi
-  - echo "${CONFIGOPTS[@]}"
-  - ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure "${CONFIGOPTS[@]}"
-  - echo -en 'travis_fold:end:script.1\\r'
-  - make -s $SWIGJOBS
-  - ./swig -version && ./swig -pcreversion
-  - if test -z "$SWIGLANG"; then make -s $SWIGJOBS check-ccache; fi
-  - if test -z "$SWIGLANG"; then make -s $SWIGJOBS check-errors-test-suite; fi
-  - echo 'Installing...' && echo -en 'travis_fold:start:script.2\\r'
-  - if test -z "$SWIGLANG"; then sudo make -s install && swig -version && ccache-swig -V; fi
-  - echo -en 'travis_fold:end:script.2\\r'
-  # Stricter compile flags for examples. Various headers and SWIG generated code prevents full use of -pedantic.
-  - if test -n "$SWIGLANG"; then cflags=$($TRAVIS_BUILD_DIR/Tools/testflags.py --language $SWIGLANG --cflags --std=$CSTD --compiler=$CC) && echo $cflags; fi
-  - if test -n "$SWIGLANG"; then cxxflags=$($TRAVIS_BUILD_DIR/Tools/testflags.py --language $SWIGLANG --cxxflags --std=$CPPSTD --compiler=$CC) && echo $cxxflags; fi
-  - if test -n "$SWIGLANG"; then make -s check-$SWIGLANG-version; fi
-  - if test -n "$SWIGLANG"; then make check-$SWIGLANG-enabled; fi
-  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
-  - if test -n "$SWIGLANG"; then make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags"; fi
-  - echo 'Cleaning...' && echo -en 'travis_fold:start:script.3\\r'
-  - make check-maintainer-clean && ../../configure $CONFIGOPTS
-  - echo -en 'travis_fold:end:script.3\\r'
+  # Xcode 9.4 include paths
+  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0/x86_64-darwin17 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
+  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0/x86_64-darwin17 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true
+  # Xcode 8.3 include paths
+  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0/x86_64-darwin16 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
+  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0/x86_64-darwin16 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true

@@ -7,92 +7,21 @@ matrix:
       env: SWIGLANG=ruby
     - compiler: clang
       os: osx
-      osx_image: xcode9
-      env: SWIGLANG=ruby
-    - compiler: clang
-      os: osx
-      osx_image: xcode9.1
-      env: SWIGLANG=ruby
-    - compiler: clang
-      os: osx
-      osx_image: xcode9.2
-      env: SWIGLANG=ruby
-    - compiler: clang
-      os: osx
       osx_image: xcode9.3
       env: SWIGLANG=ruby
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=ruby
-#    - compiler: clang
-#      os: osx
-#      osx_image: xcode8.3
-#      env: SWIGLANG=tcl
-
-  allow_failures:
-    # Lots of failing tests currently
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ocaml
-      sudo: required
-      dist: trusty
-    # Sometimes hits the Travis 50 minute time limit
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 VER=4.4 CPP11=1
-      sudo: required
-      dist: trusty
-    # Not quite working yet
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=python SWIG_FEATURES=-O
-      sudo: required
-      dist: trusty
 
 before_install:
-  - date -u
-  - uname -a
-  - if test "$TRAVIS_OS_NAME" = "linux"; then lscpu && cat /proc/cpuinfo | grep "model name" && cat /proc/meminfo | grep MemTotal; fi
-  - if test "$TRAVIS_OS_NAME" = "osx"; then sysctl -a | grep brand_string; fi
-    # Travis overrides CC environment with compiler predefined values
-  - if test -n "$SWIG_CC"; then export CC="$SWIG_CC"; fi
-  - if test -n "$SWIG_CXX"; then export CXX="$SWIG_CXX"; fi
-install:
-  - if test "$TRAVIS_OS_NAME" = "linux"; then source Tools/travis-linux-install.sh; fi
-  - if test "$TRAVIS_OS_NAME" = "osx"; then source Tools/travis-osx-install.sh; fi
-  - if test -n "$CPP11"; then CONFIGOPTS+=(--enable-cpp11-testing --without-maximum-compile-warnings "CXXFLAGS=-std=c++11 -Wall -Wextra" "CFLAGS=-std=c11 -Wall -Wextra") && export CSTD=c11 && export CPPSTD=c++11; fi
-  - if test -n "$CPP14"; then CONFIGOPTS+=(--enable-cpp11-testing --without-maximum-compile-warnings "CXXFLAGS=-std=c++14 -Wall -Wextra" "CFLAGS=-std=c11 -Wall -Wextra") && export CSTD=c11 && export CPPSTD=c++14; fi
-  - if test -n "$CPP17"; then CONFIGOPTS+=(--enable-cpp11-testing --without-maximum-compile-warnings "CXXFLAGS=-std=c++17 -Wall -Wextra" "CFLAGS=-std=c17 -Wall -Wextra") && export CSTD=c17 && export CPPSTD=c++17; fi
-  - ls -la $(which $CC)
-  - ls -la $(which $CXX)
-  - ls -la /usr/lib
-  - locate tclConfig.sh || true
-  - find / -name tclConfig.sh || true
-  - find /usr/lib -type f | grep tcl || true
   - $CC --version
   - $CXX --version
+
 script:
   - export RUBYDIR=`(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubyhdrdir"] || $rubyhdrdir') 2>/dev/null`
   - echo $RUBYDIR
-  - export RUBYARCH=`(ruby -rrbconfig -e 'print RbConfig::CONFIG["arch"] || $arch') 2>/dev/null`
-  - echo $RUBYARCH
   - export RUBYARCHHDRDIR=`(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubyarchhdrdir"] || $rubyarchhdrdir') 2>/dev/null`
   - echo $RUBYARCHHDRDIR
-#  # Xcode 9.4 include paths
-#  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0/x86_64-darwin17 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
-#  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.3/include/ruby-2.4.0/x86_64-darwin17 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true
-#  # Xcode 8.3 include paths
-#  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0/x86_64-darwin16 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
-#  - g++ -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0 -I/Users/travis/.rvm/rubies/ruby-2.4.2/include/ruby-2.4.0/x86_64-darwin16 -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true
   # warnings 1
   - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby.cxx -o finitetest && ./finitetest || true
   - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math.cxx -o finitetest && ./finitetest || true
-  # warnings 1
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -std=c++98 finitetest_ruby.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -std=c++98 finitetest_math.cxx -o finitetest && ./finitetest || true
-  # warnings 2
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -std=c++98 -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true
-  # warnings 3
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wall -Wextra -Werror -Wdeprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true
+  # warnings suppressed
+  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
+  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true

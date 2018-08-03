@@ -22,6 +22,7 @@ script:
   # warnings 1
   - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby.cxx -o finitetest && ./finitetest || true
   - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math.cxx -o finitetest && ./finitetest || true
+  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby_math.cxx -o finitetest && ./finitetest || true
+  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math_ruby.cxx -o finitetest && ./finitetest || true
   # warnings suppressed
   - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_math.cxx -o finitetest && ./finitetest || true

@@ -13,6 +13,8 @@ matrix:
 before_install:
   - $CC --version
   - $CXX --version
+  - clang --version
+  - clang++ --version
 
 script:
   - export RUBYDIR=`(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubyhdrdir"] || $rubyhdrdir') 2>/dev/null`
@@ -20,9 +22,9 @@ script:
   - export RUBYARCHHDRDIR=`(ruby -rrbconfig -e 'print RbConfig::CONFIG["rubyarchhdrdir"] || $rubyarchhdrdir') 2>/dev/null`
   - echo $RUBYARCHHDRDIR
   # warnings 1
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby_math.cxx -o finitetest && ./finitetest || true
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math_ruby.cxx -o finitetest && ./finitetest || true
+  - clang++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby.cxx -o finitetest && ./finitetest || true
+  - clang++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math.cxx -o finitetest && ./finitetest || true
+  - clang++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_ruby_math.cxx -o finitetest && ./finitetest || true
+  - clang++ -I$RUBYDIR -I$RUBYARCHHDRDIR finitetest_math_ruby.cxx -o finitetest && ./finitetest || true
   # warnings suppressed
-  - g++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true
+  - clang++ -I$RUBYDIR -I$RUBYARCHHDRDIR -Wno-deprecated-declarations finitetest_ruby.cxx -o finitetest && ./finitetest || true

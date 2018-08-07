@@ -1,47 +1,9 @@
 language: cpp
 matrix:
   include:
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=1.9.3
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=ruby SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
-      sudo: required
-      dist: trusty
-      env: SWIGLANG=ruby
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=tcl
-
-  allow_failures:
-    # Lots of failing tests currently
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ocaml
-      sudo: required
-      dist: trusty
-    # Sometimes hits the Travis 50 minute time limit
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 VER=4.4 CPP11=1
-      sudo: required
-      dist: trusty
-    # Not quite working yet
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=python SWIG_FEATURES=-O
-      sudo: required
-      dist: trusty
-    # Broken since Travis image moved from Xcode 8.3 to 9.4
     - compiler: clang
       os: osx
       env: SWIGLANG=ruby
-    # Broken since Travis image moved from Xcode 8.3 to 9.4
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=tcl
 
 before_install:
   - date -u

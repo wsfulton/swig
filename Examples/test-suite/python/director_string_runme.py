@@ -1,5 +1,7 @@
 from director_string import *
 
+import sys
+print("director_string_runme python version {}".format(sys.version_info))
 
 class B(A):
 

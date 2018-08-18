@@ -1,5 +1,6 @@
 import sys
 
+print("python_abstractbase_runme3... python version {}".format(sys.version_info))
 # collections.abc requires Python 3.3+
 if sys.version_info[0:2] < (3, 3):
     exit(0)

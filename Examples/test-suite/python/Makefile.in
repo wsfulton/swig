@@ -99,6 +99,7 @@ endif
 run_python = env LD_LIBRARY_PATH=.:$$LD_LIBRARY_PATH PYTHONPATH=.:$(srcdir):$$PYTHONPATH $(RUNTOOL) $(PYTHON) $(py_runme)
 
 run_testcase = \
+	echo "runme=$(SCRIPTDIR)/$(py_runme)"; \
 	if [ -f $(SCRIPTDIR)/$(py_runme) ]; then \
 	  $(run_python);\
 	fi

@@ -146,72 +146,11 @@ endif
 # C test cases. (Can be run individually using: make testcase.ctest)
 C_TEST_CASES += \
 	arrays \
-	bom_utf8 \
-	c_delete \
-	c_delete_function \
-	char_constant \
-	const_const \
-	constant_expr \
-	default_args_c \
-	empty_c \
-	enums \
-	enum_forward \
-	enum_macro \
-	enum_missing \
-	extern_declaration \
-	funcptr \
-	function_typedef \
-	global_functions \
-	immutable_values \
-	inctest \
-	infinity \
-	integers \
-	keyword_rename_c \
-	lextype \
-	li_carrays \
-	li_cdata \
-	li_cmalloc \
-	li_constraints \
-	li_cpointer \
-	li_math \
-	long_long \
-	memberin_extend_c \
-	name \
-	nested \
-	nested_extend_c \
-	nested_structs \
-	newobject2 \
-	overload_extend_c \
-	overload_extend2 \
-	preproc \
-	preproc_constants_c \
-	preproc_defined \
-	preproc_include \
-	preproc_line_file \
-	register_par \
-	ret_by_value \
-	simple_array \
-	sizeof_pointer \
-	sneaky1 \
-	string_simple \
-	struct_rename \
-	struct_initialization \
-	typedef_classforward_same_name \
-	typedef_struct \
-	typemap_subst \
-	union_parameter \
-	unions \
 
 
 # Multi-module C++ test cases . (Can be run individually using make testcase.multicpptest)
 MULTI_CPP_TEST_CASES += \
 	clientdata_prop \
-	imports \
-	import_stl \
-	packageoption \
-	mod \
-	template_typedef_import \
-	multi_import \
 
 # Custom tests - tests with additional commandline options
 wallkw.cpptest: SWIGOPT += -Wallkw

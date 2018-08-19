@@ -167,7 +167,7 @@ ifeq ($(SCRIPTDIR),$(srcdir))
 	  $(MAKE) $(SCRIPTDIR)/$(py_runme); \
 	fi
 
-$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX): $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
+$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX):: $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
 	cp $< $@
 	$(PY2TO3) -w $@ >/dev/null 2>&1
 
@@ -180,7 +180,7 @@ else
 	  $(MAKE) $(SCRIPTDIR)/$(py_runme); \
 	fi
 
-$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX): $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
+$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX):: $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
 	cp $< $@
 
   else
@@ -192,10 +192,10 @@ $(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX): $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCR
 	fi
 
 # For when there is a _runme3.py instead of a _runme.py, ie a Python 3 only run test
-$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX): $(srcdir)/$(SCRIPTPREFIX)%$(PY3SCRIPTSUFFIX)
+$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX):: $(srcdir)/$(SCRIPTPREFIX)%$(PY3SCRIPTSUFFIX)
 	cp $< $@
 
-$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX): $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
+$(SCRIPTDIR)/$(SCRIPTPREFIX)%$(SCRIPTSUFFIX):: $(srcdir)/$(SCRIPTPREFIX)%$(PY2SCRIPTSUFFIX)
 	cp $< $@
 	$(PY2TO3) -w $@ >/dev/null 2>&1
 

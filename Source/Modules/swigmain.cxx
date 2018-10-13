@@ -161,6 +161,10 @@ static void insert_option(int *argc, char ***argv, int index, char const *start,
 
   // Preserve the NULL pointer at argv[argc]
   new_argv = (char **)realloc(new_argv, (new_argc + 2) * sizeof(char *));
+  if (!new_argv) {
+    Printf(stderr, "Could not realloc memory to insert option.\n");
+    SWIG_exit(EXIT_FAILURE);
+  }
   memmove(&new_argv[index + 1], &new_argv[index], sizeof(char *) * (new_argc + 1 - index));
   new_argc++;
 

@@ -3,7 +3,6 @@
 # This script builds the SWIG source tarball, creates the Windows executable and the Windows zip package
 # and uploads them both to SF ready for release. Also uploaded are the release notes.
 import sys
-import string
 import os
 
 def failed(message):

@@ -3,7 +3,6 @@
 # Replace the inline htmldoc stylesheet with the SWIG stylesheet
 
 import sys
-import string
 
 filename = sys.argv[1]
 

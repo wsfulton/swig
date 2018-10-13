@@ -209,11 +209,13 @@ int DohCmp(const DOH *obj1, const DOH *obj2) {
   c2 = DohCheck(b2);
   /* most of the times, obj2 is a plain c string */
   if (!c1 || !c2) {
-    if ((b1 == 0) && (b2 == 0))
-      return 0;
-    if (b1 && !b2)
-      return 1;
-    if (!b1 && b2)
+    if (!b2) {
+      if (!b1)
+	return 0;
+      else
+	return 1;
+    }
+    if (!b1)
       return -1;
     return strcmp((char *) (c1 ? RawData(b1) : (void *) obj1), (char *) (c2 ? RawData(b2) : (void *) obj2));
   }

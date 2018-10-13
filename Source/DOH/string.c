@@ -515,9 +515,11 @@ static int String_putc(DOH *so, int ch) {
     int maxsize = s->maxsize;
     char *tc = s->str;
     if (len > (maxsize - 2)) {
+      char *new_tc;
       maxsize *= 2;
-      tc = (char *) DohRealloc(tc, maxsize);
+      new_tc = (char *) DohRealloc(tc, maxsize);
       assert(tc);
+      tc = new_tc;
       s->maxsize = (int) maxsize;
       s->str = tc;
     }

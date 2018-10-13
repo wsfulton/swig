@@ -228,7 +228,7 @@ void JavaDocConverter::fillStaticTables() {
 }
 
 JavaDocConverter::JavaDocConverter(int flags) :
-  DoxygenTranslator(flags) {
+  DoxygenTranslator(flags), currentNode() {
   fillStaticTables();
 }
 

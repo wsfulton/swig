@@ -34,7 +34,12 @@ std::set<std::string> DoxygenParser::doxygenSectionIndicators;
 const int TOKENSPERLINE = 8; //change this to change the printing behaviour of the token list
 const std::string END_HTML_TAG_MARK("/");
 
-DoxygenParser::DoxygenParser(bool noisy) : noisy(noisy) {
+DoxygenParser::DoxygenParser(bool noisy) :
+  m_isVerbatimText(),
+  m_isInQuotedString(),
+  m_node(),
+  m_fileLineNo(),
+  noisy(noisy) {
   fillTables();
 }
 

@@ -52,14 +52,14 @@ void Swig_cparse_debug_templates(int x) {
 static int cparse_template_expand(Node *n, String *tname, String *rname, String *templateargs, List *patchlist, List *typelist, List *cpatchlist) {
   static int expanded = 0;
   int ret;
-  String *nodeType;
+  String *nodetype;
   if (!n)
     return 0;
-  nodeType = nodeType(n);
+  nodetype = nodeType(n);
   if (Getattr(n, "error"))
     return 0;
 
-  if (Equal(nodeType, "template")) {
+  if (Equal(nodetype, "template")) {
     /* Change the node type back to normal */
     if (!expanded) {
       expanded = 1;
@@ -76,7 +76,7 @@ static int cparse_template_expand(Node *n, String *tname, String *rname, String 
       set_nodeType(n, "template");
       return ret;
     }
-  } else if (Equal(nodeType, "cdecl")) {
+  } else if (Equal(nodetype, "cdecl")) {
     /* A simple C declaration */
     SwigType *t, *v, *d;
     String *code;
@@ -110,7 +110,7 @@ static int cparse_template_expand(Node *n, String *tname, String *rname, String 
     add_parms(Getattr(n, "parms"), cpatchlist, typelist);
     add_parms(Getattr(n, "throws"), cpatchlist, typelist);
 
-  } else if (Equal(nodeType, "class")) {
+  } else if (Equal(nodetype, "class")) {
     /* Patch base classes */
     {
       int b = 0;
@@ -135,7 +135,7 @@ static int cparse_template_expand(Node *n, String *tname, String *rname, String 
 	cn = nextSibling(cn);
       }
     }
-  } else if (Equal(nodeType, "constructor")) {
+  } else if (Equal(nodetype, "constructor")) {
     String *name = Getattr(n, "name");
     if (!(Getattr(n, "templatetype"))) {
       String *symname;
@@ -176,7 +176,7 @@ static int cparse_template_expand(Node *n, String *tname, String *rname, String 
     Append(typelist, Getattr(n, "decl"));
     add_parms(Getattr(n, "parms"), cpatchlist, typelist);
     add_parms(Getattr(n, "throws"), cpatchlist, typelist);
-  } else if (Equal(nodeType, "destructor")) {
+  } else if (Equal(nodetype, "destructor")) {
     String *name = Getattr(n, "name");
     if (name) {
       if (strchr(Char(name), '<'))
@@ -196,7 +196,7 @@ static int cparse_template_expand(Node *n, String *tname, String *rname, String 
     }
     /* Setattr(n,"sym:name",name); */
     Append(cpatchlist, Getattr(n, "code"));
-  } else if (Equal(nodeType, "using")) {
+  } else if (Equal(nodetype, "using")) {
     String *uname = Getattr(n, "uname");
     if (uname && strchr(Char(uname), '<')) {
       Append(patchlist, uname);
@@ -566,8 +566,8 @@ static Node *template_locate(String *name, Parm *tparms, Symtab *tscope) {
       }
       if (n) {
 	Node *tn;
-	String *nodeType = nodeType(n);
-	if (Equal(nodeType, "template")) {
+	String *nodetype = nodeType(n);
+	if (Equal(nodetype, "template")) {
 	  if (template_debug) {
 	    Printf(stdout, "    explicit specialization found: '%s'\n", Getattr(n, "name"));
 	  }
@@ -791,9 +791,9 @@ static Node *template_locate(String *name, Parm *tparms, Symtab *tscope) {
   if (!n) {
     Swig_error(cparse_file, cparse_line, "Template '%s' undefined.\n", name);
   } else if (n) {
-    String *nodeType = nodeType(n);
-    if (!Equal(nodeType, "template")) {
-      Swig_error(cparse_file, cparse_line, "'%s' is not defined as a template. (%s)\n", name, nodeType);
+    String *nodetype = nodeType(n);
+    if (!Equal(nodetype, "template")) {
+      Swig_error(cparse_file, cparse_line, "'%s' is not defined as a template. (%s)\n", name, nodetype);
       n = 0;
     }
   }
@@ -826,9 +826,9 @@ Node *Swig_cparse_template_locate(String *name, Parm *tparms, Symtab *tscope) {
   Node *n = template_locate(name, tparms, tscope);	/* this function does what we want for templated classes */
 
   if (n) {
-    String *nodeType = nodeType(n);
+    String *nodetype = nodeType(n);
     int isclass = 0;
-    assert(Equal(nodeType, "template"));
+    assert(Equal(nodetype, "template"));
     isclass = (Equal(Getattr(n, "templatetype"), "class"));
     if (!isclass) {
       /* If not a templated class we must have a templated function.

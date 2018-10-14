@@ -1874,8 +1874,25 @@ protected:
 
 };
 
-V8Emitter::V8Emitter()
-:  JSEmitter(JSEmitter::V8), NULL_STR(NewString("0")), VETO_SET(NewString("JS_veto_set_variable")) {
+V8Emitter::V8Emitter() :
+  JSEmitter(JSEmitter::V8),
+  f_runtime(),
+  f_header(),
+  f_init(),
+  f_post_init(),
+  f_class_templates(),
+  f_init_namespaces(),
+  f_init_class_templates(),
+  f_init_wrappers(),
+  f_init_inheritance(),
+  f_init_class_instances(),
+  f_init_static_wrappers(),
+  f_init_register_classes(),
+  f_init_register_namespaces(),
+  f_wrap_cpp(),
+  NULL_STR(NewString("0")),
+  VETO_SET(NewString("JS_veto_set_variable")),
+  moduleName() {
 }
 
 V8Emitter::~V8Emitter() {

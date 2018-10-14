@@ -1920,7 +1920,6 @@ public:
     }
 
     Setattr(scope, "lua:cdata", carrays_hash);
-    assert(rawGetCArraysHash(nspace));
 
     if (reg && nspace != 0 && Len(nspace) != 0 && GetFlag(carrays_hash, "lua:no_reg") == 0) {
       // Split names into components

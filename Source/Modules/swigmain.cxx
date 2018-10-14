@@ -188,7 +188,7 @@ static void merge_options_files(int *argc, char ***argv) {
   i = 1;
   while (i < new_argc) {
     if (new_argv[i] && new_argv[i][0] == '@' && (f = fopen(&new_argv[i][1], "r"))) {
-      char c;
+      int c;
       char *b;
       char *be = &buffer[BUFFER_SIZE];
       int quote = 0;

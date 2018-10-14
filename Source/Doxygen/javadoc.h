@@ -160,7 +160,7 @@ private:
   static std::map<std::string, std::pair<tagHandler, std::string> > tagHandlers;
   void fillStaticTables();
 
-  bool paramExists(std::string param);
+  bool paramExists(const std::string& param);
   std::string indentAndInsertAsterisks(const std::string &doc);
 
   void addError(int warningType, const std::string &message);

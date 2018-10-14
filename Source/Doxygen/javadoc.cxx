@@ -287,7 +287,7 @@ std::string JavaDocConverter::formatCommand(std::string unformattedLine, int ind
  * true - parameters are copied to output regardless of presence in
  * function params list.
  */
-bool JavaDocConverter::paramExists(std::string param) {
+bool JavaDocConverter::paramExists(const std::string& param) {
 
   if (GetFlag(currentNode, "feature:doxygen:nostripparams")) {
     return true;

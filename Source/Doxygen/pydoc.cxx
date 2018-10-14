@@ -152,7 +152,7 @@ PyDocConverter::TagHandlersMap::mapped_type PyDocConverter::make_handler(tagHand
 }
 
 void PyDocConverter::fillStaticTables() {
-  if (tagHandlers.size()) // fill only once
+  if (!tagHandlers.empty()) // fill only once
     return;
 
   // table of section titles, they are printed only once
@@ -556,7 +556,7 @@ void PyDocConverter::handleTagImage(DoxygenEntity &tag, std::string &translatedC
   translatedComment += "Image: ";
   translatedComment += tag.entityList.begin()->data;
   tag.entityList.pop_front();
-  if (tag.entityList.size())
+  if (!tag.entityList.empty())
     translatedComment += "(" + tag.entityList.begin()->data + ")";
 }
 

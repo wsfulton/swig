@@ -475,7 +475,7 @@ void JavaDocConverter::handleTagImage(DoxygenEntity &tag, std::string &translate
 void JavaDocConverter::handleTagPar(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
   std::string dummy;
   translatedComment += "<p";
-  if (tag.entityList.size()) {
+  if (!tag.entityList.empty()) {
     translatedComment += " alt=\"" + tag.entityList.begin()->data + "\"";
     translatedComment += ">";
     tag.entityList.pop_front();
@@ -502,7 +502,7 @@ void JavaDocConverter::handleTagParam(DoxygenEntity &tag, std::string &translate
 
 void JavaDocConverter::handleTagRef(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
   std::string dummy;
-  if (!tag.entityList.size())
+  if (tag.entityList.empty())
     return;
 
   // we translate to link, although \page is not supported in Java, but 

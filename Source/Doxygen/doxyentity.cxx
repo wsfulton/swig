@@ -62,7 +62,7 @@ void DoxygenEntity::printEntity(int level) const {
 
     thisLevel++;
 
-    for (DoxygenEntityListCIt p = entityList.begin(); p != entityList.end(); p++) {
+    for (DoxygenEntityListCIt p = entityList.begin(); p != entityList.end(); ++p) {
       p->printEntity(thisLevel);
     }
   }

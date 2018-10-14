@@ -319,7 +319,7 @@ std::string JavaDocConverter::translateSubtree(DoxygenEntity &doxygenEntity) {
     return translatedComment;
   }
 
-  for (DoxygenEntityListIt p = doxygenEntity.entityList.begin(); p != doxygenEntity.entityList.end(); p++) {
+  for (DoxygenEntityListIt p = doxygenEntity.entityList.begin(); p != doxygenEntity.entityList.end(); ++p) {
 
     translateEntity(*p, translatedComment);
     translateSubtree(*p);
@@ -417,7 +417,7 @@ void JavaDocConverter::handlePlainString(DoxygenEntity &tag, std::string &transl
 
 void JavaDocConverter::handleTagVerbatim(DoxygenEntity &tag, std::string &translatedComment, std::string &arg) {
   translatedComment += arg + " ";
-  for (DoxygenEntityListCIt it = tag.entityList.begin(); it != tag.entityList.end(); it++) {
+  for (DoxygenEntityListCIt it = tag.entityList.begin(); it != tag.entityList.end(); ++it) {
     translatedComment += it->data;
   }
 }
@@ -456,10 +456,10 @@ void JavaDocConverter::handleTagImage(DoxygenEntity &tag, std::string &translate
   if (it->data != "html")
     return;
 
-  it++;
+  ++it;
   file = it->data;
 
-  it++;
+  ++it;
   if (it != tag.entityList.end())
     title = it->data;
 
@@ -633,7 +633,7 @@ void JavaDocConverter::handleTagSee(DoxygenEntity &tag, std::string &translatedC
   // :: or # may be used as a separator between class name and method name.
   list<DoxygenEntity>::iterator it;
   string methodRef;
-  for (it = tag.entityList.begin(); it != tag.entityList.end(); it++) {
+  for (it = tag.entityList.begin(); it != tag.entityList.end(); ++it) {
     if (it->typeOfEntity == "plainstd::endl") {
       // handleNewLine(*it, translatedComment, dummy);
       continue;
@@ -688,7 +688,7 @@ int JavaDocConverter::shiftEndlinesUpTree(DoxygenEntity &root, int level) {
     // remove line endings
     int ret = shiftEndlinesUpTree(*it, level + 1);
     // insert them after this element
-    it++;
+    ++it;
     for (int i = 0; i < ret; i++) {
       root.entityList.insert(it, DoxygenEntity("plainstd::endl"));
     }

@@ -399,7 +399,7 @@ std::string PyDocConverter::translateSubtree(DoxygenEntity &doxygenEntity) {
     }
     translateEntity(*p, translatedComment);
     translateSubtree(*p);
-    p++;
+    ++p;
   }
 
   return translatedComment;
@@ -518,7 +518,7 @@ void PyDocConverter::handlePlainString(DoxygenEntity &tag, std::string &translat
 
 void PyDocConverter::handleTagVerbatim(DoxygenEntity &tag, std::string &translatedComment, const std::string &arg) {
   translatedComment += arg + " ";
-  for (DoxygenEntityListCIt it = tag.entityList.begin(); it != tag.entityList.end(); it++) {
+  for (DoxygenEntityListCIt it = tag.entityList.begin(); it != tag.entityList.end(); ++it) {
     translatedComment += it->data;
   }
 }

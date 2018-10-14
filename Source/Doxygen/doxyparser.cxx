@@ -118,7 +118,7 @@ void DoxygenParser::printTree(const DoxygenEntityList &rootList) {
   DoxygenEntityList::const_iterator p = rootList.begin();
   while (p != rootList.end()) {
     (*p).printEntity(0);
-    p++;
+    ++p;
   }
 }
 
@@ -179,7 +179,7 @@ void DoxygenParser::skipWhitespaceTokens() {
   while (m_tokenListIt != m_tokenList.end()
          && (m_tokenListIt->m_tokenType == END_LINE || trim(m_tokenListIt->m_tokenString).empty())) {
 
-    m_tokenListIt++;
+    ++m_tokenListIt;
   }
 }
 
@@ -209,7 +209,7 @@ std::string DoxygenParser::getNextWord() {
     if (token == "\"") {
 
       string word = m_tokenListIt->m_tokenString;
-      m_tokenListIt++;
+      ++m_tokenListIt;
       while (true) {
         string nextWord = getNextToken();
         if (nextWord.empty()) { // maybe report unterminated string error
@@ -223,7 +223,7 @@ std::string DoxygenParser::getNextWord() {
     }
 
     string tokenStr = trim(m_tokenListIt->m_tokenString);
-    m_tokenListIt++;
+    ++m_tokenListIt;
     if (!tokenStr.empty()) {
       return tokenStr;
     }
@@ -240,7 +240,7 @@ DoxygenParser::TokenListCIt DoxygenParser::getOneLine(const TokenList &tokList) 
     if (endOfLineIt->m_tokenType == END_LINE) {
       return endOfLineIt;
     }
-    endOfLineIt++;
+    ++endOfLineIt;
   }
 
   return tokList.end();
@@ -277,11 +277,11 @@ std::string DoxygenParser::getStringTilEndCommand(const std::string &theCommand,
     } else if (m_tokenListIt->m_tokenType == END_LINE) {
       description += "\n";
     } else if (m_tokenListIt->m_tokenString == theCommand) {
-      m_tokenListIt++;
+      ++m_tokenListIt;
       return description;
     }
 
-    m_tokenListIt++;
+    ++m_tokenListIt;
   }
 
   printListError(WARN_DOXYGEN_COMMAND_EXPECTED, "Expected Doxygen command: " + theCommand + ".");
@@ -295,10 +295,10 @@ DoxygenParser::TokenListCIt DoxygenParser::getEndOfParagraph(const TokenList &to
 
   while (endOfParagraph != tokList.end()) {
     if (endOfParagraph->m_tokenType == END_LINE) {
-      endOfParagraph++;
+      ++endOfParagraph;
       if (endOfParagraph != tokList.end()
           && endOfParagraph->m_tokenType == END_LINE) {
-        endOfParagraph++;
+        ++endOfParagraph;
         //cout << "ENCOUNTERED END OF PARA" << endl;
         return endOfParagraph;
       }
@@ -308,11 +308,11 @@ DoxygenParser::TokenListCIt DoxygenParser::getEndOfParagraph(const TokenList &to
       if (isSectionIndicator(endOfParagraph->m_tokenString)) {
         return endOfParagraph;
       } else {
-        endOfParagraph++;
+        ++endOfParagraph;
       }
 
     } else if (endOfParagraph->m_tokenType == PLAINSTRING) {
-      endOfParagraph++;
+      ++endOfParagraph;
     } else {
       return tokList.end();
     }
@@ -330,13 +330,13 @@ DoxygenParser::TokenListCIt DoxygenParser::getEndOfSection(const std::string &th
       if (theCommand == endOfParagraph->m_tokenString)
         return endOfParagraph;
       else
-        endOfParagraph++;
+        ++endOfParagraph;
     } else if (endOfParagraph->m_tokenType == PLAINSTRING) {
-      endOfParagraph++;
+      ++endOfParagraph;
     } else if (endOfParagraph->m_tokenType == END_LINE) {
-      endOfParagraph++;
+      ++endOfParagraph;
       if (endOfParagraph->m_tokenType == END_LINE) {
-        endOfParagraph++;
+        ++endOfParagraph;
         return endOfParagraph;
       }
     }
@@ -349,7 +349,7 @@ DoxygenParser::TokenListCIt DoxygenParser::getEndCommand(const std::string &theC
   TokenListCIt endOfCommand = m_tokenListIt;
 
   while (endOfCommand != tokList.end()) {
-    endOfCommand++;
+    ++endOfCommand;
     if ((*endOfCommand).m_tokenType == COMMAND) {
       if (theCommand == (*endOfCommand).m_tokenString) {
         return endOfCommand;
@@ -363,7 +363,7 @@ DoxygenParser::TokenListCIt DoxygenParser::getEndCommand(const std::string &theC
 void DoxygenParser::skipEndOfLine() {
   if (m_tokenListIt != m_tokenList.end()
       && m_tokenListIt->m_tokenType == END_LINE) {
-    m_tokenListIt++;
+    ++m_tokenListIt;
   }
 }
 
@@ -422,7 +422,7 @@ void DoxygenParser::addCommandEndCommand(const std::string &theCommand, const To
   }
   DoxygenEntityList aNewList;
   aNewList = parse(endCommand, tokList);
-  m_tokenListIt++;
+  ++m_tokenListIt;
   doxyList.push_back(DoxygenEntity(theCommand, aNewList));
 }
 
@@ -762,7 +762,7 @@ void DoxygenParser::addCommandUnique(const std::string &theCommand, const TokenL
     TokenListCIt endCommand = tokList.end();
 
     // go through the commands and find closing endif or else or elseif
-    for (TokenListCIt it = m_tokenListIt; it != tokList.end(); it++) {
+    for (TokenListCIt it = m_tokenListIt; it != tokList.end(); ++it) {
       if (it->m_tokenType == COMMAND) {
         if (it->m_tokenString == "if" || it->m_tokenString == "ifnot")
           nestedCounter++;
@@ -788,7 +788,7 @@ void DoxygenParser::addCommandUnique(const std::string &theCommand, const TokenL
     DoxygenEntityList aNewList;
     aNewList = parse(endCommand, tokList);
     if (skipEndif)
-      m_tokenListIt++;
+      ++m_tokenListIt;
     if (needsCond)
       aNewList.push_front(DoxygenEntity("plainstd::string", cond));
     doxyList.push_back(DoxygenEntity(theCommand, aNewList));
@@ -870,7 +870,7 @@ void DoxygenParser::ignoreCommand(const std::string &theCommand, const TokenList
     }
 
     m_tokenListIt = itEnd;
-    m_tokenListIt++;
+    ++m_tokenListIt;
   } else if (String *const range = getIgnoreFeature(theCommand, "range")) {
     // Currently we only support "line" but, in principle, we should also
     // support "word" and "paragraph" for consistency with the built-in Doxygen
@@ -973,9 +973,9 @@ DoxygenEntityList DoxygenParser::parse(TokenListCIt endParsingIndex, const Token
 
     if (currToken.m_tokenType == END_LINE) {
       aNewList.push_back(DoxygenEntity("plainstd::endl"));
-      m_tokenListIt++;
+      ++m_tokenListIt;
     } else if (currToken.m_tokenType == COMMAND) {
-      m_tokenListIt++;
+      ++m_tokenListIt;
       addCommand(currToken.m_tokenString, tokList, aNewList);
     } else if (currToken.m_tokenType == PLAINSTRING) {
       addCommand(currPlainstringCommandType, tokList, aNewList);
@@ -1303,7 +1303,7 @@ void DoxygenParser::tokenizeDoxygenComment(const std::string &doxygenComment, co
     }
   }
 
-  for (StringVectorCIt it = lines.begin(); it != lines.end(); it++) {
+  for (StringVectorCIt it = lines.begin(); it != lines.end(); ++it) {
     const string &line = *it;
     size_t pos = line.find_first_not_of(" \t");
 
@@ -1404,7 +1404,7 @@ void DoxygenParser::tokenizeDoxygenComment(const std::string &doxygenComment, co
 void DoxygenParser::printList() {
 
   int tokNo = 0;
-  for (TokenListCIt it = m_tokenList.begin(); it != m_tokenList.end(); it++, tokNo++) {
+  for (TokenListCIt it = m_tokenList.begin(); it != m_tokenList.end(); ++it, ++tokNo) {
 
     cout << it->toString() << " ";
 
@@ -1416,7 +1416,7 @@ void DoxygenParser::printList() {
 
 void DoxygenParser::printListError(int warningType, const std::string &message) {
   int curLine = m_fileLineNo;
-  for (TokenListCIt it = m_tokenList.begin(); it != m_tokenListIt; it++) {
+  for (TokenListCIt it = m_tokenList.begin(); it != m_tokenListIt; ++it) {
     if (it->m_tokenType == END_LINE) {
       curLine++;
     }

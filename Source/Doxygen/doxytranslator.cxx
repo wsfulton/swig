@@ -63,7 +63,7 @@ String *DoxygenTranslator::getDocumentation(Node *node, const_String_or_char_ptr
 
 void DoxygenTranslator::printTree(const DoxygenEntityList &entityList) {
 
-  for (DoxygenEntityListCIt p = entityList.begin(); p != entityList.end(); p++) {
+  for (DoxygenEntityListCIt p = entityList.begin(); p != entityList.end(); ++p) {
     p->printEntity(0);
   }
 }

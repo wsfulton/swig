@@ -171,7 +171,7 @@ protected:
    * of the node stored in 'currentNode'
    * If param with specified name is not found, empty string is returned
    */
-  std::string getParamType(std::string name);
+  std::string getParamType(const std::string& name);
 
 private:
   // temporary thing, should be refactored somehow

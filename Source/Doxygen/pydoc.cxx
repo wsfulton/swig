@@ -364,7 +364,7 @@ static std::string getPyDocType(Node *n, const_String_or_char_ptr lname = "") {
   return type;
 }
 
-std::string PyDocConverter::getParamType(std::string param) {
+std::string PyDocConverter::getParamType(const std::string& param) {
   std::string type;
 
   ParmList *plist = CopyParmList(Getattr(currentNode, "parms"));
@@ -534,7 +534,7 @@ void PyDocConverter::handleTagChar(DoxygenEntity &tag, std::string &translatedCo
 
 void PyDocConverter::handleTagIf(DoxygenEntity &tag, std::string &translatedComment, const std::string &arg) {
   translatedComment += arg;
-  if (tag.entityList.size()) {
+  if (!tag.entityList.empty()) {
     translatedComment += tag.entityList.begin()->data;
     tag.entityList.pop_front();
     translatedComment += " {" + translateSubtree(tag) + "}";
@@ -543,7 +543,7 @@ void PyDocConverter::handleTagIf(DoxygenEntity &tag, std::string &translatedComm
 
 void PyDocConverter::handleTagPar(DoxygenEntity &tag, std::string &translatedComment, const std::string &) {
   translatedComment += "Title: ";
-  if (tag.entityList.size())
+  if (!tag.entityList.empty())
     translatedComment += tag.entityList.begin()->data;
   tag.entityList.pop_front();
   handleParagraph(tag, translatedComment);
@@ -608,7 +608,7 @@ void PyDocConverter::handleTagException(DoxygenEntity &tag, std::string &transla
 
 
 void PyDocConverter::handleTagRef(DoxygenEntity &tag, std::string &translatedComment, const std::string &) {
-  if (!tag.entityList.size())
+  if (tag.entityList.empty())
     return;
 
   string anchor = tag.entityList.begin()->data;
@@ -622,7 +622,7 @@ void PyDocConverter::handleTagRef(DoxygenEntity &tag, std::string &translatedCom
 
 
 void PyDocConverter::handleTagWrap(DoxygenEntity &tag, std::string &translatedComment, const std::string &arg) {
-  if (tag.entityList.size()) { // do not include empty tags
+  if (!tag.entityList.empty()) { // do not include empty tags
     std::string tagData = translateSubtree(tag);
     // wrap the thing, ignoring whitespace
     size_t wsPos = tagData.find_last_not_of("\n\t ");

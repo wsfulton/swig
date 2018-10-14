@@ -352,7 +352,7 @@ void JavaDocConverter::handleTagAnchor(DoxygenEntity &tag, std::string &translat
 
 
 void JavaDocConverter::handleTagHtml(DoxygenEntity &tag, std::string &translatedComment, std::string &arg) {
-  if (tag.entityList.size()) { // do not include empty tags
+  if (!tag.entityList.empty()) { // do not include empty tags
     std::string tagData = translateSubtree(tag);
     // wrap the thing, ignoring whitespace
     size_t wsPos = tagData.find_last_not_of("\n\t ");
@@ -432,7 +432,7 @@ void JavaDocConverter::handleTagExtended(DoxygenEntity &tag, std::string &transl
 void JavaDocConverter::handleTagIf(DoxygenEntity &tag, std::string &translatedComment, std::string &arg) {
   std::string dummy;
   translatedComment += arg;
-  if (tag.entityList.size()) {
+  if (!tag.entityList.empty()) {
     translatedComment += tag.entityList.begin()->data;
     tag.entityList.pop_front();
     translatedComment += " {" + translateSubtree(tag) + "}";
@@ -488,7 +488,7 @@ void JavaDocConverter::handleTagPar(DoxygenEntity &tag, std::string &translatedC
 void JavaDocConverter::handleTagParam(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
   std::string dummy;
 
-  if (!tag.entityList.size())
+  if (tag.entityList.empty())
     return;
   if (!paramExists(tag.entityList.begin()->data))
     return;

@@ -2158,10 +2158,9 @@ public:
    * ------------------------------------------------------------ */
   String *convertValue(String *v, SwigType *type) {
     const char *const s = Char(v);
-    String *result = NIL;
     SwigType *resolved_type = SwigType_typedef_resolve_all(type);
 
-    result = convertIntegerValue(v, resolved_type);
+    String *result = convertIntegerValue(v, resolved_type);
     if (!result) {
       result = convertDoubleValue(v);
       if (!result) {

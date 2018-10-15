@@ -608,7 +608,7 @@ string JavaDocConverter::convertLink(string linkObject) {
 
 void JavaDocConverter::handleTagLink(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
   std::string dummy;
-  if (!tag.entityList.size())
+  if (tag.entityList.empty())
     return;
 
   string linkObject = convertLink(tag.entityList.begin()->data);
@@ -624,7 +624,7 @@ void JavaDocConverter::handleTagLink(DoxygenEntity &tag, std::string &translated
 
 void JavaDocConverter::handleTagSee(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
   std::string dummy;
-  if (!tag.entityList.size())
+  if (tag.entityList.empty())
     return;
 
   // tag.entity list contains contents of the @see paragraph. It should contain

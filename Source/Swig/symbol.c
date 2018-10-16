@@ -213,7 +213,6 @@ void Swig_symbol_print_tables_summary(void) {
 static void symbol_print_symbols(const char *symboltabletype, const char *nextSibling) {
   Node *table = symtabs;
   Iterator ki = First(table);
-  int show_pointers = 0;
   while (ki.key) {
     String *k = ki.key;
     Printf(stdout, "===================================================\n");
@@ -224,15 +223,17 @@ static void symbol_print_symbols(const char *symboltabletype, const char *nextSi
       while (it.key) {
 	String *symname = it.key;
 	Printf(stdout, "  %s (%s)", symname, nodeType(it.item));
-        if (show_pointers)
-	  Printf(stdout, " %p", it.item);
+#ifdef SWIG_DEBUG_SHOW_POINTERS
+	Printf(stdout, " %p", it.item);
+#endif
 	Printf(stdout, "\n");
 	{
 	  Node *sibling = Getattr(it.item, nextSibling);
 	  while (sibling) {
 	    Printf(stdout, "  %s (%s)", symname, nodeType(sibling));
-	    if (show_pointers)
-	      Printf(stdout, " %p", sibling);
+#ifdef SWIG_DEBUG_SHOW_POINTERS
+	    Printf(stdout, " %p", sibling);
+#endif
 	    Printf(stdout, "\n");
 	    sibling = Getattr(sibling, nextSibling);
 	  }

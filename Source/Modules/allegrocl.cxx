@@ -1185,10 +1185,7 @@ void emit_full_class(Node *n) {
   String *bases = Getattr(n, "bases");
   String *supers = NewString("(");
   if (bases) {
-    int first = 1;
     for (Iterator i = First(bases); i.item; i = Next(i)) {
-      if (!first)
-	Printf(supers, " ");
       String *s = lookup_defined_foreign_ltype(Getattr(i.item, "name"));
       // String *name = Getattr(i.item,"name");
       if (s) {

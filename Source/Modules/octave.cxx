@@ -436,7 +436,6 @@ public:
   }
 
   void make_autodocParmList(Node *n, String *decl_str, String *args_str) {
-    String *pdocs = 0;
     ParmList *plist = CopyParmList(Getattr(n, "parms"));
     Parm *p;
     Parm *pnext;
@@ -509,8 +508,6 @@ public:
       Delete(tex_name);
       Delete(name);
     }
-    if (pdocs)
-      Setattr(n, "feature:pdocs", pdocs);
     Delete(plist);
   }
 

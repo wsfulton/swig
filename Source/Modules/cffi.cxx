@@ -767,10 +767,7 @@ void CFFI::emit_class(Node *n) {
   String *bases = Getattr(n, "bases");
   String *supers = NewString("(");
   if (bases) {
-    int first = 1;
     for (Iterator i = First(bases); i.item; i = Next(i)) {
-      if (!first)
-  Printf(supers, " ");
       String *s = Getattr(i.item, "name");
       Printf(supers, "%s", lispify_name(i.item, lispy_name(Char(s)), "'classname"));
     }

@@ -145,7 +145,7 @@ void Wrapper_pretty_print(String *str, File *f) {
     } else if (c == '\n') {
       Putc(c, ts);
       empty = 0;
-      if (!empty) {
+      {
 	int slevel = level;
 	if (label && (slevel >= indent))
 	  slevel -= indent;

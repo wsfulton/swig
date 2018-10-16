@@ -13,7 +13,10 @@
 
 #include "swigmod.h"
 
-struct Module {
+class Module {
+  Module(const Module &);
+  Module &operator=(const Module &);
+public:
   ModuleFactory fac;
   char *name;
   Module *next;
@@ -22,7 +25,8 @@ struct Module {
     name = new char[strlen(n) + 1];
      strcpy(name, n);
      next = 0;
-  } ~Module() {
+  }
+  ~Module() {
     delete[]name;
   }
 };

@@ -8,7 +8,7 @@ travis_retry brew list
 # travis_retry brew install pcre # Travis Xcode-7.3 has pcre
 # travis_retry brew install boost
 
-WITHLANG=$SWIGLANG
+export WITHLANG=$SWIGLANG
 
 case "$SWIGLANG" in
 	"csharp")
@@ -21,7 +21,7 @@ case "$SWIGLANG" in
 		travis_retry brew install lua
 		;;
 	"python")
-		WITHLANG=$SWIGLANG$PY3
+		export WITHLANG=$SWIGLANG$PY3
 		if [[ "$PY3" ]]; then
 			travis_retry brew upgrade python
 		fi

@@ -25,7 +25,7 @@ fi
 
 travis_retry sudo apt-get -qq install libboost-dev
 
-WITHLANG=$SWIGLANG
+export WITHLANG=$SWIGLANG
 
 case "$SWIGLANG" in
 	"")     ;;
@@ -103,12 +103,12 @@ case "$SWIGLANG" in
 		if [[ "$PY3" ]]; then
 			travis_retry sudo apt-get install -qq python3-dev
 		fi
-		WITHLANG=$SWIGLANG$PY3
+		export WITHLANG=$SWIGLANG$PY3
 		if [[ "$VER" ]]; then
 			travis_retry sudo add-apt-repository -y ppa:deadsnakes/ppa
 			travis_retry sudo apt-get -qq update
 			travis_retry sudo apt-get -qq install python${VER}-dev
-			WITHLANG=$SWIGLANG$PY3=$SWIGLANG$VER
+			export WITHLANG=$SWIGLANG$PY3=$SWIGLANG$VER
 		fi
 		;;
 	"r")

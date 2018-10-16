@@ -193,9 +193,9 @@ void DohMemoryDebug(void) {
     int i;
     int nused = 0, nfree = 0;
     for (i = 0; i < p->len; i++) {
-      if (p->ptr[i].refcount <= 0)
+      if (p->ptr[i].refcount == 0) {
 	nfree++;
-      else {
+      } else {
 	nused++;
 	if (p->ptr[i].type == &DohStringType)
 	  numstring++;

@@ -41,7 +41,7 @@ void DohDelete(DOH *obj) {
     return;
   assert(b->refcount > 0);
   b->refcount--;
-  if (b->refcount <= 0) {
+  if (b->refcount == 0) {
     objinfo = b->type;
     if (objinfo->doh_del) {
       (objinfo->doh_del) (b);

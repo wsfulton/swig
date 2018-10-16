@@ -4625,7 +4625,7 @@ public:
 	SetFlagAttr(n, "feature:callback", pcb);
       }
       autodoc_l dlevel = autodoc_level(Getattr(n, "feature:autodoc"));
-      if (dlevel != NO_AUTODOC && dlevel > TYPES_AUTODOC) {
+      if (dlevel > TYPES_AUTODOC) {
 	Setattr(n, "feature:autodoc", "1");
       }
     }

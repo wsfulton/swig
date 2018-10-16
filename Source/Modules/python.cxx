@@ -4923,13 +4923,7 @@ public:
 	      Printv(f_shadow_stubs, tab4, docstring(n, AUTODOC_CTOR, tab4), "\n", NIL);
 	    if (have_pythonprepend(n))
 	      Printv(f_shadow_stubs, indent_pythoncode(pythonprepend(n), tab4, Getfile(n), Getline(n), "%pythonprepend or %feature(\"pythonprepend\")"), "\n", NIL);
-	    String *subfunc = NULL;
-	    /*
-	       if (builtin)
-	       subfunc = Copy(Getattr(getCurrentClass(), "sym:name"));
-	       else
-	     */
-	    subfunc = Swig_name_construct(NSPACE_TODO, symname);
+	    String *subfunc = Swig_name_construct(NSPACE_TODO, symname);
 	    Printv(f_shadow_stubs, tab4, "val = ", funcCall(subfunc, callParms), "\n", NIL);
 #ifdef USE_THISOWN
 	    Printv(f_shadow_stubs, tab4, "val.thisown = 1\n", NIL);

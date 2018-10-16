@@ -4786,10 +4786,9 @@ public:
      * here: */
 
     Node *disconn_attr = NewHash();
-    String *disconn_methodname = NULL;
 
     typemapLookup(n, "directordisconnect", full_classname, WARN_NONE, disconn_attr);
-    disconn_methodname = Getattr(disconn_attr, "tmap:directordisconnect:methodname");
+    String *disconn_methodname = Getattr(disconn_attr, "tmap:directordisconnect:methodname");
 
     Printv(w->code, "  swig_disconnect_director_self(\"", disconn_methodname, "\");\n", "}\n", NIL);
 

@@ -33,17 +33,7 @@ CFFI Options (available with -cffi)\n\
 
 class CFFI:public Language {
 public:
-  String *f_cl;
-  String *f_clhead;
-  String *f_clwrap;
-  bool CWrap;     // generate wrapper file for C code?  
-  File *f_begin;
-  File *f_runtime;
-  File *f_cxx_header;
-  File *f_cxx_wrapper;
-  File *f_clos;
-
-  String *module;
+  CFFI();
   virtual void main(int argc, char *argv[]);
   virtual int top(Node *n);
   virtual int functionWrapper(Node *n);
@@ -81,9 +71,36 @@ private:
   String *infix_to_prefix(String *val, char split_op, const String *op, String *type);
   String *strip_parens(String *string);
   String *trim(String *string);
+
+  String *f_cl;
+  String *f_clhead;
+  String *f_clwrap;
+  bool CWrap;     // generate wrapper file for C code?  
+  File *f_begin;
+  File *f_runtime;
+  File *f_cxx_header;
+  File *f_cxx_wrapper;
+  File *f_clos;
+  String *module;
   int generate_typedef_flag;
   bool no_swig_lisp;
 };
+
+CFFI::CFFI() : 
+  Language(),
+  f_cl(),
+  f_clhead(),
+  f_clwrap(),
+  CWrap(),
+  f_begin(),
+  f_runtime(),
+  f_cxx_header(),
+  f_cxx_wrapper(),
+  f_clos(),
+  module(),
+  generate_typedef_flag(),
+  no_swig_lisp() {
+}
 
 void CFFI::main(int argc, char *argv[]) {
   int i;

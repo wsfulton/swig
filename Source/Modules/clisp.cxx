@@ -24,8 +24,7 @@ CLISP Options (available with -clisp)\n\
 
 class CLISP:public Language {
 public:
-  File *f_cl;
-  String *module;
+  CLISP();
   virtual void main(int argc, char *argv[]);
   virtual int top(Node *n);
   virtual int functionWrapper(Node *n);
@@ -34,15 +33,29 @@ public:
   virtual int classDeclaration(Node *n);
   virtual int enumDeclaration(Node *n);
   virtual int typedefHandler(Node *n);
-  List *entries;
+
 private:
   String *get_ffi_type(Node *n, SwigType *ty);
   String *convert_literal(String *num_param, String *type);
   String *strip_parens(String *string);
+
+  File *f_cl;
+  String *module;
+  List *entries;
   int extern_all_flag;
   int generate_typedef_flag;
   int is_function;
 };
+
+CLISP::CLISP() :
+  Language(),
+  f_cl(),
+  module(),
+  entries(),
+  extern_all_flag(),
+  generate_typedef_flag(),
+  is_function() {
+}
 
 void CLISP::main(int argc, char *argv[]) {
   int i;

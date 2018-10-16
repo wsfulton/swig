@@ -4909,9 +4909,7 @@ private:
       }
       Printv(f_go_wrappers, "{\n", NULL);
 
-      if (is_ignored) {
-	Printv(f_go_wrappers, "\treturn\n", NULL);
-      } else {
+      {
 	bool result_is_interface = false;
 	String *goout = NULL;
 	if (SwigType_type(result) != T_VOID) {

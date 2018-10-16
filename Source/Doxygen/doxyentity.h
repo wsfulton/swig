@@ -35,7 +35,7 @@ public:
   bool isLeaf;
   DoxygenEntityList entityList;
 
-  DoxygenEntity(const std::string &typeEnt);
+  explicit DoxygenEntity(const std::string &typeEnt);
   DoxygenEntity(const std::string &typeEnt, const std::string &param1);
   DoxygenEntity(const std::string &typeEnt, const DoxygenEntityList &entList);
 

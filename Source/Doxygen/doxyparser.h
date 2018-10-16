@@ -364,7 +364,7 @@ private:
   bool addDoxyCommand(DoxygenParser::TokenList &tokList, const std::string &cmd);
 
 public:
-  DoxygenParser(bool noisy = false);
+  explicit DoxygenParser(bool noisy = false);
   virtual ~DoxygenParser();
   DoxygenEntityList createTree(Node *node, String *documentation);
 };

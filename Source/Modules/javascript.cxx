@@ -87,7 +87,7 @@ private:
 class Template {
 
 public:
-  Template(const String *code);
+  explicit Template(const String *code);
   Template(const String *code, const String *templateName);
   Template(const Template & other);
   ~Template();

@@ -443,13 +443,13 @@ void Swig_interface_propagate_methods(Node *n);
 /* Miscellaneous */
 template <class T> class save_value {
   T _value;
-  T& _value_ptr;
-  save_value(const save_value&);
-  save_value& operator=(const save_value&);
+  T &_value_ptr;
+  save_value(const save_value &);
+  save_value& operator=(const save_value &);
 
 public:
-  save_value(T& value) : _value(value), _value_ptr(value) {}
-  save_value(T& value, T new_val) : _value(value), _value_ptr(value) { value = new_val; }
+  explicit save_value(T &value) : _value(value), _value_ptr(value) {}
+  save_value(T &value, T new_val) : _value(value), _value_ptr(value) { value = new_val; }
   ~save_value() { _value_ptr = _value; }
 };
 

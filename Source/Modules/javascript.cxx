@@ -95,7 +95,7 @@ public:
   Template & replace(const String *pattern, const String *repl);
   Template & print(DOH *doh);
   Template & pretty_print(DOH *doh);
-  void operator=(const Template & t);
+  Template & operator=(const Template & t);
   Template & trim();
 
 private:
@@ -2472,9 +2472,10 @@ Template::Template(const Template & t) {
   templateName = NewString(t.templateName);
 }
 
-void Template::operator=(const Template & t) {
+Template & Template::operator=(const Template & t) {
   Delete(code);
   Delete(templateName);
   code = NewString(t.code);
   templateName = NewString(t.templateName);
+  return *this;
 }

@@ -5,12 +5,11 @@
 import sys
 import os
 
-def failed(message):
-  if message == "":
-    print "mkrelease.py failed to complete"
-  else:
-    print message
-  sys.exit(2)
+def execute(command):
+    exit_code = os.system(command)
+    if exit_code != 0:
+        print("{}: command failed: {}".format(os.path.basename(__file__), command))
+        sys.exit(2)
 
 try:
    version = sys.argv[1]
@@ -22,13 +21,13 @@ except IndexError:
    sys.exit(1)
 
 print "Looking for rsync"
-os.system("which rsync") and failed("rsync not installed/found. Please install.")
+execute("which rsync")
 
 print "Making source tarball"
-os.system("python ./mkdist.py " + version + " " + branch) and failed("")
+execute("python ./mkdist.py " + version + " " + branch)
 
 print "Build Windows package"
-os.system("./mkwindows.sh " + version) and failed("")
+execute("./mkwindows.sh " + version)
 
 print "Uploading to SourceForge"
 
@@ -37,11 +36,11 @@ swigwin_dir_sf = username + ",swig@frs.sourceforge.net:/home/frs/project/s/sw/sw
 
 # If a file with 'readme' in the name exists in the same folder as the zip/tarball, it gets automatically displayed as the release notes by SF
 full_readme_file = "readme-" + version + ".txt"
-os.system("rm -f " + full_readme_file)
-os.system("cat swig-" + version + "/README " + "swig-" + version + "/CHANGES.current " + "swig-" + version + "/RELEASENOTES " + "> " + full_readme_file)
+execute("rm -f " + full_readme_file)
+execute("cat swig-" + version + "/README " + "swig-" + version + "/CHANGES.current " + "swig-" + version + "/RELEASENOTES " + "> " + full_readme_file)
 
-os.system("rsync --archive --verbose -P --times -e ssh " + "swig-" + version + ".tar.gz " + full_readme_file + " " + swig_dir_sf) and failed("")
-os.system("rsync --archive --verbose -P --times -e ssh " + "swigwin-" + version + ".zip " + full_readme_file + " " + swigwin_dir_sf) and failed("")
+execute("rsync --archive --verbose -P --times -e ssh " + "swig-" + version + ".tar.gz " + full_readme_file + " " + swig_dir_sf)
+execute("rsync --archive --verbose -P --times -e ssh " + "swigwin-" + version + ".zip " + full_readme_file + " " + swigwin_dir_sf)
 
 print "Finished"
 

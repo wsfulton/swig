@@ -2195,7 +2195,7 @@ int Language::classDirector(Node *n) {
       if (isNonVirtualProtectedAccess(ni)) {
         Node *overloaded = Getattr(ni, "sym:overloaded");
         // emit the using base::member statement (but only once if the method is overloaded)
-        if (!overloaded || (overloaded && (overloaded == ni)))
+        if (!overloaded || (overloaded == ni))
           Printf(using_protected_members_code, "    using %s::%s;\n", SwigType_namestr(ClassName), Getattr(ni, "name"));
       }
     }

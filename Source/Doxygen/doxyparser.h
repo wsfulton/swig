@@ -54,7 +54,7 @@ private:
     DoxyCommandEnum m_tokenType;
     std::string m_tokenString; /* the data , such as param for @param */
 
-    Token(DoxyCommandEnum tType, std::string tString) : m_tokenType(tType), m_tokenString(tString) {
+    Token(DoxyCommandEnum tType, const std::string& tString) : m_tokenType(tType), m_tokenString(tString) {
     }
     
     std::string toString() const {

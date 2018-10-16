@@ -433,7 +433,6 @@ void JavaDocConverter::handleTagExtended(DoxygenEntity &tag, std::string &transl
 }
 
 void JavaDocConverter::handleTagIf(DoxygenEntity &tag, std::string &translatedComment, std::string &arg) {
-  std::string dummy;
   translatedComment += arg;
   if (!tag.entityList.empty()) {
     translatedComment += tag.entityList.begin()->data;
@@ -504,7 +503,6 @@ void JavaDocConverter::handleTagParam(DoxygenEntity &tag, std::string &translate
 
 
 void JavaDocConverter::handleTagRef(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
-  std::string dummy;
   if (tag.entityList.empty())
     return;
 
@@ -626,7 +624,6 @@ void JavaDocConverter::handleTagLink(DoxygenEntity &tag, std::string &translated
 }
 
 void JavaDocConverter::handleTagSee(DoxygenEntity &tag, std::string &translatedComment, std::string &) {
-  std::string dummy;
   if (tag.entityList.empty())
     return;
 
@@ -638,7 +635,6 @@ void JavaDocConverter::handleTagSee(DoxygenEntity &tag, std::string &translatedC
   string methodRef;
   for (it = tag.entityList.begin(); it != tag.entityList.end(); ++it) {
     if (it->typeOfEntity == "plainstd::endl") {
-      // handleNewLine(*it, translatedComment, dummy);
       continue;
     }
     // restore entities which may be used in C++ type declaration

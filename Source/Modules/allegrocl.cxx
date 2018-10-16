@@ -1007,7 +1007,6 @@ String *convert_literal(String *literal, String *type, bool try_to_split) {
 
       if (*num_end == 'l' || *num_end == 'L' || *num_end == 'f' || *num_end == 'F') {
 	*num_end = '\0';
-	num_end--;
       }
 
       int exponents = Replaceall(num, "e", lisp_exp) + Replaceall(num, "E", lisp_exp);

@@ -241,8 +241,10 @@ JavaDocConverter::JavaDocConverter(int flags) :
  * better algorithm.
  */
 std::string JavaDocConverter::formatCommand(std::string unformattedLine, int indent) {
-  std::string formattedLines;
+  (void)indent;
   return unformattedLine; // currently disabled
+#if 0
+  std::string formattedLines;
   int lastPosition = 0;
   int i = 0;
   int isFirstLine = 1;
@@ -278,6 +280,7 @@ std::string JavaDocConverter::formatCommand(std::string unformattedLine, int ind
   }
 
   return formattedLines;
+#endif
 }
 
 /**

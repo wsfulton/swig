@@ -17,7 +17,7 @@ try:
    version = sys.argv[1]
    dirname = "swig-" + version
    branch = sys.argv[2]
-except:
+except IndexError:
    print "Usage: mkdist.py version branch, where version should be x.y.z and branch is normally 'master'"
    sys.exit(1)
 

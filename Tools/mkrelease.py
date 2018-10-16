@@ -16,7 +16,7 @@ try:
    version = sys.argv[1]
    branch = sys.argv[2]
    username = sys.argv[3]
-except:
+except IndexError:
    print "Usage: python mkrelease.py version branch username"
    print "where version should be x.y.z and username is your SF username"
    sys.exit(1)

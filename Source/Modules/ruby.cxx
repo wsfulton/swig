@@ -218,18 +218,6 @@ private:
   }
 
 
-
-  /* ------------------------------------------------------------
-   * have_docstring()
-   *    Check if there is a docstring directive and it has text,
-   *    or there is an autodoc flag set
-   * ------------------------------------------------------------ */
-
-  bool have_docstring(Node *n) {
-    String *str = Getattr(n, "feature:docstring");
-    return (str && Len(str) > 0) || (Getattr(n, "feature:autodoc") && !GetFlag(n, "feature:noautodoc"));
-  }
-
   /* ------------------------------------------------------------
    * docstring()
    *    Get the docstring text, stripping off {} if necessary,

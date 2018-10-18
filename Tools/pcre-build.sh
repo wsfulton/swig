@@ -1,7 +1,7 @@
 #!/bin/sh
 
 pcre_subdir=pcre/pcre-swig-install
-pcre_install_dir=`pwd`/$pcre_subdir
+pcre_install_dir=$(pwd)/$pcre_subdir
 
 usage() {
   echo "Helper script to build PCRE as a static library from a tarball just for use during the"
@@ -37,13 +37,13 @@ fi
 
 echo "Looking for PCRE tarball..."
 rm -rf pcre
-pcre_tarball=`ls pcre-*.tar*`
+pcre_tarball=$(ls pcre-*.tar*)
 test -n "$pcre_tarball" || bail "Could not find tarball matching pattern: pcre-*.tar*"
 test -f "$pcre_tarball" || bail "Could not find a single PCRE tarball. Found: $pcre_tarball"
 
 echo "Extracting tarball: $pcre_tarball"
 tar -xf $pcre_tarball || bail "Could not untar $pcre_tarball"
-pcre_dir=`echo $pcre_tarball | sed -e "s/\.tar.*//"`
+pcre_dir=$(echo $pcre_tarball | sed -e "s/\.tar.*//")
 echo "Configuring PCRE in directory: pcre"
 mv $pcre_dir pcre || bail "Could not create pcre directory"
 cd pcre || bail "Could not cd to pcre directory"

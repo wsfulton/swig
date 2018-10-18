@@ -27,10 +27,10 @@ else
     exit 1
 fi
 
-uname=`uname -a`
-mingw=`echo "$uname" | grep -i mingw`
-linux=`echo "$uname" | grep -i linux`
-cygwin=`echo "$uname" | grep -i cygwin`
+uname=$(uname -a)
+mingw=$(echo "$uname" | grep -i mingw)
+linux=$(echo "$uname" | grep -i linux)
+cygwin=$(echo "$uname" | grep -i cygwin)
 if test "$mingw"; then
   echo "Building native Windows executable on MinGW";
   if test x$zip = x; then
@@ -43,13 +43,13 @@ else
       zip=zip
     fi
     echo "Checking that mingw 32-bit gcc is installed/available"
-    if test -n "`which i686-w64-mingw32-gcc`" ; then
+    if test -n "$(which i686-w64-mingw32-gcc)" ; then
       i686-w64-mingw32-gcc --version || exit 1
       i686-w64-mingw32-g++ --version || exit 1
       extraconfigureoptions="--host=i686-w64-mingw32 --build=i686-linux"
       # Statically link so that libstdc++-6.dll and libgcc_s_sjlj-1.dll don't have to be shipped
       compileflags="$compileflags -static-libgcc -static-libstdc++"
-    elif test -n "`which i586-mingw32msvc-gcc`" ; then
+    elif test -n "$(which i586-mingw32msvc-gcc)" ; then
       i586-mingw32msvc-gcc --version || exit 1
       i586-mingw32msvc-g++ --version || exit 1
       extraconfigureoptions="--host=i586-mingw32msvc --build=i686-linux"
@@ -77,7 +77,7 @@ export CXXFLAGS="$compileflags"
 swigbasename=swig-$version
 swigwinbasename=swigwin-$version
 tarball=$swigbasename.tar.gz
-pcre_tarball=`ls pcre-*.tar.*`
+pcre_tarball=$(ls pcre-*.tar.*)
 
 if ! test -f "$pcre_tarball"; then
   echo "Could not find PCRE tarball. Please download a PCRE source tarball from http://www.pcre.org"

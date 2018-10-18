@@ -7,8 +7,8 @@ import glob
 
 def remove_old_files():
   files = glob.glob("*.log")
-  for file in files:
-    os.remove(file)
+  for f in files:
+    os.remove(f)
 
 def download():
   repos = subprocess.Popen(['osc', 'repositories'], stdout=subprocess.PIPE)
@@ -19,11 +19,11 @@ def download():
     buildlog = subprocess.Popen(command, stdout=subprocess.PIPE)
 
     print("Writing log to {}".format(filename))
-    file = open(filename, "w")
+    f = open(filename, "w")
     if buildlog.stderr != None:
       print("Errors: {}".format(buildlog.stderr))
     for log_line in buildlog.stdout:
-      file.write(log_line)
+      f.write(log_line)
 
   print("Finished")
 

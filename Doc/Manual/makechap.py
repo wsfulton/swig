@@ -107,7 +107,7 @@ for s in lines:
         result.append("")
         result.append("")
         skipspace = 0
-    
+
     m = h1.match(s)
     if m:
         prevheadingtext = getheadingtext(m, s)
@@ -143,7 +143,7 @@ for s in lines:
         subsection = 0
         subsubsection = 0
         subsubsubsection = 0
-        skipspace = 1        
+        skipspace = 1
         continue
     m = h3.match(s)
     if m:
@@ -162,7 +162,7 @@ for s in lines:
 
         index += """<li><a href="#%s">%s</a>\n""" % (headingname,prevheadingtext)
         subsubsection = 0
-        skipspace = 1        
+        skipspace = 1
         continue
     m = h4.match(s)
     if m:
@@ -180,7 +180,7 @@ for s in lines:
 
         index += """<li><a href="#%s">%s</a>\n""" % (headingname,prevheadingtext)
         subsubsubsection = 0
-        skipspace = 1        
+        skipspace = 1
         continue
     m = h5.match(s)
     if m:
@@ -196,7 +196,7 @@ for s in lines:
         index += """<li><a href="#%s">%s</a>\n""" % (headingname,prevheadingtext)
         skipspace = 1
         continue
-    
+
     result.append(s)
 
 if subsubsubsection:

@@ -15,7 +15,7 @@ future Python versions, which may define additional names beginning with one
 of these prefixes."
 
 This file is a simple script used for change all of these symbols, for user code
-or SWIG itself. 
+or SWIG itself.
 """
 import re
 from shutil import copyfile
@@ -120,4 +120,3 @@ if __name__=="__main__":
         print "Usage:"
         print "    %s files..."%sys.argv[0]
 
-        

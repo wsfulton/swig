@@ -28,7 +28,7 @@ for c in chs:
     if c:
         os.system("python makechap.py %s %d >> Contents.html" % (c,num))
     num += 1
-    
+
 f = open("Contents.html","a")
 print >>f, """
 </BODY>

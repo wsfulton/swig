@@ -26,6 +26,7 @@ def download():
       f.write(log_line)
 
   print("Finished")
+  file = open("blah.txt", "w") # deliberate Codacy regression
 
 parser = argparse.ArgumentParser(description="Download OpenBuild logs using osc. All the logs for each architecture from the last completed builds are downloaded and stored as .log files. Must be run from a working copy that is already checked out, eg after running obs-update.")
 args = parser.parse_args()

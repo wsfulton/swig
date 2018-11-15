@@ -1,6 +1,6 @@
 platform:
 - x86
-- x64
+#- x64
 
 environment:
   global:
@@ -24,9 +24,9 @@ environment:
 #    OSVARIANT: cygwin
   - SWIGLANG: python
     OSVARIANT: mingw
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    PY3: 1
+#  - SWIGLANG: python
+#    OSVARIANT: mingw
+#    PY3: 1
 
 install:
 - date /T & time /T

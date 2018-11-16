@@ -782,7 +782,11 @@ else
     PY3OSNAME=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.name)") 2>/dev/null`
     AC_MSG_RESULT($PY3OSNAME)
     AC_MSG_CHECKING(for Python 3.x path separator)
+    $PYTHON3 -c "import sys, os; print('sep...{}'.format(os.sep))"
+    $PYTHON3 -c "import sys, os; print('prefix...{}'.format(sys.prefix))"
     PYSEPARATOR=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.sep)") 2>/dev/null`
+    PYPATH_=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.path)") 2>/dev/null`
+    AC_MSG_RESULT($PYPATH_)
     AC_MSG_RESULT($PYSEPARATOR)
 
     if test x"$PY3OSNAME" = x"nt" -a x"$PYSEPARATOR" = x"\\"; then

@@ -855,10 +855,15 @@ else
       PY3INCLUDE=`($PY3CONFIG --includes) 2>/dev/null`
       AC_MSG_RESULT($PY3INCLUDE)
 
+      echo "path: $PATH"
+      echo "whichpython...$(which $PYTHON3)"
+      echo "version...$($PYTHON3 -V)"
       # Set the library directory blindly.   This probably won't work with older versions
       AC_MSG_CHECKING([for Python 3.x library directory])
       dirs="$PY3VERSION/config $PY3VERSION/$PY3LIBDIR python/$PY3LIBDIR"
+      echo "dirs...$PY3VERSION/config $PY3VERSION/$PY3LIBDIR python/$PY3LIBDIR"
       for i in $dirs; do
+        echo "i...$PY3EPREFIX/$PY3LIBDIR/$i"
         if test -d $PY3EPREFIX/$PY3LIBDIR/$i; then
           PY3LIB="$PY3EPREFIX/$PY3LIBDIR/$i"
           break

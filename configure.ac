@@ -828,6 +828,11 @@ else
       AC_MSG_CHECKING(for Python 3.x exec-prefix)
       PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
       AC_MSG_RESULT($PY3EPREFIX)
+      cat $PY3EPREFIX > /tmp/tempfile
+      echo "hex dump start"
+      ls -la /tmp/tempfile
+      hexdump /tmp/tempfile
+      echo "hex dump end"
 
       # Note: I could not think of a standard way to get the version string from different versions.
       # This trick pulls it out of the file location for a standard library file.

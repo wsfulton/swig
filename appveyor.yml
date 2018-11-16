@@ -1,6 +1,6 @@
 platform:
 - x86
-#- x64
+- x64
 
 environment:
   global:
@@ -19,14 +19,16 @@ environment:
 #  - SWIGLANG: python
 #    VSVER: 14
 #    VER: 36
-#    PY3: 1
+#    PY3: 3
 #  - SWIGLANG: python
 #    OSVARIANT: cygwin
   - SWIGLANG: python
     OSVARIANT: mingw
-#  - SWIGLANG: python
-#    OSVARIANT: mingw
-#    PY3: 1
+    VER: 27
+  - SWIGLANG: python
+    OSVARIANT: mingw
+    VER: 37
+    PY3: 3
 
 install:
 - date /T & time /T
@@ -77,7 +79,7 @@ install:
 - if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - if "%OSVARIANT%"=="" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
-- if "%OSVARIANT%"=="" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
+- if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
 - if "%OSVARIANT%"=="" bash -c "which cl.exe"
 - if "%OSVARIANT%"=="" bash -c "cl.exe /? 2>&1 | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which csc.exe"
@@ -110,7 +112,7 @@ test_script:
 - bash -c "file ./swig.exe"
 - bash -c "make check-%SWIGLANG%-version"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS%"
-- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
+#- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

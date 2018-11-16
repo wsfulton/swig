@@ -828,7 +828,7 @@ else
       AC_MSG_CHECKING(for Python 3.x exec-prefix)
       PY3EPREFIX=`($PY3CONFIG --exec-prefix) 2>/dev/null`
       AC_MSG_RESULT($PY3EPREFIX)
-      cat $PY3EPREFIX > /tmp/tempfile
+      echo "$PY3EPREFIX" > /tmp/tempfile
       echo "hex dump start"
       ls -la /tmp/tempfile
       hexdump /tmp/tempfile

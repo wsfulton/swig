@@ -781,13 +781,18 @@ else
     AC_MSG_CHECKING(for Python 3.x os.name)
     PY3OSNAME=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.name)") 2>/dev/null`
     AC_MSG_RESULT($PY3OSNAME)
-    AC_MSG_CHECKING(for Python 3.x path separator)
     $PYTHON3 -c "import sys, os; print('sep...{}'.format(os.sep))"
     $PYTHON3 -c "import sys, os; print('prefix...{}'.format(sys.prefix))"
+    which $PYTHON3
+    which $PYTHON3.exe
+    type $PYTHON3
+    type $PYTHON3.exe
+    AC_MSG_CHECKING(for Python 3.x path separator)
     PYSEPARATOR=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.sep)") 2>/dev/null`
+    AC_MSG_RESULT($PYSEPARATOR)
+    AC_MSG_CHECKING(for Python 3.x os.path)
     PYPATH_=`($PYTHON3 -c "import sys, os; sys.stdout.write(os.path)") 2>/dev/null`
     AC_MSG_RESULT($PYPATH_)
-    AC_MSG_RESULT($PYSEPARATOR)
 
     if test x"$PY3OSNAME" = x"nt" -a x"$PYSEPARATOR" = x"\\"; then
       # Windows installations are quite different to posix installations

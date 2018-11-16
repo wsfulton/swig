@@ -22,9 +22,9 @@ environment:
 #    PY3: 3
 #  - SWIGLANG: python
 #    OSVARIANT: cygwin
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    VER: 27
+#  - SWIGLANG: python
+#    OSVARIANT: mingw
+#    VER: 27
   - SWIGLANG: python
     OSVARIANT: mingw
     VER: 37

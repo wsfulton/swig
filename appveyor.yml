@@ -91,6 +91,13 @@ install:
 - bash -c "$CC --version | head -n 1"
 - bash -c "$CXX --version | head -n 1"
 - bash -c "which python"
+
+- which bash || true
+- where python3 || true
+- bash -c "which python3" || true
+- bash -c "python3 -c 'import sys, os; print(format(os.sep))'" || true
+- python3 -c 'import sys, os; print(format(os.sep))' || true
+
 - bash -c "python -V"
 - bash -c "make --version | head -n 2"
 - pwd
@@ -117,5 +124,5 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-on_finish: # Display RDP connection information
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish: # Display RDP connection information
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

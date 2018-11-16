@@ -783,6 +783,7 @@ else
     AC_MSG_RESULT($PY3OSNAME)
     $PYTHON3 -c "import sys, os; print('sep...{}'.format(os.sep))"
     $PYTHON3 -c "import sys, os; print('prefix...{}'.format(sys.prefix))"
+    $PYTHON3 -c "import sys, os; print('executable...{}'.format(sys.executable))"
     which $PYTHON3
     which $PYTHON3.exe
     type $PYTHON3

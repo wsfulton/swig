@@ -70,10 +70,10 @@ install:
       $env:CC="gcc"
       $env:CXX="g++"
     } elseif ($env:OSVARIANT -eq "mingw") {
-      $env:PATH="$env:MSYSBIN;$env:MINGWBIN;$env:PATH"
-      $env:MSYSTEM="MINGW$env:MBITS"
-      $env:CC="$env:MARCH-w64-mingw32-gcc"
-      $env:CXX="$env:MARCH-w64-mingw32-g++"
+      $env:PATH="$env:MINGWBIN;$env:MSYSBIN;$env:PATH"
+      $env:MSYSTEM="MINGW$env:MBITS" # This is important for msys2
+      $env:CC="gcc"
+      $env:CXX="g++"
       if ($env:MBITS -eq "64" -and $env:SWIGLANG -eq "python") {
         $env:CHECK_OPTIONS2="CFLAGS+=-DMS_WIN64 CXXFLAGS+=-DMS_WIN64"
       }

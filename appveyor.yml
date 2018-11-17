@@ -103,6 +103,7 @@ install:
 - bash -c "python3 -c 'import sys, os; print(format(os.sep))'" || true
 - python3 -c "import sys, os; print(format(os.sep))" || true
 - echo %PATH% | tr ';' '\n' || true
+- bash -c "echo $PATH | tr ':' '\n'" || true
 - set | grep MINGW -w || true
 - set
 
@@ -132,5 +133,5 @@ test_script:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
-#on_finish: # Display RDP connection information
-#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_finish: # Display RDP connection information
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

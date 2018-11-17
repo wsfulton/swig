@@ -931,6 +931,12 @@ if test -n "$PYTHON3"; then
   if test "x$PY2TO3BIN" = xyes; then
     py3to2=`echo $PYTHON3 | sed -e "s/python/2to3-/"`
     AC_CHECK_PROGS(PY2TO3, $py3to2 2to3)
+    if test -z "$PY2TO3"; then
+      # Windows distributions don't always have the 2to3 executable
+      if test -f "$PY3EPREFIX/Tools/scripts/2to3.py"; then
+        PY2TO3="$PYTHON3 $PY3EPREFIX/Tools/2to3.py"
+      fi
+    fi
   else
     PY2TO3="$PY2TO3BIN"
   fi

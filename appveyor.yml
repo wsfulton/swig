@@ -88,7 +88,7 @@ install:
 - if "%OSVARIANT%"=="cygwin" %CYGWINSETUP% --quiet-mode --packages python-devel,libpcre-devel,libboost-devel > cygwin-install.txt || bash -c "cat cygwin-install.txt"
 - if "%OSVARIANT%"=="mingw" bash -c "pacman --noconfirm --sync mingw%MBITS%/mingw-w64-%MARCH%-pcre mingw%MBITS%/mingw-w64-%MARCH%-boost"
 - if not "%WITHLANG%"=="" set SWIGWITHLANG==%WITHLANG%
-- if not "%WITHLANG%"=="" where $WITHLANG
+- if not "%WITHLANG%"=="" where %WITHLANG%
 - bash -c "which $CC"
 - bash -c "which $CXX"
 - bash -c "$CC --version | head -n 1"

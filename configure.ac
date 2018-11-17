@@ -933,8 +933,13 @@ if test -n "$PYTHON3"; then
     AC_CHECK_PROGS(PY2TO3, $py3to2 2to3)
     if test -z "$PY2TO3"; then
       # Windows distributions don't always have the 2to3 executable
-      if test -f "$PY3EPREFIX/Tools/scripts/2to3.py"; then
-        PY2TO3="$PYTHON3 $PY3EPREFIX/Tools/2to3.py"
+      AC_MSG_CHECKING(for 2to3.py)
+      py2to3script="$PY3EPREFIX/Tools/scripts/2to3.py"
+      if test -f "$py2to3script"; then
+        AC_MSG_RESULT($py2to3script)
+        PY2TO3="$PYTHON3 $py2to3script"
+      else
+        AC_MSG_RESULT(Not found)
       fi
     fi
   else

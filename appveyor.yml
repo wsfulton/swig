@@ -102,7 +102,9 @@ install:
 - bash -c "which python3" || true
 - bash -c "python3 -c 'import sys, os; print(format(os.sep))'" || true
 - python3 -c "import sys, os; print(format(os.sep))" || true
-- echo %PATH% | tr ':' '\n' || true
+- echo %PATH% | tr ';' '\n' || true
+- set | grep MINGW -w || true
+- set
 
 - bash -c "python -V"
 - bash -c "make --version | head -n 2"

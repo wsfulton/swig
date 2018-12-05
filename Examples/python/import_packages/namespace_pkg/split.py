@@ -15,6 +15,6 @@ print("  Finished from brave import robin")
 if not(robin.run() == "AWAY!"):
     raise RuntimeError("test failed")
 
-commandline = sys.executable + " -m brave.robin"
-subprocess.check_call(commandline, shell=True, env = {"PYTHONPATH": "path2:path3"})
-print("  Finished running: " + commandline)
+commandline = [sys.executable, "-m", "brave.robin"]
+subprocess.check_call(commandline, env = {"PYTHONPATH": "path2:path3"})
+print("  Finished running: " + " ".join(commandline))

@@ -36,10 +36,10 @@ def main():
     copyMods()
 
     # Run each test with a separate interpreter
-    subprocess.check_call(sys.executable + " nonpkg.py", shell=True)
-    subprocess.check_call(sys.executable + " normal.py", shell=True)
-    subprocess.check_call(sys.executable + " split.py", shell=True)
-    subprocess.check_call(sys.executable + " zipsplit.py", shell=True)
+    subprocess.check_call([sys.executable, "nonpkg.py"])
+    subprocess.check_call([sys.executable, "normal.py"])
+    subprocess.check_call([sys.executable, "split.py"])
+    subprocess.check_call([sys.executable, "zipsplit.py"])
 
 
 if __name__ == "__main__":

@@ -12,6 +12,6 @@ print "  Finished importing pkg1.foo"
 if not(pkg1.foo.count() == 3):
     raise RuntimeError("test failed")
 
-commandline = sys.executable + " -m pkg1.foo"
-subprocess.check_call(commandline, shell=True)
-print("  Finished running: " + commandline)
+commandline = [sys.executable, "-m", "pkg1.foo"]
+subprocess.check_call(commandline)
+print("  Finished running: " + " ".join(commandline))

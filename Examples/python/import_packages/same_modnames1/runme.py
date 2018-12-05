@@ -16,6 +16,6 @@ if classname.find("pkg2.foo.Pkg2_Foo") == -1:
     raise RuntimeError("failed type checking: " + classname)
 print "  Successfully created object pkg2.foo.Pkg2_Foo"
 
-commandline = [sys.executable, "-m", "pkg2.foo"]
-subprocess.check_call(commandline)
-print("  Finished running: " + " ".join(commandline))
+commandline = sys.executable + " -m pkg2.foo"
+subprocess.check_call(commandline, shell=True)
+print("  Finished running: " + commandline)

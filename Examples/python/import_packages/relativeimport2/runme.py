@@ -13,18 +13,18 @@ if sys.version_info < (2, 5):
 if sys.version_info < (3, 0):
     import py2.pkg2.bar
     print "  Finished importing py2.pkg2.bar"
-    commandline = [sys.executable, "-m", "py2.pkg2.bar"]
-    subprocess.check_call(commandline)
-    print("  Finished running: " + " ".join(commandline))
-    commandline = [sys.executable, "-m", "py2.pkg2.pkg3.pkg4.foo"]
-    subprocess.check_call(commandline)
-    print("  Finished running: " + " ".join(commandline))
+    commandline = sys.executable + " -m py2.pkg2.bar"
+    subprocess.check_call(commandline, shell=True)
+    print("  Finished running: " + commandline)
+    commandline = sys.executable + " -m py2.pkg2.pkg3.pkg4.foo"
+    subprocess.check_call(commandline, shell=True)
+    print("  Finished running: " + commandline)
 else:
     import py3.pkg2.bar
     print "  Finished importing py3.pkg2.bar"
-    commandline = [sys.executable, "-m", "py3.pkg2.bar"]
-    subprocess.check_call(commandline)
-    print("  Finished running: " + " ".join(commandline))
-    commandline = [sys.executable, "-m", "py3.pkg2.pkg3.pkg4.foo"]
-    subprocess.check_call(commandline)
-    print("  Finished running: " + " ".join(commandline))
+    commandline = sys.executable + " -m py3.pkg2.bar"
+    subprocess.check_call(commandline, shell=True)
+    print("  Finished running: " + commandline)
+    commandline = sys.executable + " -m py3.pkg2.pkg3.pkg4.foo"
+    subprocess.check_call(commandline, shell=True)
+    print("  Finished running: " + commandline)

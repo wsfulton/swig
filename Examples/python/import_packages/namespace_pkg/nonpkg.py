@@ -12,6 +12,6 @@ print("  Finished importing robin")
 if not(robin.run() == "AWAY!"):
     raise RuntimeError("test failed")
 
-commandline = [sys.executable, "-m", "robin"]
-subprocess.check_call(commandline)
-print("  Finished running: " + " ".join(commandline))
+commandline = sys.executable + " -m robin"
+subprocess.check_call(commandline, shell=True)
+print("  Finished running: " + commandline)

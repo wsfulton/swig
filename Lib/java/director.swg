@@ -27,7 +27,7 @@ SWIGINTERN int Swig::GetThreadName(char *name, size_t len) {
   return prctl(PR_GET_NAME, (unsigned long)name, 0, 0, 0);
 #else
 #if defined(DEBUG_DIRECTOR_THREAD_NAME)
-  fprintf(stderr, "NO PR_GET_NAME defined in GetThreadName()\n");
+  fprintf(stderr, "NO PR_GET_NAME defined in Swig::GetThreadName()\n");
 #endif
   (void)name;
   return 1;
@@ -53,6 +53,9 @@ SWIGINTERN int Swig::GetThreadName(char *name, size_t len) {
 SWIGINTERN int Swig::GetThreadName(char *name, size_t len) {
   (void)len;
   (void)name;
+#if defined(DEBUG_DIRECTOR_THREAD_NAME)
+  fprintf(stderr, "No implementation for Swig::GetThreadName()\n");
+#endif
   return 1;
 }
 #endif

@@ -35,7 +35,14 @@ SWIGINTERN int Swig::GetThreadName(char *name, size_t len) {
 
 #include <pthread.h>
 SWIGINTERN int Swig::GetThreadName(char *name, size_t len) {
-  return pthread_getname_np(pthread_self(), name, len);
+  int ret = pthread_getname_np(pthread_self(), name, len);
+#if defined(DEBUG_DIRECTOR_THREAD_NAME)
+  if (ret != 0) {
+    errno = ret;
+    perror("calling pthread_getname_np in Swig::GetThreadName()");
+  }
+#endif
+  return ret;
 }
 
 #else

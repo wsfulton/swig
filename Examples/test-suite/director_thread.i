@@ -19,6 +19,8 @@
 #include <stdio.h>
 #else
 #include <pthread.h>
+#include <errno.h>
+#include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #endif

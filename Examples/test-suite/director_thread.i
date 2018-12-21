@@ -9,7 +9,7 @@
 
 %begin %{
 #define SWIG_JAVA_USE_THREAD_NAME
-#define DEBUG_DIRECTOR_THREAD_NAME
+//#define DEBUG_DIRECTOR_THREAD_NAME
 %}
 
 %{
@@ -116,15 +116,6 @@ extern "C" {
         perror("calling pthread_setname_np in setThreadName()");
         assert(0);
       }
-
-      char name[128];
-      int getname = pthread_getname_np(pthread_self(), name, sizeof(name));
-      if (getname != 0) {
-        errno = getname;
-        perror("calling pthread_getname_np in setThreadName()");
-        assert(0);
-      }
-      std::cout << "pthread_getname_np " << name << std::endl;
 %#endif
     }
 
@@ -132,11 +123,7 @@ extern "C" {
 %#ifdef _WIN32
       return false;
 %#else
-%#ifdef __APPLE__
-      return false;
-%#else
       return true;
-%#endif
 %#endif
     }
 

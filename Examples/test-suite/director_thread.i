@@ -114,6 +114,15 @@ extern "C" {
         perror("calling pthread_setname_np in setThreadName()");
         assert(0);
       }
+
+      char name[128];
+      int getname = pthread_getname_np(pthread_self(), name, sizeof(name));
+      if (getname != 0) {
+        errno = getname;
+        perror("calling pthread_getname_np in setThreadName()");
+        assert(0);
+      }
+      std::cout << "pthread_getname_np " << name << std::endl;
 %#endif
     }
 

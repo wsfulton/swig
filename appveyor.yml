@@ -1,35 +1,14 @@
 platform:
 - x86
-- x64
 
 environment:
   global:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: csharp
-    VSVER: 14
-  - SWIGLANG: java
-    VSVER: 14
   - SWIGLANG: python
-    VSVER: 14
+    OSVARIANT: mingw32
     VER: 27
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 36
-    PY3: 3
-  - SWIGLANG: python
-    OSVARIANT: cygwin
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    VER: 27
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    WITHLANG: python
-    VER: 37
-    PY3: 3
 
 install:
 - date /T & time /T
@@ -43,6 +22,8 @@ install:
       $env:CYGWINSETUP="C:/cygwin/setup-x86.exe"
       $env:MSYSBIN="C:\msys64\usr\bin"
       $env:MINGWBIN="C:\msys64\mingw32\bin"
+      $env:MSYS32BIN="C:\MinGW\bin"
+      $env:MINGW32BIN="C:\MinGW\msys\1.0\bin"
       $env:MBITS="32"
       $env:MARCH="i686"
     } else {
@@ -78,6 +59,11 @@ install:
       if ($env:MBITS -eq "64" -and $env:SWIGLANG -eq "python") {
         $env:CHECK_OPTIONS2="CFLAGS+=-DMS_WIN64 CXXFLAGS+=-DMS_WIN64"
       }
+    } elseif ($env:OSVARIANT -eq "mingw32") {
+      # Note mingw setup tests the native Windows Python distribution (not MinGW Python) with gcc
+      $env:PATH="$env:MINGW32BIN;$env:MSYS32BIN;$env:PATH"
+      $env:CC="gcc"
+      $env:CXX="g++"
     }
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%

@@ -37,6 +37,9 @@ case "$SWIGLANG" in
 		travis_retry sudo dpkg -i dmd_2.066.0-0_amd64.deb
 		;;
 	"go")
+		travis_retry sudo add-apt-repository -y ppa:gophers/archive
+		travis_retry sudo apt-get -qq update
+		travis_retry sudo apt-get -qq install golang-$VER
 		;;
 	"javascript")
 		case "$ENGINE" in

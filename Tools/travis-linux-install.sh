@@ -37,16 +37,16 @@ case "$SWIGLANG" in
 		travis_retry sudo dpkg -i dmd_2.066.0-0_amd64.deb
 		;;
 	"go")
-		gimme list
-		which go || true
+		gimme --list
+		gimme --known
+		which go
 		go version
-		echo "path1... $PATH"
 		if [[ "$VER" ]]; then
-		  eval "$(gimme $VER)"
+		  eval "$(gimme ${VER}.x)"
 		fi
-		which go || true
+		which go
 		go version
-		echo "path2... $PATH"
+		gimme --list
 		;;
 	"javascript")
 		case "$ENGINE" in

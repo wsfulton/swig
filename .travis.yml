@@ -13,7 +13,7 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.11
+      env: SWIGLANG=go VER=1.5
       sudo: required
       dist: xenial
     - os: linux

@@ -37,16 +37,15 @@ case "$SWIGLANG" in
 		travis_retry sudo dpkg -i dmd_2.066.0-0_amd64.deb
 		;;
 	"go")
+		gimme list
 		which go || true
+		go version
 		echo "path1... $PATH"
 		if [[ "$VER" ]]; then
-			travis_retry sudo add-apt-repository -y ppa:gophers/archive
-			travis_retry sudo apt-get -qq update
-			travis_retry sudo apt-get -qq install golang-$VER
+		  eval "$(gimme $VER)"
 		fi
 		which go || true
-		which go-$VER || true
-		ls $(which go)* || true
+		go version
 		echo "path2... $PATH"
 		;;
 	"javascript")

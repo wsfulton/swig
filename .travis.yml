@@ -10,28 +10,28 @@ matrix:
       os: linux
       env: SWIGLANG=go VER=1.4
       sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.7
-      sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.11
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=go SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
-      sudo: required
-      dist: trusty
-    - os: linux
-      env: SWIGLANG=go SWIG_CC=gcc-6 SWIG_CXX=g++-6 CPP14=1
-      sudo: required
-      dist: trusty
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=go
+      dist: bionic
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=go VER=1.7
+#      sudo: required
+#      dist: trusty
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=go VER=1.11
+#      sudo: required
+#      dist: trusty
+#    - os: linux
+#      env: SWIGLANG=go SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
+#      sudo: required
+#      dist: trusty
+#    - os: linux
+#      env: SWIGLANG=go SWIG_CC=gcc-6 SWIG_CXX=g++-6 CPP14=1
+#      sudo: required
+#      dist: trusty
+#    - compiler: clang
+#      os: osx
+#      env: SWIGLANG=go
 
 before_install:
   - date -u

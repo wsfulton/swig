@@ -54,16 +54,16 @@ matrix:
 #     env: SWIGLANG=java
 #     sudo: required
 #     dist: xenial
-   - compiler: gcc
-     os: linux
-     env: SWIGLANG=javascript ENGINE=node VER=0.10
-     sudo: required
-     dist: xenial
-   - compiler: gcc
-     os: linux
-     env: SWIGLANG=javascript ENGINE=node VER=0.12
-     sudo: required
-     dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=0.10
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=0.12
+      sudo: required
+      dist: xenial
 #   - compiler: gcc
 #     os: linux
 #     env: SWIGLANG=javascript ENGINE=node VER=4 CPP11=1

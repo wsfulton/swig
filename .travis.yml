@@ -284,7 +284,7 @@ matrix:
     - os: linux
       env: SWIGLANG=go SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
       sudo: required
-      dist: trusty
+      dist: xenial
     - os: linux
 #     env: SWIGLANG=java SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
 #     sudo: required

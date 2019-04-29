@@ -94,16 +94,16 @@ matrix:
 #     env: SWIGLANG=javascript ENGINE=v8
 #     sudo: required
 #     dist: xenial
-#   - compiler: gcc
-#     os: linux
-#     env: SWIGLANG=lua
-#     sudo: required
-#     dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=lua
+      sudo: required
+      dist: xenial
     - compiler: gcc
       os: linux
       env: SWIGLANG=lua VER=5.3
       sudo: required
-      dist: trusty
+      dist: xenial
 #   - compiler: gcc
 #     os: linux
 #     env: SWIGLANG=mzscheme

@@ -113,7 +113,7 @@ matrix:
       os: linux
       env: SWIGLANG=ocaml
       sudo: required
-      dist: trusty
+      dist: xenial
 #   - compiler: gcc
 #     os: linux
 #     env: SWIGLANG=octave SWIGJOBS=-j2 # 3.8
@@ -403,7 +403,7 @@ matrix:
       os: linux
       env: SWIGLANG=ocaml
       sudo: required
-      dist: trusty
+      dist: xenial
 
 before_install:
   - date -u

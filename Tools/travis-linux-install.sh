@@ -49,7 +49,7 @@ case "$SWIGLANG" in
 				[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 				travis_retry nvm install ${VER}
 				nvm use ${VER}
-				if [ "$VER" == "0.10" ] || [ "$VER" == "0.20" ] ; then
+				if [ "$VER" == "0.10" ] || [ "$VER" == "0.12" ] ; then
 #					travis_retry sudo apt-get install -qq nodejs node-gyp
 					travis_retry npm install -g node-gyp@$VER
 				else

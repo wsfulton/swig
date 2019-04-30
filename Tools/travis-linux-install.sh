@@ -44,16 +44,20 @@ case "$SWIGLANG" in
 	"javascript")
 		case "$ENGINE" in
 			"node")
+				set -x
+				which nvm
+				which npm
+				travis_retry nvm install ${VER}
+				nvm use $VER
 				if [ "$VER" == "0.10" ] || [ "$VER" == "0.20" ] ; then
 #					travis_retry sudo apt-get install -qq nodejs node-gyp
-					nvm use $VER
 					travis_retry npm install -g node-gyp@$VER
 				else
 #					travis_retry wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.10/install.sh | bash
 #					export NVM_DIR="$HOME/.nvm"
 #					[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 #					travis_retry nvm install ${VER}
-					nvm use ${VER}
+#					nvm use ${VER}
 					travis_retry npm install -g node-gyp
 				fi
 				;;

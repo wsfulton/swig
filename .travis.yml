@@ -282,7 +282,7 @@ matrix:
 #     sudo: required
 #     dist: xenial
     - os: linux
-      env: SWIGLANG=go SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
+      env: SWIGLANG=go VER=1.5 SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
       sudo: required
       dist: xenial
 #   - os: linux

@@ -68,7 +68,7 @@ case "$SWIGLANG" in
 		;;
 	"lua")
 		if [[ -z "$VER" ]]; then
-			travis_retry sudo apt-get -qq install lua liblua-dev
+			travis_retry sudo apt-get -qq install lua5.2 liblua5.2-dev
 		else
 			travis_retry sudo apt-get -qq install lua${VER} liblua${VER}-dev
 		fi

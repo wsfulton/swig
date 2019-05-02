@@ -114,7 +114,7 @@ case "$SWIGLANG" in
 		fi
 		;;
 	"scilab")
-		travis_retry sudo apt-get -qq install scilab
+		travis_retry sudo apt-get -qq install openjdk-9-jdk-headless scilab
 		;;
 	"tcl")
 		travis_retry sudo apt-get -qq install tcl-dev

@@ -7,7 +7,7 @@ set -e # exit on failure (same as -o errexit)
 lsb_release -a
 travis_retry sudo apt-get -qq update
 
-if [[ -z "$GCC" ]]; then
+if [[ -n "$GCC" ]]; then
 	travis_retry sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 	travis_retry sudo apt-get -qq update
 	travis_retry sudo apt-get install -qq g++-$GCC

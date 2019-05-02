@@ -111,14 +111,9 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 # 3.8
+      env: SWIGLANG=octave SWIGJOBS=-j2
       sudo: required
       dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 VER=4.0
-      sudo: required
-      dist: trusty
     - compiler: gcc
       os: linux
       env: SWIGLANG=octave SWIGJOBS=-j2 VER=4.2 CPP11=1
@@ -277,9 +272,9 @@ matrix:
       sudo: required
       dist: xenial
     - os: linux
-      env: SWIGLANG=go VER=1.5 SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
+      env: SWIGLANG=go SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
       sudo: required
-      dist: xenial
+      dist: trusty
     - os: linux
       env: SWIGLANG=java SWIG_CC=gcc-5 SWIG_CXX=g++-5 CPP11=1
       sudo: required
@@ -307,7 +302,7 @@ matrix:
     - os: linux
       env: SWIGLANG=go SWIG_CC=gcc-6 SWIG_CXX=g++-6 CPP14=1
       sudo: required
-      dist: xenial
+      dist: trusty
     - os: linux
       env: SWIGLANG=java SWIG_CC=gcc-6 SWIG_CXX=g++-6 CPP14=1
       sudo: required
@@ -380,7 +375,7 @@ matrix:
     - compiler: clang
       os: osx
       env: SWIGLANG=tcl
- 
+
   allow_failures:
     # Sometimes hits the Travis 50 minute time limit
     - compiler: gcc

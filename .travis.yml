@@ -6,6 +6,10 @@ matrix:
       env: SWIGLANG=scilab
       sudo: required
       dist: xenial
+    - os: linux
+      env: SWIGLANG=go CPP11=1
+      sudo: required
+      dist: xenial
 
 before_install:
   - date -u

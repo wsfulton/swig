@@ -1,15 +1,32 @@
-language: cpp
 matrix:
   include:
     - compiler: gcc
+      language: cpp
       os: linux
-      env: SWIGLANG=scilab
+      env: SWIGLANG=csharp
       sudo: required
       dist: xenial
-    - os: linux
-      env: SWIGLANG=go VER=1.6 CPP11=1
-      sudo: required
+    - compiler: gcc
+      language: cpp
+      os: linux
+      env: SWIGLANG=csharp
       dist: xenial
+    - compiler: gcc
+      language: cpp
+      os: linux
+      env: SWIGLANG=csharp
+      sudo: required
+      dist: bionic
+    - compiler: gcc
+      language: csharp
+      os: linux
+      env: SWIGLANG=csharp
+      dist: bionic
+    - compiler: gcc
+      language: cpp
+      os: linux
+      env: SWIGLANG=csharp
+      dist: bionic
 
 before_install:
   - date -u

@@ -114,7 +114,10 @@ case "$SWIGLANG" in
 		fi
 		;;
 	"scilab")
+		echo "$JAVA_HOME set to $JAVA_HOME"
 		travis_retry sudo apt-get -qq install openjdk-9-jdk-headless scilab
+		jdk_switcher use openjdk9
+		echo "$JAVA_HOME is now set to $JAVA_HOME"
 		;;
 	"tcl")
 		travis_retry sudo apt-get -qq install tcl-dev

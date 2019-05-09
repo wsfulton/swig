@@ -3,17 +3,27 @@ matrix:
   include:
     - compiler: gcc
       os: linux
+      env: SWIGLANG=ruby VER=1.8
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=ruby VER=1.9
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=ruby VER=2.0
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
       env: SWIGLANG=ruby VER=2.1
       sudo: required
       dist: xenial
     - compiler: gcc
       os: linux
       env: SWIGLANG=ruby VER=2.2
-      sudo: required
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=2.3.0
       sudo: required
       dist: xenial
     - compiler: gcc

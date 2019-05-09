@@ -110,6 +110,7 @@ case "$SWIGLANG" in
 		;;
 	"ruby")
 		rvm list
+		rvm list known
 		if [[ "$VER" ]]; then
 			travis_retry rvm install $VER
 		fi

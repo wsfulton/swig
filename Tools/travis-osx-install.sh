@@ -12,6 +12,11 @@ travis_retry brew list
 
 WITHLANG=$SWIGLANG
 
+if [[ "$VER" ]]; then
+	ATVER=@$VER*
+else
+	ATVER=
+fi
 case "$SWIGLANG" in
 	"csharp")
 		travis_retry brew install mono
@@ -23,10 +28,7 @@ case "$SWIGLANG" in
 		travis_retry brew install lua
 		;;
 	"octave")
-		echo "listing..."
-		travis_retry brew search octave@
-		echo "listing done"
-		travis_retry brew install octave@$VER
+		travis_retry brew install octave$ATVER
 		;;
 	"python")
 		WITHLANG=$SWIGLANG$PY3

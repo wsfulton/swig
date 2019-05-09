@@ -109,6 +109,7 @@ case "$SWIGLANG" in
 		travis_retry sudo apt-get -qq install r-base
 		;;
 	"ruby")
+		rvm list
 		if [[ "$VER" ]]; then
 			travis_retry rvm install $VER
 		fi

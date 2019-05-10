@@ -12,8 +12,13 @@ travis_retry brew list
 
 WITHLANG=$SWIGLANG
 
+echo "brew searching start..."
+brew search octave || true
+echo "brew versions start..."
+brew versions octave || true
+echo "brew searching end"
 if [[ "$VER" ]]; then
-	ATVER=@$VER*
+	ATVER=@$VER
 else
 	ATVER=
 fi

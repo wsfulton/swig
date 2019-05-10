@@ -4,15 +4,6 @@ matrix:
     - compiler: clang
       os: osx
       env: SWIGLANG=octave
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave VER=4.2.2
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave VER=4.4.1
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave VER=5.1.0
 
 before_install:
   - date -u

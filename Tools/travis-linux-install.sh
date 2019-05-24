@@ -73,7 +73,7 @@ case "$SWIGLANG" in
 	"octave")
 		if [[ -z "$VER" ]]; then
 			travis_retry sudo apt-get -qq install liboctave-dev
-		if [[ "$VER" == "5" ]]; then
+		elif [[ "$VER" == "5" ]]; then
 			time sudo apt-get install flatpak
 			time flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 			time flatpak install flathub org.octave.Octave

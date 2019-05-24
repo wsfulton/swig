@@ -1,40 +1,50 @@
 language: cpp
 matrix:
   include:
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave SWIGJOBS=-j4
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=octave SWIGJOBS=-j4 CPP11=1
+#   - compiler: clang
+#     os: osx
+#     env: SWIGLANG=octave
+#   - compiler: clang
+#     os: osx
+#     env: SWIGLANG=octave SWIGJOBS=-j4
+#   - compiler: clang
+#     os: osx
+#     env: SWIGLANG=octave SWIGJOBS=-j4 CPP11=1
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=octave SWIGJOBS=-j4
+#     sudo: required
+#     dist: xenial
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=octave SWIGJOBS=-j4 CPP11=1
+#     sudo: required
+#     dist: xenial
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=octave SWIGJOBS=-j4
+#     sudo: required
+#     dist: trusty
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.2 CPP11=1
+#     sudo: required
+#     dist: trusty
+#   - compiler: gcc
+#     os: linux
+#     env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.4 CPP11=1
+#     sudo: required
+#     dist: trusty
     - compiler: gcc
       os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4
+      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5
       sudo: required
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4 CPP11=1
+      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5 CPP11=1
       sudo: required
       dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4
-      sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.2 CPP11=1
-      sudo: required
-      dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.4 CPP11=1
-      sudo: required
-      dist: trusty
 
 before_install:
   - date -u

@@ -74,9 +74,9 @@ case "$SWIGLANG" in
 		if [[ -z "$VER" ]]; then
 			travis_retry sudo apt-get -qq install liboctave-dev
 		if [[ "$VER" == "5" ]]; then
-			sudo apt-get install flatpak
-			flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-			flatpak install flathub org.octave.Octave
+			time sudo apt-get install flatpak
+			time flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+			time flatpak install flathub org.octave.Octave
 		else
 			# Travis adds external PPAs which contain newer versions of packages
 			# than in baseline trusty. These newer packages prevent some of the

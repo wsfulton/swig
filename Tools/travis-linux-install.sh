@@ -76,6 +76,8 @@ case "$SWIGLANG" in
 		elif [[ "$VER" == "5" ]]; then
 			travis_retry sudo add-apt-repository -y ppa:alexlarsson/flatpak
 			echo "flatpak step 1"
+			travis_retry sudo apt-get -qq update
+			echo "flatpak step 1a"
 			time travis_retry sudo apt-get -qq install flatpak
 			echo "flatpak step 2"
 			time travis_retry flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

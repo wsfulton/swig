@@ -81,8 +81,10 @@ case "$SWIGLANG" in
 			time travis_retry sudo apt-get -qq install flatpak
 			echo "flatpak step 2"
 			time travis_retry sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+			echo "flatpak step 2a"
+			time travis_retry sudo flatpak search octave
 			echo "flatpak step 3"
-			time travis_retry sudo flatpak install flathub org.octave.Octave
+			time travis_retry sudo flatpak install -y flathub org.octave.Octave
 			echo "flatpak step 4"
 		else
 			# Travis adds external PPAs which contain newer versions of packages

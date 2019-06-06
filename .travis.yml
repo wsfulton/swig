@@ -35,16 +35,28 @@ matrix:
 #     env: SWIGLANG=octave SWIGJOBS=-j4 VER=4.4 CPP11=1
 #     sudo: required
 #     dist: trusty
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5
-      sudo: required
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5 CPP11=1
-      sudo: required
-      dist: xenial
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5
+#      sudo: required
+#      dist: xenial
+#    - compiler: gcc
+#      os: linux
+#      env: SWIGLANG=octave SWIGJOBS=-j2 VER=5 CPP11=1
+#      sudo: required
+#      dist: xenial
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=python PY3=3
+      osx_image: xcode10
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=python PY3=3
+      osx_image: xcode10.1
+    - compiler: clang
+      os: osx
+      env: SWIGLANG=python PY3=3
+      osx_image: xcode10.2
 
 before_install:
   - date -u

@@ -30,7 +30,7 @@ double average(std::list<int> v) {
 
 
 void halve_in_place(std::list<double>& v) {
-    for (std::vector<double>::iterator it = v.begin(); it != v.end(); ++it)
+    for (std::list<double>::iterator it = v.begin(); it != v.end(); ++it)
         *it /= 2.0;
 }
 

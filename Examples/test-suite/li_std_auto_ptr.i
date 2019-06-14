@@ -1,5 +1,17 @@
 %module li_std_auto_ptr
 
+%{
+#if __GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // auto_ptr deprecation
+#endif
+
+#if defined(__clang__)
+#pragma clang diagnostic push
+// Suppress 'auto_ptr<>' is deprecated
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+%}
+
 #if defined(SWIGCSHARP) || defined(SWIGJAVA) || defined(SWIGPYTHON)
 
 %include "std_auto_ptr.i"
@@ -7,10 +19,10 @@
 %auto_ptr(Klass)
 
 %{
-#if __cplusplus < 201103L
+#if __cplusplus < 201703L
 #include <memory>
 #else
-// Simple std::auto_ptr implementation for testing with C++11 and later
+// Simple std::auto_ptr implementation for testing after its removal in C++17
 namespace std {
   template <class T> class auto_ptr {
     T *ptr;

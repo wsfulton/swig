@@ -18,7 +18,12 @@ struct NoExceptClass {
   NoExceptClass(const NoExceptClass&) noexcept {}
   NoExceptClass(NoExceptClass&&) noexcept {}
   NoExceptClass& operator=(const NoExceptClass&) noexcept { return *this; }
+
+// Workaround clang 10.2 -std=c++17 linker error:
+// Undefined symbols for architecture x86_64: "___cxa_deleted_virtual", referenced from: vtable for NoExceptClass
+#if !defined(__clang__)
   virtual ~NoExceptClass() noexcept {}
+#endif
 
   void noex0() noexcept {}
   void noex1() noexcept(sizeof(int) == 4) {}

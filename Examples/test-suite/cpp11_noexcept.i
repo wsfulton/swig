@@ -21,7 +21,9 @@ struct NoExceptClass {
 
 // Workaround clang 10.0.1 -std=c++17 linker error:
 // Undefined symbols for architecture x86_64: "___cxa_deleted_virtual", referenced from: vtable for NoExceptClass
-#if !defined(__clang__)
+#if defined(__clang__)
+  virtual ~NoExceptClass() {}
+#else
   virtual ~NoExceptClass() noexcept {}
 #endif
 

@@ -32,12 +32,36 @@ struct A2 {
 
 // Workaround clang 10.0.1 -std=c++17 linker error:
 // Undefined symbols for architecture x86_64:"___cxa_deleted_virtual", referenced from: vtable for A2 
-#if !defined(__clang__)
+#if defined(__clang__)
+  virtual ~A2() {}
+#else
   virtual ~A2() = default;
 #endif
 
   template<class T> void funk(T) = delete;
 };
+
+struct A3 {
+  void funk(int i) {}
+  virtual void fff(int) = delete;
+
+  virtual ~A3() = default;
+};
+
+struct A4 {
+  void funk(int i) {}
+  virtual ~A4() = default;
+};
+
+struct A5 {
+  virtual void fff(int) = delete;
+  virtual ~A5() = default;
+};
+
+struct A6 {
+  virtual void fff(int) = delete;
+};
+
 
 struct trivial {
   trivial() = default;

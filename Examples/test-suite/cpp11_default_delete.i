@@ -62,6 +62,30 @@ struct A6 {
   virtual void fff(int) = delete;
 };
 
+struct A7 {
+  virtual void virtfunk(int i) {}
+  virtual void fff(int) = delete;
+
+  virtual ~A7() = default;
+};
+
+struct A8 {
+  virtual void virtfunk(int i) {}
+  virtual ~A8() = default;
+};
+
+struct A9 {
+  void funk(int i) = delete;
+  virtual ~A9() = default;
+};
+
+struct A10 {
+  virtual void funk(int i) = delete;
+  virtual ~A10() = default;
+};
+
+
+
 
 struct trivial {
   trivial() = default;

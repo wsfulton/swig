@@ -18,9 +18,7 @@ struct NoExceptClass {
   NoExceptClass(const NoExceptClass&) noexcept {}
   NoExceptClass(NoExceptClass&&) noexcept {}
   NoExceptClass& operator=(const NoExceptClass&) noexcept { return *this; }
-
   virtual ~NoExceptClass() noexcept {}
-#endif
 
   void noex0() noexcept {}
   void noex1() noexcept(sizeof(int) == 4) {}
@@ -37,7 +35,6 @@ struct NoExceptClass {
 // Workaround clang 10.0.1 -std=c++17 linker error (oddly for Java and not Python):
 // Undefined symbols for architecture x86_64: "___cxa_deleted_virtual", referenced from: vtable for NoExceptClass
 #if !(defined(__clang__) && __cplusplus >= 201703L)
-#else
   virtual void noo4() const noexcept = delete;
   virtual void noo5() const throw() = delete;
 #endif

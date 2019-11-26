@@ -7,10 +7,10 @@ environment:
     MAKEJOBS: 2
 
   matrix:
- - SWIGLANG: python
-   VSVER: 14
-   VER: 37
-   PY3: 3
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 36
+    PY3: 3
 
 install:
 - date /T & time /T

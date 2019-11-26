@@ -9,7 +9,7 @@ environment:
   matrix:
   - SWIGLANG: python
     VSVER: 14
-    VER: 36
+    VER: 37
     PY3: 3
 
 install:

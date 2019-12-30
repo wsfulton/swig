@@ -11,9 +11,6 @@ matrix:
       env: SWIGLANG=ruby VER=2.6
       sudo: required
       dist: xenial
-    - compiler: clang
-      os: osx
-      env: SWIGLANG=ruby
 
   allow_failures:
 
@@ -25,14 +22,6 @@ before_install:
   # Travis overrides CC environment with compiler predefined values
   - if test -n "$GCC"; then export CC="gcc-$GCC" && export CXX="g++-$GCC"; fi
 install:
-  - rvm get head || true
-  - rvm reload || true
-  - rvm get master || true
-  - rvm list known || true
-  - rvm list known --all || true
-  - rvm reload || true
-  - rvm list known || true
-  - rvm list known --all || true
   - if test "$TRAVIS_OS_NAME" = "linux"; then source Tools/travis-linux-install.sh; fi
   - if test "$TRAVIS_OS_NAME" = "osx"; then source Tools/travis-osx-install.sh; fi
   - ls -la $(which $CC) $(which $CXX) && $CC --version && $CXX --version

@@ -27,8 +27,10 @@ before_install:
 install:
   - rvm get head || true
   - rvm reload || true
-  - rvm get stable || true
-  - rvm list strings || true
+  - rvm get master || true
+  - rvm list known || true
+  - rvm list known --all || true
+  - rvm reload || true
   - rvm list known || true
   - rvm list known --all || true
   - if test "$TRAVIS_OS_NAME" = "linux"; then source Tools/travis-linux-install.sh; fi

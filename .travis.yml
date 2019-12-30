@@ -25,11 +25,8 @@ before_install:
   # Travis overrides CC environment with compiler predefined values
   - if test -n "$GCC"; then export CC="gcc-$GCC" && export CXX="g++-$GCC"; fi
 install:
-  - gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-  - \curl -sSL https://get.rvm.io | bash -s master
-  - rvm list strings || true
-  - rvm list known || true
-  - rvm list known --all || true
+  - rvm get head || true
+  - rvm reload || true
   - rvm get stable || true
   - rvm list strings || true
   - rvm list known || true

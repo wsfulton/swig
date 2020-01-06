@@ -23,7 +23,7 @@ case "$SWIGLANG" in
 		travis_retry sudo apt-get -qq install mono-devel
 		;;
 	"d")
-		travis_retry wget http://downloads.dlang.org/releases/2.x/dmd_${VER}-0_amd64.deb
+		travis_retry wget http://downloads.dlang.org/releases/2.x/${VER}/dmd_${VER}-0_amd64.deb
 		travis_retry sudo dpkg -i dmd_${VER}-0_amd64.deb
 		;;
 	"go")

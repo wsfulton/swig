@@ -14,7 +14,7 @@ matrix:
       sudo: required
       dist: bionic
     - os: linux
-      env: SWIGLANG=python GCC=10 CPP17=1 PY3=3 VER=3.8
+      env: SWIGLANG=python GCC=10 CPP17=1 PY3=3
       sudo: required
       dist: bionic
     - os: linux
@@ -26,7 +26,7 @@ matrix:
       sudo: required
       dist: bionic
     - os: linux
-      env: SWIGLANG=python GCC=10 CPP20=1 PY3=3 VER=3.8
+      env: SWIGLANG=python GCC=10 CPP20=1 PY3=3
       sudo: required
       dist: bionic
 

@@ -898,19 +898,17 @@ fi
 AC_ARG_WITH(2to3, AS_HELP_STRING([--with-2to3=path], [Set location of Python 2to3 tool]), [PY2TO3BIN="$withval"], [PY2TO3BIN="yes"])
 if test -n "$PYTHON3"; then
   if test "x$PY2TO3BIN" = xyes; then
-    py3to2=`echo $PYTHON3 | sed -e "s/python/2to3-/"`
-    AC_CHECK_PROGS(PY2TO3, $py3to2 2to3)
-    if test -z "$PY2TO3"; then
-      # Windows distributions don't always have the 2to3 executable
-      AC_MSG_CHECKING(for 2to3.py)
-      py2to3script="$PY3PREFIX/Tools/scripts/2to3.py"
-      if test -f "$py2to3script"; then
-        AC_MSG_RESULT($py2to3script)
-        PY2TO3="$PYTHON3 $py2to3script"
-      else
-        AC_MSG_RESULT(Not found)
-      fi
-    fi
+    # The 2to3 executable is not always available and even when available does not
+    # always work, e.g. with pyenv, so we we use the lib2to3 Python module instead.
+    PY2TO3="$PYTHON3 -m lib2to3"
+
+    AC_MSG_CHECKING([if 2to3 works using '$PY2TO3'])
+    AS_IF([test "x`$PY2TO3 --help 2>/dev/null | sed -n -e '1p' | sed -n -e '/^Usage: 2to3/p'`" != x],[
+       AC_MSG_RESULT([yes])
+    ],[
+       AC_MSG_RESULT([no])
+       PY2TO3=
+    ])
   else
     PY2TO3="$PY2TO3BIN"
   fi

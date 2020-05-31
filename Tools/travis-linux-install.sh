@@ -87,7 +87,7 @@ case "$SWIGLANG" in
 		if [[ "$VER" ]]; then
 			travis_retry sudo add-apt-repository -y ppa:deadsnakes/ppa
 			travis_retry sudo apt-get -qq update
-			travis_retry sudo apt-get -qq install python${VER}-dev
+			travis_retry sudo apt-get -qq install python${VER}-dev python${VER}-lib2to3
 			WITHLANG=$SWIGLANG$PY3=$SWIGLANG$VER
 		fi
 		;;

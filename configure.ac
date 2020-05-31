@@ -915,6 +915,7 @@ if test -n "$PYTHON3"; then
   if test -z "$PY2TO3"; then
     PYTHON3=
   fi
+  AC_SUBST(PY2TO3)
 fi
 
 #----------------------------------------------------------------

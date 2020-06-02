@@ -7,29 +7,12 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: csharp
+  - SWIGLANG: ruby
     VSVER: 14
-  - SWIGLANG: java
-    VSVER: 14
-  - SWIGLANG: python
+    VER: 26
+  - SWIGLANG: ruby
     VSVER: 14
     VER: 27
-# - SWIGLANG: python
-#   VSVER: 14
-#   VER: 36
-#   PY3: 3
-  - SWIGLANG: python
-    OSVARIANT: cygwin
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    VER: 27
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    WITHLANG: python
-    VER: 37
-    PY3: 3
 
 install:
 - date /T & time /T
@@ -84,7 +67,7 @@ install:
 - if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
 - if "%OSVARIANT%"=="" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
-- if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%
+- if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;C:\Ruby%VER%%LANG_PLATFORM%\bin;%PATH%
 - if "%OSVARIANT%"=="" bash -c "which cl.exe"
 - if "%OSVARIANT%"=="" bash -c "cl.exe /? 2>&1 | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which csc.exe"

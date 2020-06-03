@@ -1,3 +1,6 @@
+image:
+  - Visual Studio 2019
+
 platform:
 - x86
 - x64
@@ -8,11 +11,11 @@ environment:
 
   matrix:
   - SWIGLANG: ruby
-    VSVER: 14
+    OSVARIANT: mingw
+    VER: 25
+  - SWIGLANG: python
+    OSVARIANT: mingw
     VER: 26
-  - SWIGLANG: ruby
-    VSVER: 14
-    VER: 27
 
 install:
 - date /T & time /T

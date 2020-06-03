@@ -11,8 +11,10 @@ environment:
 
   matrix:
   - SWIGLANG: ruby
+    OSVARIANT: mingw
     VER: 25
   - SWIGLANG: ruby
+    OSVARIANT: mingw
     VER: 26
 
 install:

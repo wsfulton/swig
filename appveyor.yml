@@ -71,6 +71,10 @@ install:
 - if "%OSVARIANT%"=="" call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars%MBITS%.bat"
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;C:\Ruby%VER%%LANG_PLATFORM%\bin;%PATH%
+- ruby -rrbconfig -e 'print RbConfig::CONFIG'
+- bash -c "find C:/Ruby$VER$LANG_PLATFORM -name '*.dll'"
+- bash -c "find C:/Ruby$VER$LANG_PLATFORM -name '*.lib'"
+- bash -c "find C:/Ruby$VER$LANG_PLATFORM -name '*.a'"
 - if "%OSVARIANT%"=="" bash -c "which cl.exe"
 - if "%OSVARIANT%"=="" bash -c "cl.exe /? 2>&1 | head -n 1"
 - if "%OSVARIANT%"=="" bash -c "which csc.exe"

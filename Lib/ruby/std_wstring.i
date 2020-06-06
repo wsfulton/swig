@@ -1,13 +1,13 @@
 %{
-#if defined(_MSC_VER)
-#define SWIG_RUBY_ENDIAN "LE"
-#else
+#if defined(__linux__)
 #include <endian.h>
 #if BYTE_ORDER == LITTLE_ENDIAN
 #define SWIG_RUBY_ENDIAN "LE"
 #elif BYTE_ORDER == BIG_ENDIAN
 #define SWIG_RUBY_ENDIAN "BE"
 #endif
+#else
+#define SWIG_RUBY_ENDIAN "LE"
 #endif
 
 #ifdef __cplusplus

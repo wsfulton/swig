@@ -42,6 +42,8 @@ case "$SWIGLANG" in
 				if [ "$VER" == "0.10" ] || [ "$VER" == "0.12" ] || [ "$VER" == "4" ] || [ "$VER" == "6" ] || [ "$VER" == "8" ] ; then
 #					travis_retry sudo apt-get install -qq nodejs node-gyp
 					travis_retry npm install -g node-gyp@$VER
+				else if [ "$VER" == "8" ] ; then
+					travis_retry npm install -g node-gyp@6
 				else
 					travis_retry npm install -g node-gyp
 				fi

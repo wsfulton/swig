@@ -1,5 +1,14 @@
 %{
+#if defined(_MSC_VER)
+#define SWIG_RUBY_ENDIAN "LE"
+#else
 #include <endian.h>
+#if BYTE_ORDER == LITTLE_ENDIAN
+#define SWIG_RUBY_ENDIAN "LE"
+#elif BYTE_ORDER == BIG_ENDIAN
+#define SWIG_RUBY_ENDIAN "BE"
+#endif
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,17 +26,9 @@ extern "C" {
 #ifndef SWIG_RUBY_WSTRING_ENCODING
 
 #if WCHAR_MAX == 0x7fff || WCHAR_MAX == 0xffff
-#if BYTE_ORDER == LITTLE_ENDIAN
-#define SWIG_RUBY_WSTRING_ENCODING "UTF-16LE"
-#elif BYTE_ORDER == BIG_ENDIAN
-#define SWIG_RUBY_WSTRING_ENCODING "UTF-16BE"
-#endif
+#define SWIG_RUBY_WSTRING_ENCODING "UTF-16" SWIG_RUBY_ENDIAN
 #elif WCHAR_MAX == 0x7fffffff || WCHAR_MAX == 0xffffffff
-#if BYTE_ORDER == LITTLE_ENDIAN
-#define SWIG_RUBY_WSTRING_ENCODING "UTF-32LE"
-#elif BYTE_ORDER == BIG_ENDIAN
-#define SWIG_RUBY_WSTRING_ENCODING "UTF-32BE"
-#endif
+#define SWIG_RUBY_WSTRING_ENCODING "UTF-32" SWIG_RUBY_ENDIAN
 #else
 #error unsupported wchar_t size. SWIG_RUBY_WSTRING_ENCODING must be given.
 #endif

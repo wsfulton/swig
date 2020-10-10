@@ -29,7 +29,7 @@ CPP_TEST_BROKEN += \
 	li_std_set \
 	li_std_stream
 
-C_TEST_CASES +=
+C_TEST_CASES += \
 	ccomplextest \
 
 include $(srcdir)/../common.mk

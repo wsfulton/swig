@@ -29,13 +29,8 @@ CPP_TEST_BROKEN += \
 	li_std_set \
 	li_std_stream
 
-#C_TEST_CASES +=
-
-#
-# This test only works with modern C compilers
-#
-#C_TEST_CASES += \
-#	complextest
+C_TEST_CASES +=
+	ccomplextest \
 
 include $(srcdir)/../common.mk
 

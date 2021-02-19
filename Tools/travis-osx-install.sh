@@ -3,13 +3,13 @@
 # Install MacOS packages where the version has been overidden in .travis.yml
 
 set -e # exit on failure (same as -o errexit)
-set -x
 
 # Disable 'brew cleanup', just wastes Travis job run time
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 
 sw_vers
 travis_retry brew update
+echo "Installed packages..."
 travis_retry brew list --versions
 # travis_retry brew install pcre # Travis Xcode-7.3 has pcre
 # travis_retry brew install boost

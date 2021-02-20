@@ -33,7 +33,7 @@ case "$SWIGLANG" in
 		WITHLANG=$SWIGLANG$PY3
 		;;
 	"tcl")
-		travis_retry Tools/brew-install tcl-tk
+		travis_retry Tools/brew-install --cask tcl
 		;;
 esac
 

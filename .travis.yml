@@ -25,6 +25,71 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.0 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.1 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.2 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.3 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.4 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.5 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.6 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.7 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.8 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.9 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.10 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.11 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=javascript ENGINE=node VER=12.12 CPP11=1
+      sudo: required
+      dist: xenial
+    - compiler: gcc
+      os: linux
       env: SWIGLANG=javascript ENGINE=node VER=12 CPP11=1
       sudo: required
       dist: xenial

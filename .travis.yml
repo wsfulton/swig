@@ -3,6 +3,18 @@ matrix:
   include:
     - compiler: gcc
       os: linux
+      env: SWIGLANG=go VER=1.3
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=go VER=1.8
+      dist: xenial
+    - compiler: gcc
+      os: linux
+      env: SWIGLANG=go VER=1.12
+      dist: xenial
+    - compiler: gcc
+      os: linux
       env: SWIGLANG=ruby VER=2.6
       dist: xenial
     - compiler: gcc

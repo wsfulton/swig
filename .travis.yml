@@ -11,7 +11,7 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.12
+      env: SWIGLANG=go VER=1.12 CSTD=c99
       dist: xenial
     - compiler: gcc
       os: linux
@@ -23,7 +23,7 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=ruby VER=3.0
+      env: SWIGLANG=ruby VER=3.0 CSTD=c99
       dist: xenial
 
   allow_failures:

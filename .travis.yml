@@ -11,28 +11,28 @@ matrix:
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.12 CSTD=c99
+      env: SWIGLANG=go VER=1.12 CSTD=gnu99
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.13 CSTD=c99
+      env: SWIGLANG=go VER=1.13 CSTD=gnu99
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.14 CSTD=c99
+      env: SWIGLANG=go VER=1.14 CSTD=gnu99
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.15 CSTD=c99
+      env: SWIGLANG=go VER=1.15 CSTD=gnu99
       dist: xenial
     - compiler: gcc
       os: linux
-      env: SWIGLANG=go VER=1.16 CSTD=c99
+      env: SWIGLANG=go VER=1.16 CSTD=gnu99
       dist: xenial
     - compiler: clang
       os: osx
       osx_image: xcode12.2
-      env: SWIGLANG=go CSTD=c99
+      env: SWIGLANG=go CSTD=gnu99
     - compiler: clang
       os: osx
       osx_image: xcode12.2

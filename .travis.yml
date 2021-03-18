@@ -1,10 +1,5 @@
 language: cpp
 matrix:
-  include:
-    - compiler: clang
-      os: osx
-      osx_image: xcode12.2
-      env: SWIGLANG= BUILDSYSTEM=cmake
 
   allow_failures:
     # Newer version of D not yet working/supported

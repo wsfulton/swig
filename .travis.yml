@@ -1,65 +1,16 @@
 language: cpp
 matrix:
   include:
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.3
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.8
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.12 CSTD=gnu99
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.13 CSTD=gnu99
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.14 CSTD=gnu99
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.15 CSTD=gnu99
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=go VER=1.16 CSTD=gnu99
-      dist: xenial
     - compiler: clang
       os: osx
       osx_image: xcode12.2
-      env: SWIGLANG=go CSTD=gnu99
-    - compiler: clang
-      os: osx
-      osx_image: xcode12.2
-      env: SWIGLANG=go
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=2.6
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=2.7
-      dist: xenial
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=ruby VER=3.0 CSTD=c99
-      dist: xenial
+      env: SWIGLANG= BUILDSYSTEM=cmake
 
   allow_failures:
     # Newer version of D not yet working/supported
     - compiler: gcc
       os: linux
       env: SWIGLANG=d VER=2.086.1
-      dist: xenial
-    # seg fault in director_basic testcase
-    - compiler: gcc
-      os: linux
-      env: SWIGLANG=php VER=7.2
       dist: xenial
     # Experimental languages
     - compiler: gcc

@@ -90,7 +90,7 @@ install:
         $env:VCVARSBAT="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars$env:MBITS.bat"
       } else {
         $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-        $env:VCVARSBAT="$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat"
+        $env:VCVARSBAT="$env:VSCOMNTOOLS..\..\VC\vcvarsall.bat"
         $env:VCVARSARG="$env:VCVARS_PLATFORM"
       }
     } elseif ($env:OSVARIANT -eq "cygwin") {
@@ -110,7 +110,7 @@ install:
     }
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
 - if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER% using %VCVARSBAT% %VCVARSARG%
-- if "%OSVARIANT%"=="" call %VCVARSBAT% %VCVARSARG%
+- if "%OSVARIANT%"=="" call "%VCVARSBAT%" %VCVARSARG%
 - if "%OSVARIANT%"=="" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%

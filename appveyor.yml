@@ -7,15 +7,15 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-# - SWIGLANG: csharp
-#   VSVER: 12
-# - SWIGLANG: csharp
-#   VSVER: 14
-# - SWIGLANG: java
-#   VSVER: 14
-# - SWIGLANG: python
-#   VSVER: 14
-#   VER: 27
+  - SWIGLANG: csharp
+    VSVER: 12
+  - SWIGLANG: csharp
+    VSVER: 14
+  - SWIGLANG: java
+    VSVER: 14
+  - SWIGLANG: python
+    VSVER: 14
+    VER: 27
 # - SWIGLANG: python
 #   VSVER: 14
 #   VER: 36
@@ -25,21 +25,13 @@ environment:
   - SWIGLANG: java
     OSVARIANT: mingw
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  - SWIGLANG: java
-    OSVARIANT: mingw
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    VER: 27
   - SWIGLANG: python
     OSVARIANT: mingw
     WITHLANG: python
     VER: 37
     PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  - SWIGLANG: python
-    OSVARIANT: mingw
-# - BUILDSYSTEM: cmake
-#   VSVER: 14
+  - BUILDSYSTEM: cmake
+    VSVER: 14
 
 matrix:
   allow_failures:

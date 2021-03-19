@@ -45,6 +45,7 @@ matrix:
 
 install:
 - date /T & time /T
+- set
 - ps: >-
     if ($env:Platform -eq "x86") {
       $env:PCRE_PLATFORM="Win32"
@@ -75,9 +76,16 @@ install:
     if (!$env:OSVARIANT) {
       $env:PATH="$env:CYGWINBIN;$env:PATH"
       $env:CYGWIN="nodosfilewarning"
-      $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
       $env:CC="cccl"
       $env:CXX="cccl"
+      if ($env:VSVER -ge 16) {
+        $env:VCVARSBAT="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars$env:MBITS.bat"
+      elseif ($env:VSVER -ge 15) {
+        $env:VCVARSBAT="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars$env:MBITS.bat"
+      } else {
+        $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
+        $env:VCVARSBAT="$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat" $env:VCVARS_PLATFORM"
+      }
     } elseif ($env:OSVARIANT -eq "cygwin") {
       $env:PATH="$env:CYGWINBIN;$env:PATH"
       $env:CYGWIN="nodosfilewarning"
@@ -94,8 +102,8 @@ install:
       }
     }
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.0.tar.gz | tar -xz --strip 1 cccl-cccl-1.0/cccl"
-- if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER%.0 at %VSCOMNTOOLS%
-- if "%OSVARIANT%"=="" call "%VSCOMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+- if "%OSVARIANT%"=="" echo Using Visual Studio %VSVER% using %VCVARSBAT%
+- if "%OSVARIANT%"=="" call %VCVARSBAT%
 - if "%OSVARIANT%"=="" Tools\nuget-install.cmd pcre -Verbosity quiet -Version 8.33.0.1 -OutputDirectory C:\pcre
 - if "%OSVARIANT%"=="" set PCRE_ROOT=C:/pcre/pcre.8.33.0.1/build/native
 - if not "%OSVARIANT%"=="cygwin" set PATH=C:\Python%VER%%LANG_PLATFORM%;%PATH%

@@ -86,11 +86,11 @@ install:
       $env:CXX="cccl"
       if ($env:VSVER -ge 16) {
         $env:VCVARSBAT="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars$env:MBITS.bat"
-      elseif ($env:VSVER -ge 15) {
+      } elseif ($env:VSVER -ge 15) {
         $env:VCVARSBAT="C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars$env:MBITS.bat"
       } else {
         $env:VSCOMNTOOLS=(Get-Content ("env:VS" + "$env:VSVER" + "0COMNTOOLS"))
-        $env:VCVARSBAT="$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat" $env:VCVARS_PLATFORM"
+        $env:VCVARSBAT="$env:VSCOMNTOOLS\..\..\VC\vcvarsall.bat $env:VCVARS_PLATFORM"
       }
     } elseif ($env:OSVARIANT -eq "cygwin") {
       $env:PATH="$env:CYGWINBIN;$env:PATH"

@@ -28,7 +28,7 @@ environment:
   - SWIGLANG: python
     OSVARIANT: mingw
     WITHLANG: python
-    VER: 37
+    VER: 39
     PY3: 3
   - BUILDSYSTEM: cmake
     VSVER: 14

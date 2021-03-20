@@ -1,6 +1,15 @@
 language: cpp
 matrix:
   include:
+    - os: linux
+      env: SWIGLANG=
+      dist: focal
+    - os: linux
+      env: SWIGLANG= GCC=10
+      dist: focal
+    - os: linux
+      env: SWIGLANG= GCC=11
+      dist: focal
     - compiler: gcc
       os: linux
       env: SWIGLANG=javascript ENGINE=node VER=14 CPP11=1

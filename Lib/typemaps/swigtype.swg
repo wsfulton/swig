@@ -584,7 +584,7 @@
 }
 
 %typemap(constcode,noblock=1) SWIGTYPE (CLASS::*) {
-  %set_constant("$symname", SWIG_NewMemberObj(%as_voidptr(&$value), sizeof($1), $descriptor));
+  %set_constant("$symname", SWIG_NewMemberObj(%as_voidptr(&$value), sizeof($value), $descriptor));
 }
 
 #if defined(SWIG_DIRECTOR_TYPEMAPS)

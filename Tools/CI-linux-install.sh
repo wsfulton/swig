@@ -26,6 +26,9 @@ case "$SWIGLANG" in
 		;;
 	"go")
 		if [[ "$VER" ]]; then
+		  ls -la $HOME
+		  echo "....."
+		  ls -la $HOME/bin
 		  sudo curl -sL -o $HOME/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
 		  sudo chmod +x $HOME/bin/gimme
 		  $HOME/bin/gimme --list

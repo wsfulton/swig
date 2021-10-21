@@ -8,9 +8,9 @@ set -e # exit on failure (same as -o errexit)
 case "$SWIGLANG" in
 	"go")
 		if [[ "$VER" ]]; then
-		  ~/bin/gimme --list
-		  eval "$(~/bin/gimme ${VER}.x)"
-		  ~/bin/gimme --list
+		  $(HOME)/bin/gimme --list
+		  eval "$($(HOME)/bin/gimme ${VER}.x)"
+		  $(HOME)/bin/gimme --list
 		fi
 		;;
 	"javascript")

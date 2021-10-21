@@ -6,6 +6,13 @@
 set -e # exit on failure (same as -o errexit)
 
 case "$SWIGLANG" in
+	"go")
+		if [[ "$VER" ]]; then
+		  ~/bin/gimme --list
+		  eval "$(~/bin/gimme ${VER}.x)"
+		  ~/bin/gimme --list
+		fi
+		;;
 	"javascript")
 		case "$ENGINE" in
 			"node")

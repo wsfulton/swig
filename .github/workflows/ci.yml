@@ -26,13 +26,15 @@ jobs:
       matrix:
         include:
         - SWIGLANG: ""
-          GCC: 7
+          GCC: 5
           desc: gcc7
         - SWIGLANG: go
           VER: '1.2'
+          os: ubuntu-18.04
           GCC: 5
         - SWIGLANG: go
           VER: '1.3'
+          os: ubuntu-18.04
           GCC: 5
         - SWIGLANG: go
           VER: '1.4'

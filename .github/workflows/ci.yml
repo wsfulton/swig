@@ -26,15 +26,15 @@ jobs:
       matrix:
         include:
         - SWIGLANG: ""
+          os: ubuntu-16.04
           GCC: 5
-          desc: gcc7
         - SWIGLANG: go
           VER: '1.2'
-          os: ubuntu-18.04
+          os: ubuntu-16.04
           GCC: 5
         - SWIGLANG: go
           VER: '1.3'
-          os: ubuntu-18.04
+          os: ubuntu-16.04
           GCC: 5
         - SWIGLANG: go
           VER: '1.4'
@@ -42,14 +42,6 @@ jobs:
           VER: '1.5'
         - SWIGLANG: go
           VER: '1.6'
-          CSTD: gnu99
-        - SWIGLANG: go
-          VER: '1.8'
-        - SWIGLANG: go
-          VER: '1.12'
-          CSTD: gnu99
-        - SWIGLANG: go
-          VER: '1.16'
           CSTD: gnu99
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false

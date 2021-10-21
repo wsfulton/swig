@@ -28,6 +28,9 @@ case "$SWIGLANG" in
 		if [[ "$VER" ]]; then
 		  eval "$(gimme ${VER}.x)"
 		fi
+		echo "Should not see this (a)"
+		false
+		echo "Should not see this (b)"
 		;;
 	"javascript")
 		case "$ENGINE" in
@@ -132,5 +135,7 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install tcl-dev
 		;;
 esac
+
+echo "Should not see this (c)"
 
 set +e # turn off exit on failure (same as +o errexit)

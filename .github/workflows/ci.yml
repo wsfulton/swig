@@ -25,6 +25,9 @@ jobs:
     strategy:
       matrix:
         include:
+        - SWIGLANG: ""
+          GCC: 7
+          desc: gcc7
         - SWIGLANG: go
           VER: '1.2'
           GCC: 5
@@ -33,10 +36,8 @@ jobs:
           GCC: 5
         - SWIGLANG: go
           VER: '1.4'
-          GCC: 5
         - SWIGLANG: go
           VER: '1.5'
-          GCC: 5
         - SWIGLANG: go
           VER: '1.6'
           CSTD: gnu99
@@ -61,6 +62,7 @@ jobs:
       CPP11: ${{ matrix.CPP11 }}
       CPP14: ${{ matrix.CPP14 }}
       CPP17: ${{ matrix.CPP17 }}
+      GCC: ${{ matrix.GCC }}
 
     steps:
     - name: Checkout

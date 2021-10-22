@@ -33,6 +33,14 @@ jobs:
           CPP11: 1
         - SWIGLANG: java
           CPP11: 1
+        - SWIGLANG: javascript
+          CPP11: 1
+        - SWIGLANG: octave
+          CPP11: 1
+        - SWIGLANG: perl5
+          CPP11: 1
+        - SWIGLANG: php
+          CPP11: 1
         - SWIGLANG: python
           CPP11: 1
         - SWIGLANG: r
@@ -47,6 +55,14 @@ jobs:
         - SWIGLANG: go
           CPP14: 1
         - SWIGLANG: java
+          CPP14: 1
+        - SWIGLANG: javascript
+          CPP14: 1
+        - SWIGLANG: octave
+          CPP14: 1
+        - SWIGLANG: perl5
+          CPP14: 1
+        - SWIGLANG: php
           CPP14: 1
         - SWIGLANG: python
           CPP14: 1
@@ -64,6 +80,18 @@ jobs:
           CPP17: 1
           GCC: 11
         - SWIGLANG: java
+          CPP17: 1
+          GCC: 11
+        - SWIGLANG: javascript
+          CPP17: 1
+          GCC: 11
+        - SWIGLANG: octave
+          CPP17: 1
+          GCC: 11
+        - SWIGLANG: perl5
+          CPP17: 1
+          GCC: 11
+        - SWIGLANG: php
           CPP17: 1
           GCC: 11
         - SWIGLANG: python

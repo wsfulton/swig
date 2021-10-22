@@ -29,16 +29,20 @@ jobs:
         - SWIGLANG: csharp
           CPP11: 1
         - SWIGLANG: go
+          VER: '1.16'
           CPP11: 1
         - SWIGLANG: java
           CPP11: 1
         - SWIGLANG: javascript
+          ENGINE: node
+          VER: '16'
           CPP11: 1
         - SWIGLANG: octave
           CPP11: 1
         - SWIGLANG: perl5
           CPP11: 1
         - SWIGLANG: php
+          VER: '7.4'
           CPP11: 1
         - SWIGLANG: python
           CPP11: 1
@@ -52,16 +56,20 @@ jobs:
         - SWIGLANG: csharp
           CPP14: 1
         - SWIGLANG: go
+          VER: '1.16'
           CPP14: 1
         - SWIGLANG: java
           CPP14: 1
         - SWIGLANG: javascript
+          ENGINE: node
+          VER: '16'
           CPP14: 1
         - SWIGLANG: octave
           CPP14: 1
         - SWIGLANG: perl5
           CPP14: 1
         - SWIGLANG: php
+          VER: '7.4'
           CPP14: 1
         - SWIGLANG: python
           CPP14: 1
@@ -76,12 +84,15 @@ jobs:
           CPP17: 1
           GCC: 11
         - SWIGLANG: go
+          VER: '1.16'
           CPP17: 1
           GCC: 11
         - SWIGLANG: java
           CPP17: 1
           GCC: 11
         - SWIGLANG: javascript
+          ENGINE: node
+          VER: '16'
           CPP17: 1
           GCC: 11
         - SWIGLANG: octave
@@ -91,6 +102,7 @@ jobs:
           CPP17: 1
           GCC: 11
         - SWIGLANG: php
+          VER: '7.4'
           CPP17: 1
           GCC: 11
         - SWIGLANG: python

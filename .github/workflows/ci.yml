@@ -46,6 +46,7 @@ jobs:
           CPP11: 1
         - SWIGLANG: python
           CPP11: 1
+          PY3: 3
         - SWIGLANG: r
           CPP11: 1
         - SWIGLANG: ruby
@@ -73,6 +74,7 @@ jobs:
           CPP14: 1
         - SWIGLANG: python
           CPP14: 1
+          PY3: 3
         - SWIGLANG: r
           CPP14: 1
         - SWIGLANG: ruby
@@ -108,6 +110,7 @@ jobs:
         - SWIGLANG: python
           CPP17: 1
           GCC: 11
+          PY3: 3
         - SWIGLANG: r
           CPP17: 1
           GCC: 11

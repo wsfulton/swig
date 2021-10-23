@@ -35,7 +35,7 @@ jobs:
           CPP11: 1
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '16'
+          VER: '14'
           CPP11: 1
         - SWIGLANG: octave
           CPP11: 1

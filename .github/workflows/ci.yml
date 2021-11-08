@@ -29,6 +29,18 @@ jobs:
         - SWIGLANG: csharp
           CPP11: 1
         - SWIGLANG: go
+          VER: '1.14'
+          CPP11: 1
+        - SWIGLANG: go
+          VER: '1.15'
+          CPP11: 1
+        - SWIGLANG: go
+          VER: '1.16'
+          CPP11: 1
+        - SWIGLANG: go
+          VER: '1.17'
+          CPP11: 1
+        - SWIGLANG: go
           VER: '1.16'
           CPP11: 1
         - SWIGLANG: java

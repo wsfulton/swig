@@ -28,26 +28,26 @@ jobs:
         # c++11 testing
 #       - SWIGLANG: csharp
 #         CPP11: 1
-       - SWIGLANG: go
-         VER: '1.14'
-         CPP11: 1
-         CSTD: gnu11
-       - SWIGLANG: go
-         VER: '1.15'
-         CPP11: 1
-         CSTD: gnu11
-       - SWIGLANG: go
-         VER: '1.16'
-         CPP11: 1
-         CSTD: gnu11
-       - SWIGLANG: go
-         VER: '1.17'
-         CPP11: 1
-         CSTD: gnu11
-       - SWIGLANG: go
-         VER: '1.16'
-         CPP11: 1
-         CSTD: gnu99
+        - SWIGLANG: go
+          VER: '1.14'
+          CPP11: 1
+          CSTD: gnu11
+        - SWIGLANG: go
+          VER: '1.15'
+          CPP11: 1
+          CSTD: gnu11
+        - SWIGLANG: go
+          VER: '1.16'
+          CPP11: 1
+          CSTD: gnu11
+        - SWIGLANG: go
+          VER: '1.17'
+          CPP11: 1
+          CSTD: gnu11
+        - SWIGLANG: go
+          VER: '1.16'
+          CPP11: 1
+          CSTD: gnu99
 #       - SWIGLANG: java
 #         CPP11: 1
 #       - SWIGLANG: javascript
@@ -58,17 +58,17 @@ jobs:
 #         CPP11: 1
 #       - SWIGLANG: perl5
 #         CPP11: 1
-       - SWIGLANG: php
-         CPP11: 1
-         CSTD: gnu11
-       - SWIGLANG: php
-         CPP11: 1
-       - SWIGLANG: php
-         VER: '8.0'
-         CPP11: 1
-       - SWIGLANG: php
-         VER: '7.4'
-         CPP11: 1
+        - SWIGLANG: php
+          CPP11: 1
+          CSTD: gnu11
+        - SWIGLANG: php
+          CPP11: 1
+        - SWIGLANG: php
+          VER: '8.0'
+          CPP11: 1
+        - SWIGLANG: php
+          VER: '7.4'
+          CPP11: 1
 #       - SWIGLANG: python
 #         CPP11: 1
 #         PY3: 3
@@ -81,10 +81,10 @@ jobs:
 #       # c++14 testing
 #       - SWIGLANG: csharp
 #         CPP14: 1
-       - SWIGLANG: go
-         VER: '1.16'
-         CPP14: 1
-         CSTD: gnu11
+        - SWIGLANG: go
+          VER: '1.16'
+          CPP14: 1
+          CSTD: gnu11
 #       - SWIGLANG: java
 #         CPP14: 1
 #       - SWIGLANG: javascript
@@ -95,9 +95,9 @@ jobs:
 #         CPP14: 1
 #       - SWIGLANG: perl5
 #         CPP14: 1
-       - SWIGLANG: php
-         VER: '7.4'
-         CPP14: 1
+        - SWIGLANG: php
+          VER: '7.4'
+          CPP14: 1
 #       - SWIGLANG: python
 #         CPP14: 1
 #         PY3: 3
@@ -111,10 +111,10 @@ jobs:
 #       - SWIGLANG: csharp
 #         CPP17: 1
 #         GCC: 11
-       - SWIGLANG: go
-         VER: '1.16'
-         CPP17: 1
-         GCC: 11
+        - SWIGLANG: go
+          VER: '1.16'
+          CPP17: 1
+          GCC: 11
 #         CSTD: gnu17
 #       - SWIGLANG: java
 #         CPP17: 1
@@ -130,10 +130,10 @@ jobs:
 #       - SWIGLANG: perl5
 #         CPP17: 1
 #         GCC: 11
-       - SWIGLANG: php
-         VER: '7.4'
-         CPP17: 1
-         GCC: 11
+        - SWIGLANG: php
+          VER: '7.4'
+          CPP17: 1
+          GCC: 11
 #       - SWIGLANG: python
 #         CPP17: 1
 #         GCC: 11

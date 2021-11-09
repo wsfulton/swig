@@ -7,6 +7,8 @@ if [[ -n "$GCC" ]]; then
 	$RETRY sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 	$RETRY sudo apt-get -qq update
 	$RETRY sudo apt-get install -qq g++-$GCC
+else
+	$RETRY sudo apt-get -qq update
 fi
 
 $RETRY sudo apt-get -qq install libboost-dev libpcre3-dev
@@ -81,9 +83,14 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install liboctave-dev
 		;;
 	"php")
-		$RETRY sudo add-apt-repository -y ppa:ondrej/php
-		$RETRY sudo apt-get -qq update
-		$RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
+		if [[ "$VER" ]]; then
+			set -x
+			$RETRY sudo apt-get -qq remove php-cli php-dev
+			$RETRY sudo add-apt-repository -y ppa:ondrej/php
+			$RETRY sudo apt-get -qq update
+			$RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
+			set +x
+		fi
 		;;
 	"python")
 		pip install --user pycodestyle

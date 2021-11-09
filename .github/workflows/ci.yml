@@ -61,14 +61,18 @@ jobs:
         - SWIGLANG: php
           CPP11: 1
           CSTD: gnu11
+          os: ubuntu-18.04
         - SWIGLANG: php
           CPP11: 1
+          os: ubuntu-18.04
         - SWIGLANG: php
           VER: '8.0'
           CPP11: 1
+          os: ubuntu-18.04
         - SWIGLANG: php
           VER: '7.4'
           CPP11: 1
+          os: ubuntu-18.04
 #       - SWIGLANG: python
 #         CPP11: 1
 #         PY3: 3
@@ -98,6 +102,7 @@ jobs:
         - SWIGLANG: php
           VER: '7.4'
           CPP14: 1
+          os: ubuntu-18.04
 #       - SWIGLANG: python
 #         CPP14: 1
 #         PY3: 3
@@ -134,6 +139,7 @@ jobs:
           VER: '7.4'
           CPP17: 1
           GCC: 11
+          os: ubuntu-18.04
 #       - SWIGLANG: python
 #         CPP17: 1
 #         GCC: 11

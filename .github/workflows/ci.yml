@@ -26,112 +26,119 @@ jobs:
       matrix:
         include:
         # c++11 testing
-        - SWIGLANG: csharp
-          CPP11: 1
-        - SWIGLANG: go
-          VER: '1.14'
-          CPP11: 1
-        - SWIGLANG: go
-          VER: '1.15'
-          CPP11: 1
-        - SWIGLANG: go
-          VER: '1.16'
-          CPP11: 1
-        - SWIGLANG: go
-          VER: '1.17'
-          CPP11: 1
-        - SWIGLANG: go
-          VER: '1.16'
-          CPP11: 1
-        - SWIGLANG: java
-          CPP11: 1
-        - SWIGLANG: javascript
-          ENGINE: node
-          VER: '14'
-          CPP11: 1
-        - SWIGLANG: octave
-          CPP11: 1
-        - SWIGLANG: perl5
-          CPP11: 1
-        - SWIGLANG: php
-          VER: '7.4'
-          CPP11: 1
-        - SWIGLANG: python
-          CPP11: 1
-          PY3: 3
-        - SWIGLANG: r
-          CPP11: 1
-        - SWIGLANG: ruby
-          CPP11: 1
-        - SWIGLANG: tcl
-          CPP11: 1
-        # c++14 testing
-        - SWIGLANG: csharp
-          CPP14: 1
-        - SWIGLANG: go
-          VER: '1.16'
-          CPP14: 1
-        - SWIGLANG: java
-          CPP14: 1
-        - SWIGLANG: javascript
-          ENGINE: node
-          VER: '16'
-          CPP14: 1
-        - SWIGLANG: octave
-          CPP14: 1
-        - SWIGLANG: perl5
-          CPP14: 1
-        - SWIGLANG: php
-          VER: '7.4'
-          CPP14: 1
-        - SWIGLANG: python
-          CPP14: 1
-          PY3: 3
-        - SWIGLANG: r
-          CPP14: 1
-        - SWIGLANG: ruby
-          CPP14: 1
-        - SWIGLANG: tcl
-          CPP14: 1
-        # c++17 testing
-        - SWIGLANG: csharp
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: go
-          VER: '1.16'
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: java
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: javascript
-          ENGINE: node
-          VER: '16'
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: octave
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: perl5
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: php
-          VER: '7.4'
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: python
-          CPP17: 1
-          GCC: 11
-          PY3: 3
-        - SWIGLANG: r
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: ruby
-          CPP17: 1
-          GCC: 11
-        - SWIGLANG: tcl
-          CPP17: 1
-          GCC: 11
+#       - SWIGLANG: csharp
+#         CPP11: 1
+       - SWIGLANG: go
+         VER: '1.14'
+         CPP11: 1
+         CSTD: gnu11
+       - SWIGLANG: go
+         VER: '1.15'
+         CPP11: 1
+         CSTD: gnu11
+       - SWIGLANG: go
+         VER: '1.16'
+         CPP11: 1
+         CSTD: gnu11
+       - SWIGLANG: go
+         VER: '1.17'
+         CPP11: 1
+         CSTD: gnu11
+       - SWIGLANG: go
+         VER: '1.16'
+         CPP11: 1
+         CSTD: gnu99
+#       - SWIGLANG: java
+#         CPP11: 1
+#       - SWIGLANG: javascript
+#         ENGINE: node
+#         VER: '14'
+#         CPP11: 1
+#       - SWIGLANG: octave
+#         CPP11: 1
+#       - SWIGLANG: perl5
+#         CPP11: 1
+#       - SWIGLANG: php
+#         VER: '7.4'
+#         CPP11: 1
+#       - SWIGLANG: python
+#         CPP11: 1
+#         PY3: 3
+#       - SWIGLANG: r
+#         CPP11: 1
+#       - SWIGLANG: ruby
+#         CPP11: 1
+#       - SWIGLANG: tcl
+#         CPP11: 1
+#       # c++14 testing
+#       - SWIGLANG: csharp
+#         CPP14: 1
+       - SWIGLANG: go
+         VER: '1.16'
+         CPP14: 1
+         CSTD: gnu11
+#       - SWIGLANG: java
+#         CPP14: 1
+#       - SWIGLANG: javascript
+#         ENGINE: node
+#         VER: '16'
+#         CPP14: 1
+#       - SWIGLANG: octave
+#         CPP14: 1
+#       - SWIGLANG: perl5
+#         CPP14: 1
+#       - SWIGLANG: php
+#         VER: '7.4'
+#         CPP14: 1
+#       - SWIGLANG: python
+#         CPP14: 1
+#         PY3: 3
+#       - SWIGLANG: r
+#         CPP14: 1
+#       - SWIGLANG: ruby
+#         CPP14: 1
+#       - SWIGLANG: tcl
+#         CPP14: 1
+#       # c++17 testing
+#       - SWIGLANG: csharp
+#         CPP17: 1
+#         GCC: 11
+       - SWIGLANG: go
+         VER: '1.16'
+         CPP17: 1
+         GCC: 11
+#         CSTD: gnu17
+#       - SWIGLANG: java
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: javascript
+#         ENGINE: node
+#         VER: '16'
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: octave
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: perl5
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: php
+#         VER: '7.4'
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: python
+#         CPP17: 1
+#         GCC: 11
+#         PY3: 3
+#       - SWIGLANG: r
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: ruby
+#         CPP17: 1
+#         GCC: 11
+#       - SWIGLANG: tcl
+#         CPP17: 1
+#         GCC: 11
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false
 

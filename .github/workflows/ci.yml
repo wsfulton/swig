@@ -166,6 +166,7 @@ jobs:
       CPP11: ${{ matrix.CPP11 }}
       CPP14: ${{ matrix.CPP14 }}
       CPP17: ${{ matrix.CPP17 }}
+      GCC: ${{ matrix.GCC }}
 
     steps:
     - name: Checkout

@@ -58,9 +58,17 @@ jobs:
 #         CPP11: 1
 #       - SWIGLANG: perl5
 #         CPP11: 1
-#       - SWIGLANG: php
-#         VER: '7.4'
-#         CPP11: 1
+       - SWIGLANG: php
+         CPP11: 1
+         CSTD: gnu11
+       - SWIGLANG: php
+         CPP11: 1
+       - SWIGLANG: php
+         VER: '8.0'
+         CPP11: 1
+       - SWIGLANG: php
+         VER: '7.4'
+         CPP11: 1
 #       - SWIGLANG: python
 #         CPP11: 1
 #         PY3: 3
@@ -87,9 +95,9 @@ jobs:
 #         CPP14: 1
 #       - SWIGLANG: perl5
 #         CPP14: 1
-#       - SWIGLANG: php
-#         VER: '7.4'
-#         CPP14: 1
+       - SWIGLANG: php
+         VER: '7.4'
+         CPP14: 1
 #       - SWIGLANG: python
 #         CPP14: 1
 #         PY3: 3
@@ -122,10 +130,10 @@ jobs:
 #       - SWIGLANG: perl5
 #         CPP17: 1
 #         GCC: 11
-#       - SWIGLANG: php
-#         VER: '7.4'
-#         CPP17: 1
-#         GCC: 11
+       - SWIGLANG: php
+         VER: '7.4'
+         CPP17: 1
+         GCC: 11
 #       - SWIGLANG: python
 #         CPP17: 1
 #         GCC: 11

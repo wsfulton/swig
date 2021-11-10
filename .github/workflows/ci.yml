@@ -268,7 +268,7 @@ jobs:
           if test -z "$SWIGLANG"; then
             make $SWIGJOBS check-ccache
             make $SWIGJOBS check-errors-test-suite
-          elif
+          else
             case "$SWIGLANG" in
               javascript)
                 case "$ENGINE" in

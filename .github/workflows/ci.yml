@@ -242,9 +242,9 @@ jobs:
           fi
           if [[ -n "$CSTD" ]]; then
             case "$CPPSTD" in
-              c++11) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing ;;
-              c++14) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing ;;
-              c++17) export CSTD=c17; CONFIGOPTS+=(--enable-cpp11-testing ;;
+              c++11) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing) ;;
+              c++14) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing) ;;
+              c++17) export CSTD=c17; CONFIGOPTS+=(--enable-cpp11-testing) ;;
             esac
           fi
           if test -n "$CPPSTD"; then CONFIGOPTS+=("CXXFLAGS=-std=$CPPSTD $CXXFLAGS"); fi

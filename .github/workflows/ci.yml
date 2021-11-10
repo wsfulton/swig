@@ -32,131 +32,131 @@ jobs:
           compiler: clang
         # c++11 testing
 #       - SWIGLANG: csharp
-#         CPP11: 1
+#         CPPSTD: c++11
         - SWIGLANG: go
           VER: '1.14'
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu11
         - SWIGLANG: go
           VER: '1.15'
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu11
         - SWIGLANG: go
           VER: '1.16'
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu11
         - SWIGLANG: go
           VER: '1.17'
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu11
         - SWIGLANG: go
           VER: '1.16'
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu99
 #       - SWIGLANG: java
-#         CPP11: 1
+#         CPPSTD: c++11
 #       - SWIGLANG: javascript
 #         ENGINE: node
 #         VER: '14'
-#         CPP11: 1
+#         CPPSTD: c++11
 #       - SWIGLANG: octave
-#         CPP11: 1
+#         CPPSTD: c++11
 #       - SWIGLANG: perl5
-#         CPP11: 1
+#         CPPSTD: c++11
         - SWIGLANG: php
-          CPP11: 1
+          CPPSTD: c++11
           CSTD: gnu11
           os: ubuntu-18.04
         - SWIGLANG: php
-          CPP11: 1
+          CPPSTD: c++11
           os: ubuntu-18.04
         - SWIGLANG: php
           VER: '8.0'
-          CPP11: 1
+          CPPSTD: c++11
           os: ubuntu-18.04
         - SWIGLANG: php
           VER: '7.4'
-          CPP11: 1
+          CPPSTD: c++11
           os: ubuntu-18.04
 #       - SWIGLANG: python
-#         CPP11: 1
+#         CPPSTD: c++11
 #         PY3: 3
 #       - SWIGLANG: r
-#         CPP11: 1
+#         CPPSTD: c++11
 #       - SWIGLANG: ruby
-#         CPP11: 1
+#         CPPSTD: c++11
 #       - SWIGLANG: tcl
-#         CPP11: 1
+#         CPPSTD: c++11
 #       # c++14 testing
 #       - SWIGLANG: csharp
-#         CPP14: 1
+#         CPPSTD: c++14
         - SWIGLANG: go
           VER: '1.16'
-          CPP14: 1
+          CPPSTD: c++14
           CSTD: gnu11
 #       - SWIGLANG: java
-#         CPP14: 1
+#         CPPSTD: c++14
 #       - SWIGLANG: javascript
 #         ENGINE: node
 #         VER: '16'
-#         CPP14: 1
+#         CPPSTD: c++14
 #       - SWIGLANG: octave
-#         CPP14: 1
+#         CPPSTD: c++14
 #       - SWIGLANG: perl5
-#         CPP14: 1
+#         CPPSTD: c++14
         - SWIGLANG: php
           VER: '7.4'
-          CPP14: 1
+          CPPSTD: c++14
           os: ubuntu-18.04
 #       - SWIGLANG: python
-#         CPP14: 1
+#         CPPSTD: c++14
 #         PY3: 3
 #       - SWIGLANG: r
-#         CPP14: 1
+#         CPPSTD: c++14
 #       - SWIGLANG: ruby
-#         CPP14: 1
+#         CPPSTD: c++14
 #       - SWIGLANG: tcl
-#         CPP14: 1
+#         CPPSTD: c++14
 #       # c++17 testing
 #       - SWIGLANG: csharp
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
         - SWIGLANG: go
           VER: '1.16'
-          CPP17: 1
+          CPPSTD: c++17
           GCC: 11
 #         CSTD: gnu17
 #       - SWIGLANG: java
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #       - SWIGLANG: javascript
 #         ENGINE: node
 #         VER: '16'
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #       - SWIGLANG: octave
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #       - SWIGLANG: perl5
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
         - SWIGLANG: php
           VER: '7.4'
-          CPP17: 1
+          CPPSTD: c++17
           GCC: 11
           os: ubuntu-18.04
 #       - SWIGLANG: python
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #         PY3: 3
 #       - SWIGLANG: r
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #       - SWIGLANG: ruby
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
 #       - SWIGLANG: tcl
-#         CPP17: 1
+#         CPPSTD: c++17
 #         GCC: 11
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false
@@ -168,9 +168,7 @@ jobs:
       ENGINE: ${{ matrix.ENGINE }}
       SWIG_FEATURES: ${{ matrix.SWIG_FEATURES }}
       CSTD: ${{ matrix.CSTD }}
-      CPP11: ${{ matrix.CPP11 }}
-      CPP14: ${{ matrix.CPP14 }}
-      CPP17: ${{ matrix.CPP17 }}
+      CPPSTD: ${{ matrix.CPPSTD }}
       GCC: ${{ matrix.GCC }}
 
     steps:
@@ -239,18 +237,18 @@ jobs:
           source $GITHUB_WORKSPACE/Tools/CI-linux-environment.sh
           set -x
 
-          if test -n "$CPP11"; then export CPPSTD=c++11 && export CSTD=c11; fi
-          if test -n "$CPP14"; then export CPPSTD=c++14 && export CSTD=c11; fi
-          if test -n "$CPP17"; then export CPPSTD=c++17 && export CSTD=c17; fi
-          echo CPPSTD="$CPPSTD" >> $GITHUB_ENV
-          echo CSTD="$CSTD" >> $GITHUB_ENV
-
           if test -n '${{ matrix.CONFIGOPTS }}'; then
             CONFIGOPTS=${{ matrix.CONFIGOPTS }}
           fi
-          if test -n "$CPP11"; then CONFIGOPTS+=(--enable-cpp11-testing "CXXFLAGS=-std=c++11 $CXXFLAGS" "CFLAGS=-std=c11 $CFLAGS"); fi
-          if test -n "$CPP14"; then CONFIGOPTS+=(--enable-cpp11-testing "CXXFLAGS=-std=c++14 $CXXFLAGS" "CFLAGS=-std=c11 $CFLAGS"); fi
-          if test -n "$CPP17"; then CONFIGOPTS+=(--enable-cpp11-testing "CXXFLAGS=-std=c++17 $CXXFLAGS" "CFLAGS=-std=c17 $CFLAGS"); fi
+          if [[ -n "$CSTD" ]]; then
+            case "$CPPSTD" in
+              c++11) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing ;;
+              c++14) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing ;;
+              c++17) export CSTD=c17; CONFIGOPTS+=(--enable-cpp11-testing ;;
+            esac
+          fi
+          if test -n "$CPPSTD"; then CONFIGOPTS+=("CXXFLAGS=-std=$CPPSTD $CXXFLAGS"); fi
+          if test -n "$CSTD"; then CONFIGOPTS+=("CFLAGS=-std=$CSTD $CFLAGS"); fi
           if test -n "$SWIGLANG"; then CONFIGOPTS+=(--without-alllang --with-$WITHLANG); fi
           echo "${CONFIGOPTS[@]}"
           ./autogen.sh && mkdir -p build/build && cd build/build && ../../configure "${CONFIGOPTS[@]}"

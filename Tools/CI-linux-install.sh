@@ -96,10 +96,19 @@ case "$SWIGLANG" in
                         which php || true
                         echo $PATH | tr ':' '\n'
                         ls -la /usr/bin | grep php
-			# $RETRY sudo apt-get -qq remove php-cli php-dev
-			# $RETRY sudo add-apt-repository -y ppa:ondrej/php
-			# $RETRY sudo apt-get -qq update
-			# $RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
+                        php --version
+                        ls -la /etc/alternatives/php
+			$RETRY sudo apt-get -qq remove php8.0-cli php8.0-dev
+                        ls -la /usr/bin | grep php || true
+                        ls -la /etc/alternatives/php || true
+                        php --version || true
+			$RETRY sudo apt-get -qq remove php7.4-cli php7.4-dev
+                        ls -la /usr/bin | grep php || true
+                        ls -la /etc/alternatives/php || true
+                        php --version
+			$RETRY sudo add-apt-repository -y ppa:ondrej/php
+			$RETRY sudo apt-get -qq update
+			$RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
 			set +x
 		fi
 		;;

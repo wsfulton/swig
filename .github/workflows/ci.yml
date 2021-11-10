@@ -158,6 +158,7 @@ jobs:
 #       - SWIGLANG: tcl
 #         CPPSTD: c++17
 #         GCC: 11
+        - SWIGLANG: tcl
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false
 

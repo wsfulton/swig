@@ -34,25 +34,9 @@ jobs:
 #       - SWIGLANG: csharp
 #         CPPSTD: c++11
         - SWIGLANG: go
-          VER: '1.14'
-          CPPSTD: c++11
-          CSTD: gnu11
-        - SWIGLANG: go
-          VER: '1.15'
-          CPPSTD: c++11
-          CSTD: gnu11
-        - SWIGLANG: go
-          VER: '1.16'
-          CPPSTD: c++11
-          CSTD: gnu11
-        - SWIGLANG: go
           VER: '1.17'
           CPPSTD: c++11
           CSTD: gnu11
-        - SWIGLANG: go
-          VER: '1.16'
-          CPPSTD: c++11
-          CSTD: gnu99
 #       - SWIGLANG: java
 #         CPPSTD: c++11
 #       - SWIGLANG: javascript
@@ -66,18 +50,6 @@ jobs:
         - SWIGLANG: php
           CPPSTD: c++11
           CSTD: gnu11
-          os: ubuntu-18.04
-        - SWIGLANG: php
-          CPPSTD: c++11
-          os: ubuntu-18.04
-        - SWIGLANG: php
-          VER: '8.0'
-          CPPSTD: c++11
-          os: ubuntu-18.04
-        - SWIGLANG: php
-          VER: '7.4'
-          CPPSTD: c++11
-          os: ubuntu-18.04
 #       - SWIGLANG: python
 #         CPPSTD: c++11
 #         PY3: 3
@@ -107,7 +79,7 @@ jobs:
         - SWIGLANG: php
           VER: '7.4'
           CPPSTD: c++14
-          os: ubuntu-18.04
+          CSTD: gnu11
 #       - SWIGLANG: python
 #         CPPSTD: c++14
 #         PY3: 3
@@ -143,8 +115,8 @@ jobs:
         - SWIGLANG: php
           VER: '7.4'
           CPPSTD: c++17
+          CSTD: gnu17
           GCC: 11
-          os: ubuntu-18.04
 #       - SWIGLANG: python
 #         CPPSTD: c++17
 #         GCC: 11

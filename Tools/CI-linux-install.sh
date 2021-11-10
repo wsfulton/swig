@@ -87,25 +87,7 @@ case "$SWIGLANG" in
 	"php")
 		if [[ "$VER" ]]; then
 			set -x
-                        which composer || true
-                        type composer || true
-                        composer || true
-                        composer -V || true
-                        composer --help || true
-                        composer || true
-                        which php || true
-                        echo $PATH | tr ':' '\n'
-                        ls -la /usr/bin | grep php
-                        php --version
-                        ls -la /etc/alternatives/php
-			$RETRY sudo apt-get -qq remove php8.0-cli php8.0-dev
-                        ls -la /usr/bin | grep php || true
-                        ls -la /etc/alternatives/php || true
-                        php --version || true
-			$RETRY sudo apt-get -qq remove php7.4-cli php7.4-dev
-                        ls -la /usr/bin | grep php || true
-                        ls -la /etc/alternatives/php || true
-                        php --version
+			$RETRY sudo apt-get -qq remove "php*-cli" "php*-dev" # Multiple versions are pre-installed
 			$RETRY sudo add-apt-repository -y ppa:ondrej/php
 			$RETRY sudo apt-get -qq update
 			$RETRY sudo apt-get -qq install php$VER-cli php$VER-dev

@@ -33,10 +33,10 @@ jobs:
         # c++11 testing
 #       - SWIGLANG: csharp
 #         CPPSTD: c++11
-        - SWIGLANG: go
-          VER: '1.17'
-          CPPSTD: c++11
-          CSTD: gnu11
+#       - SWIGLANG: go
+#         VER: '1.17'
+#         CPPSTD: c++11
+#         CSTD: gnu11
 #       - SWIGLANG: java
 #         CPPSTD: c++11
 #       - SWIGLANG: javascript
@@ -62,10 +62,10 @@ jobs:
 #       # c++14 testing
 #       - SWIGLANG: csharp
 #         CPPSTD: c++14
-        - SWIGLANG: go
-          VER: '1.16'
-          CPPSTD: c++14
-          CSTD: gnu11
+#       - SWIGLANG: go
+#         VER: '1.16'
+#         CPPSTD: c++14
+#         CSTD: gnu11
 #       - SWIGLANG: java
 #         CPPSTD: c++14
 #       - SWIGLANG: javascript
@@ -93,10 +93,10 @@ jobs:
 #       - SWIGLANG: csharp
 #         CPPSTD: c++17
 #         GCC: 11
-        - SWIGLANG: go
-          VER: '1.16'
-          CPPSTD: c++17
-          GCC: 11
+#       - SWIGLANG: go
+#         VER: '1.16'
+#         CPPSTD: c++17
+#         GCC: 11
 #         CSTD: gnu17
 #       - SWIGLANG: java
 #         CPPSTD: c++17
@@ -130,7 +130,23 @@ jobs:
 #       - SWIGLANG: tcl
 #         CPPSTD: c++17
 #         GCC: 11
-        - SWIGLANG: tcl
+        - SWIGLANG: php
+          VER: '7.0'
+        - SWIGLANG: php
+          VER: '7.1'
+        - SWIGLANG: php
+          VER: '7.2'
+        - SWIGLANG: php
+          VER: '7.3'
+        - SWIGLANG: php
+          VER: '7.4'
+        - SWIGLANG: php
+          VER: '7.5'
+        - SWIGLANG: php
+          VER: '8.0'
+        - SWIGLANG: php
+          VER: '8.1'
+#       - SWIGLANG: tcl
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false
 

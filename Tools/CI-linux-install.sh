@@ -87,10 +87,19 @@ case "$SWIGLANG" in
 	"php")
 		if [[ "$VER" ]]; then
 			set -x
-			$RETRY sudo apt-get -qq remove php-cli php-dev
-			$RETRY sudo add-apt-repository -y ppa:ondrej/php
-			$RETRY sudo apt-get -qq update
-			$RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
+                        which composer || true
+                        type composer || true
+                        composer || true
+                        composer -V || true
+                        composer --help || true
+                        composer || true
+                        which php || true
+                        echo $PATH | tr ':' '\n'
+                        ls -la /usr/bin | grep php
+			# $RETRY sudo apt-get -qq remove php-cli php-dev
+			# $RETRY sudo add-apt-repository -y ppa:ondrej/php
+			# $RETRY sudo apt-get -qq update
+			# $RETRY sudo apt-get -qq install php$VER-cli php$VER-dev
 			set +x
 		fi
 		;;

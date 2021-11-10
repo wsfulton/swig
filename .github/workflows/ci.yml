@@ -238,17 +238,14 @@ jobs:
           source $GITHUB_WORKSPACE/Tools/CI-linux-environment.sh
           set -x
 
-          if test -n '${{ matrix.CONFIGOPTS }}'; then
-            CONFIGOPTS=${{ matrix.CONFIGOPTS }}
-          fi
-          if [[ -n "$CSTD" ]]; then
+          if [[ -z "$CSTD" ]]; then
             case "$CPPSTD" in
-              c++11) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing) ;;
-              c++14) export CSTD=c11; CONFIGOPTS+=(--enable-cpp11-testing) ;;
-              c++17) export CSTD=c17; CONFIGOPTS+=(--enable-cpp11-testing) ;;
+              c++11) export CSTD=c11 ;;
+              c++14) export CSTD=c11 ;;
+              c++17) export CSTD=c17 ;;
             esac
           fi
-          if test -n "$CPPSTD"; then CONFIGOPTS+=("CXXFLAGS=-std=$CPPSTD $CXXFLAGS"); fi
+          if test -n "$CPPSTD"; then CONFIGOPTS+=(--enable-cpp11-testing "CXXFLAGS=-std=$CPPSTD $CXXFLAGS"); fi
           if test -n "$CSTD"; then CONFIGOPTS+=("CFLAGS=-std=$CSTD $CFLAGS"); fi
           if test -n "$SWIGLANG"; then CONFIGOPTS+=(--without-alllang --with-$WITHLANG); fi
           echo "${CONFIGOPTS[@]}"
@@ -301,4 +298,4 @@ jobs:
       working-directory: build/build
       run: |
           set -x
-          make check-maintainer-clean && ../../configure $CONFIGOPTS
+          make check-maintainer-clean && ../../configure

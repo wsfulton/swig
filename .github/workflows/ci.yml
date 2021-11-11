@@ -161,7 +161,6 @@ jobs:
         - SWIGLANG: go
           VER: '1.17'
           CPPSTD: c++11
-          CSTD: gnu11
         - SWIGLANG: java
           CPPSTD: c++11
         - SWIGLANG: javascript
@@ -190,7 +189,6 @@ jobs:
         - SWIGLANG: go
           VER: '1.17'
           CPPSTD: c++14
-          CSTD: gnu11
         - SWIGLANG: java
           CPPSTD: c++14
         - SWIGLANG: javascript
@@ -221,7 +219,6 @@ jobs:
           VER: '1.17'
           CPPSTD: c++17
           GCC: 11
-          CSTD: gnu17
         - SWIGLANG: java
           CPPSTD: c++17
           GCC: 11

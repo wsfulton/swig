@@ -51,15 +51,12 @@ jobs:
         #   os: ubuntu-18.04 # This dlang version doesn't work under 20.04.
         - SWIGLANG: go
           VER: '1.6'
-          CSTD: gnu99
         - SWIGLANG: go
           VER: '1.8'
         - SWIGLANG: go
           VER: '1.12'
-          CSTD: gnu99
         - SWIGLANG: go
           VER: '1.17'
-          CSTD: gnu99
         - SWIGLANG: guile
         - SWIGLANG: java
         - SWIGLANG: javascript
@@ -156,7 +153,6 @@ jobs:
           VER: '2.7'
         - SWIGLANG: ruby
           VER: '3.0'
-          CSTD: c99
         - SWIGLANG: tcl
         # c++11 testing
         - SWIGLANG: csharp

@@ -50,10 +50,12 @@ jobs:
         #   os: ubuntu-18.04 # This dlang version doesn't work under 20.04.
         - SWIGLANG: go
           VER: '1.6'
+          CSTD: gnu11
         - SWIGLANG: go
           VER: '1.8'
         - SWIGLANG: go
           VER: '1.12'
+          CSTD: gnu11
         - SWIGLANG: go
           VER: '1.17'
         - SWIGLANG: guile

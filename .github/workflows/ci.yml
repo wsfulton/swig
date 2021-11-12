@@ -169,8 +169,8 @@ jobs:
           ENGINE: node
           VER: '14'
           CPPSTD: c++11
-        - SWIGLANG: octave
-          CPPSTD: c++11
+          # - SWIGLANG: octave
+          # CPPSTD: c++11
         - SWIGLANG: perl5
           CPPSTD: c++11
         - SWIGLANG: php

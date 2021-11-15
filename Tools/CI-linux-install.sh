@@ -136,6 +136,12 @@ case "$SWIGLANG" in
 		echo "JAVA_HOME was set to $JAVA_HOME"
 		unset JAVA_HOME
 		$RETRY sudo apt-get -qq install scilab
+                set -x
+                which scilab
+                type scilab
+                echo "Running scilab"
+                scilab -version
+                set +x
 		;;
 	"tcl")
 		$RETRY sudo apt-get -qq install tcl-dev

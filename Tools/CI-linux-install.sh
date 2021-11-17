@@ -76,7 +76,7 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install racket
 		;;
 	"ocaml")
-		$RETRY sudo apt-get -qq install ocaml camlp4
+		$RETRY sudo apt-get -qq install ocaml camlp5
 		;;
 	"octave")
 		$RETRY sudo apt-get -qq update

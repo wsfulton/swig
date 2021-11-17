@@ -12,7 +12,7 @@ assert(f.num==4)
 f.num=-17
 assert(f.num==-17)
 
-b=cb.Bar()
+b=cb.BarBlahBlah()
 
 b.fptr=f
 assert(b.fptr.num==-17)

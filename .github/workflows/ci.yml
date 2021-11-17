@@ -29,6 +29,8 @@ jobs:
           VER: '5.3'
         - SWIGLANG: mzscheme
         - SWIGLANG: ocaml
+        - SWIGLANG: ocaml
+          os: ubuntu-18.04
         # let's run all of them, as opposed to aborting when one fails
       fail-fast: false
 

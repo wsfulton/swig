@@ -56,7 +56,9 @@ case "$SWIGLANG" in
 				;;
 			"jsc")
                                 sudo apt list --installed
-#				$RETRY sudo apt-get install -qq libwebkitgtk-dev
+				$RETRY sudo apt-get install -qq libwebkitgtk-dev
+                                echo "finished installing"
+                                sudo apt list --installed
 				;;
 			"v8")
 				$RETRY sudo apt-get install -qq libv8-dev

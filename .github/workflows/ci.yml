@@ -31,9 +31,6 @@ jobs:
         include:
         - SWIGLANG: javascript
           ENGINE: jsc
-          os: ubuntu-18.04 # libwebkitgtk-dev dependency not available in 20.04.
-        - SWIGLANG: javascript
-          ENGINE: jsc
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

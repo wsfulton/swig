@@ -77,6 +77,10 @@ jobs:
           VER: '16'
           CPPSTD: c++14
         - SWIGLANG: javascript
+          ENGINE: node
+          VER: '17'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
           ENGINE: jsc
           os: ubuntu-18.04 # libwebkitgtk-dev dependency not available in 20.04.
         - SWIGLANG: javascript
@@ -213,6 +217,10 @@ jobs:
           ENGINE: node
           VER: '16'
           CPPSTD: c++14
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '17'
+          CPPSTD: c++14
         - SWIGLANG: lua
           CPPSTD: c++14
         - SWIGLANG: octave
@@ -252,6 +260,11 @@ jobs:
         - SWIGLANG: javascript
           ENGINE: node
           VER: '16'
+          CPPSTD: c++17
+          GCC: 11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '17'
           CPPSTD: c++17
           GCC: 11
         - SWIGLANG: lua

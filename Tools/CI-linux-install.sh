@@ -56,7 +56,7 @@ case "$SWIGLANG" in
 				;;
 			"jsc")
                                 sudo apt list --installed
-				$RETRY sudo apt-get install -qq libwebkitgtk-dev
+				$RETRY sudo apt-get install -qq libjavascriptcoregtk-4.0-dev
                                 echo "finished installing"
                                 sudo apt list --installed
 				;;

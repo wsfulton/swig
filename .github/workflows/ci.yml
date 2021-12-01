@@ -30,7 +30,43 @@ jobs:
       matrix:
         include:
         - SWIGLANG: javascript
+          ENGINE: node
+          VER: '6'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '8'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '10'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '12'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '17'
+          CPPSTD: c++14
+        - SWIGLANG: javascript
           ENGINE: jsc
+        - SWIGLANG: javascript
+          ENGINE: v8
+          os: ubuntu-18.04 # libv8-dev only actually provides v8 in 18.04.
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '14'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '16'
+          CPPSTD: c++14
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '17'
+          CPPSTD: c++17
+          GCC: 11
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

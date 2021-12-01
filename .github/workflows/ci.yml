@@ -33,6 +33,36 @@ jobs:
           ENGINE: node
           VER: '6'
           CPPSTD: c++11
+          GCC: 8
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '8'
+          CPPSTD: c++11
+          GCC: 8
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '10'
+          CPPSTD: c++11
+          GCC: 8
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '6'
+          CPPSTD: c++11
+          GCC: 9
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '8'
+          CPPSTD: c++11
+          GCC: 9
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '10'
+          CPPSTD: c++11
+          GCC: 9
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '6'
+          CPPSTD: c++11
           os: ubuntu-18.04
         - SWIGLANG: javascript
           ENGINE: node

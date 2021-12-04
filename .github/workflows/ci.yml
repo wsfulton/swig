@@ -29,28 +29,38 @@ jobs:
     strategy:
       matrix:
         include:
-        - SWIGLANG: php
-          VER: '7.0'
-        - SWIGLANG: php
-          VER: '7.1'
-        - SWIGLANG: php
-          VER: '7.2'
-        - SWIGLANG: php
-          VER: '7.3'
-        - SWIGLANG: php
-          VER: '7.4'
-        - SWIGLANG: php
-        - SWIGLANG: php
-          VER: '8.1'
-        - SWIGLANG: php
+        - SWIGLANG: ruby
+          VER: '1.9'
+          os: ubuntu-18.04
+        - SWIGLANG: ruby
+          VER: '2.0'
+          os: ubuntu-18.04
+        - SWIGLANG: ruby
+          VER: '2.1'
+          os: ubuntu-18.04
+        - SWIGLANG: ruby
+          VER: '2.2'
+          os: ubuntu-18.04
+        - SWIGLANG: ruby
+          VER: '2.3'
+          os: ubuntu-18.04
+        - SWIGLANG: ruby
+          VER: '2.4'
+        - SWIGLANG: ruby
+          VER: '2.5'
+        - SWIGLANG: ruby
+          VER: '2.6'
+        - SWIGLANG: ruby
+          VER: '2.7'
+        - SWIGLANG: ruby
+          VER: '3.0'
           CPPSTD: c++11
-          CSTD: gnu11
-        - SWIGLANG: php
+        - SWIGLANG: ruby
+          CPPSTD: c++11
+        - SWIGLANG: ruby
           CPPSTD: c++14
-          CSTD: gnu11
-        - SWIGLANG: php
+        - SWIGLANG: ruby
           CPPSTD: c++17
-          CSTD: gnu17
           GCC: 11
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false

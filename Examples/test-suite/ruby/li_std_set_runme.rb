@@ -59,6 +59,7 @@ s.insert(1)
 s.insert("hello")
 #s.to_a == [1,[1,2],'hello']  # sort order: s.sort {|a,b| a.hash <=> b.hash}
 # Test above is flawed as LanguageSet sorts by each element's hash, so the order will change from one invocation to the next. Sort a conversion to array instead.
+GC.start
 sa = s.to_a.sort { |x, y| x.to_s <=> y.to_s }
 sa == [1,[1,2],'hello']
 

@@ -82,7 +82,7 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install ocaml camlp4
 		;;
 	"octave")
-		if [[ "$VER" ]]; then
+		if [[ -z "$VER" ]]; then
 			$RETRY sudo apt-get -qq update
 			$RETRY sudo apt-get -qq install liboctave-dev
 		else

@@ -29,37 +29,13 @@ jobs:
     strategy:
       matrix:
         include:
-        - SWIGLANG: ruby
-          VER: '1.9'
-          os: ubuntu-18.04
-        - SWIGLANG: ruby
-          VER: '2.0'
-          os: ubuntu-18.04
-        - SWIGLANG: ruby
-          VER: '2.1'
-          os: ubuntu-18.04
-        - SWIGLANG: ruby
-          VER: '2.2'
-          os: ubuntu-18.04
-        - SWIGLANG: ruby
-          VER: '2.3'
-          os: ubuntu-18.04
-        - SWIGLANG: ruby
-          VER: '2.4'
-        - SWIGLANG: ruby
-          VER: '2.5'
-        - SWIGLANG: ruby
-          VER: '2.6'
-        - SWIGLANG: ruby
-          VER: '2.7'
-        - SWIGLANG: ruby
-          VER: '3.0'
+        - SWIGLANG: octave
+          VER: '6.4'
+        - SWIGLANG: octave
           CPPSTD: c++11
-        - SWIGLANG: ruby
-          CPPSTD: c++11
-        - SWIGLANG: ruby
+        - SWIGLANG: octave
           CPPSTD: c++14
-        - SWIGLANG: ruby
+        - SWIGLANG: octave
           CPPSTD: c++17
           GCC: 11
       # Run all of them, as opposed to aborting when one fails

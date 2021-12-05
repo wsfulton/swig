@@ -88,7 +88,7 @@ case "$SWIGLANG" in
 		else
 			$RETRY sudo add-apt-repository -y ppa:devacom/science
 			$RETRY sudo apt-get -qq update
-			$RETRY sudo apt-get -qq install liboctave-dev=$VER
+			$RETRY sudo apt-get -qq install "liboctave-dev=$VER.*"
 		fi
 		;;
 	"php")

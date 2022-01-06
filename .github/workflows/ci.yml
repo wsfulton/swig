@@ -331,6 +331,8 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1
       with:
         key: ${{ matrix.os || 'ubuntu-20.04' }}-${{ matrix.compiler || 'gcc' }}${{ matrix.GCC }}
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - name: Install Dependencies
       run: |

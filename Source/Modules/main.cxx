@@ -646,7 +646,7 @@ static void getoptions(int argc, char *argv[]) {
 #endif
 	    );
 	fprintf(stdout, "\nPlease see %s for reporting bugs and further information\n", PACKAGE_BUGREPORT);
-	SWIG_exit(EXIT_FAIL);
+	SWIG_exit(EXIT_FAILURE);
       } else if (strcmp(argv[i], "-copyright") == 0) {
 	fprintf(stdout, "\nSWIG Version %s\n", Swig_package_version());
 	fprintf(stdout, "Copyright (c) 1995-1998\n");

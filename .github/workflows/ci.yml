@@ -69,17 +69,9 @@ jobs:
           echo WITHLANG="$WITHLANG" >> $GITHUB_ENV
 
           case $(uname) in
-              Linux)
-                  cpu_count=$(nproc)
-                  ;;
-
-              Darwin)
-                  cpu_count=$(sysctl -n hw.ncpu)
-                  ;;
-
-              *)
-                  cpu_count=1
-                  ;;
+              Linux) cpu_count=$(nproc) ;;
+              Darwin) cpu_count=$(sysctl -n hw.ncpu) ;;
+              *) cpu_count=1 ;;
           esac
 
           if [[ $cpu_count != 1 ]]; then

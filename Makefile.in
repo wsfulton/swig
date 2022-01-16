@@ -387,7 +387,6 @@ maintainer-clean:
 	@echo maintainer-cleaning source
 	@cd $(SOURCE) && $(MAKE) $(FLAGS) maintainer-clean
 	@echo maintainer-cleaning CCache
-	@false
 	@test -z "$(ENABLE_CCACHE)" || (cd $(CCACHE) && $(MAKE) $(FLAGS) maintainer-clean)
 	@echo maintainer-cleaning docs
 	@test -d $(DOCS) || exit 0; cd $(DOCS) && $(MAKE) $(FLAGS) maintainer-clean

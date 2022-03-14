@@ -223,3 +223,28 @@ private:
 };
 %}
 
+// Issue #675
+%inline %{
+enum class DispatchMode
+{
+    Base,
+    Process,
+    Remote,
+    Proxy
+};
+
+template <DispatchMode m>
+class DispatcherClientServer
+{
+public:
+  DispatchMode mode = m;
+};
+%}
+
+%template(SoaProcessDispatcherClientServer) DispatcherClientServer<DispatchMode::Process>;
+
+%inline %{
+    class SoaProcessDispatcherServer : public DispatcherClientServer<DispatchMode::Process>
+    {
+    };
+%}

@@ -164,10 +164,6 @@ public class cpp11_strongly_typed_enumerations_runme {
     enumCheck((int)cpp11_strongly_typed_enumerations.globalTest1(Enum1.Val5a), 13);
     enumCheck((int)cpp11_strongly_typed_enumerations.globalTest2(Class1.Enum12.Val5c), 1121);
     enumCheck((int)cpp11_strongly_typed_enumerations.globalTest3(Class1.Struct1.Enum12.Val5f), 3121);
-
-    SoaProcessDispatcherServer sp = new SoaProcessDispatcherServer();
-    if (sp.mode != DispatchMode.Process)
-      throw new ApplicationException("DispatchMode.Process failed");
   }
 }
 

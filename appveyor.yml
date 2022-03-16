@@ -50,12 +50,6 @@ environment:
   - SWIGLANG: python
     OSVARIANT: mingw
     WITHLANG: python
-    VER: 38
-    PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-  - SWIGLANG: python
-    OSVARIANT: mingw
-    WITHLANG: python
     PY3: 3
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 

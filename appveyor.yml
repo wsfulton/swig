@@ -40,10 +40,10 @@ environment:
 #    VER: 310
 #    PY3: 3
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-  - SWIGLANG: python
-    OSVARIANT: cygwin
-    PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+#  - SWIGLANG: python
+#    OSVARIANT: cygwin
+#    PY3: 3
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 # - SWIGLANG: java
 #   OSVARIANT: mingw
 #   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
@@ -172,7 +172,7 @@ test_script:
 - bash -c "make check-%SWIGLANG%-version"
 - bash -c "make check-%SWIGLANG%-enabled"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS% %CHECK_OPTIONS2% RUNPIPE= FLAGS=-k"
-- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS% %CHECK_OPTIONS2%"
+#- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS% %CHECK_OPTIONS2%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

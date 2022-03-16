@@ -35,11 +35,11 @@ environment:
 #    VER: 39
 #    PY3: 3
 #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-#  - SWIGLANG: python
-#    VSVER: 17
-#    VER: 39
-#    PY3: 3
-#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+  - SWIGLANG: python
+    VSVER: 17
+    VER: 310
+    PY3: 3
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: python
     OSVARIANT: cygwin
     PY3: 3

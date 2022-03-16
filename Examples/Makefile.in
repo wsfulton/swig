@@ -390,8 +390,8 @@ ifneq (,$(PYCODESTYLE))
 endif
 	ls -la
 	env PYTHONPATH=$$PWD $(RUNTOOL) $(PYTHON) $(PYSCRIPT) $(RUNPIPE)
-	echo "trying with PATH"
-	env PATH=$$PWD:$$PATH $(RUNTOOL) $(PYTHON) $(PYSCRIPT) $(RUNPIPE)
+#	echo "trying with PATH"
+#	env PATH=$$PWD:$$PATH $(RUNTOOL) $(PYTHON) $(PYSCRIPT) $(RUNPIPE)
 
 ifneq (,$(SRCDIR))
 $(RUNME).py: $(SRCDIR)$(RUNME).py

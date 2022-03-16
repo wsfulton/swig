@@ -54,11 +54,6 @@ environment:
     PY3: 3
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 
-matrix:
-  allow_failures:
-#  - SWIGLANG: python
-#    OSVARIANT: cygwin
-
 # Skip stale commits (pull requests only), see https://github.com/appveyor/ci/issues/38#issuecomment-70628826
 init:
 - ps: |

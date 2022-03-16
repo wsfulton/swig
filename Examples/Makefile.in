@@ -388,7 +388,10 @@ python_run: $(PYSCRIPT)
 ifneq (,$(PYCODESTYLE))
 	$(COMPILETOOL) $(PYCODESTYLE) $(PYCODESTYLE_FLAGS) $(PYSCRIPT)
 endif
+	ls -la
 	env PYTHONPATH=$$PWD $(RUNTOOL) $(PYTHON) $(PYSCRIPT) $(RUNPIPE)
+	echo "trying with PATH"
+	env PATH=$$PWD:$$PATH $(RUNTOOL) $(PYTHON) $(PYSCRIPT) $(RUNPIPE)
 
 ifneq (,$(SRCDIR))
 $(RUNME).py: $(SRCDIR)$(RUNME).py

@@ -14,39 +14,39 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: csharp
-    VSVER: 14
-  - SWIGLANG: java
-    VSVER: 14
-  - SWIGLANG: python
-    VSVER: 14
-    VER: 27
-  - BUILDSYSTEM: cmake
-    VSVER: 14
-  - SWIGLANG: python
-    VSVER: 15
-    VER: 38
-    PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-  - SWIGLANG: python
-    VSVER: 16
-    VER: 39
-    PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  - SWIGLANG: python
-    VSVER: 17
-    VER: 39
-    PY3: 3
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+#  - SWIGLANG: csharp
+#    VSVER: 12
+#  - SWIGLANG: csharp
+#    VSVER: 14
+#  - SWIGLANG: java
+#    VSVER: 14
+#  - SWIGLANG: python
+#    VSVER: 14
+#    VER: 27
+#  - BUILDSYSTEM: cmake
+#    VSVER: 14
+#  - SWIGLANG: python
+#    VSVER: 15
+#    VER: 38
+#    PY3: 3
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#  - SWIGLANG: python
+#    VSVER: 16
+#    VER: 39
+#    PY3: 3
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+#  - SWIGLANG: python
+#    VSVER: 17
+#    VER: 39
+#    PY3: 3
+#    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: python
     OSVARIANT: cygwin
     PY3: 3
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-  - SWIGLANG: java
-    OSVARIANT: mingw
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+# - SWIGLANG: java
+#   OSVARIANT: mingw
+#   APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: python
     OSVARIANT: mingw
     WITHLANG: python
@@ -131,6 +131,8 @@ install:
         $env:CHECK_OPTIONS2="CFLAGS+=-DMS_WIN64 CXXFLAGS+=-DMS_WIN64"
       }
     }
+- dir C:\Python39%LANG_PLATFORM%
+- dir C:\Python37%LANG_PLATFORM%
 - if "%OSVARIANT%"=="" bash -c "cd /usr/bin && curl --retry 15 -s -L https://github.com/swig/cccl/archive/cccl-1.2.tar.gz | tar -xz --strip 1 cccl-cccl-1.2/cccl"
 - if "%OSVARIANT%"=="" call "%VCVARSBAT%" %VCVARSARG%
 - if "%OSVARIANT%"=="" appveyor-retry appveyor DownloadFile https://github.com/PhilipHazel/pcre2/archive/refs/tags/pcre2-10.39.zip
@@ -175,7 +177,7 @@ test_script:
 - bash -c "file ./swig.exe"
 - bash -c "make check-%SWIGLANG%-version"
 - bash -c "make check-%SWIGLANG%-enabled"
-- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS% %CHECK_OPTIONS2%"
+- bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS% %CHECK_OPTIONS2% RUNPIPE= FLAGS=-k"
 - bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS% %CHECK_OPTIONS2%"
 
 # Do not build on tags (GitHub only)

@@ -779,6 +779,7 @@ else
   case $host in
   *-*-cygwin* | *-*-mingw*)
     PYTHONDYNAMICLINKING="-L$PYLIB $PYLINK"
+    echo "PYTHONDYNAMICLINKING... $PYTHONDYNAMICLINKING"
     DEFS="-DUSE_DL_IMPORT $DEFS"
     ;;
   *)PYTHONDYNAMICLINKING="";;
@@ -953,6 +954,7 @@ else
   case $host in
   *-*-cygwin* | *-*-mingw*)
     PYTHON3DYNAMICLINKING="-L$PY3LIB $PY3LINK"
+    echo "PYTHON3DYNAMICLINKING... $PYTHON3DYNAMICLINKING"
     DEFS="-DUSE_DL_IMPORT $DEFS"
     ;;
   *)PYTHON3DYNAMICLINKING="";;

@@ -863,13 +863,19 @@ else
 
       AC_MSG_CHECKING(for Python 3.x library directory)
       if test -d $PY3PREFIX/libs; then
+        echo "$PY3PREFIX/libs exists"
+        ls -la "$PY3PREFIX/libs"
         PY3LIB=$PY3PREFIX/libs
+        ls -la $PY3LIB/python*.lib
         PY3LINKFILE=`ls $PY3LIB/python*.lib | grep "python[[0-9]][[0-9]]\.lib"`
+        echo "PY3LINKFILE... $PY3LINKFILE"
         if test -r "$PY3LINKFILE"; then
           PY3LINK=-l`basename $PY3LINKFILE | sed -e 's/\.lib$//'`
         else
           PY3LIB=
         fi
+        echo "PY3LIB... $PY3LIB"
+        echo "PY3LINK... $PY3LINK"
       fi
       if test -z "$PY3LIB"; then
         AC_MSG_RESULT([Not found])

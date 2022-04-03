@@ -294,10 +294,8 @@ case $host in
 esac
 AC_MSG_RESULT($PLATCFLAGS)
 
-# Add switch if necessary to enable C++11 support - just for tests
-AC_ARG_ENABLE([cpp11-testing], AS_HELP_STRING([--enable-cpp11-testing], [enable C++11 testing if supported by compiler (default disabled)]), [enable_cpp11_testing=$enableval], [enable_cpp11_testing=no])
-AC_MSG_CHECKING([whether to attempt to enable C++11 testing])
-AC_MSG_RESULT([$enable_cpp11_testing])
+# Always enable C++11 testing
+enable_cpp11_testing="yes"
 
 PLATCXXFLAGS="$PLATCFLAGS"
 if test x"$enable_cpp11_testing" = xyes; then

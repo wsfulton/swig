@@ -36,15 +36,15 @@ environment:
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: csharp
     VSVER: 17
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     Platform: x86
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: java
     VSVER: 17
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: java
     VSVER: 17
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     Platform: x86
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: python
     VSVER: 17
     VER: 310
@@ -52,8 +52,8 @@ environment:
   - SWIGLANG: python
     VSVER: 17
     VER: 310
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
     Platform: x86
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
   - SWIGLANG: python
     OSVARIANT: cygwin
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022

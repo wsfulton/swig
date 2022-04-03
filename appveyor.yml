@@ -80,6 +80,7 @@ init:
 
 install:
 - date /T & time /T
+- set
 - ps: >-
     if ($env:Platform -eq "x86") {
       $env:PCRE_PLATFORM="Win32"

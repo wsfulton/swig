@@ -384,7 +384,8 @@ jobs:
           source $GITHUB_WORKSPACE/Tools/CI-linux-environment.sh
           set -x
 
-          if [[ -z "$SWIGLANG" && -z "$CPPSTD" ]] ; then
+          if [[ -n "$SWIGLANG" && -z "$CPPSTD" ]] ; then
+            # Default for testing target language is c++98 if not specified
             export CPPSTD=c++98
             echo CPPSTD="$CPPSTD" >> $GITHUB_ENV
           fi

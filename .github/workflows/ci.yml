@@ -385,7 +385,8 @@ jobs:
           set -x
 
           if [[ -z "$SWIGLANG" && -z "$CPPSTD" ]] ; then
-              CPPSTD=c++98
+            export CPPSTD=c++98
+            echo CPPSTD="$CPPSTD" >> $GITHUB_ENV
           fi
           if [[ -z "$CSTD" ]]; then
             case "$CPPSTD" in

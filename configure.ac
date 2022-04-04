@@ -294,6 +294,11 @@ case $host in
 esac
 AC_MSG_RESULT($PLATCFLAGS)
 
+AC_MSG_CHECKING([CFLAGS before modifying for testing])
+AC_MSG_RESULT([$CFLAGS])
+AC_MSG_CHECKING([CXXFLAGS before modifying for testing])
+AC_MSG_RESULT([$CXXFLAGS])
+
 # Always enable C++11 testing
 enable_cpp11_testing="yes"
 
@@ -346,6 +351,11 @@ if test x"$enable_cpp11_testing" = xyes; then
   CXXCPP=$CXXCPP_SAVED
 fi
 AC_SUBST(HAVE_CXX11)
+
+AC_MSG_CHECKING([CFLAGS to use for testing])
+AC_MSG_RESULT([$CFLAGS])
+AC_MSG_CHECKING([CXXFLAGS to use for testing])
+AC_MSG_RESULT([$CXXFLAGS])
 
 # On darwin 10.7,10.8,10.9 using clang++, need to ensure using
 # libc++ for tests and examples to run under mono. May affect

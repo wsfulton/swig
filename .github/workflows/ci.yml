@@ -384,6 +384,9 @@ jobs:
           source $GITHUB_WORKSPACE/Tools/CI-linux-environment.sh
           set -x
 
+          if [[ -z "$SWIGLANG" && -z "$CPPSTD" ]] ; then
+              CPPSTD=c++98
+          fi
           if [[ -z "$CSTD" ]]; then
             case "$CPPSTD" in
               c++11) export CSTD=c11 ;;

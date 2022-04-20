@@ -54,13 +54,24 @@ public class runme
         x = "hello";
         check_equal(li_std_wstring.test_const_reference(x), x);
 
-        /* Postpone, tricky, std::wstring portability problem.
+        /* Tricky, std::wstring portability problem.
          * std::wstring is 2 bytes on Windows, 4 bytes on Linux, LPWSTR is 2 bytes.
-         * .NET marshalling should work on Windows but not Linux.
-        string s = "abc";
-        if (!li_std_wstring.test_equal_abc(s))
-            throw new Exception("Not equal " + s);
-        */
+         */
+        string ss = "abc";
+        if (!li_std_wstring.test_equal_abc(ss))
+            throw new Exception("Not equal " + ss);
+
+        ss = "JP: 日本語";
+        if (!li_std_wstring.test_equal_jp(ss))
+            throw new Exception("Not equal " + ss);
+
+        ss = "DE: Kröpeliner Straße";
+        if (!li_std_wstring.test_equal_de(ss))
+            throw new Exception("Not equal " + ss);
+
+        ss = "RU: Война и мир";
+        if (!li_std_wstring.test_equal_ru(ss))
+            throw new Exception("Not equal " + ss);
 
         try {
             li_std_wstring.test_throw();
@@ -84,12 +95,17 @@ public class runme
 
         {
             // Unicode strings
+            // Strings below are UTF8 in this file, but .NET holds them internally as UTF16
+            // DE: https://www.utf8-chartable.de/
+            // RU: https://www.utf8-chartable.de/unicode-utf8-table.pl?start=1024
             string[] test_strings = {
                 "JP: 日本語", "DE: Kröpeliner Straße" , "RU: Война и мир", "EN: War and Peace"
             };
 
             foreach (string expected in test_strings)
             {
+                if (li_std_wstring.debug)
+                    Console.WriteLine("expected (C#): " + expected);
                 string received = li_std_wstring.test_value(expected);
                 check_equal(received, expected);
             }
@@ -117,6 +133,7 @@ public class runme
              * Is fixed by adding CharSet=CharSet.Unicode to the DllImport, so change to:
              * [global::System.Runtime.InteropServices.DllImport("li_std_wstring", CharSet=global::System.Runtime.InteropServices.CharSet.Unicode, EntryPoint="CSharp_li_std_wstringNamespace_test_wcvalue")]
              * Needs a SWIG code change to support this
+             */
             foreach (string test_string in test_strings)
             {
                 foreach (char expected in test_string)
@@ -125,7 +142,6 @@ public class runme
                     check_equal(received, expected);
                 }
             }
-            */
         }
     }
 }

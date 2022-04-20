@@ -3,7 +3,17 @@
 // The languages below are yet to provide std_wstring.i
 #if !(defined(SWIGD) || defined(SWIGGO) || defined(SWIGGUILE) || defined(SWIGJAVASCRIPT) || defined(SWIGLUA) || defined(SWIGMZSCHEME) || defined(SWIGOCAML) || defined(SWIGOCTAVE) || defined(SWIGPERL) || defined(SWIGPHP) || defined(SWIGR) || defined(SWIGSCILAB))
 
+#if defined(SWIGCSHARP)
+/*
+%pragma(csharp) imclassimports=%{
+using global::System.Runtime.InteropServices;
+[module: global::System.Runtime.InteropServices.DefaultCharSet(global::System.Runtime.InteropServices.CharSet.Unicode)]
+%}
+*/
+#endif
+
 %include <std_wstring.i>
+
 
 // throw is invalid in C++17 and later, only SWIG to use it
 #define TESTCASE_THROW1(T1) throw(T1)
@@ -13,34 +23,39 @@
 
 %inline %{
 #include <string>
+#include <iostream>
+
+bool debug = true;
 
 wchar_t test_wcvalue(wchar_t x) {
-   return x;
+  return x;
 }
 
 const wchar_t* test_ccvalue(const wchar_t* x) {
-   return x;
+  return x;
 }
 
 wchar_t* test_cvalue(wchar_t* x) {
-   return x;
+  return x;
 }
   
 
 wchar_t* test_wchar_overload() {
-   return 0;
+  return 0;
 }
 
 wchar_t* test_wchar_overload(wchar_t *x) {
-   return x;
+  return x;
 }
 
 std::wstring test_value(std::wstring x) {
-   return x;
+  if (debug)
+    std::wcout << "received(C++): " << x << std::endl;
+  return x;
 }
 
 const std::wstring& test_const_reference(const std::wstring &x) {
-   return x;
+  return x;
 }
 
 void test_pointer(std::wstring *x) {
@@ -52,8 +67,40 @@ void test_const_pointer(const std::wstring *x) {
 void test_reference(std::wstring &x) {
 }
 
+void show_wstring_bytes(const std::wstring& s) {
+  unsigned char *p = (unsigned char *)s.data();
+  size_t len = s.size()*sizeof(wchar_t);
+  std::wcout << L"s: " << s << L"[";
+  for (size_t i = 0; i<len; i++) {
+    std::wcout << std::hex << *p << L" ";
+    p++;
+  }
+  std::wcout << L"]" << std::endl;
+  std::wcout << std::flush;
+}
+
+bool test_equal(const wchar_t *wcs, const std::wstring& s) {
+  if (debug) {
+    show_wstring_bytes(wcs);
+    show_wstring_bytes(s);
+  }
+  return wcs == s;
+}
+
 bool test_equal_abc(const std::wstring &s) {
-  return L"abc" == s;
+  return test_equal(L"abc", s);
+}
+
+bool test_equal_jp(const std::wstring &s) {
+  return test_equal(L"JP: 日本語", s);
+}
+
+bool test_equal_de(const std::wstring &s) {
+  return test_equal(L"DE: Kröpeliner Straße", s);
+}
+
+bool test_equal_ru(const std::wstring &s) {
+  return test_equal(L"RU: Война и мир", s);
 }
 
 void test_throw() TESTCASE_THROW1(std::wstring){
@@ -73,6 +120,7 @@ size_t size_wstring(const std::wstring& s) {
 struct wchar_test_struct {
   wchar_t wchar_t_member;
   wchar_t* wchar_t_ptr_member;
+  wchar_test_struct() : wchar_t_member(), wchar_t_ptr_member() {}
 };
 
 %}

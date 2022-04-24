@@ -27,6 +27,18 @@ using global::System.Runtime.InteropServices;
 
 bool debug = true;
 
+void show_wstring_bytes(const std::wstring &s) {
+  unsigned char *p = (unsigned char *)s.data();
+  size_t len = s.size()*sizeof(wchar_t);
+  std::wcout << L"s: " << /*s <<*/ L"[";
+  for (size_t i = 0; i<len; i++) {
+    std::wcout << std::hex << *p << L" ";
+    p++;
+  }
+  std::wcout << L"]" << std::endl;
+  std::wcout << std::flush;
+}
+
 wchar_t test_wcvalue(wchar_t x) {
   return x;
 }
@@ -49,8 +61,10 @@ wchar_t* test_wchar_overload(wchar_t *x) {
 }
 
 std::wstring test_value(std::wstring x) {
-  if (debug)
-    std::wcout << "received(C++): " << x << std::endl;
+  if (debug) {
+    std::wcout << "received(C++): " /*<< x */<< std::endl;
+    show_wstring_bytes(x);
+  }
   return x;
 }
 
@@ -65,18 +79,6 @@ void test_const_pointer(const std::wstring *x) {
 }
 
 void test_reference(std::wstring &x) {
-}
-
-void show_wstring_bytes(const std::wstring& s) {
-  unsigned char *p = (unsigned char *)s.data();
-  size_t len = s.size()*sizeof(wchar_t);
-  std::wcout << L"s: " << s << L"[";
-  for (size_t i = 0; i<len; i++) {
-    std::wcout << std::hex << *p << L" ";
-    p++;
-  }
-  std::wcout << L"]" << std::endl;
-  std::wcout << std::flush;
 }
 
 bool test_equal(const wchar_t *wcs, const std::wstring& s) {

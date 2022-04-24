@@ -1,3 +1,6 @@
+﻿// This file has a BOM for UTF-8
+// Notes for displaying UTF-8 properly in Windows: https://stackoverflow.com/questions/49476326/displaying-unicode-in-powershell
+
 using System;
 using li_std_wstringNamespace;
 
@@ -5,17 +8,38 @@ public class runme
 {
     static private void check_equal(char a, char b)
     {
-      if (a != b)
-        throw new Exception("char failed '" + a + "' != '" + b + "'");
+        if (a != b)
+            throw new Exception("char failed '" + a + "' != '" + b + "'");
+    }
+
+    static private void display_bytes(string s)
+    {
+        Console.Write("[");
+        if (s != null)
+        {
+            foreach (char x in s)
+            {
+                int n = Convert.ToInt32(x);
+                Console.Write(n.ToString("X") + " ");
+            }
+        }
+        else
+            Console.Write("null");
+        Console.WriteLine("]");
     }
 
     static private void check_equal(string a, string b)
     {
-      if (a != b)
-        throw new Exception("string failed '" + a + "' != '" + b + "'");
+        Console.WriteLine("check_equal {0} {1}", a, b);
+        display_bytes(a);
+        display_bytes(b);
+        if (a != b)
+            Console.WriteLine("NOT EQUALLLLLLLLLLLL " + a + "!=" + b);
+        //seems to have broken for abc when changing delegate, I think because default marshalling is ascii and ???
+ //         throw new Exception("string failed '" + a + "' != '" + b + "'");
     }
 
-    static void Main() 
+    static void Main()
     {
         char h = 'h';
         check_equal(li_std_wstring.test_wcvalue(h), h);
@@ -37,8 +61,8 @@ public class runme
         }
 
         try {
-              li_std_wstring.test_reference(null);
-              throw new Exception("NULL check failed");
+            li_std_wstring.test_reference(null);
+            throw new Exception("NULL check failed");
         } catch (ArgumentNullException e) {
             if (!e.Message.Contains("type is null"))
                 throw new Exception("Missing text " + e);

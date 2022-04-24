@@ -15,7 +15,7 @@
 #include <string>
 
 std::wstring UTF16ToWString(const wchar_t *str) {
-  if (str == nullptr)
+  if (!str)
     return std::wstring();
 
   const unsigned short * pBegin((const unsigned short *)(str));

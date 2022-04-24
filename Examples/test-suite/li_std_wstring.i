@@ -21,6 +21,11 @@ using global::System.Runtime.InteropServices;
 #define TESTCASE_THROW1(T1)
 %}
 
+%{
+// Unicode strings are stored in li_std_wstring.h file which has the BOM appropriately set, primarily for Visual C++ to correctly interpret the wide strings
+#include "li_std_wstring.h"
+%}
+
 %inline %{
 #include <string>
 #include <iostream>
@@ -94,15 +99,15 @@ bool test_equal_abc(const std::wstring &s) {
 }
 
 bool test_equal_jp(const std::wstring &s) {
-  return test_equal(L"JP: 日本語", s);
+  return test_equal(JP_WSTRING, s);
 }
 
 bool test_equal_de(const std::wstring &s) {
-  return test_equal(L"DE: Kröpeliner Straße", s);
+  return test_equal(DE_WSTRING, s);
 }
 
 bool test_equal_ru(const std::wstring &s) {
-  return test_equal(L"RU: Война и мир", s);
+  return test_equal(RU_WSTRING, s);
 }
 
 void test_throw() TESTCASE_THROW1(std::wstring){

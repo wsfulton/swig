@@ -58,7 +58,7 @@ class wstring;
     return $null;
    }
    $1 = UTF16ToWString($input); %}
-//%typemap(out) wstring %{ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size()); %}
+//%typemap(out) wstring %{ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size()); %}
 %typemap(out) wstring %{
 {
   unsigned char *p = (unsigned char *)$1.data();
@@ -72,7 +72,7 @@ class wstring;
   std::wcout << std::flush;
 }
 // $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
-$result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
+$result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size());
 {
   unsigned char *p = (unsigned char *)$result;
   size_t len = $1.size()*sizeof(wchar_t);
@@ -94,7 +94,7 @@ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
    }
    $result.assign($input); %}
 
-%typemap(directorin) wstring %{ $input = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size()); %}
+%typemap(directorin) wstring %{ $input = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size()); %}
 
 %typemap(csin) wstring "$csinput"
 %typemap(csout, excode=SWIGEXCODE) wstring {
@@ -127,7 +127,7 @@ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
    }
    std::wstring $1_str(UTF16ToWString($input));
    $1 = &$1_str; %}
-%typemap(out) const wstring & %{ $result = SWIG_csharp_wstring_with_length_callback($1->c_str(), $1->size()); %}
+%typemap(out) const wstring & %{ $result = SWIG_csharp_wstring_with_length_callback($1->c_str(), (int)$1->size()); %}
 
 %typemap(csin) const wstring & "$csinput"
 %typemap(csout, excode=SWIGEXCODE) const wstring & {
@@ -145,7 +145,7 @@ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
    $1_str = $input;
    $result = &$1_str; %}
 
-%typemap(directorin) const wstring & %{ $input = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1->size()); %}
+%typemap(directorin) const wstring & %{ $input = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1->size()); %}
 
 %typemap(csvarin, excode=SWIGEXCODE2) const wstring & %{
     set {

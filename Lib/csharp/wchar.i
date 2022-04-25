@@ -114,13 +114,14 @@ static wchar_t * Swig_csharp_UTF16ToWCharPtr(const wchar_t *str) {
     if (str) {
       const unsigned short * pBegin((const unsigned short *)(str));
       const unsigned short * pEnd(pBegin);
-      unsigned short * ptr((unsigned short *)pBegin);
+      unsigned short * ptr = 0;
 
       while (*pEnd != 0)
         ++pEnd;
 
       result = (wchar_t *)malloc(sizeof(wchar_t) * (pEnd - pBegin + 1));
-      while(ptr != pEnd)
+      ptr = (unsigned short *)result;
+      while(pBegin != pEnd)
         *ptr++ = *pBegin++;
       *ptr++ = 0;
     }

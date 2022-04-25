@@ -112,20 +112,36 @@ static wchar_t * Swig_csharp_UTF16ToWCharPtr(const wchar_t *str) {
     wchar_t *result = 0;
 
     if (str) {
-      const unsigned short * pBegin((const unsigned short *)(str));
-      const unsigned short * pEnd(pBegin);
-      wchar_t * ptr = 0;
+      const unsigned short *pBegin((const unsigned short *)(str));
+      const unsigned short *pEnd(pBegin);
+      wchar_t *ptr = 0;
 
       while (*pEnd != 0)
         ++pEnd;
 
+#ifdef __cplusplus
+      result = ptr = new wchar_t[pEnd - pBegin + 1];
+#else
       result = ptr = (wchar_t *)malloc(sizeof(wchar_t) * (pEnd - pBegin + 1));
+#endif
       while(pBegin != pEnd)
         *ptr++ = *pBegin++;
       *ptr++ = 0;
     }
 
     return result;
+  }
+}
+%}
+
+%fragment("Swig_csharp_UTF16ToWCharPtrFree", "header") %{
+static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
+  if (sizeof(wchar_t) != 2) {
+#ifdef __cplusplus
+    delete [] str;
+#else
+    free(str);
+#endif
   }
 }
 %}
@@ -157,7 +173,8 @@ static wchar_t * Swig_csharp_UTF16ToWCharPtr(const wchar_t *str) {
 
 %typemap(out) wchar_t * %{ $result = $1 ? SWIG_csharp_wstring_callback((wchar_t *)$1) : 0; %}
 
-%typemap(freearg) wchar_t * %{ if (sizeof(wchar_t) != 2) free($1); %}
+%typemap(freearg, fragment="Swig_csharp_UTF16ToWCharPtrFree") wchar_t *
+%{ Swig_csharp_UTF16ToWCharPtrFree($1); %}
 
 %typemap(typecheck) wchar_t * = char *;
 

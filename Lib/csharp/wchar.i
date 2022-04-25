@@ -102,6 +102,34 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterWStringCallback_$module(SWIG_CSharpWStri
 %typemap(typecheck) wchar_t = char;
 
 // wchar_t *
+
+%fragment("Swig_csharp_UTF16ToWCharPtr", "header") %{
+/* For converting from .NET UTF16 (2 byte unicode) strings. wchar_t is 2 bytes on Windows, 4 bytes on Linux. */
+static wchar_t * Swig_csharp_UTF16ToWCharPtr(const wchar_t *str) {
+  if (sizeof(wchar_t) == 2) {
+    return (wchar_t *)str;
+  } else {
+    wchar_t *result = 0;
+
+    if (str) {
+      const unsigned short * pBegin((const unsigned short *)(str));
+      const unsigned short * pEnd(pBegin);
+      unsigned short * ptr((unsigned short *)pBegin);
+
+      while (*pEnd != 0)
+        ++pEnd;
+
+      result = (wchar_t *)malloc(sizeof(wchar_t) * (pEnd - pBegin + 1));
+      while(ptr != pEnd)
+        *ptr++ = *pBegin++;
+      *ptr++ = 0;
+    }
+
+    return result;
+  }
+}
+%}
+
 %typemap(ctype, out="void *") wchar_t * "wchar_t *"
 %typemap(imtype,
          inattributes="[global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]",
@@ -124,11 +152,12 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterWStringCallback_$module(SWIG_CSharpWStri
       return ret;
     } %}
 
-%typemap(in) wchar_t *
-%{ std::wstring $1_buffer(UTF16ToWString($input));
-   $1 = (wchar_t *)($input ? $1_buffer.c_str() : 0); %}
+%typemap(in, fragment="Swig_csharp_UTF16ToWCharPtr") wchar_t *
+%{ $1 = Swig_csharp_UTF16ToWCharPtr($input); %}
 
 %typemap(out) wchar_t * %{ $result = $1 ? SWIG_csharp_wstring_callback((wchar_t *)$1) : 0; %}
+
+%typemap(freearg) wchar_t * %{ if (sizeof(wchar_t) != 2) free($1); %}
 
 %typemap(typecheck) wchar_t * = char *;
 

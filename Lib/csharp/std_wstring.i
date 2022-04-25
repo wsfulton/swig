@@ -13,27 +13,28 @@
 
 %{
 #include <string>
+%}
 
-std::wstring UTF16ToWString(const wchar_t *str) {
-  if (!str)
-    return std::wstring();
+%fragment("Swig_csharp_UTF16ToWString", "header") %{
+/* For converting from .NET UTF16 (2 byte unicode) strings. wchar_t is 2 bytes on Windows, 4 bytes on Linux. */
+static std::wstring Swig_csharp_UTF16ToWString(const wchar_t *str) {
+  if (sizeof(wchar_t) == 2) {
+    return std::wstring(str);
+  } else {
+    const unsigned short * pBegin((const unsigned short *)(str));
+    const unsigned short * ptr(pBegin);
 
-  const unsigned short * pBegin((const unsigned short *)(str));
-  const unsigned short * ptr(pBegin);
+    while (*ptr != 0)
+      ++ptr;
 
-  while (*ptr != 0)
-    ++ptr;
+    std::wstring result;
+    result.reserve(ptr - pBegin);
+    while(pBegin != ptr)
+      result.push_back(*pBegin++);
 
-  std::wstring result;
-
-  result.reserve(ptr - pBegin);
-
-  while(pBegin != ptr)
-    result.push_back(*pBegin++);
-
-  return result;
+    return result;
+  }
 }
-
 %}
 
 namespace std {
@@ -52,12 +53,12 @@ class wstring;
 %typemap(csdirectorin) wstring "$iminput"
 %typemap(csdirectorout) wstring "$cscall"
 
-%typemap(in, canthrow=1) wstring
+%typemap(in, canthrow=1, fragment="Swig_csharp_UTF16ToWString") wstring
 %{ if (!$input) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return $null;
    }
-   $1 = UTF16ToWString($input); %}
+   $1 = Swig_csharp_UTF16ToWString($input); %}
 //%typemap(out) wstring %{ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size()); %}
 %typemap(out) wstring %{
 {
@@ -120,12 +121,12 @@ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size());
 %typemap(csdirectorin) const wstring & "$iminput"
 %typemap(csdirectorout) const wstring & "$cscall"
 
-%typemap(in, canthrow=1) const wstring &
+%typemap(in, canthrow=1, fragment="Swig_csharp_UTF16ToWString") const wstring &
 %{ if (!$input) {
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null wstring", 0);
     return $null;
    }
-   std::wstring $1_str(UTF16ToWString($input));
+   std::wstring $1_str(Swig_csharp_UTF16ToWString($input));
    $1 = &$1_str; %}
 %typemap(out) const wstring & %{ $result = SWIG_csharp_wstring_with_length_callback($1->c_str(), (int)$1->size()); %}
 

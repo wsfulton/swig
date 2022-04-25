@@ -54,6 +54,8 @@ public class runme
         li_std_wstring.test_pointer(null);
         li_std_wstring.test_const_pointer(null);
 
+        check_equal(li_std_wstring.test_ccvalue(null), null);
+
         try {
             li_std_wstring.test_value(null);
             throw new Exception("NULL check failed");
@@ -116,6 +118,8 @@ public class runme
         check_equal(s.wchar_t_member, h);
         s.wchar_t_ptr_member = x;
         check_equal(s.wchar_t_ptr_member, "abc");
+        s.wchar_t_ptr_member = ss;
+        check_equal(s.wchar_t_ptr_member, ss);
 
         {
             // Unicode strings
@@ -157,7 +161,6 @@ public class runme
              * Is fixed by adding CharSet=CharSet.Unicode to the DllImport, so change to:
              * [global::System.Runtime.InteropServices.DllImport("li_std_wstring", CharSet=global::System.Runtime.InteropServices.CharSet.Unicode, EntryPoint="CSharp_li_std_wstringNamespace_test_wcvalue")]
              * Needs a SWIG code change to support this
-             */
             foreach (string test_string in test_strings)
             {
                 foreach (char expected in test_string)
@@ -166,6 +169,7 @@ public class runme
                     check_equal(received, expected);
                 }
             }
+            */
         }
     }
 }

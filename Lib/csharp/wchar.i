@@ -184,71 +184,71 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
 #ifdef __cplusplus
 %typemap(memberin,fragment="<wchar.h>") wchar_t * {
   delete [] $1;
-  if ($input) {
-     $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(memberin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
-  if ($input) {
-     $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(globalin,fragment="<wchar.h>") wchar_t * {
   delete [] $1;
-  if ($input) {
-     $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(globalin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
-  if ($input) {
-     $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) (new wchar_t[wcslen((const wchar_t *)$input)+1]);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 #else
 %typemap(memberin,fragment="<wchar.h>") wchar_t * {
   free($1);
-  if ($input) {
-     $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(memberin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
-  if ($input) {
-     $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(globalin,fragment="<wchar.h>") wchar_t * {
   free($1);
-  if ($input) {
-     $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 %typemap(globalin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
-  if ($input) {
-     $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
-     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
+  if ($input && sizeof(wchar_t) == 2) {
+    $1 = ($1_type) malloc(wcslen((const wchar_t *)$input)+1);
+    wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
-     $1 = 0;
+    $1 = $input;
   }
 }
 

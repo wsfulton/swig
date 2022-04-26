@@ -30,7 +30,7 @@ using global::System.Runtime.InteropServices;
 #include <string>
 #include <iostream>
 
-bool debug = true;
+bool debug = false;
 
 void show_wstring_bytes(const std::wstring &s) {
   unsigned char *p = (unsigned char *)s.data();
@@ -127,7 +127,8 @@ size_t size_wstring(const std::wstring& s) {
 struct wchar_test_struct {
   wchar_t wchar_t_member;
   wchar_t* wchar_t_ptr_member;
-  wchar_test_struct() : wchar_t_member(), wchar_t_ptr_member() {}
+  const wchar_t* wchar_t_const_ptr_member;
+  wchar_test_struct() : wchar_t_member(), wchar_t_ptr_member(), wchar_t_const_ptr_member() {}
 };
 
 %}

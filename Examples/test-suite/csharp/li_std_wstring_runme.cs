@@ -30,13 +30,13 @@ public class runme
 
     static private void check_equal(string a, string b)
     {
-        Console.WriteLine("check_equal {0} {1}", a, b);
-        display_bytes(a);
-        display_bytes(b);
+        if (li_std_wstring.debug) {
+            Console.WriteLine("check_equal {0} {1}", a, b);
+            display_bytes(a);
+            display_bytes(b);
+        }
         if (a != b)
-            Console.WriteLine("NOT EQUALLLLLLLLLLLL " + a + "!=" + b);
-        //seems to have broken for abc when changing delegate, I think because default marshalling is ascii and ???
- //         throw new Exception("string failed '" + a + "' != '" + b + "'");
+          throw new Exception("string failed '" + a + "' != '" + b + "'");
     }
 
     static void Main()

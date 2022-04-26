@@ -40,9 +40,7 @@ static void * SWIG_csharp_wstring_callback(const wchar_t *s) {
     public static extern void SWIGRegisterWStringCallback_$module(SWIGWStringDelegate wstringUTF16Delegate, SWIGWStringDelegate wstringUTF32Delegate);
 
     static string CreateWStringFromUTF16([global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]global::System.IntPtr cString, int length) {
-      string ret = global::System.Runtime.InteropServices.Marshal.PtrToStringUni(cString, length);
-      global::System.Console.WriteLine("CreateWStringFromUTF16 length:" + length + "{" + ret + "}");
-      return ret;
+      return global::System.Runtime.InteropServices.Marshal.PtrToStringUni(cString, length);
     }
 
     public static string CreateWStringFromUTF32([global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]global::System.IntPtr cString, int length) {
@@ -52,9 +50,7 @@ static void * SWIG_csharp_wstring_callback(const wchar_t *s) {
       byte[] buffer = new byte[length * 4];
       global::System.Runtime.InteropServices.Marshal.Copy(cString, buffer, 0, buffer.Length);
       byte[] utf8buffer = global::System.Text.Encoding.Convert(global::System.Text.Encoding.UTF32, global::System.Text.Encoding.UTF8, buffer);
-      string ret = global::System.Text.Encoding.Default.GetString(utf8buffer);
-      global::System.Console.WriteLine("CreateWStringFromUTF32 length:" + length + "{" + ret + "}");
-      return ret;
+      return global::System.Text.Encoding.Default.GetString(utf8buffer);
     }
 
     static SWIGWStringHelper() {

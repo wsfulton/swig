@@ -61,34 +61,7 @@ class wstring;
     return $null;
    }
    $1 = Swig_csharp_UTF16ToWString($input); %}
-//%typemap(out) wstring %{ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size()); %}
-%typemap(out) wstring %{
-{
-  unsigned char *p = (unsigned char *)$1.data();
-  size_t len = $1.size()*sizeof(wchar_t);
-  std::wcout << L"to : " << /*s <<*/ L"[";
-  for (size_t i = 0; i<len; i++) {
-    std::wcout << std::hex << *p << L" ";
-    p++;
-  }
-  std::wcout << L"]" << std::endl;
-  std::wcout << std::flush;
-}
-// $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), $1.size());
-$result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size());
-{
-  unsigned char *p = (unsigned char *)$result;
-  size_t len = $1.size()*sizeof(wchar_t);
-  std::wcout << L"out: " << /*s <<*/ L"[";
-  for (size_t i = 0; i<len; i++) {
-    std::wcout << std::hex << *p << L" ";
-    p++;
-  }
-  std::wcout << L"]" << std::endl;
-  std::wcout << std::flush;
-}
-// note: SWIG_csharp_wstring_with_length_callback (in & out is the same) so doesn't do anything on windows with the delegate having MarshalAs(LPWStr) (not sure about leaks)
-%}
+%typemap(out) wstring %{ $result = SWIG_csharp_wstring_with_length_callback($1.c_str(), (int)$1.size()); %}
 
 %typemap(directorout, canthrow=1) wstring
 %{ if (!$input) {

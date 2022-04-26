@@ -189,6 +189,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(memberin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
@@ -197,6 +198,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(globalin,fragment="<wchar.h>") wchar_t * {
@@ -206,6 +208,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(globalin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
@@ -214,6 +217,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 #else
@@ -224,6 +228,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(memberin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
@@ -232,6 +237,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(globalin,fragment="<wchar.h>") wchar_t * {
@@ -241,6 +247,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 %typemap(globalin,warning=SWIGWARN_TYPEMAP_WCHARLEAK_MSG,fragment="<wchar.h>") const wchar_t * {
@@ -249,6 +256,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
     wcscpy((wchar_t *)$1, (const wchar_t *)$input);
   } else {
     $1 = $input;
+    $input = 0;
   }
 }
 

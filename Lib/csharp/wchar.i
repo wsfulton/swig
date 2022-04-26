@@ -2,10 +2,11 @@
  * wchar.i
  *
  * Typemaps for the wchar_t type
- * These are mapped to a C# String and are passed around by value.
+ * wchar_t * is mapped to a C# Unicode string (UTF16) and is passed around by value.
+ * wchar_t * support includes wchar_t as a 2 byte type (Windows) and a 4 byte type
+ * (most Unix systems).
  *
  * Support code for wide strings can be turned off by defining SWIG_CSHARP_NO_WSTRING_HELPER
- *
  * ----------------------------------------------------------------------------- */
 
 #if !defined(SWIG_CSHARP_NO_WSTRING_HELPER)

@@ -13,17 +13,17 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-          #  - SWIGLANG: csharp
-          #    VSVER: 12
-          #  - SWIGLANG: csharp
-          #    VSVER: 14
-          #  - SWIGLANG: csharp
-          #    VSVER: 17
-          #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-          #  - SWIGLANG: csharp
-          #    VSVER: 17
-          #    Platform: x86
-          #    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+  - SWIGLANG: csharp
+    VSVER: 12
+  - SWIGLANG: csharp
+    VSVER: 14
+  - SWIGLANG: csharp
+    VSVER: 17
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+  - SWIGLANG: csharp
+    VSVER: 17
+    Platform: x86
+    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 
 #matrix:
 #  allow_failures:

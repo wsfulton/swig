@@ -31,14 +31,12 @@ jobs:
         include:
         - SWIGLANG: csharp
         - SWIGLANG: csharp
-          VER: '6.0'
-#        - SWIGLANG: csharp
-#          CPPSTD: c++11
-#        - SWIGLANG: csharp
-#          CPPSTD: c++14
-#        - SWIGLANG: csharp
-#          CPPSTD: c++17
-#          GCC: 11
+          CPPSTD: c++11
+        - SWIGLANG: csharp
+          CPPSTD: c++14
+        - SWIGLANG: csharp
+          CPPSTD: c++17
+          GCC: 11
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

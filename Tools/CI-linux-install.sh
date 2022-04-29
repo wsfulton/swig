@@ -20,21 +20,7 @@ WITHLANG=$SWIGLANG
 case "$SWIGLANG" in
 	"")     ;;
 	"csharp")
-		if [[ "$VER" ]]; then
-			which csc || true
-			which csc.exe || true
-			csc -version || true
-			$RETRY wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-			$RETRY sudo dpkg -i packages-microsoft-prod.deb
-			$RETRY sudo apt-get -qq update
-			$RETRY sudo apt-get -qq install dotnet-sdk-${VER}
-			dotnet --version
-			which csc || true
-			which csc.exe || true
-			csc -version || true
-		else
-			$RETRY sudo apt-get -qq install mono-devel
-		fi
+		$RETRY sudo apt-get -qq install mono-devel
 		;;
 	"d")
 		$RETRY wget http://downloads.dlang.org/releases/2.x/${VER}/dmd_${VER}-0_amd64.deb

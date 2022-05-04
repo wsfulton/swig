@@ -39,7 +39,7 @@ struct A
 
   std::vector<std::wstring> m_strings;
 
-  virtual wchar_t * wchar_out() {}
+  virtual wchar_t * wchar_out() { return L"ciao"; }
 
   virtual void process_text(const wchar_t *text) {}
   virtual void process_wstring_text(std::wstring text) {}

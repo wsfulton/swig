@@ -245,7 +245,7 @@ static void Swig_csharp_UTF16ToWCharPtrFree(wchar_t *str) {
 %typemap(directorout, warning=SWIGWARN_TYPEMAP_DIRECTOROUT_PTR_MSG) wchar_t *
 %{ $result = Swig_csharp_UTF16ToWCharPtr($input); %}
 
-%typemap(directorin) wchar_t * %{ $input = SWIG_csharp_wstring_with_length_callback($1, (int)wcslen($1)); /*directorin*/%}
+%typemap(directorin) wchar_t * %{ $input = SWIG_csharp_wstring_with_length_callback($1, (int)wcslen($1)); %}
 
 %typemap(typecheck) wchar_t * = char *;
 

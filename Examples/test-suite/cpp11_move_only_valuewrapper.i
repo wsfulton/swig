@@ -175,7 +175,7 @@ void test6() {
     void *ptr = 0;
     SwigValueWrapper<std::unique_ptr<XXX> > x; // SWIG generated if std::unique_ptr<> definition not parsed
     x = makeUniqueXXX(); // SWIG generated code wrapping function returning std::unique_ptr
-    ptr = new std::unique_ptr<XXX>(std::move((std::unique_ptr<XXX>&)x)); // 'out' typemap (move std::unique_ptr from stack to the heap), note non-const cast std::unique_tr<XXX>&
+    ptr = new std::unique_ptr<XXX>(x); // 'out' typemap (move std::unique_ptr from stack to the heap)
     delete (std::unique_ptr<XXX> *)ptr; // Final cleanup (user needs to call this)
   }
   Counter::check_counts(1, 0, 0, 0, 0, 1);

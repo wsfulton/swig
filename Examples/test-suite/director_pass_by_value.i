@@ -21,9 +21,11 @@ struct PassedByValue {
   PassedByValue(const PassedByValue &other) { val = other.val; if (debug) cout << "PassedByValue(const PassedByValue &)" << " " << this << " " << &other << endl; Counter::copy_constructor++;}
   PassedByValue & operator=(const PassedByValue &other) { val = other.val; if (debug) cout << "operator=(const PassedByValue &)" << " " << this << " " << &other << endl; Counter::copy_assignment++; return *this; }
 
+#if __cplusplus >= 201103L
   PassedByValue(PassedByValue &&other) noexcept { val = other.val; if (debug) cout << "PassedByValue(PassedByValue &&)" << " " << this << endl; Counter::move_constructor++; }
   PassedByValue & operator=(PassedByValue &&other) noexcept { val = other.val; if (debug) cout << "operator=(PassedByValue &&)" << " " << this << endl; Counter::move_assignment++; return *this; }
   ~PassedByValue() { if (debug) cout << "~PassedByValue()" << " " << this << endl; Counter::destructor++; }
+#endif
 
   int getVal() { return val; }
 private:
@@ -50,4 +52,12 @@ public:
     f.virtualMethod(PassedByValue());
   }
 };
+
+bool has_cplusplus11() {
+#if __cplusplus >= 201103L
+  return true;
+#else
+  return false;
+#endif
+}
 %}

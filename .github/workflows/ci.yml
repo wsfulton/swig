@@ -32,9 +32,6 @@ jobs:
         - SWIGLANG: ""
           GCC: 11
         - SWIGLANG: ""
-          GCC: 12
-          os: ubuntu-22.04
-        - SWIGLANG: ""
           # GCC: 12
           os: ubuntu-22.04
       # Run all of them, as opposed to aborting when one fails

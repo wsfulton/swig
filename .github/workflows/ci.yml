@@ -37,6 +37,7 @@ jobs:
         # c++20 testing (using gcc12)
         # ubuntu-22.04 is currently experimental on Github Actions, so limit to just one language for now
         - SWIGLANG: python
+          CPPSTD: c++20
           GCC: 12
           os: ubuntu-22.04
       # Run all of them, as opposed to aborting when one fails

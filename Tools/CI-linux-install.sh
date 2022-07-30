@@ -13,7 +13,7 @@ fi
 
 $RETRY sudo apt-get -qq install libboost-dev libpcre3-dev
 # testflags.py needs python
-$RETRY sudo apt-get install -qq python
+# $RETRY sudo apt-get install -qq python
 
 WITHLANG=$SWIGLANG
 

@@ -4354,7 +4354,7 @@ public:
     Printv(f, "#endif\n", NIL);
 
     // char *_ht_tpname;
-    Printv(f, "#if PY_VERSION_HEX >= 0x030a0000\n", NIL);
+    Printv(f, "#if PY_VERSION_HEX >= 0x030b0000\n", NIL);
     printSlot(f, getSlot(n, "feature:python:_ht_tpname"), "_ht_tpname", "char *");
 
     // struct _specialization_cache _spec_cache;

@@ -15,6 +15,8 @@ $RETRY sudo apt-get -qq install libboost-dev libpcre3-dev
 # Note: testflags.py needs python, but python is pre-installed
 
 WITHLANG=$SWIGLANG
+echo "finding one"
+find /usr/include -name JavaScript.h
 
 case "$SWIGLANG" in
 	"")     ;;
@@ -155,5 +157,8 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install tcl-dev
 		;;
 esac
+
+echo "finding two"
+find /usr/include -name JavaScript.h
 
 set +e # turn off exit on failure (same as +o errexit)

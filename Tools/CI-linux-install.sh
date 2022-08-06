@@ -15,8 +15,6 @@ $RETRY sudo apt-get -qq install libboost-dev libpcre3-dev
 # Note: testflags.py needs python, but python is pre-installed
 
 WITHLANG=$SWIGLANG
-echo "finding one"
-find /usr/include -name JavaScript.h
 
 case "$SWIGLANG" in
 	"")     ;;
@@ -56,7 +54,7 @@ case "$SWIGLANG" in
 				fi
 				;;
 			"jsc")
-				$RETRY sudo apt-get install -qq libjavascriptcoregtk-4.0-dev
+				$RETRY sudo apt-get install -qq libjavascriptcoregtk-${VER}-dev
 				;;
 			"v8")
 				$RETRY sudo apt-get install -qq libv8-dev
@@ -64,7 +62,7 @@ case "$SWIGLANG" in
 		esac
 		;;
 	"guile")
-		$RETRY sudo apt-get -qq install guile-2.0-dev
+		$RETRY sudo apt-get -qq install guile-${VER:-2.0}-dev
 		;;
 	"lua")
 		if [[ -z "$VER" ]]; then
@@ -119,9 +117,6 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install r-base
 		;;
 	"ruby")
-		echo "Showing dollar minus"
-		echo $-
-		set +x
 		if ! command -v rvm; then
 			case "$VER" in
 				1.9 | 2.0 | 2.1 | 2.2 | 2.3 )
@@ -132,14 +127,19 @@ case "$SWIGLANG" in
 			curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 			curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 			curl -sSL https://get.rvm.io | bash -s stable
+			set +x
 			source $HOME/.rvm/scripts/rvm
+			set -x
 		fi
+		rvm list known
 		case "$VER" in
 			2.7 | 3.0 | 3.1 )
 				# Ruby 2.7+ support is currently only rvm master (30 Dec 2019)
+			        set +x
 				$RETRY rvm get master
 				rvm reload
 				rvm list known
+			        set -x
 				;;
 		esac
 		if [[ "$VER" ]]; then
@@ -160,8 +160,5 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install tcl-dev
 		;;
 esac
-
-echo "finding two"
-find /usr/include -name JavaScript.h
 
 set +e # turn off exit on failure (same as +o errexit)

@@ -119,6 +119,9 @@ case "$SWIGLANG" in
 		$RETRY sudo apt-get -qq install r-base
 		;;
 	"ruby")
+		echo "Showing dollar minus"
+		echo $-
+		set +x
 		if ! command -v rvm; then
 			case "$VER" in
 				1.9 | 2.0 | 2.1 | 2.2 | 2.3 )
@@ -129,16 +132,16 @@ case "$SWIGLANG" in
 			curl -sSL https://rvm.io/mpapis.asc | gpg --import -
 			curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
 			curl -sSL https://get.rvm.io | bash -s stable
-			set +x
 			source $HOME/.rvm/scripts/rvm
-			set -x
 		fi
-		if [[ "$VER" == "2.7" || "$VER" == "3.0" ]]; then
-			# Ruby 2.7+ support is currently only rvm master (30 Dec 2019)
-			$RETRY rvm get master
-			rvm reload
-			rvm list known
-		fi
+		case "$VER" in
+			2.7 | 3.0 | 3.1 )
+				# Ruby 2.7+ support is currently only rvm master (30 Dec 2019)
+				$RETRY rvm get master
+				rvm reload
+				rvm list known
+				;;
+		esac
 		if [[ "$VER" ]]; then
 			$RETRY rvm install $VER
 		fi

@@ -29,9 +29,21 @@ jobs:
     strategy:
       matrix:
         include:
-        - SWIGLANG: ""
-        - SWIGLANG: javascript
-          ENGINE: jsc
+        - SWIGLANG: ruby
+          VER: '3.1'
+          CPPSTD: c++11
+        - SWIGLANG: ruby
+          VER: '3.1'
+          CPPSTD: c++14
+        - SWIGLANG: ruby
+          VER: '3.1'
+          CPPSTD: c++17
+        - SWIGLANG: ruby
+          VER: '3.1'
+          CPPSTD: c++20
+        - SWIGLANG: ruby
+          VER: '3.0'
+          CPPSTD: c++20
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

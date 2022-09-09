@@ -132,7 +132,7 @@ case "$SWIGLANG" in
 			set -x
 		fi
 		case "$VER" in
-			2.7 | 3.0 | 3.1 )
+			2.7 | 3.0 | 3.1 | 3.2 )
 				# Ruby 2.7+ support is currently only rvm master (30 Dec 2019)
 			        set +x
 				$RETRY rvm get master

@@ -182,6 +182,9 @@ jobs:
         - SWIGLANG: ruby
           VER: '3.1'
           CPPSTD: c++11
+        - SWIGLANG: ruby
+          VER: '3.2'
+          CPPSTD: c++11
         - SWIGLANG: scilab
           VER: '5.5.2'
         - SWIGLANG: scilab

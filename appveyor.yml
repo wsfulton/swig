@@ -13,26 +13,10 @@ environment:
     MAKEJOBS: 2
 
   matrix:
-  - SWIGLANG: csharp
-    VSVER: 12
-  - SWIGLANG: python
-    VSVER: 15
-    VER: 38
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
   - SWIGLANG: python
     VSVER: 16
     VER: 39
     APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-  - SWIGLANG: csharp
-    VSVER: 17
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-  - SWIGLANG: python
-    VSVER: 17
-    VER: 310
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
-  - SWIGLANG: python
-    OSVARIANT: cygwin
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 
 #matrix:
 #  allow_failures:

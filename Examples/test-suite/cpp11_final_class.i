@@ -109,7 +109,7 @@ struct FinalVar10 {
   void b10(Y notsofinal) {}
 };
 struct FinalEnum1 {
-  enum Enum1 { one, two, final };
+  enum Enum1 { one, two, notsofinal };
   void enum_in(Enum1 e) {}
 };
 struct FinalEnum2 {

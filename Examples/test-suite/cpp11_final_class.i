@@ -106,7 +106,7 @@ struct FinalVar9 {
 };
 struct FinalVar10 {
   void a10(class Y final) {}
-  void b10(Y final) {}
+  void b10(Y finally) {}
 };
 struct FinalEnum1 {
   enum Enum1 { one, two, final };
@@ -114,7 +114,7 @@ struct FinalEnum1 {
 };
 struct FinalEnum2 {
   enum Enum2 { one, two, three, four };
-  enum Enum2 final;
+  enum Enum2 finally;
 };
 }
 %}

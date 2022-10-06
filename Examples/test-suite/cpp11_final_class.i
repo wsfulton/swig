@@ -104,9 +104,13 @@ struct FinalVar8 {
 struct FinalVar9 {
   Y final{9};
 };
+}
+%}
+
+%{
 struct FinalVar10 {
   void a10(class Y notsofinal) {}
-  void b10(Y notsofinal) {}
+  void b10(Y final) {}
 };
 struct FinalEnum1 {
   enum Enum1 { one, two, notsofinal };
@@ -116,7 +120,6 @@ struct FinalEnum2 {
   enum Enum2 { one, two, three, four };
   enum Enum2 notsofinal;
 };
-}
 %}
 
 %rename(Space3_final) Space3::final;

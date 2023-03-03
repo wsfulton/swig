@@ -93,6 +93,7 @@ jobs:
           VER: '19'
           CPPSTD: c++20
           GCC: 12
+          os: ubuntu-22.04
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

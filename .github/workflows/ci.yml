@@ -84,12 +84,8 @@ jobs:
           VER: '4.0'
         - SWIGLANG: javascript
           ENGINE: napi
-          VER: '16'
+          VER: '18'
           CPPSTD: c++11
-        - SWIGLANG: javascript
-          ENGINE: napi
-          VER: '20'
-          CPPSTD: c++14
         #- SWIGLANG: javascript
         #  ENGINE: node
         #  VER: '6'
@@ -109,14 +105,6 @@ jobs:
           ENGINE: node
           VER: '12'
           CPPSTD: c++11
-        - SWIGLANG: javascript
-          ENGINE: node
-          VER: '16'
-          CPPSTD: c++14
-        - SWIGLANG: javascript
-          ENGINE: node
-          VER: '20'
-          CPPSTD: c++14
         - SWIGLANG: lua
         - SWIGLANG: lua
           VER: '5.3'
@@ -253,7 +241,7 @@ jobs:
           CPPSTD: c++14
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '20'
+          VER: '16'
           CPPSTD: c++14
         - SWIGLANG: lua
           CPPSTD: c++14
@@ -274,56 +262,55 @@ jobs:
           CPPSTD: c++14
         - SWIGLANG: tcl
           CPPSTD: c++14
-        # c++17 testing (using gcc12)
+        # c++17 testing (using gcc13)
         - SWIGLANG: csharp
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: go
           VER: '1.17'
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
           CSTD: gnu17
         - SWIGLANG: guile
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: java
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '20'
+          VER: '18'
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: lua
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: octave
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: perl5
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: php
           CPPSTD: c++17
           CSTD: gnu17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: python
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: r
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: ruby
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: scilab
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         - SWIGLANG: tcl
           CPPSTD: c++17
-          GCC: 12
+          GCC: 13
         # c++20 testing (using gcc13)
-        # ubuntu-22.04 is currently experimental on Github Actions, so limit to just one language for now
         - SWIGLANG: python
           CPPSTD: c++20
           GCC: 13
@@ -345,7 +332,7 @@ jobs:
           continue-on-error: true
         #- SWIGLANG: ocaml
         #  CPPSTD: c++17
-        #  GCC: 12
+        #  GCC: 13
         #  continue-on-error: true
         #  os: ubuntu-18.04 # ocaml-4.08 in ubuntu-20.04 not yet working
       # Run all of them, as opposed to aborting when one fails

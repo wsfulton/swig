@@ -75,6 +75,17 @@ jobs:
         - SWIGLANG: guile
           VER: '3.0'
         - SWIGLANG: java
+        - SWIGLANG: javascript
+          ENGINE: jsc
+          VER: '4.0'
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '16'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '20'
+          CPPSTD: c++14
         #- SWIGLANG: javascript
         #  ENGINE: node
         #  VER: '6'
@@ -96,19 +107,12 @@ jobs:
           CPPSTD: c++11
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '18'
+          VER: '16'
           CPPSTD: c++14
         - SWIGLANG: javascript
-          ENGINE: napi
-          VER: '14'
-          CPPSTD: c++11
-        - SWIGLANG: javascript
-          ENGINE: napi
-          VER: '18'
+          ENGINE: node
+          VER: '20'
           CPPSTD: c++14
-        - SWIGLANG: javascript
-          ENGINE: jsc
-          VER: '4.0'
         - SWIGLANG: lua
         - SWIGLANG: lua
           VER: '5.3'
@@ -245,7 +249,7 @@ jobs:
           CPPSTD: c++14
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '16'
+          VER: '20'
           CPPSTD: c++14
         - SWIGLANG: lua
           CPPSTD: c++14
@@ -283,7 +287,7 @@ jobs:
           GCC: 11
         - SWIGLANG: javascript
           ENGINE: node
-          VER: '18'
+          VER: '20'
           CPPSTD: c++17
           GCC: 11
         - SWIGLANG: lua
@@ -320,6 +324,16 @@ jobs:
           CPPSTD: c++20
           GCC: 12
           os: ubuntu-22.04
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '20'
+          CPPSTD: c++20
+          GCC: 12
+        - SWIGLANG: javascript
+          ENGINE: node
+          VER: '20'
+          CPPSTD: c++20
+          GCC: 12
         # Experimental languages (these are allowed to fail)
         - SWIGLANG: mzscheme
           continue-on-error: true

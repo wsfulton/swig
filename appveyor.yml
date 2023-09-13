@@ -141,7 +141,6 @@ install:
       $env:CC="gcc"
       $env:CXX="g++"
     }
-- dir "%BOOSTROOT%"
 - set
 - echo "root..."
 - dir "C:"

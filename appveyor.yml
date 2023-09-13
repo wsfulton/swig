@@ -30,10 +30,10 @@ environment:
   - SWIGLANG: python
     VSVER: 16
     VER: 39
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    APPVEYOR_BUILD_WORKER_IMAGE: Previous Visual Studio 2019
   - SWIGLANG: csharp
     VSVER: 17
-    APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
+    APPVEYOR_BUILD_WORKER_IMAGE: Previous Visual Studio 2022
   - SWIGLANG: csharp
     VSVER: 17
     Platform: x86
@@ -142,6 +142,9 @@ install:
       $env:CXX="g++"
     }
 - dir "%BOOSTROOT%"
+- set
+- echo "root..."
+- dir "C:"
 - echo "Libraries..."
 - dir "C:/Libraries"
 - exit 1

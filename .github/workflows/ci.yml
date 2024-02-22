@@ -53,12 +53,12 @@ jobs:
 
     steps:
     - name: Machine Info
-      run:
-        - set -x
-        - nproc --all
-        - uname --all
-        - cat /proc/meminfo
-        - cat /etc/lsb-release
+      run: >
+          set -x
+          nproc --all
+          uname --all
+          cat /proc/meminfo
+          cat /etc/lsb-release
 
     - name: Checkout
       uses: actions/checkout@v4

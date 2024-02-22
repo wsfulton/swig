@@ -53,11 +53,14 @@ jobs:
 
     steps:
     - name: Machine Info
-      run: >
-          set -x
+      run: |
+          echo "nproc..."
           nproc --all
+          echo "uname..."
           uname --all
+          echo "meminfo..."
           cat /proc/meminfo
+          echo "lsb-release..."
           cat /etc/lsb-release
 
     - name: Checkout

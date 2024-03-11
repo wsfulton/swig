@@ -88,7 +88,7 @@ namespace swig {
     typedef SwigPtr_PyObject value_type;
     static PyObject *from(const value_type& val) {
       PyObject *obj = static_cast<PyObject *>(val);
-      Py_XINCREF(obj);
+      Py_IncRef(obj);
       return obj;
     }
   };
@@ -121,7 +121,7 @@ namespace swig {
     typedef SwigVar_PyObject value_type;
     static PyObject *from(const value_type& val) {
       PyObject *obj = static_cast<PyObject *>(val);
-      Py_XINCREF(obj);
+      Py_IncRef(obj);
       return obj;
     }
   };
@@ -219,7 +219,7 @@ namespace swig {
   template <>  struct traits_from<PyObject *> {
     typedef PyObject * value_type;
     static PyObject *from(const value_type& val) {
-      Py_XINCREF(val);
+      Py_IncRef(val);
       return val;
     }
   };

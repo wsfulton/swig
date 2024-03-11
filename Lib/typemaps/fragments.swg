@@ -14,7 +14,7 @@
       SWIG_From_dec(bool)(bool value)	       
       {					       
         PyObject *obj = value ? Py_True : Py_False;  
-        Py_INCREF(obj);			       
+        Py_IncRef(obj);
         return obj;				       
       }					       
       }					       

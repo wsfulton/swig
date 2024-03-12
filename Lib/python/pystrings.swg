@@ -42,7 +42,7 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char **cptr, size_t *psize, int *alloc)
 %#endif
     if (cptr) *cptr = cstr;
     if (psize) *psize = len + 1;
-    Py_XDECREF(bytes);
+    Py_DecRef(bytes);
     return ret;
   } else {
 %#if defined(SWIG_PYTHON_2_UNICODE)
@@ -65,10 +65,10 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char **cptr, size_t *psize, int *alloc)
         }
         if (psize) *psize = len + 1;
 
-        Py_XDECREF(obj);
+        Py_DecRef(obj);
         return SWIG_OK;
       } else {
-        Py_XDECREF(obj);
+        Py_DecRef(obj);
       }
     }
 %#endif

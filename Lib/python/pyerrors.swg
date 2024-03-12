@@ -65,7 +65,7 @@ SWIG_Python_AddErrorMsg(const char* mesg)
       PyErr_Format(type, "%s %s", tmp, mesg);
     else
       PyErr_Format(type, "%s", mesg);
-    Py_XDECREF(bytes);
+    Py_DecRef(bytes);
     Py_DecRef(old_str);
     Py_DecRef(value);
   } else {
@@ -97,7 +97,7 @@ SWIG_Python_RaiseOrModifyTypeError(const char *message)
     newvalue = PyString_FromFormat("%s\nAdditional information:\n%s", PyString_AsString(value), message);
 #endif
     if (newvalue) {
-      Py_XDECREF(value);
+      Py_DecRef(value);
       PyErr_Restore(type, newvalue, traceback);
     } else {
       PyErr_Restore(type, value, traceback);

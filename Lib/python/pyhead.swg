@@ -30,7 +30,7 @@
 #endif
 
 
-/* Wrapper around PyUnicode_AsUTF8AndSize - call Py_XDECREF on the returned pbytes when finished with the returned string */
+/* Wrapper around PyUnicode_AsUTF8AndSize - call Py_DecRef on the returned pbytes when finished with the returned string */
 SWIGINTERN const char *
 SWIG_PyUnicode_AsUTF8AndSize(PyObject *str, Py_ssize_t *psize, PyObject **pbytes)
 {

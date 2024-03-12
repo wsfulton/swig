@@ -49,7 +49,7 @@ namespace std {
     %}
 
     %typemap(freearg) string_view %{
-        Py_XDECREF(bytes$argnum);
+        Py_DecRef(bytes$argnum);
     %}
 
     %typemap(in) const string_view & ($*1_ltype temp, PyObject *bytes = NULL) %{
@@ -74,7 +74,7 @@ namespace std {
     %}
 
     %typemap(freearg) const string_view & %{
-        Py_XDECREF(bytes$argnum);
+        Py_DecRef(bytes$argnum);
     %}
 
     %typemap(directorout, warning=SWIGWARN_TYPEMAP_DIRECTOROUT_PTR_MSG) string_view {
@@ -89,8 +89,8 @@ namespace std {
           p = SWIG_PyUnicode_AsUTF8AndSize($input, &len, &bytes);
           // Avoid undefined behaviour (p will be pointing to a temporary
           // if bytes is not NULL which happens when Py_LIMITED_API is defined
-          // and < 0x030A0000) and just leak by not calling Py_XDECREF.
-          // Py_XDECREF(bytes);
+          // and < 0x030A0000) and just leak by not calling Py_DecRef.
+          // Py_DecRef(bytes);
         } else {
           p = PyBytes_AsString($input);
           if (p) len = PyBytes_Size($input);

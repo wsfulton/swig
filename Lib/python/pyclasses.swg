@@ -20,7 +20,7 @@
 
      SwigPtr_PyObject func(SwigPtr_PyObject obj) {     
        SwigPtr_PyObject out = PyString_FromFormat("hello %s", PyObject_AsString(obj));
-       Py_DECREF(out);
+       Py_DecRef(out);
        return out;
      }
 
@@ -127,7 +127,7 @@ namespace swig {
   ie, 'obj' is created and destructed in the same scope from
   a python object that carries at least one reference value.
   
-  SwigVar_PyObject just take care of applying the proper Py_DECREF.
+  SwigVar_PyObject just take care of applying the proper Py_DecRef.
 
   Hence, this class is purely internal and not visible at the wrapped side.
  */

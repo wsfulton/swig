@@ -364,7 +364,7 @@ namespace Swig {
     void swig_decref() const {
       if (swig_disown_flag) {
         SWIG_PYTHON_THREAD_BEGIN_BLOCK;
-        Py_DECREF(swig_self);
+        Py_DecRef(swig_self);
         SWIG_PYTHON_THREAD_END_BLOCK;
       }
     }

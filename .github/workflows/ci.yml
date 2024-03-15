@@ -234,8 +234,8 @@ jobs:
             cxxflags="$($GITHUB_WORKSPACE/Tools/testflags.py --language $SWIGLANG --cxxflags --std=$CPPSTD --compiler=$CC)"
             make check-$SWIGLANG-version
             make check-$SWIGLANG-enabled
-            make check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags" PY_ABI_VER="$PY_ABI_VER" FLAGS=-k RUNPIPE=
-            make check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags" PY_ABI_VER="$PY_ABI_VER" FLAGS=-k RUNPIPE=
+            make $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags" PY_ABI_VER="$PY_ABI_VER"
+            make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags" PY_ABI_VER="$PY_ABI_VER"
           fi
 
     - name: Install

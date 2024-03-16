@@ -41,29 +41,35 @@ jobs:
         #  VER: '3.4'
         #  os: ubuntu-18.04 # Python < 3.5 not available for 20.04.
         - SWIGLANG: python
-          VER: '3.10'
+          VER: '3.12'
           PY_ABI_VER: '3.4'
           CPPSTD: c++20
           GCC: 13
           os: ubuntu-22.04
+        - SWIGLANG: python
+          VER: '3.10'
+          PY_ABI_VER: '3.4'
+          CPPSTD: c++20
+          GCC: 13
+          os: ubuntu-20.04
         - SWIGLANG: python
           VER: '3.9'
           PY_ABI_VER: '3.4'
           CPPSTD: c++20
           GCC: 13
-          os: ubuntu-22.04
+          os: ubuntu-20.04
         - SWIGLANG: python
           VER: '3.8'
           PY_ABI_VER: '3.4'
           CPPSTD: c++20
           GCC: 13
-          os: ubuntu-22.04
+          os: ubuntu-20.04
         - SWIGLANG: python
           VER: '3.7'
           PY_ABI_VER: '3.4'
           CPPSTD: c++20
           GCC: 13
-          os: ubuntu-22.04
+          os: ubuntu-20.04
         - SWIGLANG: python
           CPPSTD: c++11
         - SWIGLANG: python

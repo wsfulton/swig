@@ -35,48 +35,8 @@ jobs:
     strategy:
       matrix:
         include:
-        - SWIGLANG: csharp
-          INSTALL: 'true'
-        - SWIGLANG: csharp
-          os: 'windows-2019'
-          INSTALL: 'true'
-        - SWIGLANG: java
-          VER: 8
-        - SWIGLANG: java
-          VER: 11
-       #  TODO JDK 17 sometimes fail on director_thread
-       #- SWIGLANG: java
-       #  VER: 17
-       #  TODO JDK 21 fails on testing
-       #- SWIGLANG: java
-       #  VER: 21
-        - SWIGLANG: python
-          VER: '3.7'
-        - SWIGLANG: python
-          VER: '3.8'
-        - SWIGLANG: python
-        # VER: '3.9'
         - SWIGLANG: python
           VER: '3.10'
-        - SWIGLANG: python
-          VER: '3.11'
-        - SWIGLANG: python
-          VER: '3.12'
-       #  TODO require fixing of probing in configure.ac
-       #- SWIGLANG: python
-       #  INSTALL: 'true'
-       #  COMPILER: gcc
-       #  NOTEST: 'no-test'
-        - SWIGLANG: ruby
-#         VER: '3.0.7'
-          NOTEST: 'no-test'
-        - SWIGLANG: ruby
-          VER: '3.1.6'
-          NOTEST: 'no-test'
-        - SWIGLANG: ruby
-          INSTALL: 'true'
-          COMPILER: gcc
-          NOTEST: 'no-test'
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 
@@ -267,6 +227,13 @@ jobs:
           else # cccl wrapping MSVC
             ./configure --disable-dependency-tracking --with-boost="$BOOST_PATH" --with-csharp-compiler="csc.exe" --disable-ccache
           fi
+          cat Examples/Makefile
+
+    - name: Configure Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: config.log
+        path: config.log
 
     - name: Build
       shell: bash

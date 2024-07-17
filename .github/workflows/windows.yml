@@ -43,13 +43,7 @@ jobs:
         - SWIGLANG: java
           VER: 8
         - SWIGLANG: java
-          VER: 11
-       #  TODO JDK 17 sometimes fail on director_thread
-       #- SWIGLANG: java
-       #  VER: 17
-       #  TODO JDK 21 fails on testing
-       #- SWIGLANG: java
-       #  VER: 21
+          VER: 17
         - SWIGLANG: python
           VER: '3.7'
         - SWIGLANG: python

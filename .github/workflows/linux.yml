@@ -93,6 +93,18 @@ jobs:
           VER: '18'
           CPPSTD: c++11
         - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '20'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '22'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '24'
+          CPPSTD: c++11
+        - SWIGLANG: javascript
           ENGINE: node
           VER: '12'
           CPPSTD: c++11
@@ -291,6 +303,12 @@ jobs:
           VER: '18'
           CPPSTD: c++17
           GCC: 13
+        - SWIGLANG: javascript
+          ENGINE: napi
+          VER: '22'
+          CPPSTD: c++17
+          GCC: 13
+          os: ubuntu-22.04
         - SWIGLANG: lua
           CPPSTD: c++17
           GCC: 13
@@ -330,7 +348,7 @@ jobs:
           os: ubuntu-22.04
         - SWIGLANG: javascript
           ENGINE: napi
-          VER: '20'
+          VER: '24'
           CPPSTD: c++20
           GCC: 13
           os: ubuntu-22.04

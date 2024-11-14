@@ -7,6 +7,12 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.4.0 (in progress)
 ===========================
 
+2024-11-14: wsfulton
+            Use new <errno.h> fragment for including this header when needed instead
+            of either always including it or relying on it being included elsewhere.
+            Fixes the removal of errno.h when defining PY_LIMITED_API for python-3.11
+            and later.
+
 2024-11-09: wsfulton
             #3064 Perform repeated typedef lookups instead of a single typedef
             lookup on the type being applied in %apply when looking for a family

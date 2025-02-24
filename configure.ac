@@ -11,6 +11,9 @@ AC_CONFIG_HEADERS([Source/Include/swigconfig.h])
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
 
+# For AC_EGREP_CPP
+AC_PROG_EGREP
+
 dnl Some extra defines for the config file
 AH_BOTTOM([
 /* Deal with attempt by Microsoft to deprecate C standard runtime functions */
@@ -41,9 +44,6 @@ AC_MSG_RESULT([$CXXFLAGS])
 
 AC_DEFINE_UNQUOTED(SWIG_CXX, ["$CXX"], [Compiler that built SWIG])
 AC_DEFINE_UNQUOTED(SWIG_PLATFORM, ["$host"], [Platform that SWIG is built for])
-
-# For AC_EGREP_CPP
-AC_PROG_EGREP
 
 dnl PCRE
 AC_ARG_WITH([pcre],

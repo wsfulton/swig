@@ -19,8 +19,7 @@ permissions:
 jobs:
   win_ci:
     container:
-      image: windows-2022
-        version: 20250127.1.0
+      image: windows-2022:20250127.1.0
       # version: 20250209.1.0 # new
     # When continue-on-error is true for an individual build,
     # that build can fail (it'll show red),

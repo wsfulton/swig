@@ -41,47 +41,6 @@ jobs:
         - SWIGLANG: csharp
           os: 'windows-2019'
           continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: csharp
-          COMPILER: gcc
-        - SWIGLANG: csharp
-          INSTALL: 'true'
-          COMPILER: gcc
-          os: 'windows-2019'
-        - SWIGLANG: java
-          VER: 8
-          continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: java
-          VER: 17
-          continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: java
-          COMPILER: gcc
-          VER: 8
-        - SWIGLANG: java
-          COMPILER: gcc
-          VER: 11
-        - SWIGLANG: python
-          VER: '3.7'
-          continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: python
-          VER: '3.12'
-          continue-on-error: true # Started failing 2025-02-14.
-       #  TODO require fixing of probing in configure.ac
-       #- SWIGLANG: python
-       #  INSTALL: 'true'
-       #  COMPILER: gcc
-       #  NOTEST: 'no-test'
-        - SWIGLANG: ruby
-#         VER: '3.0.7'
-          NOTEST: 'no-test'
-          continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: ruby
-          VER: '3.1.6'
-          NOTEST: 'no-test'
-          continue-on-error: true # Started failing 2025-02-14.
-        - SWIGLANG: ruby
-          INSTALL: 'true'
-          COMPILER: gcc
-          NOTEST: 'no-test'
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

@@ -18,15 +18,13 @@ permissions:
 
 jobs:
   win_ci:
-    # 20250127.1.0 # old
-    # version: 20250209.1.0 # new
     # When continue-on-error is true for an individual build,
     # that build can fail (it'll show red),
     # but it won't fail the overall tests
     continue-on-error: ${{ matrix.continue-on-error || false }}
 
     # https://github.com/actions/runner-images/blob/main/images/windows/Windows2022-Readme.md
-    runs-on: ${{ matrix.os || 'windows-2022:20250127.1.0' }}
+    runs-on: ${{ matrix.os || 'windows-2022' }}
 
     # The name of the test follow the tested language
     name: >
@@ -84,7 +82,7 @@ jobs:
     - name: Install CCache
       uses: hendrikmuhs/ccache-action@v1
       with:
-        key: ${{ matrix.os || 'windows-2022:20250127.1.0' }}-${{ matrix.COMPILER || 'msvc' }}
+        key: ${{ matrix.os || 'windows-2022' }}-${{ matrix.COMPILER || 'msvc' }}
 
     - name: Install NuGet Packages
       if: ${{ env.COMPILER == '' }}
@@ -220,6 +218,10 @@ jobs:
           make --version | head -n2
 
           ./autogen.sh
+
+# Uncomment to debug via ssh, see https://github.com/mxschmitt/action-tmate
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - name: Configure
       shell: bash

@@ -104,6 +104,9 @@ jobs:
       run: |
           uname --all
 
+          which bash
+          bash --version
+          which pacman
           if [[ "$COMPILER" = "gcc" ]]; then
             # MinGW-w64 packages to install with MSYS2
             for n in binutils make autotools pcre2 boost; do

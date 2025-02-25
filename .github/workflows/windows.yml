@@ -178,10 +178,7 @@ jobs:
           where pacman
           pacman --version
           rem 'MSYS2 uses MinGW-w64 https://packages.msys2.org/'
-          pacman -Syu --noconfirm --needed
-          if %ErrorLevel% NEQ 0 (exit 1)
-          echo "Finished first pacman"
-          pacman -Syu --noconfirm --needed autoconf automake bison %MORE_MSYS_PKGS%
+          pacman -Syu --noconfirm --needed %MORE_MSYS_PKGS%
           if %ErrorLevel% NEQ 0 (exit 1)
           bash.exe --version
           where bash.exe

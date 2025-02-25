@@ -108,7 +108,7 @@ jobs:
           bash --version
           if [[ "$COMPILER" = "gcc" ]]; then
             # MinGW-w64 packages to install with MSYS2
-            for n in binutils make autotools pcre2 boost; do
+            for n in binutils make autotools autoconf automake bison pcre2 boost; do
               MORE_MSYS_PKGS+=" mingw-w64-x86_64-$n"
             done
 

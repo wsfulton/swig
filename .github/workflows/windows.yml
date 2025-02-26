@@ -177,6 +177,7 @@ jobs:
           where bash.exe
           where pacman
           pacman --version
+          echo "MORE_MSYS_PKGS=%MORE_MSYS_PKGS%"
           rem 'MSYS2 uses MinGW-w64 https://packages.msys2.org/'
           pacman -Syu --noconfirm --needed %MORE_MSYS_PKGS%
           if %ErrorLevel% NEQ 0 (exit 1)

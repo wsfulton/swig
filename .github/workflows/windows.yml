@@ -169,10 +169,11 @@ jobs:
           echo "SWIGJOBS=-j$NUMBER_OF_PROCESSORS" >> $GITHUB_ENV
 
           echo 'C:\msys64\usr\bin' >> $GITHUB_PATH
+          cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe
 
 # Uncomment to debug via ssh, see https://github.com/mxschmitt/action-tmate
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+#    - name: Setup tmate session
+#      uses: mxschmitt/action-tmate@v3
 
     - name: Install MSYS2 Packages
       shell: cmd
@@ -183,9 +184,9 @@ jobs:
           pacman --version
           echo MORE_MSYS_PKGS=%MORE_MSYS_PKGS%
           rem 'MSYS2 uses MinGW-w64 https://packages.msys2.org/'
-          pacman -Syu --noconfirm --needed
+          pacman -Syu --noconfirm --ignore bash --needed
           if %ErrorLevel% NEQ 0 (exit 1)
-          pacman -Syu --noconfirm --needed autoconf automake bison %MORE_MSYS_PKGS%
+          pacman -Syu --noconfirm --ignore bash --needed autoconf automake bison %MORE_MSYS_PKGS%
           if %ErrorLevel% NEQ 0 (exit 1)
           bash.exe --version
           where bash.exe
@@ -194,6 +195,7 @@ jobs:
       shell: bash
       run: |
           uname --all
+          cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe
 
           if [[ -z "$COMPILER" ]]; then
             which cl.exe

@@ -169,7 +169,8 @@ jobs:
           echo "SWIGJOBS=-j$NUMBER_OF_PROCESSORS" >> $GITHUB_ENV
 
           echo 'C:\msys64\usr\bin' >> $GITHUB_PATH
-          cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe
+          set
+          (cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe)
 
 # Uncomment to debug via ssh, see https://github.com/mxschmitt/action-tmate
 #    - name: Setup tmate session
@@ -195,7 +196,8 @@ jobs:
       shell: bash
       run: |
           uname --all
-          cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe
+          set
+          (cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe)
 
           if [[ -z "$COMPILER" ]]; then
             which cl.exe

@@ -106,6 +106,9 @@ jobs:
 
           which bash
           bash --version
+          for n in autoconf automake bison; do
+            MORE_MSYS_PKGS+=" mingw-w64-x86_64-$n"
+          done
           if [[ "$COMPILER" = "gcc" ]]; then
             # MinGW-w64 packages to install with MSYS2
             for n in binutils make autotools autoconf automake bison pcre2 boost; do
@@ -177,7 +180,7 @@ jobs:
           where bash.exe
           where pacman
           pacman --version
-          echo "MORE_MSYS_PKGS=%MORE_MSYS_PKGS%"
+          echo MORE_MSYS_PKGS=%MORE_MSYS_PKGS%
           rem 'MSYS2 uses MinGW-w64 https://packages.msys2.org/'
           pacman -Syu --noconfirm --needed %MORE_MSYS_PKGS%
           if %ErrorLevel% NEQ 0 (exit 1)

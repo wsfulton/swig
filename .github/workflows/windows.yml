@@ -161,6 +161,7 @@ jobs:
                 ;;
               esac
             fi
+            echo "MORE_MSYS_PKGS=$MORE_MSYS_PKGS" >> $GITHUB_ENV
           fi # COMPILER
 
           # Java must use VER!

@@ -169,8 +169,21 @@ jobs:
           echo "SWIGJOBS=-j$NUMBER_OF_PROCESSORS" >> $GITHUB_ENV
 
           echo 'C:\msys64\usr\bin' >> $GITHUB_PATH
+
+    - name: MSYS Debugging
+      shell: bash
+      run: |
+          uname -o
+          uname -s
+          uname -a
+          bash.exe --version
+          bash.exe -c "set"
+          echo "MACHTYPE=$MACHTYPE"
           set
+          export MACHTYPE=x86_64-pc-msys
           (cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe)
+          ls /c/tools/boost
+          (cd tmp && cccl --cccl-verbose -I/c/tools/boost runme.cxx -o runme.exe)
 
 # Uncomment to debug via ssh, see https://github.com/mxschmitt/action-tmate
 #    - name: Setup tmate session

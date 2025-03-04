@@ -183,8 +183,15 @@ jobs:
           export MACHTYPE=x86_64-pc-msys
           (cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe)
           ls /c/ || true
+          echo "C drive..."
           ls /c/tools/ || true
-          (cd tmp && cccl --cccl-verbose -I/c/tools runme.cxx -o runme.exe)
+          echo "HOME=$HOME"
+          ls $HOME || true
+          mkdir -p $HOME/include
+          (cd tmp && cccl --cccl-verbose -I/c/tools runme.cxx -o runme.exe || true)
+          (cd tmp && cccl --cccl-verbose -I /c/tools runme.cxx -o runme.exe || true)
+          (cd tmp && cccl --cccl-verbose -I /usr/include runme.cxx -o runme.exe || true)
+          (cd tmp && cccl --cccl-verbose -I $HOME/include runme.cxx -o runme.exe || true)
 
 # Uncomment to debug via ssh, see https://github.com/mxschmitt/action-tmate
 #    - name: Setup tmate session

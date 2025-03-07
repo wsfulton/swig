@@ -1,6 +1,9 @@
 #include <iostream>
 
-int main() {
-    std::cout << "hello from runme" << std::endl;
+int main(int argc, char* argv[]) {
+    std::cout << "ru";
+    for (int i=1; i<argc; ++i)
+	    std::cout << " \"" << argv[i] << "\"";
+    std::cout << std::endl;
     return 0;
 }

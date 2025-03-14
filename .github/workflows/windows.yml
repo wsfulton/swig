@@ -132,7 +132,7 @@ jobs:
             echo "BOOST_PATH=/c/msys64/mingw64" >> $GITHUB_ENV
           else
              # COMPILER: cccl wrapping MSVC
-            curl --retry 15 -s -L https://raw.githubusercontent.com/swig/cccl/a847f0c6e1ad367f84e7d9ee70de0bf0dab40e03/cccl -o /usr/bin/cccl
+            curl --retry 15 -s -L https://github.com/swig/cccl/raw/master/cccl -o /usr/bin/cccl
             chmod +x /usr/bin/cccl
             cp -p /usr/bin/cccl /c/msys64/usr/bin/cccl
 
@@ -180,8 +180,6 @@ jobs:
           bash.exe -c "set"
           echo "MACHTYPE=$MACHTYPE"
           set
-          # export MACHTYPE=x86_64-pc-msys
-          cccl --version
           (cd tmp && cccl --cccl-verbose runme.cxx -o runme.exe)
           ls /c/ || true
           echo "C drive..."

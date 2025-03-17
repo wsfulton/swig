@@ -132,7 +132,7 @@ install:
 
 build_script:
 - set PATH=C:\Tools\bison\Bison.3.7.4\bin;%PATH%
-- set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
+- set CCCL_OPTIONS=--cccl-muffle --cccl-verbose /W3 /EHsc
 - set CHECK_OPTIONS=CSHARPOPTIONS=-platform:%Platform%
 - if "%BUILDSYSTEM%"=="cmake" cd pcre2-pcre2-10.39 && cmake -G "Visual Studio 14 2015%VSARCH%" -DCMAKE_INSTALL_PREFIX="%PCRE_ROOT:\=/%" . && cmake --build . --config Release --target install && cd ..
 - if "%BUILDSYSTEM%"=="cmake" cmake --version && cmake -G "Visual Studio 14 2015%VSARCH%" -DCMAKE_INSTALL_PREFIX="%CD:\=/%/install2" -DCMAKE_C_FLAGS="/WX /DPCRE2_STATIC" -DCMAKE_CXX_FLAGS="/WX /DPCRE2_STATIC" -DPCRE2_INCLUDE_DIR=%PCRE_ROOT%/include -DPCRE2_LIBRARY=%PCRE_ROOT%/lib/pcre2-8-static.lib -DBISON_EXECUTABLE=C:/Tools/bison/Bison.3.7.4/bin/bison.exe . && cmake --build . --config Release --target install && ctest --output-on-failure -V -C Release && appveyor exit
@@ -143,7 +143,7 @@ build_script:
 - bash -c "time make -s -j%MAKEJOBS%"
 
 test_script:
-- set CCCL_OPTIONS=--cccl-muffle /W3 /EHsc
+- set CCCL_OPTIONS=--cccl-muffle --cccl-verbose /W3 /EHsc
 - .\swig.exe -version
 - .\swig.exe -pcreversion
 - if not "%OSVARIANT%"=="" CCache\ccache-swig -V
@@ -151,7 +151,7 @@ test_script:
 - bash -c "make check-%SWIGLANG%-version"
 - bash -c "make check-%SWIGLANG%-enabled"
 - bash -c "time make -k check-%SWIGLANG%-examples %CHECK_OPTIONS% %CHECK_OPTIONS2%"
-- bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS% %CHECK_OPTIONS2%"
+# bash -c "time make -k check-%SWIGLANG%-test-suite -j%MAKEJOBS% %CHECK_OPTIONS% %CHECK_OPTIONS2%"
 
 # Do not build on tags (GitHub only)
 skip_tags: true

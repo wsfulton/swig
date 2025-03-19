@@ -26,6 +26,14 @@ AM_PROG_CC_C_O  # Needed for subdir-objects in AUTOMAKE_OPTIONS
 
 AC_COMPILE_WARNINGS # Increase warning levels
 
+
+AC_MSG_CHECKING([ac_prog_cxx_stdcxx value])
+AC_MSG_RESULT([$ac_prog_cxx_stdcxx])
+
+AC_MSG_CHECKING([CC to compile SWIG executable])
+AC_MSG_RESULT([$CC])
+AC_MSG_CHECKING([CXX to compile SWIG executable])
+AC_MSG_RESULT([$CXX])
 AC_MSG_CHECKING([CFLAGS to compile SWIG executable])
 AC_MSG_RESULT([$CFLAGS])
 AC_MSG_CHECKING([CXXFLAGS to compile SWIG executable])

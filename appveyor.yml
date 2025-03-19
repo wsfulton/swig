@@ -125,6 +125,7 @@ install:
 - bash -c "which python"
 - bash -c "python -V"
 - bash -c "make --version | head -n 2"
+- bash -c "autoconf --version"
 - pwd
 - echo MAKEJOBS=%MAKEJOBS%
 - uname -a

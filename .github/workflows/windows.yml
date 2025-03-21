@@ -212,6 +212,16 @@ jobs:
           bash.exe --version
           where bash.exe
 
+    - name: Experiment
+      shell: bash
+      run:
+        - uname --all
+        - autoconf --version
+        - $CXX --version
+        - false
+        - echo "hi there"
+        - echo "won't get here"
+
     - name: Autoconf
       shell: bash
       run: |

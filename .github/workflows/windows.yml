@@ -214,13 +214,12 @@ jobs:
 
     - name: Experiment
       shell: bash
-      run:
-        - uname --all
-        - autoconf --version
-        - $CXX --version
-        - false
-        - echo "hi there"
-        - echo "won't get here"
+      run: uname --all
+      run: autoconf --version
+      run: $CXX --version
+      run: echo "hi there"
+      run: false
+      run: echo "won't get here"
 
     - name: Autoconf
       shell: bash

@@ -1517,3 +1517,4 @@ int SwigType_check_decl(const SwigType *ty, const SwigType *decl) {
   Delete(t2);
   return r == 1;
 }
+

@@ -274,7 +274,7 @@ jobs:
 
           make -s $SWIGJOBS
           find ../ -name parser.c || true
-          cat -n ./Source/CParse/parser.c | grep "^ 5323" -B 20 -A 20
+          cat -n ../swig/Source/CParse/parser.c | grep "^ 5323" -B 20 -A 20
 
     # Test the Windows swig have a proper SWIG library path
     - name: Test swiglib

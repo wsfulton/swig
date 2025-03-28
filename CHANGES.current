@@ -7,8 +7,14 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.4.0 (in progress)
 ===========================
 
+2025-03-28: wsfulton
+            [Java] Fix javac -Xlint warnings:
+
+            - [cast] redundant cast in std::unordered_map wrappers put method
+            - [rawtypes] found raw type in std::list constructor wrapper
+
 2025-03-03: olly
-	    [guile] The typemaps in ports.i now generate code which compiles
+	    [Guile] The typemaps in ports.i now generate code which compiles
 	    even if the wrapper is compiled with in a strict standards
 	    conformance mode such as -std=c11.
 

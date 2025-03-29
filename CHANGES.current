@@ -7,6 +7,12 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.4.0 (in progress)
 ===========================
 
+2025-03-29: wsfulton
+            [Java] Fix javac -Xlint warning (JDK 21):
+
+            [this-escape] possible 'this' escape before subclass is fully initialized
+            in std::list, std::vector, std::set, std::unordered_set constructors.
+
 2025-03-28: wsfulton
             [Java] Fix javac -Xlint warnings:
 

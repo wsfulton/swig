@@ -11,12 +11,10 @@ class PyFunction(object):
     def mesh(self):
         return self.__mesh
 
-if not example.is_python_builtin():
+if example.is_python_builtin():
+    print("SWIG external runtime and builtin not currently working")
+else:
     obj = PyFunction()
     f = example.Function(obj)
-    print('OK')
 
-# All done.
-
-print("")
-print("python exit")
+print("All done")

@@ -7,6 +7,10 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.4.0 (in progress)
 ===========================
 
+2025-04-09: wsfulton
+            [Python] #3067 Fix compile errors regression using external runtime and
+            PY_LIMITED_API.
+
 2024-12-07: arbrauns
 	    [Lua] #3083 Fix "unsigned long long" being interpreted as "signed
 	    long long".

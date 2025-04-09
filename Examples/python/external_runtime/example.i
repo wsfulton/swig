@@ -7,7 +7,7 @@
 
 // Exception handling
 %include <std_except.i>
-%catches(std::runtime_error) Function::Function;
+%catches(std::runtime_error) MeshCaller::MeshCaller;
 
 %include "example.h"
 

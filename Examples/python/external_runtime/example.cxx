@@ -6,7 +6,7 @@
 
 #include "swig_runtime.hxx"
 
-Function::Function(PyObject *pyCallable) : pyObj_(pyCallable) {
+MeshCaller::MeshCaller(PyObject *pyCallable) : pyObj_(pyCallable) {
   if (pyObj_) {
     PyObject *pyMesh = PyObject_CallMethod(pyObj_, const_cast<char *>("mesh"), const_cast<char *>("()"));
     if (!pyMesh)

@@ -10,8 +10,8 @@ public:
   int value() { return value_; }
 };
 
-class Function {
+class MeshCaller {
   PyObject *pyObj_;
 public:
-  explicit Function(PyObject *pyCallable = 0);
+  explicit MeshCaller(PyObject *pyCallable = 0);
 };

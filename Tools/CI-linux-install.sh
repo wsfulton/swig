@@ -124,7 +124,11 @@ case "$SWIGLANG" in
 		fi
 		;;
 	"r")
-		$RETRY sudo apt-get -qq install r-base
+		if [[ "$VER" ]]; then
+			$RETRY sudo apt-get -qq install r-base=$VER.*
+		else
+			$RETRY sudo apt-get -qq install r-base
+		fi
 		;;
 	"ruby")
 		if [[ "$VER" ]]; then

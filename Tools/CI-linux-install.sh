@@ -125,9 +125,12 @@ case "$SWIGLANG" in
 		;;
 	"r")
 		if [[ "$VER" ]]; then
-			$RETRY sudo apt-get -qq remove r-base # Remove pre-installed version
+			which R
+			ls -la /usr/bin/R || echo "/usr/bin/R does not exist"
+			$RETRY sudo apt-get -qq remove --purge r-base # Remove pre-installed version
 			$RETRY sudo apt-get -qq update
 			$RETRY sudo apt-get -qq install --allow-downgrades r-base/jammy
+			ls -la /usr/bin/R || echo "/usr/bin/R does not exist"
 			R --version
 			which R
 		else

@@ -125,7 +125,7 @@ case "$SWIGLANG" in
 		;;
 	"r")
 		if [[ "$VER" ]]; then
-			$RETRY sudo apt-get -qq install r-base=$VER.*
+			$RETRY sudo apt-get -qq install --no-install-recommends r-base=$VER.*
 		else
 			$RETRY sudo apt-get -qq install r-base
 		fi

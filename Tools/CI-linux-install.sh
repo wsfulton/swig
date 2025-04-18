@@ -125,9 +125,11 @@ case "$SWIGLANG" in
 		;;
 	"r")
 		if [[ "$VER" ]]; then
-			# $RETRY sudo apt-get -qq remove r-base # Remove pre-installed version
-			# $RETRY sudo apt-get -qq update
+			$RETRY sudo apt-get -qq remove r-base # Remove pre-installed version
+			$RETRY sudo apt-get -qq update
 			$RETRY sudo apt-get -qq install --allow-downgrades r-base/jammy
+			R --version
+			which R
 		else
 			$RETRY sudo apt-get -qq install r-base
 		fi

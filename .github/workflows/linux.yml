@@ -33,26 +33,17 @@ jobs:
       matrix:
         include:
         - SWIGLANG: r
-          VER: '4.1'
-          continue-on-error: true
+          os: ubuntu-24.04
         - SWIGLANG: r
-          VER: '4.1'
           CPPSTD: c++11
-          continue-on-error: true
         - SWIGLANG: r
-          VER: '4.4'
           CPPSTD: c++14
-          continue-on-error: true
         - SWIGLANG: r
-          VER: '4.5'
           CPPSTD: c++17
           GCC: 13
-          continue-on-error: true
         - SWIGLANG: r
-          VER: '4.3'
           CPPSTD: c++17
           os: ubuntu-24.04
-          continue-on-error: true
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

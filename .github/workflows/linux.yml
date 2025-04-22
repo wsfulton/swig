@@ -32,14 +32,14 @@ jobs:
     strategy:
       matrix:
         include:
-#       - SWIGLANG: ruby
-#         VER: '2.0'
-#       - SWIGLANG: ruby
-#         VER: '2.1'
-#       - SWIGLANG: ruby
-#         VER: '2.2'
-#       - SWIGLANG: ruby
-#         VER: '2.3'
+        - SWIGLANG: ruby
+          VER: '2.0'
+        - SWIGLANG: ruby
+          VER: '2.1'
+        - SWIGLANG: ruby
+          VER: '2.2'
+        - SWIGLANG: ruby
+          VER: '2.3'
 # These all fail with ubuntu-22.04 with error:
 #   Error running '__rvm_make -j4',
 #   please read /usr/share/rvm/log/1740710476_ruby-3.0.0/make.log
@@ -54,22 +54,22 @@ jobs:
 #        - SWIGLANG: ruby
 #          VER: '3.0'
 #          CPPSTD: c++11
-#       - SWIGLANG: ruby
-#         VER: '3.1' # import_fragments testcase started to fail on upgrade to 3.1.5, see https://github.com/swig/swig/issues/2800
-#         CPPSTD: c++11
-#       - SWIGLANG: ruby
-#         CPPSTD: c++11
-#         VER: '3.2' # import_fragments testcase started to fail on upgrade to 3.2.3, see https://github.com/swig/swig/issues/2800
+        - SWIGLANG: ruby
+          VER: '3.1' # import_fragments testcase started to fail on upgrade to 3.1.5, see https://github.com/swig/swig/issues/2800
+          CPPSTD: c++11
+        - SWIGLANG: ruby
+          CPPSTD: c++11
+          VER: '3.2' # import_fragments testcase started to fail on upgrade to 3.2.3, see https://github.com/swig/swig/issues/2800
         - SWIGLANG: ruby
           CPPSTD: c++11
           VER: '3.3' # cpp11_rvalue_reference_move testcase apparently started to fail on upgrade to 3.3.5, see https://github.com/swig/swig/issues/3030
-#       - SWIGLANG: ruby
-#         CPPSTD: c++11
-#       - SWIGLANG: ruby
-#         CPPSTD: c++14
-#       - SWIGLANG: ruby
-#         CPPSTD: c++17
-#         GCC: 13
+        - SWIGLANG: ruby
+          CPPSTD: c++11
+        - SWIGLANG: ruby
+          CPPSTD: c++14
+        - SWIGLANG: ruby
+          CPPSTD: c++17
+          GCC: 13
       # Run all of them, as opposed to aborting when one fails
       fail-fast: false
 

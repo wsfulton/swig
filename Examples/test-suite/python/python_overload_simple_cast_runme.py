@@ -2,6 +2,12 @@ from python_overload_simple_cast import *
 
 import sys
 
+# For handling in these 2 versions of Python:
+# DeprecationWarning: an integer is required (got type float).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+if sys.version_info[0:2] == (3, 8) or sys.version_info[0:2] == (3, 9):
+    import warnings
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 class Ai:
 
     def __init__(self, x):

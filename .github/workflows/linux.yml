@@ -127,7 +127,13 @@ jobs:
           VER: '3.12'
           CSTD: gnu99
         - SWIGLANG: python
+          VER: '3.12-dbg'
+          CSTD: gnu99
+        - SWIGLANG: python
           VER: '3.13'
+          CSTD: gnu99
+        - SWIGLANG: python
+          VER: '3.13-dbg'
           CSTD: gnu99
         - SWIGLANG: python
           VER: '3.13t' # no-gil testing

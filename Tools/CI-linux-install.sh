@@ -112,13 +112,13 @@ case "$SWIGLANG" in
 			$RETRY sudo add-apt-repository -y ppa:deadsnakes/ppa
 			$RETRY sudo apt-get -qq update
 			case "$VER" in
-				"*-dbg" )
+				*-dbg)
 					$RETRY sudo apt-get -qq install python${VER}
 				  ;;
-				"*t" )
+				*t)
 					$RETRY sudo apt-get -qq install python${VER::-1}-dev python${VER::-1}-nogil
 				  ;;
-				* )
+				*)
 					$RETRY sudo apt-get -qq install python${VER}-dev
 				;;
 			esac

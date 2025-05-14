@@ -113,7 +113,7 @@ case "$SWIGLANG" in
 			$RETRY sudo apt-get -qq update
 			case "$VER" in
 				*-dbg)
-					$RETRY sudo apt-get -qq install python${VER}
+					$RETRY sudo apt-get -qq install python${VER::-4}-dev python${VER}
 				  ;;
 				*t)
 					$RETRY sudo apt-get -qq install python${VER::-1}-dev python${VER::-1}-nogil

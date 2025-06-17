@@ -101,6 +101,58 @@ jobs:
           VER: '8.3'
         - SWIGLANG: php
           VER: '8.4'
+
+        - SWIGLANG: python
+          PY2: 2
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.7'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.8'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.9'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.10'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.11'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+        - SWIGLANG: python
+          VER: '3.12'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+          CSTD: gnu99
+        - SWIGLANG: python
+          VER: '3.13'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+          CSTD: gnu99
+        - SWIGLANG: python
+          VER: '3.13-dbg'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+          CSTD: gnu99
+        - SWIGLANG: python
+          VER: '3.13t' # no-gil testing
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+          CSTD: gnu99
+        - SWIGLANG: python
+          VER: '3.14'
+          SWIG_FEATURES: -builtin
+          CPPFLAGS: "-DSWIG_HEAPTYPES"
+          PY_ABI_VER: '3.14'
+          CSTD: gnu99
+
         - SWIGLANG: python
           PY2: 2
         #- SWIGLANG: python

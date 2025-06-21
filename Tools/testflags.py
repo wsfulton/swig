@@ -12,7 +12,7 @@ def get_cflags(language, std, compiler):
              "c":"-Werror " + c_common,
         "csharp":"-Werror " + c_common,
              "d":"-Werror " + c_common,
-            "go":"-Werror " + c_common,
+            "go":"-Werror " + c_common + " -Wno-unused-variable",
          "guile":"-Werror " + c_common,
           "java":"-Werror " + c_common,
     "javascript":"-Werror " + c_common,
@@ -24,7 +24,7 @@ def get_cflags(language, std, compiler):
         "python":"-Werror " + c_common,
              "r":"-Werror " + c_common,
           "ruby":"-Werror " + c_common,
-        "scilab":"-Werror " + c_common,
+        "scilab":"-Werror " + c_common + " -Wno-unused-variable",
            "tcl":"-Werror " + c_common,
     }
     if compiler == "clang":
@@ -46,7 +46,7 @@ def get_cxxflags(language, std, compiler):
             "go":"-Werror " + cxx_common + " -Wno-unused-variable",
          "guile":"-Werror " + cxx_common,
           "java":"-Werror " + cxx_common,
-    "javascript":"-Werror " + cxx_common + " -Wno-error=unused-function", # Until overload_rename is fixed for node
+    "javascript":"-Werror " + cxx_common,
            "lua":"-Werror " + cxx_common,
          "ocaml":"-Werror " + cxx_common,
         "octave":"-Werror " + cxx_common,

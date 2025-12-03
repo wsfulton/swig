@@ -7,6 +7,9 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.5.0 (in progress)
 ===========================
 
+2025-12-03: jschueller
+            [Python] #3285 Fix builds with python>=3.13 and Py_LIMITED_API<3.13.
+
 2025-11-08: wsfulton
             Fix handling of typedef to void in class methods/constructor's parameter
             lists, such as:

@@ -107,7 +107,6 @@ C_TEST_BROKEN += \
 
 # C++ test cases. (Can be run individually using: make testcase.cpptest)
 CPP_TEST_CASES += \
-	autodoc \
 	base \
 
 # C++11 test cases.

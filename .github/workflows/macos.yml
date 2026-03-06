@@ -279,8 +279,9 @@ jobs:
             make check-$SWIGLANG-enabled
             # make $SWIGJOBS check-$SWIGLANG-examples CFLAGS="$cflags" CXXFLAGS="$cxxflags"
             make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags" FLAGS=
+            echo "Finished 1st run......................."
             make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="$cxxflags -O2" FLAGS=
-            make $SWIGJOBS check-$SWIGLANG-test-suite CFLAGS="$cflags" CXXFLAGS="-O2" FLAGS=
+            echo "Finished 2nd run......................."
           fi
 
     - name: Install

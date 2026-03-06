@@ -138,6 +138,7 @@ CPP_TEST_CASES += \
 	assign_const \
 	assign_reference \
 	autodoc \
+	base \
 	begin_code \
 	bloody_hell \
 	bools \

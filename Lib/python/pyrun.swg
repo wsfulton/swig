@@ -7,8 +7,6 @@
  *
  * ----------------------------------------------------------------------------- */
 
-#include <iostream>
-
 #if PY_VERSION_HEX < 0x02070000 /* 2.7.0 */
 # error "This version of SWIG only supports Python >= 2.7"
 #endif
@@ -1509,10 +1507,10 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
   if (obj == Py_None && !implicit_conv) {
     if (ptr)
       *ptr = 0;
-std::cout << "SWIG_Python_ConvertPtrAndOwn (50) " << std::endl;
+printf("SWIG_Python_ConvertPtrAndOwn (50) \n");
     return (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   }
-std::cout << "SWIG_Python_ConvertPtrAndOwn (60) " << std::endl;
+printf("SWIG_Python_ConvertPtrAndOwn (60) \n");
 
   res = SWIG_ERROR;
 
@@ -1607,7 +1605,7 @@ std::cout << "SWIG_Python_ConvertPtrAndOwn (60) " << std::endl;
       }
     }
   }
-std::cout << "SWIG_Python_ConvertPtrAndOwn (400) " << res << std::endl;
+printf("SWIG_Python_ConvertPtrAndOwn (400) \n");
   return res;
 }
 

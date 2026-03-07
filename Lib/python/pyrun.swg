@@ -1507,10 +1507,8 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
   if (obj == Py_None && !implicit_conv) {
     if (ptr)
       *ptr = 0;
-printf("SWIG_Python_ConvertPtrAndOwn (50) \n");
     return (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   }
-printf("SWIG_Python_ConvertPtrAndOwn (60) \n");
 
   res = SWIG_ERROR;
 
@@ -1605,7 +1603,6 @@ printf("SWIG_Python_ConvertPtrAndOwn (60) \n");
       }
     }
   }
-printf("SWIG_Python_ConvertPtrAndOwn (400) \n");
   return res;
 }
 

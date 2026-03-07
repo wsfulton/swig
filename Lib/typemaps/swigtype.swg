@@ -420,6 +420,10 @@
 
 %typemap(directorout,noblock=1,warning=SWIGWARN_TYPEMAP_DIRECTOROUT_PTR_MSG) 
   SWIGTYPE *(void *swig_argp, int swig_res, swig_owntype own) {
+  int flags = %convertptr_flags | SWIG_POINTER_DISOWN;
+  int implicit_conv = (flags & SWIG_POINTER_IMPLICIT_CONV) != 0;
+  int retshouldbe = (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
+printf("calling ... %p %p flags:%d implicit_conv:%d retshouldbe:%d\n", (PyObject *)$input, Py_None, flags, implicit_conv, retshouldbe);
   swig_res = SWIG_ConvertPtrAndOwn($input, &swig_argp, $descriptor, %convertptr_flags | SWIG_POINTER_DISOWN, &own);
   if (!SWIG_IsOK(swig_res)) {
     %dirout_fail(swig_res,"$type");

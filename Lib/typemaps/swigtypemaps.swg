@@ -149,7 +149,7 @@
 #define %releasenotowned_fail(code, type, name, argn) SWIG_exception_fail(%default_code(code), %releasenotownedfail_fmt(type, name, argn))
 
 #if defined(SWIG_DIRECTOR_TYPEMAPS)
-#define %dirout_fail(code, type)          printf("fail generic %d\n", swig_res); SWIG_DirOutFail(%default_code(code), %outfail_fmt(type))
+#define %dirout_fail(code, type)          PyObject *pyobjresult = result; printf("fail generic %d %p %p %x\n", swig_res, pyobjresult, Py_None, 0  | SWIG_POINTER_DISOWN); SWIG_DirOutFail(%default_code(code), %outfail_fmt(type))
 #define %dirout_nullref(type)             printf("fail null ref %d\n", swig_res); SWIG_DirOutFail(SWIG_NullReferenceError, %outnullref_fmt(type))
 #endif
 

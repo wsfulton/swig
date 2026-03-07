@@ -149,8 +149,8 @@
 #define %releasenotowned_fail(code, type, name, argn) SWIG_exception_fail(%default_code(code), %releasenotownedfail_fmt(type, name, argn))
 
 #if defined(SWIG_DIRECTOR_TYPEMAPS)
-#define %dirout_fail(code, type)          SWIG_DirOutFail(%default_code(code), %outfail_fmt(type))
-#define %dirout_nullref(type)             SWIG_DirOutFail(SWIG_NullReferenceError, %outnullref_fmt(type))
+#define %dirout_fail(code, type)          printf("fail generic %d\n", swig_res); SWIG_DirOutFail(%default_code(code), %outfail_fmt(type))
+#define %dirout_nullref(type)             printf("fail null ref %d\n", swig_res); SWIG_DirOutFail(SWIG_NullReferenceError, %outnullref_fmt(type))
 #endif
 
 /* -----------------------------------------------------------------------------

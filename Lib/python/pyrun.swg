@@ -1497,7 +1497,9 @@ SWIG_Python_AcquirePtr(PyObject *obj, int own) {
 /* Convert a pointer value */
 
 static PyObject *last_obj = 0;
-static int called_count = 0;
+static int called_count_a = 0;
+static int called_count_b = 0;
+static int called_count_c = 0;
 
 SWIGRUNTIME int
 SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int flags, int *own) {
@@ -1506,14 +1508,16 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
   // int implicit_conv = (flags & SWIG_POINTER_IMPLICIT_CONV) != 0;
 
   last_obj = obj;
-  called_count++;
+  called_count_a++;
   if (!obj)
     return -99; //SWIG_ERROR;
+  called_count_b++;
   if (obj == Py_None/* && !implicit_conv*/) {
     if (ptr)
       *ptr = 0;
     return (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   }
+  called_count_c++;
 
   res = SWIG_ERROR;
 

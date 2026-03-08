@@ -424,10 +424,10 @@
   int implicit_conv = (flags & SWIG_POINTER_IMPLICIT_CONV) != 0;
   int retshouldbe = (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   PyObject *pyobj = $input;
-printf("calling ... pyobj:%p Py_None:%p flags:%d implicit_conv:%d retshouldbe:%d last_obj(before):%p called_count(before):%d\n", pyobj, Py_None, flags, implicit_conv, retshouldbe, last_obj, called_count);
+printf("calling SWIG_ConvertPtrAndOwn ... pyobj:%p Py_None:%p flags:%d implicit_conv:%d retshouldbe:%d last_obj(before):%p called_count(before):%d\n", pyobj, Py_None, flags, implicit_conv, retshouldbe, last_obj, called_count);
   swig_res = SWIG_ConvertPtrAndOwn(pyobj, &swig_argp, $descriptor, %convertptr_flags | SWIG_POINTER_DISOWN, &own);
   if (!SWIG_IsOK(swig_res)) {
-printf("finished calling  and failed ... last_obj:%p called_count:%d\n", last_obj, called_count);
+printf("finished calling SWIG_ConvertPtrAndOwn and failed ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
     %dirout_fail(swig_res,"$type");
   }
   $result = %reinterpret_cast(swig_argp, $ltype);

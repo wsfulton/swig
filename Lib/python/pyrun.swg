@@ -1504,14 +1504,18 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
   int res;
   SwigPyObject *sobj;
   // int implicit_conv = (flags & SWIG_POINTER_IMPLICIT_CONV) != 0;
+  if (ptr)
+    *ptr = 0;
 
   last_obj = obj;
   called_count++;
   if (!obj)
     return -99; //SWIG_ERROR;
   if (obj == Py_None/* && !implicit_conv*/) {
+/*
     if (ptr)
       *ptr = 0;
+*/
     return (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   }
 

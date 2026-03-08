@@ -425,6 +425,7 @@
   int retshouldbe = (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
 printf("calling ... %p %p flags:%d implicit_conv:%d retshouldbe:%d\n", (PyObject *)$input, Py_None, flags, implicit_conv, retshouldbe);
   swig_res = SWIG_ConvertPtrAndOwn($input, &swig_argp, $descriptor, %convertptr_flags | SWIG_POINTER_DISOWN, &own);
+printf("finished calling ... last_obj:%p\n", last_obj);
   if (!SWIG_IsOK(swig_res)) {
     %dirout_fail(swig_res,"$type");
   }

@@ -1511,6 +1511,7 @@ SWIG_Python_ConvertPtrAndOwn(PyObject *obj, void **ptr, swig_type_info *ty, int 
   }
 
   res = SWIG_ERROR;
+printf("SWIG_Python_ConvertPtrAndOwn (set res=SWIG_ERROR)\n");
 
   sobj = SWIG_Python_GetSwigThis(obj);
   if (own)

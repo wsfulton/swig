@@ -429,7 +429,6 @@
     printf("finished calling SWIG_ConvertPtrAndOwn and failed ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
     %dirout_fail(swig_res,"$type");
   }
-  printf("finished calling SWIG_ConvertPtrAndOwn and succeeded ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
   $result = %reinterpret_cast(swig_argp, $ltype);
   swig_acquire_ownership_obj(%as_voidptr($result), own /* & TODO: SWIG_POINTER_OWN */);
 }

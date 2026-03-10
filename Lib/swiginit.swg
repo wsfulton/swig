@@ -114,7 +114,7 @@ extern "C" {
 #endif
 #endif
 
-#if 1
+#if 0
 #define SWIGRUNTIME_DEBUG
 #endif
 

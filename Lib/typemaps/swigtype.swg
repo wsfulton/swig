@@ -421,15 +421,15 @@
 %typemap(directorout,noblock=1,warning=SWIGWARN_TYPEMAP_DIRECTOROUT_PTR_MSG) 
   SWIGTYPE *(void *swig_argp, int swig_res, swig_owntype own) {
   int flags = %convertptr_flags | SWIG_POINTER_DISOWN;
-  int implicit_conv = (flags & SWIG_POINTER_IMPLICIT_CONV) != 0;
   int retshouldbe = (flags & SWIG_POINTER_NO_NULL) ? SWIG_NullReferenceError : SWIG_OK;
   PyObject *pyobj = $input;
-printf("calling SWIG_ConvertPtrAndOwn ... pyobj:%p Py_None:%p flags:%d implicit_conv:%d retshouldbe:%d last_obj(before):%p called_count(before):%d\n", pyobj, Py_None, flags, implicit_conv, retshouldbe, last_obj, called_count);
+  printf("calling SWIG_ConvertPtrAndOwn ... pyobj:%p Py_None:%p flags:%d retshouldbe:%d last_obj(before):%p called_count(before):%d\n", pyobj, Py_None, flags, retshouldbe, last_obj, called_count);
   swig_res = SWIG_ConvertPtrAndOwn(pyobj, &swig_argp, $descriptor, %convertptr_flags | SWIG_POINTER_DISOWN, &own);
   if (!SWIG_IsOK(swig_res)) {
-printf("finished calling SWIG_ConvertPtrAndOwn and failed ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
+    printf("finished calling SWIG_ConvertPtrAndOwn and failed ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
     %dirout_fail(swig_res,"$type");
   }
+  printf("finished calling SWIG_ConvertPtrAndOwn and succeeded ... swig_res:%d last_obj:%p called_count:%d\n", swig_res, last_obj, called_count);
   $result = %reinterpret_cast(swig_argp, $ltype);
   swig_acquire_ownership_obj(%as_voidptr($result), own /* & TODO: SWIG_POINTER_OWN */);
 }

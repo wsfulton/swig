@@ -15,6 +15,19 @@ Version 4.5.0 (in progress)
             the typemap instead of only annotating the first argument with its
             plain C++ type.
 
+2026-06-04: wsfulton
+            Names referring to a C++ class nested inside another class now
+            resolve even when the nested class itself is not wrapped (the usual
+            case for target languages without nested class support).  A using
+            declaration whose scope qualifier reaches the nested class through a
+            typedef, such as 'using Outer::Nested::Me::method;' where 'Me' is a
+            typedef naming the nested class, now resolves instead of giving a
+            spurious 'Nothing known about ...' warning (Warning 315) and silently
+            dropping the member.  An out of line nested class definition written
+            inside the enclosing class, such as 'struct Outer::Nested { ... };',
+            is likewise now resolved instead of reporting 'Outer is not defined
+            as a valid scope'.
+
 2026-06-02: wsfulton
             #2694 Improve resolution of qualified names whose scope qualifier is
             reached through a typedef, including a typedef to a template

@@ -465,7 +465,7 @@ jobs:
           continue-on-error: true
         - SWIGLANG: lua
           CPPSTD: c++20
-          VER: '5.0'
+          VER: '5.5'
           os: ubuntu-26.04
         - SWIGLANG: tcl
           CPPSTD: c++20

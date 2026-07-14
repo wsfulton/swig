@@ -8,6 +8,14 @@ Version 4.5.0 (in progress)
 ===========================
 
 2026-07-14: wsfulton
+            [Go] %rename of an enum (including an enum class) is now honoured for the
+            generated Go type name. Previously the C++ enum name was always used, so a
+            renamed enum produced a Go type with the original name while its enum item
+            constants used the renamed name. A typedef named enum such as
+            "typedef enum class Foo {...} Bar;" now also uses the typedef name Bar for
+            the Go type, matching the enum item names and the other target languages.
+
+2026-07-14: wsfulton
             [R] %rename of an enum item is now honoured in the generated R code. The
             enum item name passed to defineEnumeration previously used the original
             C++ name, so %rename had no effect on the name used with enumToInteger and

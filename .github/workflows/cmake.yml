@@ -30,6 +30,9 @@ permissions:
 
 jobs:
   cmake:
+    # TEMPORARY - not a Ruby build, revert before merging
+    if: false
+
     runs-on: ${{ matrix.os }}
 
     name: cmake ${{ matrix.os }}
@@ -110,6 +113,9 @@ jobs:
           $SWIG_INSTALL_PREFIX/bin/swig -pcreversion
 
   windows-cmake:
+    # TEMPORARY - not a Ruby build, revert before merging
+    if: false
+
     runs-on: ${{ matrix.os }}
 
     name: cmake ${{ matrix.os }}

@@ -53,3 +53,5 @@ assert(string.byte(v.X_SPECIALCHARPAREN) == 59, 'X_SPECIALCHARPAREN value')
 assert(v.ia == 97, 'ia') -- 'a' value
 assert(v.ib == 98, 'ib') -- 'b' value
 assert(v.iparen == 59, 'iparen') -- ';' value
+-- Multicharacter constants have type int, not char.
+assert(v.MULTICHAR_AB == v.imulti_ab, 'MULTICHAR_AB')

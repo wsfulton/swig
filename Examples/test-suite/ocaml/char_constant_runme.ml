@@ -13,4 +13,6 @@ let _ =
   assert (_SPECIALCHARE '() as char = 'E');
   assert (_ia '() as char = 'a');
   assert (_ib '() as char = 'b');
+  (* Multicharacter constants have type int, not char. *)
+  assert (_MULTICHAR_AB '() as int = _imulti_ab '() as int);
 ;;

@@ -5,6 +5,12 @@
 
 %module char_constant
 
+%{
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wmultichar" // MULTICHAR_AB/imulti_ab below are deliberately multicharacter constants
+#endif
+%}
+
 #define CHAR_CONSTANT 'x'
 
 #define STRING_CONSTANT "xyzzy"
@@ -22,6 +28,9 @@
 #define SPECIALCHARAE2 '\306' // AE (latin1 encoded)
 #define SPECIALCHARAE3 '\xC6' // AE (latin1 encoded)
 #define SPECIALCHARPAREN (';')
+
+/* Multicharacter constants have type int, not char, per the C and C++ standards. */
+#define MULTICHAR_AB 'ab'
 
 #if defined(SWIGJAVA)
 %javaconst(1);
@@ -50,4 +59,5 @@
   const int ia = (int)'a';
   const int ib = 'b';
   const int iparen = (';');
+  const int imulti_ab = 'ab';
 }

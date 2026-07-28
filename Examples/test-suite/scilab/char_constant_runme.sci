@@ -5,5 +5,7 @@ if STRING_CONSTANT_get() <> "xyzzy" then swigtesterror(); end
 if ESC_CONST_get() <> ascii(1) then swigtesterror(); end
 if ia_get() <> ascii('a') then swigtesterror(); end
 if ib_get() <> ascii('b') then swigtesterror(); end
+// Multicharacter constants have type int, not char.
+if MULTICHAR_AB_get() <> imulti_ab_get() then swigtesterror(); end
 
 exec("swigtest.quit", -1);

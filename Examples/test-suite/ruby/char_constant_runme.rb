@@ -32,3 +32,8 @@ if Char_constant::SPECIALCHAR != "\341"  #'á'
   raise RuntimeError, "Invalid value for SPECIALCHAR."
 end
 
+# Multicharacter constants have type int, not char.
+if Char_constant::MULTICHAR_AB != Char_constant.imulti_ab
+  raise RuntimeError, "Invalid value for MULTICHAR_AB."
+end
+

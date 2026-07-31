@@ -392,6 +392,9 @@ jobs:
               echo "CSTD=$CSTD" >> $GITHUB_ENV
             fi
           fi
+          case "$CSTD" in
+            c++*) echo "CSTD must be a C standard, not $CSTD" >&2; exit 1 ;;
+          esac
           if [[ -n "$CSTD" ]]; then
             echo "CFLAGS=$CFLAGS -std=$CSTD" >> $GITHUB_ENV
           fi

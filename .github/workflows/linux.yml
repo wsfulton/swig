@@ -468,13 +468,11 @@ jobs:
           os: ubuntu-24.04
         - SWIGLANG: javascript
           ENGINE: v8
-          CSTD: c++14
           CPPSTD: c++14
           VER: '7.8' # oldest we can easily test
           os: ubuntu-22.04
         - SWIGLANG: javascript
           ENGINE: v8
-          CSTD: c++14
           CPPSTD: c++14
           VER: '10.2'
           os: ubuntu-24.04
@@ -558,6 +556,9 @@ jobs:
             esac
             if test -n "$CSTD"; then echo "CSTD=$CSTD" >> $GITHUB_ENV; fi
           fi
+          case "$CSTD" in
+            c++*) echo "CSTD must be a C standard, not $CSTD" >&2; exit 1 ;;
+          esac
           if test -n "$CPPSTD"; then
             CONFIGOPTS+=("CXXFLAGS=-std=$CPPSTD $CXXFLAGS")
             echo "Use C++ standard $CPPSTD"

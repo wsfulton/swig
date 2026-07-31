@@ -222,6 +222,9 @@ jobs:
             esac
             echo "CSTD=$CSTD" >> $GITHUB_ENV
           fi
+          case "$CSTD" in
+            c++*) echo "CSTD must be a C standard, not $CSTD" >&2; exit 1 ;;
+          esac
 
           if test '${{ matrix.COMPILER }}' = 'gcc' && test -n "$GCC"; then
             # GCC front-end is available with versioned only!

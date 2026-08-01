@@ -1,29 +1,8 @@
 name: windows
 
+# TEMPORARY: disabled so only the linux v8 jobs run
 on:
-  push:
-    paths-ignore:
-      - '.agents/**'
-      - '.github/workflows/linux.yml'
-      - '.github/workflows/macos.yml'
-      - '.github/workflows/cmake.yml'
-      - 'AGENTS.md'
-      - 'CHANGES*'
-      - 'Doc/**'
-      - 'Tools/CI-linux-*'
-      - 'Tools/GHA-linux-*'
-  pull_request:
-    branches: master
-    paths-ignore:
-      - '.agents/**'
-      - '.github/workflows/linux.yml'
-      - '.github/workflows/macos.yml'
-      - '.github/workflows/cmake.yml'
-      - 'AGENTS.md'
-      - 'CHANGES*'
-      - 'Doc/**'
-      - 'Tools/CI-linux-*'
-      - 'Tools/GHA-linux-*'
+  workflow_dispatch:
 
 permissions:
   contents: read

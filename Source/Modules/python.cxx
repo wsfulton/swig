@@ -61,6 +61,8 @@ static String *builtin_closures_code = 0;
 static String *f_varlinks = 0;
 static File *f_stub_pyi = 0;
 static String *f_stub = 0;
+static String *f_stub_imports = 0;
+static Hash *f_stub_imports_seen = 0;
 
 /* Mapping of mangled type names ("SWIGTYPE{mangled}") to their type */
 static Hash *unknown_types_hash = 0;
@@ -741,6 +743,8 @@ public:
       filen = NULL;
 
       f_stub = NewString("");
+      f_stub_imports = NewString("");
+      f_stub_imports_seen = NewHash();
 
       Swig_register_filebyname("stub_pyi", f_stub_pyi);
     }
@@ -966,6 +970,8 @@ public:
       printModuleBegin(f_stub_pyi, mod_docstring);
 
       Printv(f_stub_pyi, "import typing\n", NULL);
+      if (Len(f_stub_imports) > 0)
+        Printv(f_stub_pyi, f_stub_imports, NULL);
 
       if (Len(f_stub) > 0)
         Printv(f_stub_pyi, "\n", f_stub, "\n", NIL);
@@ -1005,6 +1011,8 @@ public:
     Delete(f_shadow_begin);
     Delete(f_shadow);
     Delete(f_stub);
+    Delete(f_stub_imports);
+    Delete(f_stub_imports_seen);
     Delete(f_header);
     Delete(f_wrappers);
     Delete(f_builtins);
@@ -1246,6 +1254,17 @@ public:
       return abs_import_directive_string(pkg, mod, pfx);
     } else {
       return rel_import_directive_string(mainpkg, pkg, mod, pfx);
+    }
+  }
+
+  /* ------------------------------------------------------------
+   * addStubImport()
+   * ------------------------------------------------------------ */
+
+  static void addStubImport(String *import) {
+    if (!GetFlag(f_stub_imports_seen, import)) {
+      Printv(f_stub_imports, import, NIL);
+      SetFlag(f_stub_imports_seen, import);
     }
   }
 
@@ -6055,6 +6074,11 @@ public:
     /* dealing with abstract base class */
     String *abcs = Getattr(n, "feature:python:abc");
     if (abcs) {
+      if (!addMetaclass && Strstr(abcs, "collections.abc")) {
+        String *import = NewString("import collections.abc\n");
+        addStubImport(import);
+        Delete(import);
+      }
       if (Len(base_class) > 0)
         Printv(base_class, ", ", NIL);
       Printv(base_class, abcs, NIL);

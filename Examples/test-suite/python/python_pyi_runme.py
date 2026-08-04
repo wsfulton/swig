@@ -22,10 +22,13 @@ for node in ast.walk(tree):
         names.add(node.target.id)
 
 # Everything expected from a -builtin class should appear in the stub.
-expected = {"Widget", "__init__", "getId", "create", "id", "make_unwrapped", "SWIGTYPE_p_Unwrapped"}
+expected = {"SizedCollection", "Widget", "__init__", "getId", "create", "id", "make_unwrapped", "SWIGTYPE_p_Unwrapped"}
 missing = expected - names
 if missing:
     raise RuntimeError("python_pyi.pyi is missing expected declarations: %s" % sorted(missing))
+
+if "import collections.abc" not in source:
+    raise RuntimeError("python_pyi.pyi is missing the collections.abc import")
 
 # TYPE_CHECKING is meaningless in a .pyi (it is never executed, only read by
 # a type checker), so SWIGTYPE_p_Unwrapped must not be guarded by it there.

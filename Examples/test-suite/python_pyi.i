@@ -1,5 +1,7 @@
 %module python_pyi
 
+#ifdef SWIGPYTHON
+
 // Tests the -pyi command line option, which generates a .pyi PEP 484
 // stub file. This is primarily meant for -builtin/-fastproxy, where the
 // python:annotations feature otherwise has nowhere to attach annotations.
@@ -12,8 +14,18 @@
 struct Unwrapped;
 %typemap(pytyping) Unwrapped * "$pytypename"
 
+%feature("python:abc", "collections.abc.Sized") SizedCollection;
+%pythoncode %{
+import collections.abc
+%}
+
 %inline %{
 struct Unwrapped;
+
+class SizedCollection {
+public:
+  int size() const { return 0; }
+};
 
 class Widget {
 public:
@@ -25,3 +37,5 @@ public:
 
 Unwrapped *make_unwrapped() { return 0; }
 %}
+
+#endif

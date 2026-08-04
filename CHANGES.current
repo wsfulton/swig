@@ -7,6 +7,10 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.5.0 (in progress)
 ===========================
 
+2026-08-04: wsfulton
+            [Python] #3473 Generated .pyi stub files now import collections.abc
+            when a class uses one of its abstract base classes.
+
 2026-08-03: wsfulton
             [Python] When using -builtin, internal new_ prefixed entry points for
             alternate constructors were mistakenly exposed by the low-level C/C++

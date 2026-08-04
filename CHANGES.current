@@ -8,6 +8,11 @@ Version 4.5.0 (in progress)
 ===========================
 
 2026-08-04: wsfulton
+            [Python] #3473 Generated .pyi stub files now use valid bodies for
+            classes without wrapped members and include imports needed by base
+            classes from %import directives.
+
+2026-08-04: wsfulton
             [Python] #3473 Generated .pyi stub files now import collections.abc
             when a class uses one of its abstract base classes.
 

@@ -27,6 +27,11 @@ public:
   int size() const { return 0; }
 };
 
+class Empty {
+private:
+  Empty();
+};
+
 class Widget {
 public:
   Widget(int id): id(id) {}

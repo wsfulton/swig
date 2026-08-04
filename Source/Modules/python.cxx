@@ -1355,7 +1355,7 @@ public:
    * ------------------------------------------------------------ */
 
   virtual int importDirective(Node *n) {
-    if (shadow) {
+    if (shadow || pyi_stub) {
       String *modname = Getattr(n, "module");
 
       if (modname) {
@@ -1369,14 +1369,21 @@ public:
         String *pkg = options ? Getattr(options, "package") : 0;
 
         if (!options || (!Getattr(options, "noshadow") && !Getattr(options, "noproxy"))) {
-          String *_import = import_directive_string(package, pkg, modname, "_");
-          if (!GetFlagAttr(f_shadow_imports, _import)) {
-            String *import = import_directive_string(package, pkg, modname);
-            Printf(builtin ? f_shadow_after_begin : f_shadow, "%s", import);
-            Delete(import);
-            SetFlag(f_shadow_imports, _import);
+          if (shadow) {
+            String *_import = import_directive_string(package, pkg, modname, "_");
+            if (!GetFlag(f_shadow_imports, _import)) {
+              String *import = import_directive_string(package, pkg, modname);
+              Printf(builtin ? f_shadow_after_begin : f_shadow, "%s", import);
+              Delete(import);
+              SetFlag(f_shadow_imports, _import);
+            }
+            Delete(_import);
           }
-          Delete(_import);
+          if (pyi_stub) {
+            String *import = import_directive_string(package, pkg, modname);
+            addStubImport(import);
+            Delete(import);
+          }
         }
       }
     }
@@ -5249,6 +5256,7 @@ public:
     if (pyi_stub) {
       printClassHeader(n, class_name, f_stub, false);
     }
+    int stub_class_body_start = pyi_stub ? Len(f_stub) : 0;
 
     /* Emit all of the members */
 
@@ -5275,6 +5283,9 @@ public:
     }
 
     Language::classHandler(n);
+
+    if (pyi_stub && Len(f_stub) == stub_class_body_start)
+      Printv(f_stub, tab4, "...\n", NIL);
 
     in_class = 0;
 

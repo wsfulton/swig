@@ -1,6 +1,6 @@
 ---
 name: swig-conventions
-description: 'SWIG source and contribution conventions: clang-format / code formatting, C/C++ comment style (quotes, widths, function header blocks), parser.y new-code rules, commit message style, hyphenation, CHANGES.current file entries for user visible release notes and AI-assistance disclosure. Read before writing or editing Source/ or Lib/ code, comments, or commit messages.'
+description: 'SWIG source and contribution conventions: clang-format / code formatting, C/C++ comment style (quotes, widths, function header blocks), parser.y new-code rules, adding or retiring a warning number and checking it is documented, commit message style, hyphenation, CHANGES.current file entries for user visible release notes and AI-assistance disclosure. Read before writing or editing Source/ or Lib/ code, comments, or commit messages.'
 ---
 
 # SWIG Coding and Contribution Conventions
@@ -59,6 +59,26 @@ A future cleanup pass will run `clang-format` over `parser.y` to normalise the f
 To test a parse tree node's type, use `Equal(nodeType(n), "cdecl")` rather than
 `Checkattr(n, "nodeType", "cdecl")`. `nodeType(n)` is the canonical accessor for the node type
 and this idiom dominates the existing `Source/` code. Reserve `Checkattr` for other attributes.
+
+## Adding, changing or retiring a warning
+
+A warning is spread over three files that nothing in the build ties together: the number in `Source/Include/swigwarn.h`, sometimes a message in `Lib/swigwarnings.swg`, and the user visible entry in `Doc/Manual/Warnings.html`. A number added to the header can therefore silently never reach the manual, which is how a whole batch of numbers came to be undocumented.
+
+**Whenever you add, renumber or retire a warning, run:**
+
+```bash
+Tools/checkwarnings.py          # --help for options
+```
+
+It lists any number defined but not documented, or documented but not defined, and exits non-zero when the two sets differ.
+
+The check covers presence only, not message text. If you change what a message *says*, update the matching entry in `Doc/Manual/Warnings.html` by hand, and run the errors test suite - it is the only thing that pins warning text:
+
+```bash
+make check-errors-test-suite
+```
+
+Retire a number rather than deleting it, so that it is never reused. Comment the `#define` out in place as `/* Unused since X.Y.Z: ... */` (see the existing 101-110 and 341-343), delete any `_MSG` define from `Lib/swigwarnings.swg`, and remove the `<li>` entirely from `Doc/Manual/Warnings.html`. `Lib/swigwarn.swg` is generated from the header and follows automatically.
 
 ## Commit message style
 

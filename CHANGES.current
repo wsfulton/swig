@@ -8,6 +8,19 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-08-16: wsfulton
+            [Python] New python:annotations:mismatch feature supplies the PEP 484
+            annotation for everything a function returns when SWIG cannot work it out,
+            which is when the argout typemaps disagree on the container and warning 478
+            would be issued:
+
+              %feature("python:annotations:mismatch") tuple_then_list
+                "typing.List[typing.Union[typing.Tuple[bool, int], int]]"
+
+            tuple_then_list is annotated with the type given rather than typing.Any and
+            warning 478 is not issued for it, as the feature has already said what the
+            function returns.
+
+2026-08-16: wsfulton
             [Lua] The $isvoid special variable is now expanded in director methods, so a
             directorin, directorout or directorargout typemap can use it. It was
             previously left as $isvoid in the generated C++ code, which did not compile.

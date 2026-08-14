@@ -2622,10 +2622,11 @@ public:
       return NULL;
 
     List *types = NewList();
+    bool warn_container_mismatch = !Getattr(n, "feature:python:annotations:mismatch");
 
     if (anno == TYPE_ANNOTATION_C) {
       /* C annotations use the argout parameter types and ignore the function return type. */
-      emit_output_summary(n, root);
+      emit_output_summary(n, root, warn_container_mismatch);
       for (Iterator it = First(Getattr(n, "wrap:outputparms")); it.item; it = Next(it)) {
         String *tm = SwigType_str(Getattr(it.item, "tmap:argout:match_type"), 0);
         Append(types, tm);
@@ -2639,7 +2640,7 @@ public:
        parameters it reports back are the ones carrying the pytyping typemaps. */
     ParmList *copied_parms = CopyParmList(root);
     Swig_typemap_attach_parms("pytyping", copied_parms, 0);
-    emit_output_summary(n, copied_parms);
+    emit_output_summary(n, copied_parms, warn_container_mismatch);
 
     /* The function return value, when there is one, is the first of the returned values. */
     if (GetFlag(n, "wrap:returnsurvives")) {
@@ -2727,8 +2728,9 @@ public:
       ret = NewString("typing.Tuple[");
       close = "]";
     } else if (container && !Equal(container, "list")) {
-      /* The argout typemaps disagree on the container, so the type of the values returned is unknown. */
-      return NewString("typing.Any");
+      /* The argout typemaps disagree on the container, so the type of the values returned cannot be automatically worked out. */
+      String *mismatch_type = Getattr(n, "feature:python:annotations:mismatch");
+      return mismatch_type ? Copy(mismatch_type) : NewString("typing.Any");
     } else if (num_results == 1) {
       ret = NewString("typing.List[");
       close = "]";

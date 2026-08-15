@@ -8,6 +8,18 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-08-15: wsfulton
+            The override and final specifiers on a member function are now
+            accepted after a trailing requires-clause, which is the order C++
+            requires:
+
+              int plain(T x) requires Numeric<T> final;
+              auto arrow(T x) -> T requires Numeric<T> final;
+              int over(T x) requires Numeric<T> override;
+
+            All were a syntax error. A boolean literal is also accepted as a
+            whole constraint, as in "requires true".
+
+2026-08-15: wsfulton
             An alias declaration for a function type written with the alternate
             function syntax now accepts a noexcept specifier:
 

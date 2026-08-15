@@ -1319,6 +1319,15 @@ template&lt;typename T&gt; using alt_fn_t = auto (*)(T) -&gt; T;
 </pre></div>
 
 <p>
+A <tt>noexcept</tt> specifier may appear in the declarator, with or without an expression:
+</p>
+
+<div class="code"><pre>
+using alt_noexcept_callback_t = auto (*)(int) noexcept -&gt; int;
+using alt_noexcept_expr_t = auto (int) noexcept(true) -&gt; int;
+</pre></div>
+
+<p>
 <b>Compatibility note:</b> SWIG-4.6.0 is the first version to accept a trailing return type in an alias declaration.
 The equivalent <tt>typedef</tt> spelling was already accepted.
 </p>

@@ -292,6 +292,44 @@ int literal_type_code(String *text) {
 }
 
 /* ----------------------------------------------------------------------------
+ * int skip_balanced_to_semicolon(void)
+ *
+ * Skip the input up to and including the ';' that ends the current declaration.
+ * A ';' nested inside '(...)', '[...]' or '{...}' does not end it, so an
+ * initialiser containing one - the body of a lambda, say - is stepped over
+ * rather than taken for the end of the declaration.
+ *
+ * Returns 0 on success and -1 when the end of input is reached first, which is
+ * reported as a missing semicolon.
+ * ------------------------------------------------------------------------- */
+
+int skip_balanced_to_semicolon(void) {
+  int num_levels = 0;
+  int start_line = Scanner_line(scan);
+
+  while (1) {
+    int tok = Scanner_token(scan);
+    if (tok <= 0) {
+      if (!Swig_error_count())
+        Swig_error(cparse_file, start_line, "Missing semicolon (';'). Reached end of input.\n");
+      return -1;
+    } else if (tok == SWIG_TOKEN_LPAREN || tok == SWIG_TOKEN_LBRACKET || tok == SWIG_TOKEN_LBRACE) {
+      num_levels++;
+    } else if (tok == SWIG_TOKEN_LLBRACKET) {
+      num_levels += 2;
+    } else if (tok == SWIG_TOKEN_RPAREN || tok == SWIG_TOKEN_RBRACKET || tok == SWIG_TOKEN_RBRACE) {
+      num_levels--;
+    } else if (tok == SWIG_TOKEN_RRBRACKET) {
+      num_levels -= 2;
+    } else if (tok == SWIG_TOKEN_SEMI && num_levels <= 0) {
+      cparse_file = Scanner_file(scan);
+      cparse_line = Scanner_line(scan);
+      return 0;
+    }
+  }
+}
+
+/* ----------------------------------------------------------------------------
  * void skip_decl(void)
  *
  * This tries to skip over an entire declaration.   For example

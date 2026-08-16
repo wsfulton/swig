@@ -2356,6 +2356,45 @@ static SwigType *deduce_type(const struct Define *dtype, int unwrap_parentheses)
   return deduced;
 }
 
+/* The type 'decltype' names for a parenthesised id-expression such as the '(gp)' of 'decltype((gp))'.  Being an
+   lvalue it names an lvalue reference to the type the name was declared with, where the unparenthesised name
+   names that type on its own.  Returns 0 when the expression is not the name of a variable, leaving the caller to
+   work the type out from the type code of the expression instead. */
+static SwigType *decltype_parenthesised_name_type(const struct Define *dtype) {
+  String *unwrapped;
+  SwigType *type;
+  Node *n;
+  int code;
+
+  if (!dtype->val)
+    return 0;
+  unwrapped = Swig_cparse_trim_parenthesis(dtype->val);
+  if (!unwrapped)
+    return 0;
+  n = Swig_symbol_clookup(unwrapped, 0);
+  type = n && Equal(nodeType(n), "cdecl") ? symbol_full_type(unwrapped) : 0;
+  Delete(unwrapped);
+  if (!type)
+    return 0;
+  if (SwigType_isfunction(type) || SwigType_isauto(type)) {
+    Delete(type);
+    return 0;
+  }
+
+  /* A name declared with a reference already denotes an lvalue of the referred-to type, so the reference the
+   * parentheses call for is the one it has. */
+  if (SwigType_isreference(type) || SwigType_isrvalue_reference(type))
+    Delete(SwigType_pop(type));
+
+  /* The reference is only added where the variable is wrapped through a pointer either way.  A scalar, an array
+   * and a character string are wrapped by value, and wrapping the reference instead would make each of them an
+   * opaque SWIGTYPE for no gain, an 'int&' variable behaving as an 'int' for both get and set. */
+  code = SwigType_type(type);
+  if (code == T_POINTER || code == T_USER || code == T_MPOINTER)
+    SwigType_add_reference(type);
+  return type;
+}
+
 /* Whether the initialiser 'dtype' is a parenthesised name of something in scope, such as the '(object)' of
    'decltype(auto) r = (object);'.  The decltype of a parenthesised id-expression is an lvalue reference to the
    object the name denotes, and the reference is not part of what the name was declared with, so a type deduced
@@ -7735,7 +7774,9 @@ decltype       : decltype_prefix[expr] decltypeexpr {
 	       ;
 
 decltypeexpr   : expr RPAREN {
-                 $$ = deduce_type(&$expr, 0);
+                 $$ = decltype_parenthesised_name_type(&$expr);
+                 if (!$$)
+                   $$ = deduce_type(&$expr, 0);
 	       }
 	       | error RPAREN {
 		 /* Avoid a parse error if we can't parse the expression

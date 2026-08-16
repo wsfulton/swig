@@ -146,3 +146,28 @@
     }
   };
 %}
+
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) paren_ptr;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) ptr_lvalue;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) held_lvalue;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) plain_ptr;
+
+%inline %{
+  struct Held {
+    int member;
+  };
+
+  int paren_int = 1;
+  int paren_other = 2;
+  int *paren_ptr = &paren_int;
+  Held paren_held = { 3 };
+
+  int *other_address() { return &paren_other; }
+
+  // A parenthesised id-expression is an lvalue, so a decltype of one names a reference to the type the
+  // name was declared with rather than that type on its own.
+  decltype((paren_int)) int_lvalue = paren_int;      // int &
+  decltype((paren_ptr)) ptr_lvalue = paren_ptr;      // int *&
+  decltype((paren_held)) held_lvalue = paren_held;   // Held &
+  decltype(paren_ptr) plain_ptr = paren_ptr;         // int *
+%}

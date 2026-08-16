@@ -8,6 +8,18 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-08-16: wsfulton
+            The final specifier is no longer lost when it follows a trailing
+            requires-clause on a member declared with a trailing return type:
+
+              template<typename T> struct Callback {
+                virtual auto arrow(T x) -> T requires Numeric<T> final;
+              };
+
+            The method was treated as if it were not final, so with directors
+            enabled the generated director class overrode it and the wrapper did
+            not compile.
+
+2026-08-16: wsfulton
             The C++ integral promotion is now applied to 'short' and
             'unsigned short' as well as to the character and boolean types, so an
             'auto' variable deduced from a promoted short is an int:

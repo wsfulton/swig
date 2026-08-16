@@ -7,6 +7,20 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-08-16: wsfulton
+            A decltype in a trailing return type naming an 'auto' parameter of an
+            abbreviated function template now gives the type the %template
+            instantiation supplies for that parameter:
+
+              int value = 2;
+              auto shadow(auto value) -> decltype(value) { return value; }
+
+              %template(shadow_double) shadow<double>;
+
+            The return type was previously taken from whatever else the name
+            denoted outside the function, with no warning, so shadow_double(2.5)
+            returned the integer 2.
+
 2026-08-15: wsfulton
             A structured binding is now parsed and ignored whichever way its
             initialiser is written, and an initialiser containing a semicolon of

@@ -1751,9 +1751,15 @@ success:
  * parameter name replaced by the matching argument from 'instantiated_parms', so
  * that two candidate overloads can be compared by the signature they instantiate
  * to rather than by the template parameter names they happen to have been given.
+ *
+ * With 'normalised' true top level cv-qualification is left out, C++ treating
+ * 'f(const double)' and 'f(double)' as the same signature; qualification below the
+ * top level is part of the type and is kept either way.  With it false the
+ * parameters are rendered as written, which tells two overloads that only C++
+ * considers the same apart from a plain redeclaration.
  * ----------------------------------------------------------------------------- */
 
-static String *instantiated_function_signature(Node *n, ParmList *instantiated_parms) {
+static String *instantiated_function_signature(Node *n, ParmList *instantiated_parms, int normalised) {
   String *sig = NewStringEmpty();
   Parm *p;
   for (p = Getattr(n, "parms"); p; p = nextSibling(p)) {
@@ -1770,6 +1776,8 @@ static String *instantiated_function_signature(Node *n, ParmList *instantiated_p
       tp = nextSibling(tp);
       ip = nextSibling(ip);
     }
+    if (normalised && SwigType_isqualifier(t))
+      Delete(SwigType_pop(t));
     Printf(sig, "%s|", t);
     Delete(t);
   }
@@ -1822,11 +1830,15 @@ static String *template_constraints_str(Node *n, int display) {
  * check_constrained_overloads()
  *
  * Report an error when two of the function templates matched by a %template
- * instantiate to the same function signature and are told apart only by their
- * constraints.  C++ picks one of them by constraint satisfaction; SWIG does not
- * evaluate constraints, so it would otherwise wrap both, and the generated
- * dispatcher would call one overload while converting the result to the other
- * overload's return type.
+ * instantiate to the same function signature and SWIG has no way to choose
+ * between them.  It would otherwise wrap both, and the generated dispatcher
+ * would call one overload while converting the result to the other overload's
+ * return type.  Either constraints tell them apart, which C++ resolves by
+ * constraint satisfaction and SWIG cannot, or they are written differently
+ * with the same signature, which C++ makes an ambiguous call.
+ *
+ * Overloads written the same way with the same constraints are left alone,
+ * being what the redundant redeclaration handling already collapses.
  *
  * Returns 1 if an error was reported, 0 otherwise.
  * ----------------------------------------------------------------------------- */
@@ -1837,37 +1849,51 @@ static int check_constrained_overloads(List *matches, String *name, ParmList *in
   int reported = 0;
   for (i = 0; i < len && !reported; i++) {
     Node *ni = Getitem(matches, i);
-    String *sigi = instantiated_function_signature(ni, instantiated_parms);
+    String *sigi = instantiated_function_signature(ni, instantiated_parms, 1);
+    String *writteni = instantiated_function_signature(ni, instantiated_parms, 0);
     String *coni = template_constraints_str(ni, 0);
     for (j = i + 1; j < len && !reported; j++) {
       Node *nj = Getitem(matches, j);
-      String *sigj = instantiated_function_signature(nj, instantiated_parms);
+      String *sigj = instantiated_function_signature(nj, instantiated_parms, 1);
+      String *writtenj = instantiated_function_signature(nj, instantiated_parms, 0);
       String *conj = template_constraints_str(nj, 0);
-      if (Equal(sigi, sigj) && !Equal(coni, conj)) {
+      int constraints_differ = !Equal(coni, conj);
+      if (Equal(sigi, sigj) && (constraints_differ || !Equal(writteni, writtenj))) {
         String *tname = Copy(name);
-        String *displayi = template_constraints_str(ni, 1);
-        String *displayj = template_constraints_str(nj, 1);
         String *namestr;
         SwigType_add_template(tname, instantiated_parms);
         namestr = SwigType_namestr(tname);
-        Swig_error(cparse_file,
-                   cparse_line,
-                   "Ambiguous template instantiation of '%s'. Overloaded declarations of '%s' with '%s' and '%s' instantiate to the same "
-                   "function signature and SWIG does not evaluate constraints to choose between them.\n",
-                   namestr,
-                   name,
-                   displayi,
-                   displayj);
+        if (constraints_differ) {
+          String *displayi = template_constraints_str(ni, 1);
+          String *displayj = template_constraints_str(nj, 1);
+          Swig_error(cparse_file,
+                     cparse_line,
+                     "Ambiguous template instantiation of '%s'. Overloaded declarations of '%s' with '%s' and '%s' instantiate to the same "
+                     "function signature and SWIG does not evaluate constraints to choose between them.\n",
+                     namestr,
+                     name,
+                     displayi,
+                     displayj);
+          Delete(displayi);
+          Delete(displayj);
+        } else {
+          Swig_error(cparse_file,
+                     cparse_line,
+                     "Ambiguous template instantiation of '%s'. Overloaded declarations of '%s' instantiate to the same function signature, "
+                     "which C++ makes an ambiguous call.\n",
+                     namestr,
+                     name);
+        }
         Delete(namestr);
-        Delete(displayi);
-        Delete(displayj);
         Delete(tname);
         reported = 1;
       }
       Delete(sigj);
+      Delete(writtenj);
       Delete(conj);
     }
     Delete(sigi);
+    Delete(writteni);
     Delete(coni);
   }
   return reported;

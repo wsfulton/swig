@@ -1833,20 +1833,16 @@ static String *instantiated_function_signature(Node *n, ParmList *instantiated_p
 }
 
 /* -----------------------------------------------------------------------------
- * template_constraints_str()
+ * template_constraints_display_str()
  *
  * Render every constraint attached to function template 'n' - the requires-clause on
  * the template itself and the type-constraint on each template parameter, which is
- * where a C++20 abbreviated 'Concept auto' parameter puts it.
- *
- * With display false the result is a positional key for comparing two overloads: an
- * unconstrained template parameter contributes an empty entry, so a constrained and
- * an unconstrained overload never compare equal, and the same concept on different
- * parameters compares unequal too.  With display true the result is the constraint
- * text for a diagnostic, with the empty entries left out.
+ * where a C++20 abbreviated 'Concept auto' parameter puts it - as constraint text for
+ * a diagnostic.  Constraint_signature_str() is the equivalent for comparing two
+ * declarations.
  * ----------------------------------------------------------------------------- */
 
-static String *template_constraints_str(Node *n, int display) {
+static String *template_constraints_display_str(Node *n) {
   String *out = NewStringEmpty();
   Node *constraint = Getattr(n, "constraint");
   Parm *tp;
@@ -1855,21 +1851,17 @@ static String *template_constraints_str(Node *n, int display) {
     Printf(out, "%s", s);
     Delete(s);
   }
-  if (!display)
-    Append(out, ";");
   for (tp = Getattr(n, "templateparms"); tp; tp = nextSibling(tp)) {
     Node *tconstraint = Getattr(tp, "constraint");
     if (tconstraint) {
       String *s = Constraint_str(tconstraint);
-      if (display && Len(out) > 0)
+      if (Len(out) > 0)
         Append(out, " && ");
       Printf(out, "%s", s);
       Delete(s);
     }
-    if (!display)
-      Append(out, ";");
   }
-  if (display && Len(out) == 0)
+  if (Len(out) == 0)
     Append(out, "no constraint");
   return out;
 }
@@ -1899,12 +1891,12 @@ static int check_constrained_overloads(List *matches, String *name, ParmList *in
     Node *ni = Getitem(matches, i);
     String *sigi = instantiated_function_signature(ni, instantiated_parms, 1);
     String *writteni = instantiated_function_signature(ni, instantiated_parms, 0);
-    String *coni = template_constraints_str(ni, 0);
+    String *coni = Constraint_signature_str(ni);
     for (j = i + 1; j < len && !reported; j++) {
       Node *nj = Getitem(matches, j);
       String *sigj = instantiated_function_signature(nj, instantiated_parms, 1);
       String *writtenj = instantiated_function_signature(nj, instantiated_parms, 0);
-      String *conj = template_constraints_str(nj, 0);
+      String *conj = Constraint_signature_str(nj);
       int constraints_differ = !Equal(coni, conj);
       if (Equal(sigi, sigj) && (constraints_differ || !Equal(writteni, writtenj))) {
         String *tname = Copy(name);
@@ -1912,8 +1904,8 @@ static int check_constrained_overloads(List *matches, String *name, ParmList *in
         SwigType_add_template(tname, instantiated_parms);
         namestr = SwigType_namestr(tname);
         if (constraints_differ) {
-          String *displayi = template_constraints_str(ni, 1);
-          String *displayj = template_constraints_str(nj, 1);
+          String *displayi = template_constraints_display_str(ni);
+          String *displayj = template_constraints_display_str(nj);
           Swig_error(cparse_file,
                      cparse_line,
                      "Ambiguous template instantiation of '%s'. Overloaded declarations of '%s' with '%s' and '%s' instantiate to the same "

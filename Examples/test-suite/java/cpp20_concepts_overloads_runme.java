@@ -28,6 +28,13 @@ public class cpp20_concepts_overloads_runme {
     if (cpp20_concepts_overloads.accumulate_double(0.5, 1.0, 2.5) != 4.0)
       throw new RuntimeException("accumulate_double(0.5, 1.0, 2.5)");
 
+    // Function templates differing only by their requires-clause are both kept.  The doubling one
+    // is the integral overload and the tripling one the floating point overload.
+    if (cpp20_concepts_overloads.scale_int(5) != 10)
+      throw new RuntimeException("scale_int(5)");
+    if (cpp20_concepts_overloads.scale_double_to_int(3.5) != 7)
+      throw new RuntimeException("scale_double_to_int(3.5)");
+
     // Member function templates told apart by their ref-qualifier and cv-qualifier.
     Holder h = new Holder();
     h.setValue(10);

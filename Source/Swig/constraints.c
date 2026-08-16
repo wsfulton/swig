@@ -306,3 +306,37 @@ String *Constraint_str(Node *n) {
   render_node(out, n);
   return out;
 }
+
+/* -----------------------------------------------------------------------------
+ * Constraint_signature_str()
+ *
+ * Render every constraint that is part of the signature of declaration 'n': the
+ * requires-clause on the declaration itself, then the type-constraint on each of its
+ * template parameters, which is where a C++20 abbreviated 'Concept auto' parameter puts
+ * it.  Each is followed by a semicolon, so the position of an entry says which slot it
+ * came from:
+ *
+ *   template<typename T> requires std::integral<T> T f(T);   std::integral< T >;;
+ *   template<std::integral T> T f(T);                        ;std::integral;
+ *
+ * The result is a comparison key rather than readable text.  An unconstrained slot
+ * contributes an empty entry, so a constrained and an unconstrained declaration never
+ * compare equal, and the same concept on different parameters compares unequal too.
+ * The returned String must be freed by the caller.
+ * ----------------------------------------------------------------------------- */
+
+String *Constraint_signature_str(Node *n) {
+  String *out = NewStringEmpty();
+  Node *constraint = Getattr(n, "constraint");
+  Parm *tp;
+  if (constraint)
+    render_node(out, constraint);
+  Append(out, ";");
+  for (tp = Getattr(n, "templateparms"); tp; tp = nextSibling(tp)) {
+    Node *tconstraint = Getattr(tp, "constraint");
+    if (tconstraint)
+      render_node(out, tconstraint);
+    Append(out, ";");
+  }
+  return out;
+}

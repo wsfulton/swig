@@ -11,6 +11,11 @@ swig_check(accumulate_double(2.5),           3.5)
 swig_check(accumulate_double(1.5, 2.5),      4.0)
 swig_check(accumulate_double(0.5, 1.0, 2.5), 4.0)
 
+# Function templates differing only by their requires-clause are both kept.  The doubling one is the
+# integral overload and the tripling one the floating point overload.
+swig_check(scale_int(5),             10)
+swig_check(scale_double_to_int(3.5), 7)
+
 # Member function templates told apart by their ref-qualifier and cv-qualifier.
 h = Holder()
 h.value = 10

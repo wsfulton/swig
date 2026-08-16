@@ -8,6 +8,17 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-08-16: wsfulton
+            A decltype(auto) variable is now recognised as initialised by a string
+            literal when the whole of the initialiser is one, rather than when the
+            text merely starts with one:
+
+              decltype(auto) parens = ("text");   // ignored, a reference to an array
+              decltype(auto) pointer = "text" + 1;  // wrapped as const char *
+
+            The first was wrapped as a const char * and its setter did not compile.
+            The second is an ordinary expression and is wrapped again.
+
+2026-08-16: wsfulton
             The final specifier is no longer lost when it follows a trailing
             requires-clause on a member declared with a trailing return type:
 

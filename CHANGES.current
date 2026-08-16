@@ -7,6 +7,18 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-08-17: wsfulton
+            Fix a crash on input where a class body or a decltype operand is
+            never closed, such as:
+
+              %inline %{
+              int g = 1;
+              decltype(g x;
+              %}
+
+            The missing bracket is now reported as an error, Missing ')'.
+            Reached end of input.
+
 2026-08-16: wsfulton
             A requires-clause is now part of a function template's signature, so
             two function templates differing only by their constraint are kept

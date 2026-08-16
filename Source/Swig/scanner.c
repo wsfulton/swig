@@ -1601,14 +1601,20 @@ int Scanner_skip_balanced(Scanner *s, int startchar, int endchar) {
 /* -----------------------------------------------------------------------------
  * Scanner_get_raw_text_balanced()
  *
- * Returns raw text between 2 braces, does not change scanner state in any way
+ * Returns the raw text between 2 brackets, such as '{...}' or '(...)', including the brackets themselves, and does
+ * not change the state of 's' in any way.  Returns NULL if the closing bracket is missing.
+ *
+ * As in Scanner_get_raw_text_to_semicolon(), the lookahead runs on a private scanner over a copy of the remaining
+ * text.  Scanning 's' and seeking back would work only as long as the closing bracket is found: running to the end
+ * of the text being scanned pops it off the scanner's stack, leaving nothing to seek back to.
  * ----------------------------------------------------------------------------- */
 
 String *Scanner_get_raw_text_balanced(Scanner *s, int startchar, int endchar) {
   String *result = NULL;
+  String *remaining;
+  Scanner *lookahead;
+  long position;
   int old_line = s->line;
-  String *old_text = Copy(s->text);
-  long position = Tell(s->str);
 
   int num_levels = 1;
   int starttok = 0;
@@ -1633,34 +1639,44 @@ String *Scanner_get_raw_text_balanced(Scanner *s, int startchar, int endchar) {
   default:
     assert(0);
   }
+  if (!s->str)
+    return NULL;
+
+  position = Tell(s->str);
+  remaining = NewStringWithSize(Char(s->str) + position, Len(s->str) - position);
+  Seek(remaining, 0, SEEK_SET);
+  Setfile(remaining, Getfile(s->str));
+  Setline(remaining, old_line);
+  lookahead = NewScanner();
+  Scanner_push(lookahead, remaining);
 
   while (1) {
-    int tok = Scanner_token(s);
+    int tok = Scanner_token(lookahead);
     if (tok == starttok) {
       num_levels++;
     } else if (tok == endtok) {
       if (--num_levels == 0) {
-        result = NewStringWithSize(Char(s->str) + position - 1, Tell(s->str) - position + 1);
-        Char(result)[0] = startchar;
+        result = NewStringEmpty();
+        Putc(startchar, result);
+        Write(result, Char(remaining), (int)Tell(remaining));
         Setfile(result, Getfile(s->str));
         Setline(result, old_line);
         break;
       }
     } else if (tok == SWIG_TOKEN_COMMENT) {
-      char *loc = Char(s->text);
-      if (strncmp(loc, "/*@SWIG", 7) == 0 && loc[Len(s->text) - 3] == '@') {
-        Scanner_locator(s, s->text);
+      String *text = Scanner_text(lookahead);
+      char *loc = Char(text);
+      if (strncmp(loc, "/*@SWIG", 7) == 0 && loc[Len(text) - 3] == '@') {
+        /* The locator applies to 's', which is where the text will be scanned for real. */
+        Scanner_locator(s, text);
       }
     } else if (tok == 0) {
       break;
     }
   }
 
-  /* Reset the scanner state. */
-  Seek(s->str, position, SEEK_SET);
-  Delete(s->text);
-  s->text = old_text;
-  s->line = old_line;
+  DelScanner(lookahead);
+  Delete(remaining);
 
   return result;
 }

@@ -26,5 +26,13 @@ public class template_advanced_rename_runme {
 
     template_advanced_rename.Goose(40);
     template_advanced_rename.Golden_goose(true);
+
+    check(1, template_advanced_rename.spinner(10));
+    check(2, template_advanced_rename.spinner(10, 20));
+  }
+
+  static void check(int expected, int actual) {
+    if (expected != actual)
+      throw new RuntimeException("expected " + expected + " but got " + actual);
   }
 }

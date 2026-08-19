@@ -32,3 +32,16 @@ template<typename T> T Golden::goose(T t) { return t; }
 
 %rename("%(regex:/^(.*)::(.*)/\\1_\\2/)s", fullname=1) Golden::goose<bool>;
 %template() Golden::goose<bool>;
+
+// The %rename applies to the template declaration rather than to the instantiation %template names,
+// which used to leave the two argument overload uninstantiated.
+%rename(spinner_two) Whirl::spinner(T, T);
+
+%inline %{
+namespace Whirl {
+template<typename T> int spinner(T a) { return 1; }
+template<typename T> int spinner(T a, T b) { return 2; }
+}
+%}
+
+%template(spinner) Whirl::spinner<int>;

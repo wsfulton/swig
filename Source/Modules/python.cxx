@@ -85,6 +85,7 @@ static int have_repr = 0;
 static bool have_builtin_static_member_method_callback = false;
 static bool have_fast_proxy_static_member_method_callback = false;
 static bool have_annotated_membervariable = false;
+static bool have_dispatcher_decorator = false;
 static String *real_classname;
 
 /* Thread Support */
@@ -824,6 +825,7 @@ public:
         /* Annotated member variables need the _swig_property helper, but whether any are annotated is not
            known until they have all been emitted, so it is expanded into this marker afterwards. */
         Printv(f_shadow, "$swigpropertyhelper", NIL);
+        Printv(f_shadow, "$swigdispatchhelper", NIL);
 
         Printv(f_shadow,
                "\n",
@@ -974,6 +976,20 @@ public:
             "    _swig_property = property\n"
           : "";
       Replaceall(f_shadow, "$swigpropertyhelper", property_helper);
+
+      const char *dispatch_helper = have_dispatcher_decorator
+                                      ? "\n"
+                                        "# Functions that take *args resolve their arguments at runtime, so widen the signature for type checkers.\n"
+                                        "if typing.TYPE_CHECKING:\n"
+                                        "    _SwigT = typing.TypeVar(\"_SwigT\")\n"
+                                        "\n"
+                                        "    def _swig_dispatch(f: typing.Callable[..., _SwigT]) -> typing.Callable[..., _SwigT]:\n"
+                                        "        ...\n"
+                                        "else:\n"
+                                        "    def _swig_dispatch(f):\n"
+                                        "        return f\n"
+                                      : "";
+      Replaceall(f_shadow, "$swigdispatchhelper", dispatch_helper);
 
       if (Len(f_shadow) > 0)
         Printv(f_shadow_py, "\n", f_shadow, "\n", NIL);
@@ -2483,6 +2499,24 @@ public:
     }
 
     return false;
+  }
+
+  /* ------------------------------------------------------------
+   * dispatchDecorator()
+   *
+   * Overloading, compactdefaultargs, an unrepresentable default argument
+   * and varargs all emit a *args dispatcher, which is narrower than any
+   * base class method it overrides as *args cannot accept the keyword
+   * arguments the base accepts. Decorate it so that type checkers see the
+   * gradual "(...)" callable form instead, which is compatible with any
+   * signature and changes nothing at runtime.
+   * ------------------------------------------------------------ */
+
+  String *dispatchDecorator(Node *n, String *parms, const char *indent) {
+    if (getTypeAnnotationMode(n) == TYPE_ANNOTATION_NONE || !Strstr(parms, "*args"))
+      return NewStringEmpty();
+    have_dispatcher_decorator = true;
+    return NewStringf("@_swig_dispatch\n%s", indent);
   }
 
   /* ------------------------------------------------------------
@@ -5595,13 +5629,17 @@ public:
           String *callParms = make_pyParmList(n, true, true, allow_kwargs);
           if (!have_addtofunc(n)) {
             if (!fastproxy || olddefs) {
-              Printv(f_shadow, "\n", tab4, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+              String *deco = dispatchDecorator(n, parms, tab4);
+              Printv(f_shadow, "\n", tab4, deco, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+              Delete(deco);
               if (Node *node_with_doc = find_overload_with_docstring(n))
                 Printv(f_shadow, tab8, docstring(node_with_doc, AUTODOC_METHOD, tab8), "\n", NIL);
               Printv(f_shadow, tab8, "return ", funcCall(fullname, callParms), "\n", NIL);
             }
           } else {
-            Printv(f_shadow, "\n", tab4, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+            String *deco = dispatchDecorator(n, parms, tab4);
+            Printv(f_shadow, "\n", tab4, deco, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+            Delete(deco);
             if (Node *node_with_doc = find_overload_with_docstring(n))
               Printv(f_shadow, tab8, docstring(node_with_doc, AUTODOC_METHOD, tab8), "\n", NIL);
             if (have_pythonprepend(n)) {
@@ -5628,6 +5666,8 @@ public:
 
       if (pyi_stub) {
         String *stub_parms = make_pyParmList(n, true, false, allow_kwargs, false, true);
+        if (getTypeAnnotationMode(n) != TYPE_ANNOTATION_NONE && Strstr(stub_parms, "*args") && !Strstr(stub_parms, "**kwargs"))
+          Append(stub_parms, ", **kwargs");
         Printv(f_stub, "\n", tab4, "def ", symname, "(", stub_parms, ")", returnTypeAnnotationForStubFile(n), ":\n", NIL);
         if (Node *node_with_doc = find_overload_with_docstring(n))
           Printv(f_stub, tab8, docstring(node_with_doc, AUTODOC_METHOD, tab8), "\n", NIL);
@@ -5701,8 +5741,10 @@ public:
       if (!fast || olddefs) {
         String *parms = make_pyParmList(n, false, false, kw);
         String *callParms = make_pyParmList(n, false, true, kw);
+        String *deco = dispatchDecorator(n, parms, tab4);
         Printv(f_shadow, "\n", tab4, "@staticmethod", NIL);
-        Printv(f_shadow, "\n", tab4, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+        Printv(f_shadow, "\n", tab4, deco, "def ", symname, "(", parms, ")", returnTypeAnnotation(n), ":\n", NIL);
+        Delete(deco);
         if (Node *node_with_doc = find_overload_with_docstring(n))
           Printv(f_shadow, tab8, docstring(node_with_doc, AUTODOC_STATICFUNC, tab8), "\n", NIL);
         if (have_pythonprepend(n))

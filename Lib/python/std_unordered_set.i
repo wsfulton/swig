@@ -43,7 +43,12 @@
        self->insert(x);
      }
   
-     bool __contains__(value_type x) {
+     bool __contains__(PyObject *obj) {
+       unordered_set::value_type x;
+       if (!SWIG_IsOK(swig::asval(obj, &x))) {
+         PyErr_Clear();
+         return false;
+       }
        return self->find(x) != self->end();
      }
 

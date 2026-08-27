@@ -238,7 +238,12 @@
       return itemList;
     }
     
-    bool __contains__(const key_type& key) {
+    bool __contains__(PyObject *obj) {
+      Map::key_type key;
+      if (!SWIG_IsOK(swig::asval(obj, &key))) {
+        PyErr_Clear();
+        return false;
+      }
       return self->find(key) != self->end();
     }
 

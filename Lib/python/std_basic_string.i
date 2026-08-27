@@ -41,6 +41,12 @@ SWIGINTERNINLINE PyObject*
   }
 }
 
+namespace std {
+  %extend basic_string {
+    %typemap(pytyping) basic_string, std::basic_string< _CharT,_Traits,_Alloc > "str";
+  }
+}
+
 %include <std/std_basic_string.i>
 %typemaps_asptrfromn(%checkcode(STRING), std::basic_string<char>);
 

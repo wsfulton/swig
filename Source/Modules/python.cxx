@@ -64,6 +64,8 @@ static String *f_stub = 0;
 static String *f_stub_begin = 0;
 static String *f_stub_imports = 0;
 static Hash *f_stub_imports_seen = 0;
+static String *stub_globals = 0;
+static File *f_lowlevel_pyi = 0;
 
 /* Mapping of mangled type names ("SWIGTYPE{mangled}") to their type */
 static Hash *unknown_types_hash = 0;
@@ -750,6 +752,7 @@ public:
       f_stub_begin = NewString("");
       f_stub_imports = NewString("");
       f_stub_imports_seen = NewHash();
+      stub_globals = NewString("");
 
       Swig_register_filebyname("stub_pyi", f_stub_pyi);
     }
@@ -769,6 +772,19 @@ public:
       }
       Delete(filen);
       filen = NULL;
+
+      /* The low-level C/C++ module is an extension module, which a type checker cannot read, so
+         generate a .pyi stub file declaring what it exports when type hints are being generated. */
+      if (typehints || pyi_stub) {
+        String *lowlevel_filen = NewStringf("%s%s.pyi", SWIG_output_directory(), Char(module));
+        if ((f_lowlevel_pyi = NewFile(lowlevel_filen, "w", SWIG_output_files())) == 0) {
+          FileErrorDisplay(lowlevel_filen);
+          Exit(EXIT_FAILURE);
+        }
+        Delete(lowlevel_filen);
+        Swig_banner_target_lang(f_lowlevel_pyi, "#");
+        Printv(f_lowlevel_pyi, "import typing\n\n", NIL);
+      }
 
       f_shadow = NewString("");
       f_shadow_begin = NewString("");
@@ -1015,11 +1031,21 @@ public:
 
       if (Len(f_stub) > 0)
         Printv(f_stub_pyi, "\n", f_stub, "\n", NIL);
+      if (Len(stub_globals) > 0)
+        Printv(f_stub_pyi, stub_globals, NIL);
 
       // Emit type wrapper classes for the opaque types referenced by annotations
       emitTypeWrapperClasses(f_stub_pyi, false);
 
       Delete(f_stub_pyi);
+    }
+
+    if (f_lowlevel_pyi) {
+      /* Anything not declared above is still valid, which PEP 484 defines as marking the stub
+         as incomplete - not everything the module exports is emitted through the code above. */
+      Printv(f_lowlevel_pyi, "\ndef __getattr__(name: \"str\") -> \"typing.Any\":\n    ...\n", NIL);
+      Delete(f_lowlevel_pyi);
+      f_lowlevel_pyi = 0;
     }
 
     if (mod_docstring) {
@@ -1054,6 +1080,7 @@ public:
     Delete(f_stub_begin);
     Delete(f_stub_imports);
     Delete(f_stub_imports_seen);
+    Delete(stub_globals);
     Delete(f_header);
     Delete(f_wrappers);
     Delete(f_builtins);
@@ -3275,11 +3302,30 @@ public:
   }
 
   /* ------------------------------------------------------------
+   * emitLowLevelStubFunction()
+   * ------------------------------------------------------------ */
+
+  void emitLowLevelStubFunction(const String *name) {
+    if (f_lowlevel_pyi)
+      Printf(f_lowlevel_pyi, "def %s(*args: \"typing.Any\", **kwargs: \"typing.Any\") -> \"typing.Any\":\n    ...\n", name);
+  }
+
+  /* ------------------------------------------------------------
+   * emitLowLevelStubVariable()
+   * ------------------------------------------------------------ */
+
+  void emitLowLevelStubVariable(const String *name) {
+    if (f_lowlevel_pyi)
+      Printf(f_lowlevel_pyi, "%s: \"typing.Any\"\n", name);
+  }
+
+  /* ------------------------------------------------------------
    * add_method()
    * ------------------------------------------------------------ */
 
   void add_method(String *name, String *function, int kw, Node *n = 0, int funpack = 0, int num_required = -1, int num_arguments = -1) {
     String *meth_str = NewString("");
+    emitLowLevelStubFunction(name);
     if (!kw) {
       if (funpack) {
         if (num_required == 0 && num_arguments == 0) {
@@ -4300,11 +4346,16 @@ public:
       Printf(f_init, "\t   return -1;\n");
       Printf(f_init, "\t }\n");
       Printf(f_init, "\t PyDict_SetItemString(md, \"%s\", globals);\n", global_name);
+      emitLowLevelStubVariable(global_name);
       if (builtin)
         Printf(f_init, "\t SwigPyBuiltin_AddPublicSymbol(public_interface, \"%s\");\n", global_name);
       have_globals = 1;
-      if (!builtin && shadow && !(shadow & PYSHADOW_MEMBER)) {
-        Printf(f_shadow_stubs, "%s = %s.%s\n", global_name, module, global_name);
+      if (shadow && !(shadow & PYSHADOW_MEMBER)) {
+        if (!builtin)
+          Printf(f_shadow_stubs, "%s = %s.%s\n", global_name, module, global_name);
+        /* Only for PEP 484 annotations - typing.Any is not a C/C++ annotation type */
+        if (pyi_stub && typehints)
+          Printf(stub_globals, "%s: \"typing.Any\"\n", global_name);
       }
     }
     int assignable = !is_immutable(n);
@@ -4434,6 +4485,9 @@ public:
 
     if (!addSymbol(iname, n))
       return SWIG_ERROR;
+
+    if (!in_class)
+      emitLowLevelStubVariable(iname);
 
     /* Special hook for member pointer */
     if (SwigType_type(type) == T_MPOINTER) {
@@ -5373,6 +5427,7 @@ public:
       Printf(f_init, "    SwigPyBuiltin_%s_clientdata.klass = (PyObject *)builtin_pytype;\n", mname);
     }
     Printv(f_init, "    SWIG_Py_INCREF((PyObject *)builtin_pytype);\n", NIL);
+    emitLowLevelStubVariable(symname);
     Printf(f_init, "    if (PyModule_AddObject(m, \"%s\", (PyObject *)builtin_pytype) != 0) {\n", symname);
     Printf(f_init, "      SWIG_Py_DECREF((PyObject *)builtin_pytype);\n");
     Printv(f_init, "      return -1;\n", NIL);

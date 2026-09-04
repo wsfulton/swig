@@ -4795,6 +4795,11 @@ public:
         Printv(shadow_code, tab8, "return weakref.proxy(self)\n", NIL);
         Delete(mrename);
       }
+      /* The director classes have __disown__ whether or not -builtin is used */
+      if (pyi_stub) {
+        Printv(stub, tab4, "def __disown__(self) -> \"typing.Any\":\n", NIL);
+        Printv(stub, tab8, "...\n", NIL);
+      }
     }
     return result;
   }
@@ -5531,6 +5536,16 @@ public:
       stub_indent = (String *)tab4;
     }
     int stub_class_body_start = pyi_stub ? Len(stub) : 0;
+    if (pyi_stub) {
+      /* Added to every proxy class by the C code, so declare it for the .pyi stub file too.
+         It is a property in the .py file, so it has to be declared as one here to match. */
+      Printv(stub, tab4, "@property\n", NIL);
+      Printv(stub, tab4, "def thisown(self) -> \"typing.Any\":\n", NIL);
+      Printv(stub, tab8, "...\n", NIL);
+      Printv(stub, tab4, "@thisown.setter\n", NIL);
+      Printv(stub, tab4, "def thisown(self, v: \"typing.Any\") -> \"None\":\n", NIL);
+      Printv(stub, tab8, "...\n", NIL);
+    }
 
     /* Emit all of the members */
 
@@ -6256,6 +6271,11 @@ public:
       Printv(shadow_code, tab4, symname, " = ", module, ".", Swig_name_member(NSPACE_TODO, class_name, symname), "\n", NIL);
       if (have_docstring(n))
         Printv(shadow_code, tab4, docstring(n, AUTODOC_CONST, tab4), "\n", NIL);
+    }
+    if (pyi_stub) {
+      String *annotation = variableAnnotationForStub(n);
+      Printv(stub, tab4, symname, annotation, "\n", NIL);
+      Delete(annotation);
     }
     return SWIG_OK;
   }

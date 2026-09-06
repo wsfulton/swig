@@ -4354,7 +4354,7 @@ public:
         if (!builtin)
           Printf(shadow_stubs, "%s = %s.%s\n", global_name, module, global_name);
         /* Only for PEP 484 annotations - typing.Any is not a C/C++ annotation type */
-        if (pyi_stub && typehints)
+        if (pyi_stub && getTypeAnnotationMode(n) == TYPE_ANNOTATION_TYPING)
           Printf(stub_globals, "%s: \"typing.Any\"\n", global_name);
       }
     }
@@ -4796,7 +4796,7 @@ public:
         Delete(mrename);
       }
       /* The director classes have __disown__ whether or not -builtin is used */
-      if (pyi_stub) {
+      if (pyi_stub && getTypeAnnotationMode(n) == TYPE_ANNOTATION_TYPING) {
         Printv(stub, tab4, "def __disown__(self) -> \"typing.Any\":\n", NIL);
         Printv(stub, tab8, "...\n", NIL);
       }
@@ -5536,7 +5536,7 @@ public:
       stub_indent = (String *)tab4;
     }
     int stub_class_body_start = pyi_stub ? Len(stub) : 0;
-    if (pyi_stub) {
+    if (pyi_stub && getTypeAnnotationMode(n) == TYPE_ANNOTATION_TYPING) {
       /* Added to every proxy class by the C code, so declare it for the .pyi stub file too.
          It is a property in the .py file, so it has to be declared as one here to match. */
       Printv(stub, tab4, "@property\n", NIL);
@@ -6125,7 +6125,9 @@ public:
       String *getname = Swig_name_get(NSPACE_TODO, mname);
       int assignable = !is_immutable(n);
       String *variable_annotation = variableAnnotation(n);
-      bool annotated = Len(variable_annotation) > 0;
+      /* The helper exists to reconcile the annotation with the property object assigned to it, which is
+         something only a type checker cares about, so C/C++ annotations call property directly. */
+      bool annotated = Len(variable_annotation) > 0 && getTypeAnnotationMode(n) == TYPE_ANNOTATION_TYPING;
       if (annotated)
         have_annotated_membervariable = true;
       Printv(shadow_code, tab4, symname, variable_annotation, annotated ? " = _swig_property(" : " = property(", module, ".", getname, NIL);

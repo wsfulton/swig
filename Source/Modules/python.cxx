@@ -2509,11 +2509,12 @@ public:
    * base class method it overrides as *args cannot accept the keyword
    * arguments the base accepts. Decorate it so that type checkers see the
    * gradual "(...)" callable form instead, which is compatible with any
-   * signature and changes nothing at runtime.
+   * signature and changes nothing at runtime. C/C++ annotations are not
+   * type hints and are not type checked, so they are left undecorated.
    * ------------------------------------------------------------ */
 
   String *dispatchDecorator(Node *n, String *parms, const char *indent) {
-    if (getTypeAnnotationMode(n) == TYPE_ANNOTATION_NONE || !Strstr(parms, "*args"))
+    if (getTypeAnnotationMode(n) != TYPE_ANNOTATION_TYPING || !Strstr(parms, "*args"))
       return NewStringEmpty();
     have_dispatcher_decorator = true;
     return NewStringf("@_swig_dispatch\n%s", indent);
@@ -2819,16 +2820,12 @@ public:
   }
 
   /* ------------------------------------------------------------
-   * returnTypeAnnotationForStubFile()
+   * rawReturnAnnotation()
    *
-   * Helper function for constructing the function annotation
-   * of the returning type, return an empty string when annotations are disabled
+   * The annotation for the type a function returns, without the
+   * surrounding " -> " and quotes, or NIL if there is not one.
    * ------------------------------------------------------------ */
-  String *returnTypeAnnotationForStubFile(Node *n) {
-    type_annotation_t anno = getTypeAnnotationMode(n);
-    if (anno == TYPE_ANNOTATION_NONE)
-      return NewStringEmpty();
-
+  String *rawReturnAnnotation(Node *n, type_annotation_t anno) {
     String *ret = argoutReturnTypeAnnotation(n, anno);
 
     /* If no argout typemap, then get the returning type from
@@ -2846,6 +2843,57 @@ public:
       case TYPE_ANNOTATION_NONE:
         break;  // unreachable
       }
+    }
+    return ret;
+  }
+
+  /* ------------------------------------------------------------
+   * overloadsAgreeOnReturnType()
+   *
+   * The overloads in a chain are selected at runtime, but the proxy
+   * has just the one annotation to describe what they all return.
+   * Compare the annotations rather than the C++ types, so that
+   * overloads returning, say, int and long still agree.
+   *
+   * Each annotation was recorded by functionWrapper() as only the
+   * node being wrapped has the type it returns in its type attribute.
+   * An overload with no annotation recorded, such as one which has
+   * them turned off, says nothing about what the others return.
+   * ------------------------------------------------------------ */
+
+  bool overloadsAgreeOnReturnType(Node *n) {
+    bool agree = true;
+    String *first = NULL;
+    for (Node *i = Getattr(n, "sym:overloaded"); i && agree; i = Getattr(i, "sym:nextSibling")) {
+      String *ret = Getattr(i, "python:rettypeanno");
+      if (!ret)
+        continue;
+      if (!first)
+        first = ret;
+      else
+        agree = Strcmp(first, ret) == 0;
+    }
+    return agree;
+  }
+
+  /* ------------------------------------------------------------
+   * returnTypeAnnotationForStubFile()
+   *
+   * Helper function for constructing the function annotation
+   * of the returning type, return an empty string when annotations are disabled
+   * ------------------------------------------------------------ */
+  String *returnTypeAnnotationForStubFile(Node *n) {
+    type_annotation_t anno = getTypeAnnotationMode(n);
+    if (anno == TYPE_ANNOTATION_NONE)
+      return NewStringEmpty();
+
+    String *ret = rawReturnAnnotation(n, anno);
+
+    /* Overloads which do not agree on what they return are described by typing.Any, but
+       there is no C/C++ type meaning the same, so those say nothing at all instead. */
+    if (ret && !overloadsAgreeOnReturnType(n)) {
+      Delete(ret);
+      ret = anno == TYPE_ANNOTATION_TYPING ? NewString("typing.Any") : NULL;
     }
     String *result = ret ? NewStringf(" -> \"%s\"", ret) : NewStringEmpty();
     Delete(ret);
@@ -3462,6 +3510,20 @@ public:
     SwigType *returntype = Getattr(n, "type");
     ParmList *l = Getattr(n, "parms");
     Node *parent = Swig_methodclass(n);
+
+    /* The type attribute is the type returned only while the node is being wrapped - see
+       cDeclaration() in lang.cxx, which restores the declaration's own type afterwards. Record
+       the annotation now, while it can be worked out, for overloadsAgreeOnReturnType() later.
+       Only the overloads need it, and looking a typemap up attaches it to the node, which would
+       otherwise be picked up as a member variable's annotation in place of its own type. */
+    type_annotation_t annomode = getTypeAnnotationMode(n);
+    if (Getattr(n, "sym:overloaded") && annomode != TYPE_ANNOTATION_NONE) {
+      String *rettypeanno = rawReturnAnnotation(n, annomode);
+      if (rettypeanno) {
+        Setattr(n, "python:rettypeanno", rettypeanno);
+        Delete(rettypeanno);
+      }
+    }
 
     int director_method = 0;
 
@@ -5666,7 +5728,7 @@ public:
 
       if (pyi_stub) {
         String *stub_parms = make_pyParmList(n, true, false, allow_kwargs, false, true);
-        if (getTypeAnnotationMode(n) != TYPE_ANNOTATION_NONE && Strstr(stub_parms, "*args") && !Strstr(stub_parms, "**kwargs"))
+        if (getTypeAnnotationMode(n) == TYPE_ANNOTATION_TYPING && Strstr(stub_parms, "*args") && !Strstr(stub_parms, "**kwargs"))
           Append(stub_parms, ", **kwargs");
         Printv(f_stub, "\n", tab4, "def ", symname, "(", stub_parms, ")", returnTypeAnnotationForStubFile(n), ":\n", NIL);
         if (Node *node_with_doc = find_overload_with_docstring(n))

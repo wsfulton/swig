@@ -7920,8 +7920,11 @@ ERROR Could not import `_example` from `.` [missing-module-attribute]
 </pre></div>
 
 <p>
-A <tt>_&lt;module&gt;.pyi</tt> stub file is therefore generated for it whenever <tt>-typehints</tt>
-or <tt>-pyi</tt> is used, declaring what the module exports in the order it is wrapped:
+A stub file for it is therefore generated whenever <tt>-typehints</tt> or <tt>-pyi</tt> is used,
+declaring what the module exports in the order it is wrapped. It is named after the low-level module
+itself, so <tt>_&lt;module&gt;.pyi</tt> normally and <tt>&lt;mod&gt;.pyi</tt> when
+<tt>-interface &lt;mod&gt;</tt> is used. It is not generated when <tt>-noproxy</tt> is used, as there
+is then no <tt>&lt;module&gt;.py</tt> importing it:
 </p>
 
 <div class="targetlang"><pre>

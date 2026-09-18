@@ -621,15 +621,43 @@ void Swig_typemap_clear_apply(Parm *parms) {
   Delete(tsig);
 }
 
-/* Internal function to strip array dimensions. */
+/* The type the array dimensions come from, which is the array a reference is to.  A type with no
+   array behind it is returned as it is, so the result is only an array when the type has one. */
+static SwigType *array_dimensions_type(SwigType *type) {
+  if (SwigType_isreference(type) || SwigType_isrvalue_reference(type)) {
+    SwigType *t = Copy(type);
+    Delete(SwigType_pop(t));
+    if (SwigType_isarray(t))
+      return t;
+    Delete(t);
+  }
+  return Copy(type);
+}
+
+/* Whether a type is an array or a reference to one. */
+static int has_array_dimensions(SwigType *type) {
+  SwigType *t = array_dimensions_type(type);
+  int isarray = SwigType_isarray(t);
+  Delete(t);
+  return isarray;
+}
+
+/* Replace every array dimension with ANY, including behind a reference. */
 static SwigType *strip_arrays(SwigType *type) {
   SwigType *t;
+  SwigType *prefix = 0;
   int ndim;
   int i;
   t = Copy(type);
+  if (SwigType_isreference(t) || SwigType_isrvalue_reference(t))
+    prefix = SwigType_pop(t);
   ndim = SwigType_array_ndim(t);
   for (i = 0; i < ndim; i++) {
     SwigType_array_setdim(t, i, "ANY");
+  }
+  if (prefix) {
+    SwigType_push(t, prefix);
+    Delete(prefix);
   }
   return t;
 }
@@ -746,7 +774,7 @@ static Hash *typemap_search(const_String_or_char_ptr tmap_method, SwigType *type
     }
 
     /* look for [ANY] arrays */
-    isarray = SwigType_isarray(ctype);
+    isarray = has_array_dimensions(ctype);
     if (isarray) {
       /* If working with arrays, strip away all of the dimensions and replace with "ANY".
          See if that generates a match */
@@ -948,16 +976,23 @@ static int typemap_replace_vars(String *s, ParmList *locals, SwigType *type, Swi
   /* If the original datatype was an array. We're going to go through and substitute
      its array dimensions */
 
-  if (SwigType_isarray(type) || SwigType_isarray(ftype)) {
+  if (has_array_dimensions(type) || has_array_dimensions(ftype)) {
     String *size;
+    SwigType *adims;
+    SwigType *afdims;
     int ndim;
     int i;
-    if (SwigType_array_ndim(type) != SwigType_array_ndim(ftype))
+    adims = array_dimensions_type(type);
+    afdims = array_dimensions_type(ftype);
+    if (SwigType_array_ndim(adims) != SwigType_array_ndim(afdims)) {
       type = ftype;
-    ndim = SwigType_array_ndim(type);
+      Delete(adims);
+      adims = Copy(afdims);
+    }
+    ndim = SwigType_array_ndim(adims);
     size = NewStringEmpty();
     for (i = 0; i < ndim; i++) {
-      String *dim = SwigType_array_getdim(type, i);
+      String *dim = SwigType_array_getdim(adims, i);
       if (index == 1) {
         char t[32];
         snprintf(t, sizeof(t), "$dim%d", i);
@@ -976,6 +1011,8 @@ static int typemap_replace_vars(String *s, ParmList *locals, SwigType *type, Swi
     Replace(s, var, size, DOH_REPLACE_ANY);
     replace_local_types(locals, var, size);
     Delete(size);
+    Delete(adims);
+    Delete(afdims);
   }
 
   /* Parameter name substitution */

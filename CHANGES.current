@@ -8,6 +8,25 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-09-19: wsfulton
+            A variable or member that is a reference to an array is now set by
+            copying the elements of the array it refers to, as the array itself
+            is:
+
+              int numbers[4] = {1, 2, 3, 4};
+              int (&numbers_ref)[4] = numbers;
+              const char letters[4] = "abc";
+              const char (&letters_ref)[4] = letters;
+
+            The setter used to assign to the array, which does not compile. A
+            reference to an array of const, such as letters_ref, is read only in
+            the same way the array itself is.
+
+            Where a variable is read through the varout typemap, such as in
+            Python and Ruby, it now also reads as the array, so letters_ref
+            reads as the string letters reads as instead of as an opaque
+            pointer.
+
+2026-09-19: wsfulton
             A typemap for a reference to an array can now declare local
             variables:
 

@@ -165,6 +165,24 @@
   }
 }
 
+%typemap(memberin) SWIGTYPE (&)[ANY] = SWIGTYPE [ANY];
+%typemap(globalin) SWIGTYPE (&)[ANY] = SWIGTYPE [ANY];
+%typemap(memberin) SWIGTYPE (&&)[ANY] = SWIGTYPE [ANY];
+%typemap(globalin) SWIGTYPE (&&)[ANY] = SWIGTYPE [ANY];
+
+%typemap(varin) SWIGTYPE (&)[ANY], SWIGTYPE (&&)[ANY] {
+  $basetype *inp = 0;
+  int res = SWIG_ConvertPtr($input, %as_voidptrptr(&inp), $*1_descriptor, %convertptr_flags);
+  if (!SWIG_IsOK(res)) {
+    %variable_fail(res, "$type", "$name");
+  } else if (inp) {
+    size_t ii = 0;
+    for (; ii < (size_t)$1_dim0; ++ii) *($1_basetype *)&$1[ii] = *(($1_basetype *)inp + ii);
+  } else {
+    %variable_nullref("$type", "$name");
+  }
+}
+
 
 /* memberin/globalin/varin, for fix double arrays. */
 
@@ -293,6 +311,10 @@
 }
 
 /* References */
+%typemap(varout, noblock=1) SWIGTYPE (&)[ANY], SWIGTYPE (&&)[ANY] {
+  %set_varoutput(SWIG_NewPointerObj(%as_voidptr($1), $*1_descriptor, %newpointer_flags));
+}
+
 %typemap(varout, noblock=1) SWIGTYPE & {
   %set_varoutput(SWIG_NewPointerObj(%as_voidptr(&$1), $descriptor, %newpointer_flags));
 }

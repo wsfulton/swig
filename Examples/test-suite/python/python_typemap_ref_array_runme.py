@@ -12,6 +12,12 @@ if t.first_of(None) != 42:
 if t.first_double(None) != 3:
     raise RuntimeError("first_double %s" % t.first_double(None))
 
+# A pointer to an array carries its dimensions in the same way.
+if t.first_short(None) != 5:
+    raise RuntimeError("first_short %s" % t.first_short(None))
+if t.cvar.shorts_ptr != 9:
+    raise RuntimeError("shorts_ptr dimension %s" % t.cvar.shorts_ptr)
+
 # A typemap for a reference to a function does not apply to a plain int.
 if t.doubled(21) != 42:
     raise RuntimeError("doubled %s" % t.doubled(21))

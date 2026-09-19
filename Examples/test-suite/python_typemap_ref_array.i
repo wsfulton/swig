@@ -1,5 +1,7 @@
 %module python_typemap_ref_array
 
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) shorts_ptr;
+
 // A typemap written with an [ANY] dimension is matched behind a reference to an array as well as on
 // an array, with $1_dim0 the dimension of the array the reference refers to.
 
@@ -15,6 +17,10 @@
 // int rather than to nothing here, and doubled() below returned zero.
 %typemap(in) int (&)(int) "$1 = 0;"
 
+// A pointer to an array is matched and carries its dimensions in the same way a reference to one does.
+%typemap(in) short (*)[ANY] (short temp[$1_dim0]) "temp[0] = $1_dim0; $1 = ($1_ltype)&temp;"
+%typemap(varout) short (*)[ANY] "$result = PyLong_FromLong($1_dim0);"
+
 %inline %{
 #include <cstring>
 
@@ -29,8 +35,12 @@ int ten[10] = {42, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 // The in typemaps above supply the array, so the argument passed in is ignored.
 int first_of(int (&x)[10]) { return x[0]; }
 double first_double(double (&x)[3]) { return x[0]; }
+short first_short(short (*x)[5]) { return (*x)[0]; }
 
 int doubled(int x) { return x * 2; }
+
+short shorts[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+short (*shorts_ptr)[9] = &shorts;
 
 // Lib/typemaps/strings.swg declares a const Char (&)[ANY] typemap, with locals, that this reaches.
 int length_of(const char (&x)[6]) { return (int)strlen(x); }

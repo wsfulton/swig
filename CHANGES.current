@@ -8,6 +8,17 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-09-19: wsfulton
+            A typemap written with an [ANY] array dimension is now matched
+            behind a pointer to an array, and can declare local variables, in
+            the same way as one behind a reference to an array:
+
+              %typemap(in) int (*)[ANY] (int temp[$1_dim0]) { ... }
+
+              void grid(int (*x)[10]);   // now uses the typemap above
+
+            How a pointer to an array is wrapped without such a typemap is unchanged.
+
+2026-09-19: wsfulton
             A variable or member that is a reference to an array is now set by
             copying the elements of the array it refers to, as the array itself
             is:

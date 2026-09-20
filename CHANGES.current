@@ -7,6 +7,12 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-09-20: wsfulton
+            [Guile] An array of char is now wrapped as a string, as it is in
+            every other target language, rather than as an opaque pointer:
+
+              char letters[4] = "abc";
+
 2026-09-19: wsfulton
             A typemap written with an [ANY] array dimension is now matched
             behind a pointer to an array, and can declare local variables, in

@@ -1416,6 +1416,7 @@ SWIG_PROXY_CONSTRUCTOR(true, true, SWIGTYPE)
 %apply SWIGTYPE & { SWIGTYPE ((&)[ANY]) }
 %typemap(memberin) SWIGTYPE ((&)[ANY]) = SWIGTYPE [ANY];
 %typemap(globalin) SWIGTYPE ((&)[ANY]) = SWIGTYPE [ANY];
+%apply char[ANY] { char (&)[ANY] }
 %apply SWIGTYPE && { SWIGTYPE ((&&)[ANY]) }
 
 /* const pointers */

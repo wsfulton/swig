@@ -71,3 +71,5 @@ static import std.conv;
 static import std.string;
 %}
 #undef SWIGD_STRING_TYPEMAPS
+
+%apply char[ANY] { char (&)[ANY] }

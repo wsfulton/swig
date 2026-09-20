@@ -16,7 +16,7 @@ arrayref.cvar.letters_ref = "xy"
 swig_check(arrayref.letters_are(), "xy")
 
 # A reference to an array of const is read only.
-swig_check(arrayref.cvar.fixed_ref, "xyz")
+swig_check(arrayref.cvar.frozen_ref, "xyz")
 
 member = arrayref.ArrayRefMember()
 swig_check(member.sum(), 10)

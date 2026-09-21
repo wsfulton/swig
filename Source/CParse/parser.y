@@ -2360,6 +2360,15 @@ static SwigType *deduce_type(const struct Define *dtype, int unwrap_parentheses)
   return deduced;
 }
 
+/* Whether 'type' names an enumeration */
+static int type_names_enum(const SwigType *type) {
+  SwigType *base = SwigType_base(type);
+  Node *n = Swig_symbol_clookup_resolve_typedef(base, 0);
+  int names_enum = n && Equal(nodeType(n), "enum");
+  Delete(base);
+  return names_enum;
+}
+
 /* The type 'decltype' names for a parenthesised id-expression such as the '(gp)' of 'decltype((gp))'.  Being an
    lvalue it names an lvalue reference to the type the name was declared with, where the unparenthesised name
    names that type on its own.  Returns 0 when the expression is not the name of a variable, leaving the caller to
@@ -2390,11 +2399,11 @@ static SwigType *decltype_parenthesised_name_type(const struct Define *dtype) {
   if (SwigType_isreference(type) || SwigType_isrvalue_reference(type))
     Delete(SwigType_pop(type));
 
-  /* The reference is only added where the variable is wrapped through a pointer either way.  A scalar, an array
-   * and a character string are wrapped by value, and wrapping the reference instead would make each of them an
-   * opaque SWIGTYPE for no gain, an 'int&' variable behaving as an 'int' for both get and set. */
+  /* The reference is only added where the variable is wrapped through a pointer either way.  A scalar, an array,
+   * a character string and an enumeration are wrapped by value, and wrapping the reference instead would make
+   * each of them an opaque SWIGTYPE for no gain, an 'int&' variable behaving as an 'int' for both get and set. */
   code = SwigType_type(type);
-  if (code == T_POINTER || code == T_USER || code == T_MPOINTER)
+  if (code == T_POINTER || code == T_MPOINTER || (code == T_USER && !type_names_enum(type)))
     SwigType_add_reference(type);
   return type;
 }

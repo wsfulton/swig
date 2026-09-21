@@ -157,10 +157,17 @@
     int member;
   };
 
+  enum Enumerated { enumerated_a, enumerated_b };
+  enum class ScopedEnumerated { scoped_a, scoped_b };
+  typedef enum { typedefed_a, typedefed_b } TypedefEnumerated;
+
   int paren_int = 1;
   int paren_other = 2;
   int *paren_ptr = &paren_int;
   Held paren_held = { 3 };
+  Enumerated paren_enum = enumerated_a;
+  ScopedEnumerated paren_scoped_enum = ScopedEnumerated::scoped_a;
+  TypedefEnumerated paren_typedef_enum = typedefed_a;
 
   int *other_address() { return &paren_other; }
 
@@ -170,4 +177,9 @@
   decltype((paren_ptr)) ptr_lvalue = paren_ptr;      // int *&
   decltype((paren_held)) held_lvalue = paren_held;   // Held &
   decltype(paren_ptr) plain_ptr = paren_ptr;         // int *
+
+  // An enumeration is wrapped by value like a scalar, so the reference is dropped for all three spellings.
+  decltype((paren_enum)) enum_lvalue = paren_enum;                         // Enumerated &
+  decltype((paren_scoped_enum)) scoped_enum_lvalue = paren_scoped_enum;    // ScopedEnumerated &
+  decltype((paren_typedef_enum)) typedef_enum_lvalue = paren_typedef_enum; // TypedefEnumerated &
 %}

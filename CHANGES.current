@@ -8,6 +8,20 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-09-21: wsfulton
+            A 'decltype' of a parenthesised variable of enumeration type no longer
+            adds a reference the wrapper is worse for:
+
+              enum E { e_a, e_b };
+              E e = e_a;
+              decltype((e)) lvalue = e;
+
+            'lvalue' was wrapped as an opaque pointer where 'e' itself is wrapped
+            as an enumerated value.  An enumeration is wrapped by value like a
+            scalar, so the reference is now dropped for it as it already was for an
+            int, matching what the unparenthesised spelling gives.  The plain,
+            scoped and typedef spellings of an enumeration are all recognised.
+
+2026-09-21: wsfulton
             A class or struct body that is never closed now reports only the
             missing brace, at the line the body opens on:
 

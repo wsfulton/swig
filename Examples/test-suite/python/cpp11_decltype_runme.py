@@ -82,3 +82,17 @@ if cpp11_decltype.cvar.paren_int != 7:
 
 if cpp11_decltype.cvar.held_lvalue.member != 3:
     raise RuntimeError("held_lvalue should refer to paren_held")
+
+# An enumeration is wrapped by value too, so these read as the enumerator rather than as an opaque pointer.
+if cpp11_decltype.cvar.enum_lvalue != cpp11_decltype.enumerated_a:
+    raise RuntimeError("enum_lvalue should be enumerated_a")
+
+cpp11_decltype.cvar.enum_lvalue = cpp11_decltype.enumerated_b
+if cpp11_decltype.cvar.paren_enum != cpp11_decltype.enumerated_b:
+    raise RuntimeError("assigning to enum_lvalue should write through to paren_enum")
+
+if cpp11_decltype.cvar.scoped_enum_lvalue != cpp11_decltype.ScopedEnumerated_scoped_a:
+    raise RuntimeError("scoped_enum_lvalue should be scoped_a")
+
+if cpp11_decltype.cvar.typedef_enum_lvalue != cpp11_decltype.typedefed_a:
+    raise RuntimeError("typedef_enum_lvalue should be typedefed_a")

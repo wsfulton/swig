@@ -8,6 +8,18 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-09-21: wsfulton
+            A wide string literal is now of 'const wchar_t *' where it was of
+            'wchar_t *', matching the 'const char *' a narrow one has always been:
+
+              auto wide = L"text";           // const wchar_t *
+              #define WIDE_DEF L"text"       // const wchar_t *
+
+            The const is what C++ gives the literal, and the two spellings
+            disagreeing meant a typemap written for one of them did not apply to
+            the other.  Wide string constants defined with #define and %constant
+            are of the const type now as well.
+
+2026-09-21: wsfulton
             A 'decltype' of a parenthesised variable of enumeration type no longer
             adds a reference the wrapper is worse for:
 

@@ -8,6 +8,9 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-09-21: wsfulton
+            [PHP] Fix assertion failure wrapping a %callback on a member function.
+
+2026-09-21: wsfulton
             [Go] Fix segfault wrapping a %callback.
 
 2026-09-21: wsfulton

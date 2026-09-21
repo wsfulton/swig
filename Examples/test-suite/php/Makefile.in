@@ -30,6 +30,9 @@ C_TEST_CASES += \
 	li_cdata_carrays \
 	multivalue \
 
+MULTI_CPP_TEST_CASES += \
+	import_callback \
+
 include $(srcdir)/../common.mk
 
 # Overridden variables here

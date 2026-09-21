@@ -7,6 +7,17 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-09-21: wsfulton
+            A class or struct body that is never closed now reports only the
+            missing brace, at the line the body opens on:
+
+              typedef struct {
+                int x;
+
+            reported "Missing '}'. Reached end of input." and then a second
+            "Syntax error in input(3)." at the end of the file, which added
+            nothing.  Only the first is issued now.
+
 2026-09-20: wsfulton
             A 'decltype(auto)' variable initialised by a string literal is now
             wrapped rather than ignored.  A string literal is an lvalue of array

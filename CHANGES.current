@@ -7,6 +7,15 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-09-22: wsfulton
+            Fix an alias declaration for a function type, which was mistakenly
+            treated as an alias for the function's return type:
+
+              using FunctionUsing = int(int);
+              template<typename T> using FunctionTemplateUsing = T(T);
+
+            The typedef equivalent was already correct.
+
 2026-09-21: wsfulton
             A new-expression is now parsed as a variable initialiser and as a
             default argument, where it was a syntax error that ended parsing:

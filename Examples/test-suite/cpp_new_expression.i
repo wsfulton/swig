@@ -1,0 +1,48 @@
+%module cpp_new_expression
+
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_with_parens;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_bare;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_array;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_empty_parens;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_multi_a;
+%warnfilter(SWIGWARN_TYPEMAP_SWIGTYPELEAK) new_multi_b;
+
+%inline %{
+#include <utility>
+
+struct Widget {
+  int w;
+  Widget() : w(7) {}
+  Widget(int a, int b) : w(a + b) {}
+};
+
+// A new-expression as an initializer, with an ordinary declaration after each that must still be seen.
+int *new_with_parens = new int(5);
+int after_parens = 1;
+
+Widget *new_bare = new Widget;
+int after_bare = 2;
+
+int *new_array = new int[10];
+int after_array = 3;
+
+Widget *new_empty_parens = new Widget();
+int after_empty_parens = 5;
+
+int *new_multi_a = new int(1), *new_multi_b = new int(2);
+int after_multi = 6;
+
+// A new-expression as a default argument, including a template argument list and a parameter after it.
+int default_with_parens(int *p = new int(5)) { int v = *p; delete p; return v; }
+int default_bare(Widget *w = new Widget) { int v = w->w; delete w; return v; }
+int default_args(Widget *w = new Widget(1, 2)) { int v = w->w; delete w; return v; }
+int default_array(int *a = new int[3]()) { int v = a[0] + a[2]; delete[] a; return v; }
+int default_template(std::pair<int, int> *p = new std::pair<int, int>(3, 4), int q = 10) {
+  int v = p->first + p->second + q;
+  delete p;
+  return v;
+}
+
+// 'new' inside a function body, which SWIG skips over, is unaffected.
+inline Widget *make_widget() { return new Widget; }
+%}

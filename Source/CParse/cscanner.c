@@ -210,6 +210,26 @@ String *get_raw_text_to_semicolon(void) {
   return Scanner_get_raw_text_to_semicolon(scan);
 }
 
+/* -----------------------------------------------------------------------------
+ * skip_to_initializer_end()
+ *
+ * Skips the rest of an initializer or default argument, up to but not including
+ * the ',', ';' or ')' that ends it, and returns its raw text, or NULL after
+ * reporting an error if the end of input is reached first.
+ * ----------------------------------------------------------------------------- */
+
+String *skip_to_initializer_end(void) {
+  int start_line = Scanner_line(scan);
+  String *code = Scanner_skip_to_initializer_end(scan);
+  if (!code) {
+    Swig_error(cparse_file, start_line, "Missing ';' or ')'. Reached end of input.\n");
+    return NULL;
+  }
+  cparse_line = Scanner_line(scan);
+  cparse_file = Scanner_file(scan);
+  return code;
+}
+
 /* The literal tokens the scanner returns, each with the token the grammar is given for it and the T_* type code
  * of the literal.  yylook() needs the second column, yylex() the third and literal_type_code() the third given
  * the first, so the three are listed here once rather than as a switch statement in each of them. */
@@ -1340,6 +1360,10 @@ int yylex(void) {
         }
         if (strcmp(yytext, "delete") == 0)
           return (DELETE_KW);
+        /* 'new' is a keyword in C++ only, being an ordinary identifier in C.  The 'operator new' path above
+           reads the word straight from the scanner rather than through yylex(), so it never sees this token. */
+        if (strcmp(yytext, "new") == 0)
+          return (NEW_KW);
         if (strcmp(yytext, "default") == 0)
           return (DEFAULT);
         if (strcmp(yytext, "using") == 0)

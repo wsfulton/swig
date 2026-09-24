@@ -342,6 +342,9 @@ SIMPLE_MAP(unsigned long long, scm_to_ulong_long, scm_from_ulong_long, integer);
    $1[$1_dim0 - 1] = 0;
    SWIG_free(swig_str);
  }
+ %typemap (varin, warning="462:Unable to set variable of type char []") char [] {
+   scm_misc_error(FUNC_NAME, "read-only variable of type char []", SCM_EOL);
+ }
  %typemap (in, doc="$NAME is a string")          char *&($*1_ltype temp, int must_free = 0), const char *&($*1_ltype temp, int must_free = 0) {
    temp = ($*1_ltype) SWIG_scm2str($input); $1 = &temp;
    must_free = 1;

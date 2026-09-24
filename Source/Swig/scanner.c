@@ -1824,6 +1824,36 @@ String *Scanner_skip_to_initializer_end(Scanner *s) {
 }
 
 /* -----------------------------------------------------------------------------
+ * Scanner_get_raw_text_to_initializer_end()
+ *
+ * Returns the raw text Scanner_skip_to_initializer_end() would skip, without changing the state of the scanner, or
+ * NULL if the end of the text is reached first.  It runs on a private scanner over a copy of the remaining text, as
+ * Scanner_get_raw_text_to_semicolon() does.
+ * ----------------------------------------------------------------------------- */
+
+String *Scanner_get_raw_text_to_initializer_end(Scanner *s) {
+  String *result;
+  String *remaining;
+  Scanner *lookahead;
+  long position;
+
+  if (!s->str)
+    return NULL;
+
+  position = Tell(s->str);
+  remaining = NewStringWithSize(Char(s->str) + position, Len(s->str) - position);
+  Seek(remaining, 0, SEEK_SET);
+  Setfile(remaining, Getfile(s->str));
+  Setline(remaining, s->line);
+  lookahead = NewScanner();
+  Scanner_push(lookahead, remaining);
+  result = Scanner_skip_to_initializer_end(lookahead);
+  DelScanner(lookahead);
+  Delete(remaining);
+  return result;
+}
+
+/* -----------------------------------------------------------------------------
  * Scanner_isoperator()
  *
  * Returns 0 or 1 depending on whether or not a token corresponds to a C/C++

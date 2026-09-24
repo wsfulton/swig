@@ -64,7 +64,7 @@ decltype(auto) var_string_concat = "te" "xt";
 decltype(auto) var_string_parens = ("text");
 
 // An operator applied to a literal makes an expression, whose type is deduced as usual.
-decltype(auto) var_string_expr = "text" + 1;
+decltype(auto) var_string_expr = "text" ? "ext" : "none";
 
 // A parenthesised name declares a reference to what it names, which the name was not declared with
 decltype(auto) var_parenthesised = (global_int);

@@ -119,9 +119,15 @@ T pass_through(T x) requires Anything<T> && NonEmpty<T> { return x; }
 template<typename T>
 T literal_constraint(T x) requires true { return x; }
 
-// A virt-specifier comes after the trailing requires-clause, in both the plain and the trailing return
+// GCC accepts a virt-specifier after the trailing requires-clause, in both the plain and the trailing return
 // type spellings of the member.  Both virt-specifiers are covered, in both orderings, and with and
-// without the virtual keyword the declaration may repeat.
+// without the virtual keyword the declaration may repeat.  Standard C++ does not allow a trailing requires-clause on a
+// virtual function, so other compilers see the members without one.
+#if defined(SWIG) || (defined(__GNUC__) && !defined(__clang__))
+#define REQUIRES_NUMERIC(T) requires Numeric<T>
+#else
+#define REQUIRES_NUMERIC(T)
+#endif
 template<typename T>
 struct VirtBase {
   virtual T plain(T x) { return x; }
@@ -135,12 +141,12 @@ struct VirtBase {
 
 template<typename T>
 struct VirtDerived : VirtBase<T> {
-  T plain(T x) requires Numeric<T> final { return x + 1; }
-  auto arrow(T x) -> T requires Numeric<T> final { return x + 2; }
-  virtual T over(T x) requires Numeric<T> override { return x + 3; }
-  virtual auto over_arrow(T x) -> T requires Numeric<T> override { return x + 4; }
-  T both(T x) requires Numeric<T> final override { return x + 5; }
-  auto both_reversed(T x) -> T requires Numeric<T> override final { return x + 6; }
+  T plain(T x) REQUIRES_NUMERIC(T) final { return x + 1; }
+  auto arrow(T x) -> T REQUIRES_NUMERIC(T) final { return x + 2; }
+  virtual T over(T x) REQUIRES_NUMERIC(T) override { return x + 3; }
+  virtual auto over_arrow(T x) -> T REQUIRES_NUMERIC(T) override { return x + 4; }
+  T both(T x) REQUIRES_NUMERIC(T) final override { return x + 5; }
+  auto both_reversed(T x) -> T REQUIRES_NUMERIC(T) override final { return x + 6; }
 };
 
 // A type-constraint on an 'auto' variable placeholder, in each of the three initialiser forms.  The

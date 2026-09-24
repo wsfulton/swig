@@ -686,8 +686,9 @@ Version 4.6.0 (in progress)
 
 2026-08-15: wsfulton
             The override and final specifiers on a member function are now
-            accepted after a trailing requires-clause, which is the order C++
-            requires:
+            accepted after a trailing requires-clause, which is where GCC accepts
+            them, although standard C++ does not allow a trailing requires-clause
+            on a virtual function:
 
               int plain(T x) requires Numeric<T> final;
               auto arrow(T x) -> T requires Numeric<T> final;

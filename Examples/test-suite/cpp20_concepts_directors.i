@@ -1,6 +1,6 @@
 %module(directors="1") cpp20_concepts_directors
 
-// A virt-specifier comes after a trailing requires-clause, and 'final' there stops a director
+// GCC accepts a virt-specifier after a trailing requires-clause, and 'final' there stops a director
 // overriding the member, in both the plain and the trailing return type spellings.  A final
 // override of an inherited virtual member stops it too, rather than leaving the base's entry.
 
@@ -13,12 +13,19 @@
 template<typename T>
 concept Numeric = std::integral<T> || std::floating_point<T>;
 
+// Only GCC accepts a trailing requires-clause on a virtual function, so other compilers see the member without one.
+#if defined(SWIG) || (defined(__GNUC__) && !defined(__clang__))
+#define REQUIRES_NUMERIC(T) requires Numeric<T>
+#else
+#define REQUIRES_NUMERIC(T)
+#endif
+
 template<typename T>
 struct Callback {
-  virtual T plain(T x) requires Numeric<T> final { return x + 1; }
-  virtual auto arrow(T x) -> T requires Numeric<T> final { return x + 2; }
+  virtual T plain(T x) REQUIRES_NUMERIC(T) final { return x + 1; }
+  virtual auto arrow(T x) -> T REQUIRES_NUMERIC(T) final { return x + 2; }
   virtual T overridable(T x) { return x + 3; }
-  virtual auto arrow_over(T x) -> T requires Numeric<T> { return x + 4; }
+  virtual auto arrow_over(T x) -> T REQUIRES_NUMERIC(T) { return x + 4; }
   virtual T plain_over(T x) { return x + 5; }
   virtual ~Callback() {}
 };
@@ -26,7 +33,7 @@ struct Callback {
 // A final override of an inherited virtual member, spelt with and without the virtual keyword.
 template<typename T>
 struct Inherited : Callback<T> {
-  auto arrow_over(T x) -> T requires Numeric<T> final { return x + 20; }
+  auto arrow_over(T x) -> T REQUIRES_NUMERIC(T) final { return x + 20; }
   virtual T plain_over(T x) final { return x + 30; }
 };
 

@@ -604,8 +604,9 @@ auto negate_value(T x) -&gt; T requires Numeric&lt;T&gt; {
 </div>
 
 <p>
-The <tt>override</tt> and <tt>final</tt> specifiers on a member function come
-after the trailing requires-clause, in both spellings of the member and in
+Standard C++ does not allow a trailing requires-clause on a virtual function,
+but GCC accepts one, with the <tt>override</tt> and <tt>final</tt> specifiers
+after it. SWIG accepts this too, in both spellings of the member and in
 either order where both are given:
 </p>
 

@@ -1413,7 +1413,7 @@ template&lt;typename T&gt; using alt_fn_t = auto (*)(T) -&gt; T;
 </pre></div>
 
 <p>
-A <tt>noexcept</tt> specifier may appear in the declarator, with or without an expression:
+From C++17, where an exception specification is part of the function type, a <tt>noexcept</tt> specifier may appear in the declarator, with or without an expression:
 </p>
 
 <div class="code"><pre>

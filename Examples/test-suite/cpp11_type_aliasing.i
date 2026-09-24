@@ -119,24 +119,13 @@ int call(callback_t funk, int param) { return funk(param); }
 using alt_callback_t = auto (*)(int) -> int;
 using alt_function_t = auto (int) -> int;
 
-// The abstract declarator may carry a noexcept-specifier, with or without an expression.
-using alt_noexcept_callback_t = auto (*)(int) noexcept -> int;
-using alt_noexcept_function_t = auto (int) noexcept -> int;
-using alt_noexcept_expr_callback_t = auto (*)(int) noexcept(true) -> int;
-
 // Alias template - not used in a wrapped declaration as SWIG treats an alias template
 // instantiation as an opaque type, for the alternate function syntax and for any other type.
 template<typename T> using alt_fn_t = auto (*)(T) -> T;
-template<typename T> using alt_noexcept_fn_t = auto (*)(T) noexcept -> T;
 
 alt_callback_t get_alt_callback() { return mult2; }
 int call_alt(alt_callback_t funk, int param) { return funk(param); }
 int call_alt_fn(alt_function_t *funk, int param) { return funk(param); }
-
-int mult2_noexcept(int x) noexcept { return x * 2; }
-alt_noexcept_callback_t get_alt_noexcept_callback() { return mult2_noexcept; }
-int call_alt_noexcept(alt_noexcept_callback_t funk, int param) { return funk(param); }
-int call_alt_noexcept_fn(alt_noexcept_function_t *funk, int param) { return funk(param); }
 %}
 
 

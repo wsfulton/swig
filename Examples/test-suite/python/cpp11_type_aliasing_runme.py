@@ -36,9 +36,3 @@ if call_alt(get_alt_callback(), 7) != 14:
 
 if call_alt_fn(get_alt_callback(), 7) != 14:
     raise RuntimeError("call_alt_fn(get_alt_callback(), 7) should return 14")
-
-if call_alt_noexcept(get_alt_noexcept_callback(), 7) != 14:
-    raise RuntimeError("call_alt_noexcept(get_alt_noexcept_callback(), 7) should return 14")
-
-if call_alt_noexcept_fn(get_alt_noexcept_callback(), 7) != 14:
-    raise RuntimeError("call_alt_noexcept_fn(get_alt_noexcept_callback(), 7) should return 14")

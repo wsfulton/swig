@@ -2,6 +2,10 @@
 
 %module arrayref
 
+%{
+#include <string.h>
+%}
+
 %inline %{
 
 void foo(const int (&x)[10]) {
@@ -37,11 +41,12 @@ const char *letters_are() { return letters; }
 struct ArrayRefMember {
   int backing[4];
   int (&member_ref)[4];
-  char text[8] = "hi";
+  char text[8];
   char (&text_ref)[8];
   ArrayRefMember() : member_ref(backing), text_ref(text) {
     for (int i = 0; i < 4; i++)
       backing[i] = i + 1;
+    strcpy(text, "hi");
   }
   int sum() const {
     return backing[0] + backing[1] + backing[2] + backing[3];

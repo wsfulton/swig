@@ -237,6 +237,10 @@
   %variable_fail(SWIG_AttributeError, "$type", "read-only $name");
 }
 
+/* Clear the memberin/globalin typemaps applied from Char *, which assign to the array, so a member is read only too */
+%typemap(memberin) Char [];
+%typemap(globalin) Char [];
+
 
 /* ------------------------------------------------------------
  *  Fixed size Character array Char[ANY] handling

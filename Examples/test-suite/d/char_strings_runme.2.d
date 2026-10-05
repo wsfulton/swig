@@ -101,11 +101,8 @@ void main() {
     enforce(global_char == msg, "Test variables 1 failed, iteration " ~ to!string(i));
   }
 
-  foreach (i; TEST_RANGE) {
-    const msg = OTHERLAND_MSG ~ to!string(i);
-    global_char_array1 = msg;
-    enforce(global_char_array1 == msg, "Test variables 2 failed, iteration " ~ to!string(i));
-  }
+  // global_char_array1 is a char[] with no size, so it is read only
+  enforce(global_char_array1 == CPLUSPLUS_MSG, "Test variables 2 failed");
 
   foreach (i; TEST_RANGE) {
     const msg = OTHERLAND_MSG ~ to!string(i);

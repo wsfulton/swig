@@ -7,6 +7,10 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-10-08: wsfulton
+            [R] NULL can now be passed to an overloaded function or method taking a reference to
+            a pointer, such as 'Foo *const &', which gave "cannot find overloaded function".
+
 2026-10-07: wsfulton
             [R] NULL for a primitive type, such as int, double or bool, passed by value or by
             const reference, or for a const reference to an enum, now gives a SWIG TypeError. It

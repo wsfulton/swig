@@ -17,4 +17,11 @@ unittest(s$array_enum, c("Three", "One"))
 unittest(grepl("^SWIG:OverflowError", error_message(function() s$array_i <- 1:3)), TRUE)
 unittest(grepl("^SWIG:NullReferenceError", error_message(function() s$array_i <- NULL)), TRUE)
 
+# An object is passed as the first element of an array of its class, as a pointer to it, as in the other target languages
+ss <- SimpleStruct()
+ss$double_field <- 2.5
+unittest(first_double_field(ss), 2.5)
+fn_taking_arrays(NULL)
+unittest(grepl("^SWIG:TypeError", error_message(function() fn_taking_arrays(list(ss, ss)))), TRUE)
+
 q(save="no")

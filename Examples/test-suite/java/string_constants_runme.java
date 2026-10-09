@@ -20,5 +20,10 @@ public class string_constants_runme {
       throw new RuntimeException("fail");
     if (!string_constants.ZS2.equals("\000"))
       throw new RuntimeException("fail");
+    for (String s : new String[] { string_constants.SS1, string_constants.SS2, string_constants.UU1, string_constants.UU2, things.SS5 })
+      if (!s.equals("\u00C6\u00CEOU\n"))
+        throw new RuntimeException("fail: " + s);
+    if (string_constants.WS1 == null || string_constants.WC1 == null || string_constants.WS2 == null || things.WS5 == null)
+      throw new RuntimeException("fail");
   }
 }

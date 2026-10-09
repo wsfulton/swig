@@ -5,13 +5,12 @@
 
 #if defined(SWIGCSHARP)
 %csconst(1);
-%csconstvalue("\"AEIOU\\n\"") SS1;
-%csconstvalue("\"AEIOU\\n\"") SS2;
-%csconstvalue("\"AEIOU\\n\"") UU1;
-%csconstvalue("\"AEIOU\\n\"") UU2;
 #endif
 #if defined(SWIGJAVA)
 %javaconst(1);
+#endif
+#if defined(SWIGD)
+%dmanifestconst;
 #endif
 %inline %{
 #define SS1 "ÆÎOU\n"
@@ -55,3 +54,20 @@ struct things {
   const char * defarguments8(const char *PR4 = ("paren")) { return PR4; }
 };
 %}
+
+#if defined(SWIGCSHARP) || defined(SWIGD) || defined(SWIGJAVA)
+// Static member constants plus wide string and character constants, wrapped as a pointer without typemaps for wchar_t
+%inline %{
+#define WS1 L"\u00C6\u00CEOU\n"
+#define WC1 L'\u00C6'
+%}
+%constant const wchar_t *WS2 = L"\u00C6\u00CEOU\n";
+
+%extend things {
+  static const char *const SS5 = "ÆÎOU\n";
+#if !defined(SWIGD)
+  // TODO: Fix D calling an undefined accessor for an %extend static member constant that is not a manifest constant
+  static const wchar_t *const WS5 = L"\u00C6\u00CEOU\n";
+#endif
+}
+#endif

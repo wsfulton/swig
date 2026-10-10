@@ -123,6 +123,13 @@ void inout_ptrdiff_t(ptrdiff_t *INOUT) { *INOUT *= 2; }
 %}
 #endif
 
+// PHP is the only target language with char INPUT[ANY] typemaps
+#ifdef SWIGPHP
+%inline %{
+int char_input_array(char INPUT[4]) { return INPUT ? INPUT[0] : -1; }
+%}
+#endif
+
 
 
 

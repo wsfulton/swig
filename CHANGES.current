@@ -8,6 +8,11 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-10-09: wsfulton
+            [C] Fix an array of bools, such as a 'bool [4]' or 'bool []' parameter or variable,
+            which was declared as 'bool [4]*' or 'bool []*' in the generated header, so did not
+            compile. It is now 'bool *', as for an array of another primitive type.
+
+2026-10-09: wsfulton
             [C#, D, Go, Guile, Java, Lua, PHP] Fix a crash when setting an array member or global
             variable, such as 'int [4]', 'Foo [2]' or 'int [2][3]', to NULL, such as null in Java,
             as the array was copied from it. An error is now raised instead, as in the other target

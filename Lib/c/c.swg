@@ -134,6 +134,7 @@ same_macro_all_primitive_types_but_void(cref_as_value,ctype);
 
 %typemap(ctype, fragment="stdbool_inc") bool, const bool, const bool & "bool"
 %typemap(ctype, fragment="stdbool_inc") bool *, const bool *, bool & "bool *"
+%typemap(ctype, fragment="stdbool_inc") bool [ANY], const bool [ANY], bool [], const bool [] "bool *"
 
 // Typemaps for assigning wrapper parameters to local variables
 same_action_all_primitive_types(in, "$1 = ($1_ltype) $input;", "$1 = &$input;")
@@ -142,6 +143,7 @@ same_action_all_primitive_types(in, "$1 = ($1_ltype) $input;", "$1 = &$input;")
 %typemap(in) short * [ANY], int * [ANY], long * [ANY], long long * [ANY], char * [ANY], float * [ANY], double * [ANY] "$1 = ($1_basetype *) $input;"
 
 %typemap(in, fragment="stdbool_inc") bool, bool *, bool **, const bool, const bool * "$1 = ($1_ltype) $input;"
+%typemap(in, fragment="stdbool_inc") bool [ANY], const bool [ANY], bool [], const bool [] "$1 = ($1_ltype) $input;"
 %typemap(in, fragment="stdbool_inc") bool & "$1 = ($1_basetype *) $input;"
 %typemap(in, fragment="stdbool_inc") const bool &, const bool * "$1 = ($1_basetype *) $input;"
 
@@ -206,6 +208,7 @@ same_action_all_primitive_types(out, "$result = $1;", "$result = *$1;")
 %typemap(out) void ""
 
 %typemap(out, fragment="stdbool_inc") bool, bool *, const bool, const bool * "$result = ($1_ltype) $1;"
+%typemap(out, fragment="stdbool_inc") bool [ANY], const bool [ANY], bool [], const bool [] "$result = ($1_ltype) $1;"
 %typemap(out, fragment="stdbool_inc") bool &, const bool & "$result = $1;"
 
 %typemap(out) enum SWIGTYPE "$result = (int) $1;"

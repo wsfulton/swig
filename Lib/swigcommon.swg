@@ -1,9 +1,9 @@
 /* -----------------------------------------------------------------------------
  * swigcommon.swg
  *
- * Typemaps common to all target languages. A target language includes this file after its runtime and error support
- * code, but before its own typemaps, which can then override or copy these typemaps. Before including it, the target
- * language defines:
+ * Typemaps common to all target languages. A target language includes this file after its runtime support code, but
+ * before its own typemaps, which can then override or copy these typemaps. It first includes the target language's
+ * exceptions.swg, which defines:
  *   SWIG_exception(code, msg)    - raises the target language error for the SWIG error code with the message and
  *                                  leaves the wrapper function.
  *   %fragment("SWIG_exception")  - any support code that SWIG_exception needs, which is always brought in.
@@ -11,14 +11,19 @@
  * SWIG_exception is a SWIG preprocessor macro in some target languages.
  * ----------------------------------------------------------------------------- */
 
+%include <exceptions.swg>
+
 %insert("runtime") "swigerrors.swg"
 
-/* SWIG_exception_fail is the same as SWIG_exception, as a SWIG preprocessor macro if SWIG_exception is one */
+/* SWIG_exception_fail is the same as SWIG_exception, as a SWIG preprocessor macro if SWIG_exception is one, unless the
+   target language's exceptions.swg defines it */
 #ifdef SWIG_exception
 #define SWIG_exception_fail(code, msg) SWIG_exception(code, msg)
 #else
 %insert("runtime") %{
+#ifndef SWIG_exception_fail
 #define SWIG_exception_fail(code, msg) SWIG_exception(code, msg)
+#endif
 %}
 #endif
 

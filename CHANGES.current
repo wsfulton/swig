@@ -8,6 +8,57 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-10-11: wsfulton
+            SWIG_exception can now be used anywhere without %include <exception.i>, such as in a typemap or
+            in %exception code, as its support code is now always included, for example:
+
+              %typemap(check) int positive {
+                if ($1 <= 0)
+                  SWIG_exception(SWIG_ValueError, "Expected a positive value.");
+              }
+
+            SWIG_exception_fail is now available in every target language, as the same macro as
+            SWIG_exception. This is part of a refactor for consistent error handling, including in the
+            typemaps common to all target languages.
+
+2026-10-11: wsfulton
+            [C#, D, Java] SWIG_exception is now always defined as a SWIG preprocessor macro, not only after
+            %include <exception.i>. An interface file that defines its own SWIG_exception must now
+            undefine it first, as SWIG otherwise gives a "Macro 'SWIG_exception' redefined" error:
+
+              #undef SWIG_exception
+
+            A SWIG_exception defined as a C macro, in %{ %} code, is no longer used by the typemaps and
+            %exception code, as SWIG expands its own macro first, so it must be defined with #define
+            after the #undef above instead.
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-11: wsfulton
+            [Octave, Perl, Python, R, Ruby, Scilab, Tcl] SWIG_exception is now always defined, not only
+            after %include <exception.i>. SWIG_exception_fail, which the SWIG library typemaps use, is now
+            the same macro. An interface file that defines its own SWIG_exception macro must now undefine it
+            first. It must also redefine SWIG_exception_fail to keep its behaviour:
+
+              %{
+              #undef SWIG_exception
+              #undef SWIG_exception_fail
+              #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while (0)
+              %}
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-11: wsfulton
+            [Go, Guile, Lua, PHP] SWIG_exception is now always defined, not only after
+            %include <exception.i>. An interface file that defines its own SWIG_exception macro must now
+            undefine it first:
+
+              %{
+              #undef SWIG_exception
+              %}
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-11: wsfulton
             [R] SWIG_exception now raises an R error for SWIG_IndexError, as for the other error codes,
             instead of returning NA. This is part of a refactor for consistent error handling, including
             in the typemaps common to all target languages. To return NA as before, redefine

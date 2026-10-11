@@ -691,6 +691,8 @@ private:
       Printv(f_c_begin, "  \"C\"\n", NULL);
       Printv(f_c_begin, "#endif\n", NULL);
       Printv(f_c_begin, "  void cgo_panic_", unique_id, "(const char*);\n", NULL);
+      // Unused unless SWIG_exception or a throws typemap is used, but the SWIG_exception macro is always defined
+      Printv(f_c_begin, "static void _swig_gopanic(const char *p) __attribute__((__unused__));\n", NULL);
       Printv(f_c_begin, "static void _swig_gopanic(const char *p) {\n", NULL);
       Printv(f_c_begin, "  cgo_panic_", unique_id, "(p);\n", NULL);
       Printv(f_c_begin, "}\n\n", NULL);

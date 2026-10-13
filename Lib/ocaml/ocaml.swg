@@ -343,7 +343,7 @@ SIMPLE_MAP(unsigned long long,caml_val_ulong,caml_long_val);
     }
 %}
 
-%typemap(varin, warning="462:Unable to set dimensionless array variable") SWIGTYPE [] %{
+%typemap(varin, warning="462:Unable to set dimensionless array variable") SWIGTYPE [], SWIGTYPE (&)[], SWIGTYPE (&&)[] %{
     caml_failwith("read-only $name");
 %}
 

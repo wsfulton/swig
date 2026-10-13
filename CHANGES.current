@@ -8,6 +8,10 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-10-13: wsfulton
+            [Scilab] Remove the extra ';' after the gateway function in the generated code for Scilab 6 and
+            later, which gives an "extra ';' outside of a function" warning with -Wextra-semi in C++.
+
+2026-10-13: wsfulton
             [C] Fix 'const bool &', which is passed and returned as a bool. A function reading such a
             parameter crashed, as the bool was used as a pointer, and a returned reference or a variable of
             this type was always true.

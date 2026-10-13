@@ -136,7 +136,7 @@
 /* Errors < -200 are generic runtime specific errors */
 #define SWIG_ERROR_RELEASE_NOT_OWNED (-200)
 
-#define SWIG_IsOK(r)               (r >= 0)
+#define SWIG_IsOK(r)               ((r) >= 0)
 #define SWIG_ArgError(r)           ((r != SWIG_ERROR) ? r : SWIG_TypeError)
 
 /* The CastRankLimit says how many bits are used for the cast rank */

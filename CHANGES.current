@@ -8,6 +8,11 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-10-13: wsfulton
+            [C] Fix 'const bool &', which is passed and returned as a bool. A function reading such a
+            parameter crashed, as the bool was used as a pointer, and a returned reference or a variable of
+            this type was always true.
+
+2026-10-13: wsfulton
             [Perl] Fix reading a global variable of pointer, array, reference or class type changing a
             pointer object assigned to it. After a failed set, such as setting an 'int *' variable to a
             'double *' pointer object, reading the variable changed that object to hold the variable's

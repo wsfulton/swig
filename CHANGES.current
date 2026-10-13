@@ -7,6 +7,11 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-10-13: wsfulton
+            [C, Go, OCaml] NULL for a reference parameter, such as 'Foo &' or 'int (&)[4]', now gives a
+            NULL reference error, as in the other target languages, instead of passing a NULL reference to
+            the wrapped function.
+
 2026-10-11: wsfulton
             [C, C#, D, Go, Guile, Java, Lua, OCaml, PHP] SWIG_CATCH_STDEXCEPT and SWIG_CATCH_UNKNOWN are
             now always defined, not only after %include <exception.i>. An interface file that defines its

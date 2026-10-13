@@ -151,7 +151,6 @@ same_action_all_primitive_types(in, "$1 = ($1_ltype) $input;", "$1 = &$input;")
 %typemap(in) enum SWIGTYPE &,enum SWIGTYPE * "$1 = ($1_ltype) $input;"
 
 %typemap(in) SWIGTYPE [] "$1 = ($1_ltype) $input;"
-%typemap(in) SWIGTYPE ((&)[ANY]) "$1 = ($1_ltype) $input;"
 
 %typemap(in) SWIGTYPE (CLASS::*) {
   if ($input) 
@@ -197,10 +196,6 @@ same_action_all_primitive_types(in, "$1 = ($1_ltype) $input;", "$1 = &$input;")
   if ($input)
     free($input);
 }
-
-%typemap(in) SWIGTYPE &, SWIGTYPE && %{
-    $1 = ($1_ltype) $input;
-%}
 
 // Typemaps for assigning result values to a special return variable
 same_action_all_primitive_types(out, "$result = $1;", "$result = *$1;")
@@ -343,10 +338,12 @@ typedef struct SwigObj SwigObj;
 
 %include <swigcommon.swg>
 
-%typemap(memberin) SWIGTYPE ((&)[ANY]) = SWIGTYPE [ANY];
-%typemap(globalin) SWIGTYPE ((&)[ANY]) = SWIGTYPE [ANY];
-%typemap(memberin) SWIGTYPE ((&&)[ANY]) = SWIGTYPE [ANY];
-%typemap(globalin) SWIGTYPE ((&&)[ANY]) = SWIGTYPE [ANY];
+%typemap(in, noblock=1) SWIGTYPE &, SWIGTYPE &&, SWIGTYPE ((&)[ANY]) {
+  $1 = ($1_ltype) $input;
+  if (!$1) {
+    SWIG_exception(SWIG_NullReferenceError, "$1_type reference is null");
+  }
+}
 
 %insert("runtime") %{
 #ifdef __cplusplus

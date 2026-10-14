@@ -100,6 +100,7 @@ for (i in 0:(count-1)) {
 }
 
 # global_char_array1 is a char[] with no size, so it is read only
+unittest(exists("global_char_array1_set"), FALSE)
 unittest(global_char_array1_get(), CPLUSPLUS_MSG)
 for (i in 0:(count-1)) {
   expected = paste0(OTHERLAND_MSG, i)

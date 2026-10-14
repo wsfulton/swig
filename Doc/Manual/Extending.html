@@ -291,7 +291,7 @@ The <em><tt>langconfig.swg</tt></em> file also includes <tt>swigcommon.swg</tt>,
 all target languages, such as the default <tt>memberin</tt> and <tt>globalin</tt> typemaps for <tt>char *</tt>.
 It is included after the runtime support code, but before the target language's own typemaps, so
 that these can override or copy the common typemaps.
-It first includes the target language's <tt>exceptions.swg</tt>, which defines the <tt>SWIG_exception(code, msg)</tt>
+It first includes the target language's <tt>exception.swg</tt>, which defines the <tt>SWIG_exception(code, msg)</tt>
 macro to raise the target language error for a SWIG error code and leave the wrapper function.
 It also defines a code fragment called <tt>SWIG_exception</tt> for any support code that the macro needs.
 This fragment is always brought in.
@@ -2774,14 +2774,14 @@ Before proceeding any further, create a directory for your module in the SWIG
 library (The <tt>Lib</tt> directory).   Now, create a configuration file in the
 directory.  For example, <tt>python.swg</tt>.
 The configuration file includes <tt>swigcommon.swg</tt>, the typemaps common to all target languages, which in turn
-includes <tt>exceptions.swg</tt> from the module's directory, so also create this file, as described in
+includes <tt>exception.swg</tt> from the module's directory, so also create this file, as described in
 <a href="#Extending_nn40">Runtime support</a>.
 </p>
 
 <p>
 Just to review, your language module should now consist of three files--
 an implementation file <tt>python.cxx</tt>, a configuration file
-<tt>python.swg</tt> and <tt>exceptions.swg</tt>.
+<tt>python.swg</tt> and <tt>exception.swg</tt>.
 </p>
 
 <H3><a name="Extending_nn36">42.10.5 Entry point to code generation</a></H3>
@@ -3298,7 +3298,7 @@ the SWIG files that implement those functions.
 </p>
 
 <p>
-The <tt>exceptions.swg</tt> file in the module's directory defines <tt>SWIG_exception(code, msg)</tt>, which raises the
+The <tt>exception.swg</tt> file in the module's directory defines <tt>SWIG_exception(code, msg)</tt>, which raises the
 target language error for one of the SWIG error codes, such as <tt>SWIG_ValueError</tt>, with the message and then
 leaves the wrapper function, as described in
 <a href="Customization.html#Customization_nn7">Using The SWIG exception library</a>.

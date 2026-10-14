@@ -3,7 +3,7 @@
  *
  * Typemaps common to all target languages. A target language includes this file after its runtime support code, but
  * before its own typemaps, which can then override or copy these typemaps. It first includes the target language's
- * exceptions.swg, which defines:
+ * exception.swg, which defines:
  *   SWIG_exception(code, msg)    - raises the target language error for the SWIG error code with the message and
  *                                  leaves the wrapper function.
  *   %fragment("SWIG_exception")  - any support code that SWIG_exception needs, which is always brought in.
@@ -13,7 +13,7 @@
  * SWIG_exception is a SWIG preprocessor macro in some target languages.
  * ----------------------------------------------------------------------------- */
 
-%include <exceptions.swg>
+%include <exception.swg>
 %include <swigexceptions.swg>
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * exceptions.swg
+ * exception.swg
  *
  * Defines SWIG_exception(code, msg), the SWIG_exception fragment with any support code that it needs and SWIG_RETHROW_OCTAVE_EXCEPTIONS.
  * SWIG_exception raises the target language error for a SWIG error code and leaves the wrapper function.

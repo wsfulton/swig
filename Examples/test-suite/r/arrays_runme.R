@@ -24,4 +24,8 @@ unittest(first_double_field(ss), 2.5)
 fn_taking_arrays(NULL)
 unittest(grepl("^SWIG:TypeError", error_message(function() fn_taking_arrays(list(ss, ss)))), TRUE)
 
+# A flexible array member is a char[] with no size, so it is read only
+fca <- FlexibleCharArray()
+unittest(grepl("as it is read only", error_message(function() fca$chars <- "abc")), TRUE)
+
 q(save="no")

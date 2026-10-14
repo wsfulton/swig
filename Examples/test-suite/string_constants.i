@@ -67,6 +67,8 @@ struct things {
 %inline %{
 #define WS1 L"\u00C6\u00CEOU\n"
 #define WC1 L'\u00C6'
+// An overlong UTF-8 encoding of '"', so two chars, rather than a '"' ending the string in the target language
+#define OL1 "\xC0\xA2"
 %}
 %constant const wchar_t *WS2 = L"\u00C6\u00CEOU\n";
 
@@ -78,4 +80,20 @@ struct things {
   static const wchar_t *const WS5 = L"\u00C6\u00CEOU\n";
 #endif
 }
+#endif
+
+#if defined(SWIGD) || defined(SWIGJAVA)
+// Wide string and character constants given a string and character type by typemaps
+%inline %{
+typedef wchar_t wide_char;
+%}
+#if defined(SWIGJAVA)
+%typemap(jstype) const wide_char * "String"
+%typemap(jstype) wide_char "char"
+#else
+%typemap(dtype) const wide_char * "wstring"
+%typemap(dtype) wide_char "wchar"
+#endif
+%constant const wide_char *WS6 = L"\u00C6\"\U0001F600\xE9" L"7";
+%constant wide_char WC6 = L'\u00C6';
 #endif

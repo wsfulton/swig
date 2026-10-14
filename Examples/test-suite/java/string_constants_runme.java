@@ -28,5 +28,11 @@ public class string_constants_runme {
         throw new RuntimeException("fail: " + s);
     if (string_constants.WS1 == null || string_constants.WC1 == null || string_constants.WS2 == null || things.WS5 == null)
       throw new RuntimeException("fail");
+    if (!string_constants.OL1.equals("\300\242"))
+      throw new RuntimeException("fail: " + string_constants.OL1);
+    if (!string_constants.WS6.equals("\u00C6\"\uD83D\uDE00\u00E97"))
+      throw new RuntimeException("fail: " + string_constants.WS6);
+    if (string_constants.WC6 != '\u00C6')
+      throw new RuntimeException("fail: " + string_constants.WC6);
   }
 }

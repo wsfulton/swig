@@ -2118,10 +2118,12 @@ static String *add_qualifier_to_declarator(SwigType *type, SwigType *qualifier) 
     String     *text;
     struct BracketDepth depth;
   } group;
-  /* A string or character literal: its decoded text and its encoding prefix, a SWIG_LITERAL_* value. */
+  /* A string or character literal: its decoded text, its encoding prefix, a SWIG_LITERAL_* value, and for an ordinary
+   * string literal, its text as a wide literal, from Scanner_literal_wide_text(), or 0 if that is the same. */
   struct Literal {
     String     *text;
     int         prefix;
+    String     *widetext;
   } literal;
   Parm         *p;
   ParmList     *pl;
@@ -3040,12 +3042,26 @@ static int literal_prefix_rank(int prefix) {
 }
 
 /* Append the string literal 'piece' to 'run', the adjacent string literals before it, which make one literal.  Its
-   prefix is the first of the highest rank, the u8 of both u8"a" u8"b" and R"(a)" u8"b". */
+   prefix is the first of the highest rank, the u8 of both u8"a" u8"b" and R"(a)" u8"b". Ordinary string literals
+   joined to a wide one make a wide literal, so their wide text is used, in which a numeric escape sequence above 0x7F
+   is one wide character, as it is in a wide literal, rather than one byte of a UTF-8 encoding. */
 static void append_string_literal(struct Literal *run, struct Literal piece) {
-  Append(run->text, piece.text);
+  int run_wide = literal_encoding(run->prefix) == SWIG_LITERAL_WIDE;
+  int piece_wide = literal_encoding(piece.prefix) == SWIG_LITERAL_WIDE;
+  if (piece_wide && !run_wide && run->widetext) {
+    Delete(run->text);
+    run->text = run->widetext;
+    run->widetext = 0;
+  } else if (!piece_wide && !run_wide && (run->widetext || piece.widetext)) {
+    if (!run->widetext)
+      run->widetext = Copy(run->text);
+    Append(run->widetext, piece.widetext ? piece.widetext : piece.text);
+  }
+  Append(run->text, run_wide && piece.widetext ? piece.widetext : piece.text);
   if (literal_prefix_rank(piece.prefix) > literal_prefix_rank(run->prefix))
     run->prefix = piece.prefix;
   Delete(piece.text);
+  Delete(piece.widetext);
 }
 
 /* The array type of the string literal initialiser 'dtype', such as 'const char [5]' for "text", the bound counting the
@@ -3420,24 +3436,26 @@ static void add_array_from_scanner(SwigType *type) {
   Delete(bound);
 }
 
-/* Decode the UTF-8 'text' that the scanner stores for a wide character literal, returning the code point of its single
-   character, or -1 if 'text' is not a single character. A hexadecimal or octal escape sequence or a universal
+/* Decode the UTF-8 'text' that the scanner stores for a wide character literal, setting 'code_point' to the code point
+   of its single character and returning 1, or returning 0 if 'text' is not a single character. A hexadecimal escape
+   sequence can also give a value beyond Unicode, up to 0xFFFFFFFF. A hexadecimal or octal escape sequence or a universal
    character name in the literal is encoded as UTF-8 by Swig_utf8_encode() in the scanner, while a character written as
    itself is copied unchanged from the source file, so it is UTF-8 only in a UTF-8 source file. Either way, an ASCII
    character is a single char. A code point is the number Unicode assigns to a character and is the value of a wide
    character literal holding it. For example:
 
-     Literal                                         'text' (UTF-8 bytes)   Returns
+     Literal                                         'text' (UTF-8 bytes)   code_point
      L'A', L'\x41' or L'\u0041'                      41                     0x41
      L'\xF1', L'\u00F1' or the n with tilde itself   C3 B1                  0xF1
      L'\x263A', L'\u263A' or the smiley face itself  E2 98 BA               0x263A
 */
-static long wide_char_code_point(String *text) {
+static int wide_char_code_point(String *text, unsigned long *code_point) {
   int len = Len(text);
-  long code_point;
-  if (len == 1)
-    return (unsigned char)Char(text)[0];
-  return Swig_utf8_decode(text, 0, &code_point) == len ? code_point : -1;
+  if (len == 1) {
+    *code_point = (unsigned char)Char(text)[0];
+    return 1;
+  }
+  return len > 0 && Swig_utf8_decode(text, 0, code_point) == len;
 }
 
 static Node *new_enum_node(SwigType *enum_base_type) {
@@ -9149,14 +9167,16 @@ edecl          :  identifier {
 		   SetFlag($$,"feature:immutable");
 		   Setattr($$,"enumvalue", $etype.val);
 		   if ($etype.stringval) {
-                     long code_point = $etype.type == T_WCHAR ? wide_char_code_point($etype.stringval) : -1;
-                     if (code_point >= 0) {
-                       /* A wide character is also given as a number, the only portable form when it is not ASCII */
-                       String *numval = NewStringf("%ld", code_point);
+                     unsigned long code_point = 0;
+                     int one_char = $etype.type == T_WCHAR && wide_char_code_point($etype.stringval, &code_point);
+                     /* A wide character is also given as a number, the only portable form when it is not ASCII, but
+                        not above 0x7FFFFFFF, which is negative with a signed 32 bit wchar_t */
+                     if (one_char && code_point <= 0x7FFFFFFF) {
+                       String *numval = NewStringf("%lu", code_point);
                        Setattr($$, "enumnumval", numval);
                        Delete(numval);
                      }
-                     if (code_point <= 0x7F)
+                     if (!one_char || code_point <= 0x7F)
                        Setattr($$, "enumstringval", $etype.stringval);
 		   }
 		   if ($etype.numval) {
@@ -9475,10 +9495,11 @@ exprsimple     : exprnum
 		  }
 	       }
 	       | WCHARCONST {
-                  long code_point = wide_char_code_point($WCHARCONST.text);
+                  unsigned long code_point;
+                  int one_char = wide_char_code_point($WCHARCONST.text, &code_point);
 		  $$ = default_dtype;
                   $$.stringval = $WCHARCONST.text;
-                  if (code_point > 0x7F) {
+                  if (one_char && code_point > 0x7F) {
                     /* Not ASCII, so the scanned text is a UTF-8 encoding that must not be escaped byte by byte */
                     $$.val = NewStringf("L'\\x%lX'", code_point);
                   } else {
@@ -9777,6 +9798,7 @@ exprnum        :  NUM_INT
 
 exprstring     : string_literal {
                  $$ = default_dtype;
+                 Delete($string_literal.widetext);
                  $$.stringval = $string_literal.text;
                  $$.val = NewStringf("\"%(escape)s\"", $string_literal.text);
                  $$.type = T_STRING;
@@ -10530,6 +10552,7 @@ idcolontailnt   : DCOLON identifier idcolontailnt[in] {
 
 /* Concatenated strings.  A directive only needs the text, while an expression also needs the encoding prefix. */
 string         : string_literal {
+                   Delete($string_literal.widetext);
                    $$ = $string_literal.text;
                }
                ;

@@ -131,6 +131,8 @@ public class char_strings_runme {
     }
 
     // global_char_array1 is a char[] with no size, so it is read only
+    if (typeof(char_strings).GetProperty("global_char_array1").CanWrite)
+      throw new Exception("global_char_array1 has a setter");
     if (char_strings.global_char_array1 != CPLUSPLUS_MSG)
       throw new Exception("Test variables 2 failed");
 

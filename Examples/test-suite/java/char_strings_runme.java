@@ -138,6 +138,11 @@ public class char_strings_runme {
     }
 
     // global_char_array1 is a char[] with no size, so it is read only
+    try {
+      char_strings.class.getMethod("setGlobal_char_array1", String.class);
+      throw new RuntimeException("global_char_array1 has a setter");
+    } catch (NoSuchMethodException e) {
+    }
     if (!char_strings.getGlobal_char_array1().equals(CPLUSPLUS_MSG))
       throw new RuntimeException("Test variables 2 failed");
 

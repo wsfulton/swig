@@ -7,6 +7,30 @@ the issue number to the end of the URL: https://github.com/swig/swig/issues/
 Version 4.6.0 (in progress)
 ===========================
 
+2026-10-14: wsfulton
+            [C, C#, D, Go, Guile, Java, Lua, PHP] An exception caught by the catch all handler that
+            %catches(...) adds is now raised as a SWIG_RuntimeError with the message "unknown exception",
+            as in the other target languages. Before, it was rethrown with warning 468 unless the interface
+            file included exception.i. To rethrow it as before, add this to the interface file:
+
+              %typemap(throws) (...) "throw;"
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-14: wsfulton
+            %include <exception.i> is no longer needed and the file now does nothing. The 'throws' typemap
+            for '...' used by %catches(...) is now always available. Every C++ wrapper now includes the
+            <stdexcept> and <typeinfo> headers needed by SWIG_CATCH_STDEXCEPT and SWIG_CATCH_UNKNOWN.
+
+2026-10-14: wsfulton
+            [Guile] A global variable that is an array of unknown size, such as 'extern int b[];' or
+            'extern char name[];', now gives warning 462, as in the other target languages. Setting it
+            still raises wrong-type-arg.
+
+2026-10-14: wsfulton
+            [Python] Fix a memory leak with -castmode of a std::pair made from a tuple whose first element
+            is converted with a cast of higher rank than its second, such as a float for an int.
+
 2026-10-13: wsfulton
             [R] NULL now selects an overloaded function taking a char array, such as 'char [4]' or
             'char []', as it does for any other array.
@@ -132,16 +156,6 @@ Version 4.6.0 (in progress)
             the wrapped function.
 
 2026-10-11: wsfulton
-            [C, C#, D, Go, Guile, Java, Lua, OCaml, PHP] SWIG_CATCH_STDEXCEPT and SWIG_CATCH_UNKNOWN are
-            now always defined, not only after %include <exception.i>. An interface file that defines its
-            own must now undefine it first, as SWIG otherwise gives a "Macro 'SWIG_CATCH_STDEXCEPT'
-            redefined" error:
-
-              #undef SWIG_CATCH_STDEXCEPT
-
-            *** POTENTIAL INCOMPATIBILITY ***
-
-2026-10-11: wsfulton
             [Javascript, Octave, Perl, Python, R, Ruby, Scilab, Tcl] SWIG_CATCH_STDEXCEPT now catches
             std::bad_cast and raises SWIG_TypeError, as it already did in the other target languages,
             instead of SWIG_SystemError from catching std::exception. This is for better consistency of
@@ -184,44 +198,6 @@ Version 4.6.0 (in progress)
             typemaps common to all target languages.
 
 2026-10-11: wsfulton
-            [C#, D, Java] SWIG_exception is now always defined as a SWIG preprocessor macro, not only after
-            %include <exception.i>. An interface file that defines its own SWIG_exception must now
-            undefine it first, as SWIG otherwise gives a "Macro 'SWIG_exception' redefined" error:
-
-              #undef SWIG_exception
-
-            A SWIG_exception defined as a C macro, in %{ %} code, is no longer used by the typemaps and
-            %exception code, as SWIG expands its own macro first, so it must be defined with #define
-            after the #undef above instead.
-
-            *** POTENTIAL INCOMPATIBILITY ***
-
-2026-10-11: wsfulton
-            [Octave, Perl, Python, R, Ruby, Scilab, Tcl] SWIG_exception is now always defined, not only
-            after %include <exception.i>. SWIG_exception_fail, which the SWIG library typemaps use, is now
-            the same macro. An interface file that defines its own SWIG_exception macro must now undefine it
-            first. It must also redefine SWIG_exception_fail to keep its behaviour:
-
-              %{
-              #undef SWIG_exception
-              #undef SWIG_exception_fail
-              #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while (0)
-              %}
-
-            *** POTENTIAL INCOMPATIBILITY ***
-
-2026-10-11: wsfulton
-            [Go, Guile, Lua, PHP] SWIG_exception is now always defined, not only after
-            %include <exception.i>. An interface file that defines its own SWIG_exception macro must now
-            undefine it first:
-
-              %{
-              #undef SWIG_exception
-              %}
-
-            *** POTENTIAL INCOMPATIBILITY ***
-
-2026-10-11: wsfulton
             [R] SWIG_exception now raises an R error for SWIG_IndexError, as for the other error codes,
             instead of returning NA. This is part of a refactor for consistent error handling, including
             in the typemaps common to all target languages. To return NA as before, redefine
@@ -232,6 +208,42 @@ Version 4.6.0 (in progress)
               #undef SWIG_exception
               #define SWIG_exception(code, msg) do { if ((code) == SWIG_IndexError) \
                 return Rf_ScalarLogical(NA_LOGICAL); SWIG_Error(code, msg); SWIG_fail; } while (0)
+              #undef SWIG_exception_fail
+              #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while (0)
+              %}
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-11: wsfulton
+            [Ruby] SWIG_exception now jumps to the wrapper's fail label after raising the error, as
+            SWIG_exception_fail does, so it can only be used in a wrapper function, as in the other target
+            languages. As rb_raise does not return, it could be used elsewhere before, such as in the body
+            of an %extend method or in a %{ %} function. This is part of a refactor for consistent error
+            handling, including in the typemaps common to all target languages. To use it elsewhere as
+            before, redefine SWIG_exception in the interface file. Also redefine SWIG_exception_fail, which
+            the SWIG library typemaps use, to keep its behaviour:
+
+              %{
+              #undef SWIG_exception
+              #define SWIG_exception(code, msg) do { SWIG_Error(code, msg); } while (0)
+              #undef SWIG_exception_fail
+              #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while (0)
+              %}
+
+            *** POTENTIAL INCOMPATIBILITY ***
+
+2026-10-11: wsfulton
+            [Javascript] With Node-API and NAPI_CPP_EXCEPTIONS, SWIG_exception now jumps to the wrapper's
+            fail label after throwing the error, as SWIG_exception_fail does, so it can only be used in a
+            wrapper function, as in the other target languages. As the error is a C++ exception, it could be
+            used elsewhere before, such as in the body of an %extend method or in a %{ %} function. This is
+            part of a refactor for consistent error handling, including in the typemaps common to all target
+            languages. To use it elsewhere as before, redefine SWIG_exception in the interface file. Also
+            redefine SWIG_exception_fail, which the SWIG library typemaps use, to keep its behaviour:
+
+              %{
+              #undef SWIG_exception
+              #define SWIG_exception(code, msg) SWIG_Error(code, msg)
               #undef SWIG_exception_fail
               #define SWIG_exception_fail(code, msg) do { SWIG_Error(code, msg); SWIG_fail; } while (0)
               %}
@@ -590,10 +602,11 @@ Version 4.6.0 (in progress)
 2026-10-07: wsfulton
             Fix the value of a wide string literal holding a character that is not ASCII, such as
             L"\x263A", L"\u00E9" or the character written as itself, used for a constant or
-            default argument. A hexadecimal escape sequence from 0x100 to 0x10FFFF was truncated to a
-            single byte. An octal one above \377 gave an "octal escape sequence out of range" error. Any
-            other such character became a wide character for each byte of its UTF-8 encoding. Also
-            fix the array size deduced for an auto or decltype(auto) variable initialised by such a
+            default argument. A hexadecimal escape sequence above 0xFF was truncated to a single
+            byte, including one beyond Unicode, such as L"\x110000", which a 32 bit wchar_t holds.
+            An octal one above \377 gave an "octal escape sequence out of range" error. Any other
+            such character became a wide character for each byte of its UTF-8 encoding. Also fix
+            the array size deduced for an auto or decltype(auto) variable initialised by such a
             literal, such as 'auto &s = L"\u00E9";', which counted the UTF-8 bytes.
 
 2026-10-07: wsfulton
@@ -724,8 +737,7 @@ Version 4.6.0 (in progress)
                 char text[];
               };
 
-            Setting it used strcpy, writing past the end of the array for a longer string. In Guile,
-            this is for a member, as such a global variable could already not be set.
+            Setting it used strcpy, writing past the end of the array for a longer string.
 
             *** POTENTIAL INCOMPATIBILITY ***
 

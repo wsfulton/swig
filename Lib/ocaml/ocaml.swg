@@ -259,7 +259,7 @@ SIMPLE_MAP(unsigned long long,caml_val_ulong,caml_long_val);
 %}
 
 /* Read only, as there is no size to bound the copy */
-%typemap(varin, warning="462:Unable to set variable of type char []") char [] %{
+%typemap(varin, warning=SWIGWARN_TYPEMAP_VARIN_UNDEF_MSG) char [] %{
     caml_failwith("read-only $name");
 %}
 
@@ -343,7 +343,7 @@ SIMPLE_MAP(unsigned long long,caml_val_ulong,caml_long_val);
     }
 %}
 
-%typemap(varin, warning="462:Unable to set dimensionless array variable") SWIGTYPE [], SWIGTYPE (&)[], SWIGTYPE (&&)[] %{
+%typemap(varin, warning=SWIGWARN_TYPEMAP_VARIN_UNDEF_MSG) SWIGTYPE [], SWIGTYPE (&)[], SWIGTYPE (&&)[] %{
     caml_failwith("read-only $name");
 %}
 

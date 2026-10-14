@@ -102,6 +102,7 @@ void main() {
   }
 
   // global_char_array1 is a char[] with no size, so it is read only
+  static assert(!__traits(compiles, global_char_array1 = "x"));
   enforce(global_char_array1 == CPLUSPLUS_MSG, "Test variables 2 failed");
 
   foreach (i; TEST_RANGE) {

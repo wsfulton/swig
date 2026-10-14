@@ -643,6 +643,10 @@ Version 4.6.0 (in progress)
             *** POTENTIAL INCOMPATIBILITY ***
 
 2026-10-06: wsfulton
+            [Javascript] Fix a crash with Node-API for a NULL 'char *' result, such as a function
+            returning NULL. It now gives undefined, as with the other Javascript engines.
+
+2026-10-06: wsfulton
             [Javascript, Octave, Perl, Python, Ruby] NULL, such as None in Python, is no longer
             accepted for a char parameter, which was converted to '\0'. So with overloads for both
             char and 'const char *', NULL now calls the 'const char *' overload.

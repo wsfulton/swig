@@ -2,8 +2,8 @@
 %module c99_parameter_array_declarators
 
 %{
-/* C++ and C before C99 reject this syntax, so their compilers see only the plain definitions */
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L && !defined(__cplusplus)
+/* C++, C before C99 and MSVC reject this syntax, so their compilers see only the plain definitions */
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L && !defined(__cplusplus) && !defined(_MSC_VER)
 #define TEST_C99_ARRAY_DECLARATORS
 #endif
 

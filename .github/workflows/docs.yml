@@ -1,35 +1,7 @@
 name: docs
 
 on:
-  push:
-    paths-ignore:
-      - '.agents/**'
-      - '.github/workflows/linux.yml'
-      - '.github/workflows/macos.yml'
-      - '.github/workflows/cmake.yml'
-      - '.github/workflows/windows.yml'
-      - 'AGENTS.md'
-      - 'CCache/**'
-      - 'CHANGES*'
-      - 'Examples/**'
-      - 'Lib/**'
-      - 'Source/**'
-      - 'Tools/**'
-  pull_request:
-    branches: master
-    paths-ignore:
-      - '.agents/**'
-      - '.github/workflows/linux.yml'
-      - '.github/workflows/macos.yml'
-      - '.github/workflows/cmake.yml'
-      - '.github/workflows/windows.yml'
-      - 'AGENTS.md'
-      - 'CCache/**'
-      - 'CHANGES*'
-      - 'Examples/**'
-      - 'Lib/**'
-      - 'Source/**'
-      - 'Tools/**'
+  workflow_dispatch:
 
 permissions:
   contents: read

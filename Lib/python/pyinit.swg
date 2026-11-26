@@ -295,7 +295,10 @@ SWIGINTERN int SWIG_mod_exec(PyObject *m) {
   md = d = PyModule_GetDict(m);
   (void)md;
 
+  SWIG_Python_SetModuleData(&swig_module);
   SWIG_InitializeModule(0);
+  if (SWIG_Python_UseCapsule() < 0)
+    return -1;
 
 #ifdef SWIGPYTHON_BUILTIN
   swigpyobject = SwigPyObject_TypeOnce();

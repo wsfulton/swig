@@ -1,5 +1,10 @@
 %module python_crossmod_a
 
+// With -builtin this module frees the owning wrapper of python_crossmod_b's get_owned_int_ptr(), which finds no destructor
+%begin %{
+#define SWIG_PYTHON_SILENT_MEMLEAK
+%}
+
 %{
 #include "python_crossmod.h"
 %}

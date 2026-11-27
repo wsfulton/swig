@@ -8,18 +8,23 @@ Version 4.6.0 (in progress)
 ===========================
 
 2026-11-26: wsfulton
-            [Python] #2037 #2638 Fix problems with the objects created by a module loaded after another
-            SWIG module, as the modules share SWIG's runtime data by default:
+            [Python] #2037 #2638 Fix problems with a module loaded after another SWIG module, as the
+            modules share SWIG's runtime data by default:
 
             - The C++ destructor was not called and "swig/python detected a memory leak of type 'Foo *',
-              no destructor found." was shown when such an object was freed after the runtime data was
-              destroyed, such as when the Python interpreter is finalized. The object now keeps the
-              runtime data alive until it is freed, as an object created by the first module does.
+              no destructor found." was shown when an object the module created was freed after the
+              runtime data was destroyed, such as when the Python interpreter is finalized. The object
+              now keeps the runtime data alive until it is freed, as an object created by the first
+              module does.
             - The global variables (cvar) and the rest of the runtime data of every module but the
               first one loaded were never freed. They are now freed with the runtime data.
-            - With -builtin, freeing such an object owning a pointer to a type not wrapped as a class,
-              such as an 'int *' returned by a %newobject function, released a reference on the runtime
-              data that it never took. The runtime data could then be freed while still in use.
+            - With -builtin, freeing an object the module created that owned a pointer to a type not
+              wrapped as a class, such as an 'int *' returned by a %newobject function, released a
+              reference on the runtime data that it never took. The runtime data could then be freed
+              while still in use.
+            - Passing an object to a function of the other module taking ownership of it, such as with
+              SWIGTYPE *DISOWN, or giving it ownership there kept a reference on the runtime data too
+              many or too few. The runtime data was then never freed or freed while still in use.
 
             These fixes need the first module loaded to be built with this version of SWIG or later.
 

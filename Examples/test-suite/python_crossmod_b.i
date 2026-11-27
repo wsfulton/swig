@@ -28,8 +28,10 @@ int *get_int_ptr() { static int i = 4; return &i; }
 %}
 
 %newobject get_owned_int_ptr;
+%apply SWIGTYPE *DISOWN { int *disowned };
 %inline %{
 int *get_owned_int_ptr() { static int i = 5; return &i; }
+int disown_int_ptr(int *disowned) { return *disowned; }
 
 int d_destroyed = 0;
 

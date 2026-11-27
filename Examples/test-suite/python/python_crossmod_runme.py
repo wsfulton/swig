@@ -42,6 +42,14 @@ p = python_crossmod_b.get_owned_int_ptr()
 del p
 swig_check(sys.getrefcount(capsule), before)
 
+# Disowning a wrapper made by the other module, or with -builtin a plain pointer wrapper, releases its reference on the capsule
+before = sys.getrefcount(capsule)
+python_crossmod_a.delete_b(python_crossmod_b.B())
+p = python_crossmod_b.get_owned_int_ptr()
+swig_check(python_crossmod_b.disown_int_ptr(p), 5)
+del p
+swig_check(sys.getrefcount(capsule), before)
+
 # Destroying the capsule frees the runtime data of the second module too, once its owning wrappers are freed
 del c
 d = python_crossmod_b.D()

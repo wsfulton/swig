@@ -819,6 +819,24 @@ static PyObject* Swig_Capsule_global = NULL;
 SWIGRUNTIME void
 SwigPyObject_dealloc(PyObject *v);
 
+/* The data a module sets in the clientdata of its swig_module_info, so that the module that created the capsule wrapping
+   the module information can release the runtime data of every module that uses the capsule. The modules also use dealloc
+   and capsule to recognise the SwigPyObject types of the others. Modules from SWIG 4.5 and earlier have none. */
+typedef struct {
+  int version;
+  void (*release)(swig_module_info *swig_module, PyObject *capsule, int destroy);
+  destructor dealloc;
+  PyObject **capsule;
+} SwigPyModuleData;
+
+#define SWIGPY_MODULE_DATA_VERSION 1
+
+SWIGRUNTIME SwigPyModuleData *
+SWIG_Python_GetModuleData(swig_module_info *swig_module) {
+  SwigPyModuleData *data = (SwigPyModuleData *) swig_module->clientdata;
+  return (data && data->version == SWIGPY_MODULE_DATA_VERSION) ? data : 0;
+}
+
 /* Whether SwigPyObject_dealloc() is the tp_dealloc of a type, so that an owning wrapper of the type holds a reference on the
    capsule wrapping the module information. It is not for a -builtin class or for a Python subclass of SwigPyObject. */
 SWIGRUNTIME int
@@ -831,13 +849,43 @@ SwigPyObject_OwnHoldsCapsule(PyTypeObject *tp) {
 #endif
 }
 
+/* Whether an owning wrapper of the type holds a reference on the capsule, as for SwigPyObject_OwnHoldsCapsule(), including for the
+   SwigPyObject type of another module using the capsule. That type is used for the wrappers made by that module or, with -builtin,
+   for the plain pointer wrappers made by every module. */
+SWIGRUNTIME int
+SwigPyObject_OwnHoldsSharedCapsule(PyTypeObject *tp) {
+  swig_module_info *head;
+  swig_module_info *iter;
+  destructor dealloc;
+  if (SwigPyObject_OwnHoldsCapsule(tp))
+    return 1;
+  if (!Swig_Capsule_global)
+    return 0;
+#ifndef Py_LIMITED_API
+  dealloc = tp->tp_dealloc;
+#else
+  if (!(PyType_GetFlags(tp) & Py_TPFLAGS_HEAPTYPE))
+    return 0;
+  dealloc = (destructor)PyType_GetSlot(tp, Py_tp_dealloc);
+#endif
+  head = (swig_module_info *) PyCapsule_GetPointer(Swig_Capsule_global, SWIGPY_CAPSULE_NAME);
+  iter = head;
+  do {
+    SwigPyModuleData *data = SWIG_Python_GetModuleData(iter);
+    if (data && data->dealloc == dealloc && *data->capsule == Swig_Capsule_global)
+      return 1;
+    iter = iter->next;
+  } while (iter != head);
+  return 0;
+}
+
 /* Change whether a wrapper owns its pointer. A wrapper that owns its pointer and is freed by SwigPyObject_dealloc()
    holds a reference on the capsule wrapping the module information, so that the reference moves with the ownership.
    Every change of SwigPyObject::own after creation must go through here. */
 SWIGRUNTIME void
 SwigPyObject_SetOwn(SwigPyObject *sobj, int own) {
   /* SwigPyObject_dealloc() releases the reference itself for a wrapper it is freeing, which has a refcount of 0, whichever module disowns it */
-  if (SwigPyObject_OwnHoldsCapsule(Py_TYPE((PyObject *)sobj)) && Py_REFCNT((PyObject *)sobj) > 0) {
+  if (SwigPyObject_OwnHoldsSharedCapsule(Py_TYPE((PyObject *)sobj)) && Py_REFCNT((PyObject *)sobj) > 0) {
     if (own == SWIG_POINTER_OWN && sobj->own != SWIG_POINTER_OWN) {
       SWIG_Py_XINCREF(Swig_Capsule_global);
     } else if (own != SWIG_POINTER_OWN && sobj->own == SWIG_POINTER_OWN) {
@@ -1841,22 +1889,6 @@ SWIG_Python_GetModule(void *SWIGUNUSEDPARM(clientdata)) {
 
 static int interpreter_counter = 0; /* how many (sub-)interpreters are using swig_module's types */
 
-/* The data a module sets in the clientdata of its swig_module_info, so that the module that created the capsule wrapping
-   the module information can release the runtime data of every module that uses the capsule. Modules from SWIG 4.5 and
-   earlier have none. */
-typedef struct {
-  int version;
-  void (*release)(swig_module_info *swig_module, PyObject *capsule, int destroy);
-} SwigPyModuleData;
-
-#define SWIGPY_MODULE_DATA_VERSION 1
-
-SWIGRUNTIME SwigPyModuleData *
-SWIG_Python_GetModuleData(swig_module_info *swig_module) {
-  SwigPyModuleData *data = (SwigPyModuleData *) swig_module->clientdata;
-  return (data && data->version == SWIGPY_MODULE_DATA_VERSION) ? data : 0;
-}
-
 /* Clear a cached runtime object before releasing it, as releasing it can run code that uses the cache */
 SWIGRUNTIME void
 SWIG_Python_ReleaseGlobal(PyObject **global) {
@@ -1900,7 +1932,7 @@ SWIG_Python_ReleaseModule(swig_module_info *swig_module, PyObject *capsule, int 
 /* Set the module data of a module so that the module that created the capsule can call SWIG_Python_ReleaseModule() for it */
 SWIGRUNTIME void
 SWIG_Python_SetModuleData(swig_module_info *swig_module) {
-  static SwigPyModuleData module_data = { SWIGPY_MODULE_DATA_VERSION, SWIG_Python_ReleaseModule };
+  static SwigPyModuleData module_data = { SWIGPY_MODULE_DATA_VERSION, SWIG_Python_ReleaseModule, SwigPyObject_dealloc, &Swig_Capsule_global };
   swig_module->clientdata = &module_data;
 }
 

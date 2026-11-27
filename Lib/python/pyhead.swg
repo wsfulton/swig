@@ -32,7 +32,9 @@ SWIG_PyUnicode_AsUTF8AndSize(PyObject *str, Py_ssize_t *psize, PyObject **pbytes
 #endif
 }
 
-#define SWIG_RUNTIME_MODULE "swig_runtime_data" SWIG_RUNTIME_VERSION
+/* The Python runtime version, which changes with the layout of the Python runtime types such as SwigPyObject */
+#define SWIGPY_RUNTIME_VERSION SWIG_RUNTIME_VERSION "_1"
+#define SWIG_RUNTIME_MODULE "swig_runtime_data" SWIGPY_RUNTIME_VERSION
 
 /* SWIGPY_USE_CAPSULE is no longer used within SWIG itself, but some user interface files check for it. */
 # define SWIGPY_USE_CAPSULE

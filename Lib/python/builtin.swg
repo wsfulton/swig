@@ -35,6 +35,7 @@ SwigPyBuiltin_BadDealloc(PyObject *obj) {
     PyErr_Format(PyExc_TypeError, "Swig detected a memory leak in type '%S': no callable destructor found.", tpname);
     SWIG_Py_DECREF(tpname);
   }
+  SwigPyObject_ReleaseCapsule(sobj);
 }
 
 typedef struct {
@@ -519,7 +520,11 @@ SWIGINTERN void
 SwigPyBuiltin_destructor_closure(SwigPyWrapperFunction wrapper, const char *wrappername, PyObject *a) {
   SwigPyObject *sobj;
   PyTypeObject *tp = Py_TYPE(a);
+  PyObject *capsule;
   sobj = (SwigPyObject *)a;
+  /* Released last, as in SwigPyObject_dealloc() */
+  capsule = sobj->capsule;
+  sobj->capsule = 0;
   SwigPyObject_ClearWeakRefs(sobj);
   SWIG_Py_XDECREF(sobj->swigdict);
   if (sobj->own) {
@@ -541,6 +546,7 @@ SwigPyBuiltin_destructor_closure(SwigPyWrapperFunction wrapper, const char *wrap
     PyObject_Free(a);
   }
   SWIG_PyType_DeallocRelease(tp);
+  SWIG_Py_XDECREF(capsule);
 }
 
 #define SWIGPY_INQUIRY_CLOSURE(wrapper)			\

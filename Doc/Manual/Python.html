@@ -2733,7 +2733,7 @@ The runtime module contains the following:
 If multiple SWIG modules are being used, the C/C++ wrapped proxy classes/types can be shared or used across the different modules via the SWIG runtime.
 The runtime is accessed and shared via the Capsule in the runtime module.
 The Python runtime module is implemented as a Python builtin module. While users are unlikely to use or import the runtime module directly, it can be inspected simply enough.
-The name of the module is <tt>swig_runtime_data</tt> appended with the runtime version as defined by <tt>SWIG_RUNTIME_VERSION</tt>.
+The name of the module is <tt>swig_runtime_data</tt> appended with the Python runtime version as defined by <tt>SWIGPY_RUNTIME_VERSION</tt>, which is the runtime version defined by <tt>SWIG_RUNTIME_VERSION</tt> followed by a Python specific part.
 First import your SWIG generated module. Next find the exact runtime module name so you know what to import before inspecting it with say <tt>dir</tt>.
 The interpreter session below demonstrates this with a SWIG generated module called <tt>example</tt>:
 </p>
@@ -2743,9 +2743,9 @@ The interpreter session below demonstrates this with a SWIG generated module cal
 &gt;&gt;&gt; import example
 &gt;&gt;&gt; import sys
 &gt;&gt;&gt; list(m for m in sys.modules if m.startswith("swig_runtime_data"))
-['swig_runtime_data5']
-&gt;&gt;&gt; import swig_runtime_data5
-&gt;&gt;&gt; dir(swig_runtime_data5)
+['swig_runtime_data5_1']
+&gt;&gt;&gt; import swig_runtime_data5_1
+&gt;&gt;&gt; dir(swig_runtime_data5_1)
 ['SwigPyObject', 'SwigPyPacked', 'SwigVarLink', '__doc__', '__loader__', '__name__', '__package__',
 '__spec__', 'type_pointer_capsule']
 </pre>
@@ -2757,7 +2757,7 @@ The output when using <tt>-builtin</tt> is of course slightly different:
 
 <div class="targetlang">
 <pre>
-&gt;&gt;&gt; dir(swig_runtime_data5)
+&gt;&gt;&gt; dir(swig_runtime_data5_1)
 ['SwigPyObject', 'SwigPyObjectType', 'SwigPyPacked', 'SwigPyStaticVar', 'SwigVarLink', '__doc__',
 '__loader__', '__name__', '__package__', '__spec__', 'type_pointer_capsule_builtin']
 </pre>
@@ -2765,6 +2765,7 @@ The output when using <tt>-builtin</tt> is of course slightly different:
 
 <p>
 <b>Compatibility Note:</b> Only the Capsule was stored in the Python runtime module prior to SWIG-4.4.0.
+The module was called <tt>swig_runtime_data5</tt> in SWIG-4.4 and SWIG-4.5, so modules built with these versions do not share the runtime with modules built with SWIG-4.6.0 and later.
 </p>
 
 <H3 id="Python_nn30">35.4.4 Memory management</H3>

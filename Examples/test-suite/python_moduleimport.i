@@ -24,5 +24,5 @@ from $module import *
 %inline %{
 int simple_function(int i) { return i; }
 int globalvar = 99;
-const char * runtime_version() { return SWIG_RUNTIME_VERSION; }
+const char * runtime_version() { return SWIGPY_RUNTIME_VERSION; }
 %}

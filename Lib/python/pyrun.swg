@@ -626,6 +626,7 @@ typedef struct {
   PyObject *next;
   PyObject *swigdict;
   PyObject *weakreflist;
+  PyObject *capsule; /* the reference an owning wrapper holds on the capsule wrapping the module information */
 } SwigPyObject;
 
 
@@ -814,35 +815,33 @@ SwigPyObject_Check(PyObject *op) {
 SWIGRUNTIME PyObject *
 SwigPyObject_New(void *ptr, swig_type_info *ty, int own);
 
+/* The capsule wrapping the module information that this module's owning wrappers take a reference on */
 static PyObject* Swig_Capsule_global = NULL;
 
+/* An owning wrapper holds a reference on the capsule, so that the types it needs, such as for its destructor, are kept until it is freed */
 SWIGRUNTIME void
-SwigPyObject_dealloc(PyObject *v);
-
-/* Whether SwigPyObject_dealloc() is the tp_dealloc of a type, so that an owning wrapper of the type holds a reference on the
-   capsule wrapping the module information. It is not for a -builtin class or for a Python subclass of SwigPyObject. */
-SWIGRUNTIME int
-SwigPyObject_OwnHoldsCapsule(PyTypeObject *tp) {
-#ifndef Py_LIMITED_API
-  return tp->tp_dealloc == SwigPyObject_dealloc;
-#else
-  /* Before Python 3.10 PyType_GetSlot() accepts only a heap type. This module's SwigPyObject type is always one. */
-  return (PyType_GetFlags(tp) & Py_TPFLAGS_HEAPTYPE) && PyType_GetSlot(tp, Py_tp_dealloc) == (void *)SwigPyObject_dealloc;
-#endif
+SwigPyObject_SetCapsule(SwigPyObject *sobj) {
+  if (!sobj->capsule && Swig_Capsule_global) {
+    sobj->capsule = Swig_Capsule_global;
+    SWIG_Py_INCREF(sobj->capsule);
+  }
 }
 
-/* Change whether a wrapper owns its pointer. A wrapper that owns its pointer and is freed by SwigPyObject_dealloc()
-   holds a reference on the capsule wrapping the module information, so that the reference moves with the ownership.
-   Every change of SwigPyObject::own after creation must go through here. */
+SWIGRUNTIME void
+SwigPyObject_ClearCapsule(SwigPyObject *sobj) {
+  PyObject *capsule = sobj->capsule;
+  sobj->capsule = 0;
+  SWIG_Py_XDECREF(capsule);
+}
+
+/* Change whether a wrapper owns its pointer, so that the reference on the capsule moves with the ownership. Every change
+   of SwigPyObject::own after creation must go through here. */
 SWIGRUNTIME void
 SwigPyObject_SetOwn(SwigPyObject *sobj, int own) {
-  /* SwigPyObject_dealloc() releases the reference itself for a wrapper it is freeing, which has a refcount of 0, whichever module disowns it */
-  if (SwigPyObject_OwnHoldsCapsule(Py_TYPE((PyObject *)sobj)) && Py_REFCNT((PyObject *)sobj) > 0) {
-    if (own == SWIG_POINTER_OWN && sobj->own != SWIG_POINTER_OWN) {
-      SWIG_Py_XINCREF(Swig_Capsule_global);
-    } else if (own != SWIG_POINTER_OWN && sobj->own == SWIG_POINTER_OWN) {
-      SWIG_Py_XDECREF(Swig_Capsule_global);
-    }
+  if (own == SWIG_POINTER_OWN) {
+    SwigPyObject_SetCapsule(sobj);
+  } else {
+    SwigPyObject_ClearCapsule(sobj);
   }
   sobj->own = own;
 }
@@ -866,15 +865,15 @@ SwigPyObject_dealloc(PyObject *v)
   SwigPyObject *sobj = (SwigPyObject *) v;
   PyTypeObject *tp = Py_TYPE(v);
   PyObject *next = sobj->next;
-  PyObject *capsule = 0;
+  /* Released last as the capsule must outlive the use of the type's data below. Taken out of the wrapper first, so
+     that the destructor wrapper disowning the wrapper does not release it. */
+  PyObject *capsule = sobj->capsule;
+  sobj->capsule = 0;
   SwigPyObject_ClearWeakRefs(sobj);
   if (sobj->own == SWIG_POINTER_OWN) {
     swig_type_info *ty = sobj->ty;
     SwigPyClientData *data = ty ? (SwigPyClientData *) ty->clientdata : 0;
     PyObject *destroy = data ? data->destroy : 0;
-    /* The reference this wrapper holds on the capsule, released last as the capsule must outlive the use of data below */
-    if (SwigPyObject_OwnHoldsCapsule(tp))
-      capsule = Swig_Capsule_global;
     if (destroy) {
       /* destroy is always a VARARGS method */
       PyObject *res;
@@ -1167,12 +1166,9 @@ SwigPyObject_New(void *ptr, swig_type_info *ty, int own)
     sobj->next = 0;
     sobj->swigdict = 0;
     sobj->weakreflist = 0;
-    if (own == SWIG_POINTER_OWN) {
-      /* Obtain a reference to the Python capsule wrapping the module information, so that the
-       * module information is correctly destroyed after all SWIG python objects have been freed
-       * by the GC (and corresponding destructors invoked) */
-      SWIG_Py_XINCREF(Swig_Capsule_global);
-    }
+    sobj->capsule = 0;
+    if (own == SWIG_POINTER_OWN)
+      SwigPyObject_SetCapsule(sobj);
   }
   return (PyObject *)sobj;
 }
@@ -1759,18 +1755,22 @@ SWIG_Python_NewPointerObj(PyObject *self, void *ptr, swig_type_info *type, int f
         newobj = (SwigPyObject *)next_self;
         newobj->swigdict = 0;
         newobj->weakreflist = 0;
+        newobj->capsule = 0;
       }
     } else {
       newobj = PyObject_New(SwigPyObject, clientdata->pytype);
       if (newobj) {
         newobj->swigdict = 0;
         newobj->weakreflist = 0;
+        newobj->capsule = 0;
       }
     }
     if (newobj) {
       newobj->ptr = ptr;
       newobj->ty = type;
       newobj->own = own;
+      if (own == SWIG_POINTER_OWN)
+        SwigPyObject_SetCapsule(newobj);
       newobj->next = 0;
       return (PyObject*) newobj;
     }
@@ -1841,16 +1841,42 @@ SWIG_Python_GetModule(void *SWIGUNUSEDPARM(clientdata)) {
 
 static int interpreter_counter = 0; /* how many (sub-)interpreters are using swig_module's types */
 
+/* The data a module sets in the clientdata of its swig_module_info, so that the module that created the capsule wrapping
+   the module information can clear the runtime data of every module that uses the capsule */
+typedef struct {
+  int version;
+  void (*clear)(swig_module_info *swig_module, PyObject *capsule, int destroy);
+} SwigPyModuleData;
+
+#define SWIGPY_MODULE_DATA_VERSION 1
+
+SWIGRUNTIME SwigPyModuleData *
+SWIG_Python_GetModuleData(swig_module_info *swig_module) {
+  SwigPyModuleData *data = (SwigPyModuleData *) swig_module->clientdata;
+  return (data && data->version == SWIGPY_MODULE_DATA_VERSION) ? data : 0;
+}
+
+/* Clear a cached runtime object before releasing it, as releasing it can run code that uses the cache */
 SWIGRUNTIME void
-SWIG_Python_DestroyModule(PyObject *obj)
-{
-  swig_module_info *swig_module = (swig_module_info *) PyCapsule_GetPointer(obj, SWIGPY_CAPSULE_NAME);
-  swig_type_info **types = swig_module->types;
+SWIG_Python_ClearGlobal(PyObject **global) {
+  PyObject *obj = *global;
+  *global = NULL;
+  SWIG_Py_XDECREF(obj);
+}
+
+/* Called for every module using the capsule wrapping the module information when the capsule is destroyed. The module
+   forgets the capsule if its owning wrappers use it. If destroy is set, as no (sub-)interpreter uses the types any
+   more, a module that used the capsule or created it also frees the clientdata of its types and clears its runtime data. */
+SWIGRUNTIME void
+SWIG_Python_ClearModule(swig_module_info *swig_module, PyObject *capsule, int destroy) {
+  int used = Swig_Capsule_global == capsule;
   size_t i;
-  if (--interpreter_counter != 0) /* another sub-interpreter may still be using the swig_module's types */
+  if (used)
+    Swig_Capsule_global = NULL;
+  if (!destroy || !(used || PyCapsule_GetPointer(capsule, SWIGPY_CAPSULE_NAME) == swig_module))
     return;
   for (i = 0; i < swig_module->size; ++i) {
-    swig_type_info *ty = types[i];
+    swig_type_info *ty = swig_module->types[i];
     if (ty->owndata) {
       SwigPyClientData *data = (SwigPyClientData *) ty->clientdata;
       ty->clientdata = 0;
@@ -1858,39 +1884,83 @@ SWIG_Python_DestroyModule(PyObject *obj)
     }
   }
   SWIG_PYOBJ_REFCNT(Swig_This_global);
-  SWIG_Py_XDECREF(Swig_This_global);
-  Swig_This_global = NULL;
+  SWIG_Python_ClearGlobal(&Swig_This_global);
 
   SWIG_PYOBJ_REFCNT(Swig_Globals_global);
-  SWIG_Py_XDECREF(Swig_Globals_global);
-  Swig_Globals_global = NULL;
+  SWIG_Python_ClearGlobal(&Swig_Globals_global);
 
   SWIG_PYOBJ_REFCNT(Swig_TypeCache_global);
-  SWIG_Py_XDECREF(Swig_TypeCache_global);
-  Swig_TypeCache_global = NULL;
-
-  SWIG_PYOBJ_REFCNT(Swig_Capsule_global);
-  Swig_Capsule_global = NULL;
+  SWIG_Python_ClearGlobal(&Swig_TypeCache_global);
 
   SWIG_PYOBJ_REFCNT(Swig_runtime_data_module_global);
-  SWIG_Py_XDECREF(Swig_runtime_data_module_global);
-  Swig_runtime_data_module_global = NULL;
+  SWIG_Python_ClearGlobal(&Swig_runtime_data_module_global);
+}
+
+/* Set the module data of a module so that the module that created the capsule can call SWIG_Python_ClearModule() for it */
+SWIGRUNTIME void
+SWIG_Python_SetModuleData(swig_module_info *swig_module) {
+  static SwigPyModuleData module_data = { SWIGPY_MODULE_DATA_VERSION, SWIG_Python_ClearModule };
+  swig_module->clientdata = &module_data;
+}
+
+SWIGRUNTIME void
+SWIG_Python_DestroyModule(PyObject *obj)
+{
+  swig_module_info *swig_module = (swig_module_info *) PyCapsule_GetPointer(obj, SWIGPY_CAPSULE_NAME);
+  swig_module_info *iter;
+  int destroy = --interpreter_counter == 0; /* else another sub-interpreter may still be using the swig_module's types */
+  SWIG_Python_ClearModule(swig_module, obj, destroy);
+  for (iter = swig_module->next; iter != swig_module; iter = iter->next) {
+    SwigPyModuleData *data = SWIG_Python_GetModuleData(iter);
+    if (data)
+      data->clear(iter, obj, destroy);
+  }
 }
 
 SWIGRUNTIME void
 SWIG_Python_SetModule(swig_module_info *swig_module) {
   PyObject *runtime_data_module = SWIG_runtime_data_module();
-  PyObject *pointer = PyCapsule_New((void *) swig_module, SWIGPY_CAPSULE_NAME, SWIG_Python_DestroyModule);
+  /* The destructor is only set once the capsule is added, so that it does not run if adding the capsule fails */
+  PyObject *pointer = PyCapsule_New((void *) swig_module, SWIGPY_CAPSULE_NAME, 0);
   if (pointer && runtime_data_module) {
+    /* Counted first, as adding the capsule destroys any capsule it replaces, as when the module is imported again in a
+       sub-interpreter, and that capsule's destructor must not release the types this capsule is about to use */
+    ++interpreter_counter;
     if (PyModule_AddObject(runtime_data_module, SWIGPY_CAPSULE_ATTR_NAME, pointer) == 0) {
-      ++interpreter_counter;
+      PyCapsule_SetDestructor(pointer, SWIG_Python_DestroyModule);
       Swig_Capsule_global = pointer;
     } else {
+      --interpreter_counter;
       SWIG_Py_DECREF(pointer);
     }
   } else {
     SWIG_Py_XDECREF(pointer);
   }
+}
+
+/* The owning wrappers of a module loaded after the first one, which created the capsule wrapping the module information,
+   take a reference on the capsule too. The pointer is borrowed, as in the first module, and forgotten when the capsule is
+   destroyed. Returns -1 with an exception set on failure. */
+SWIGRUNTIME int
+SWIG_Python_UseCapsule(void) {
+  PyObject *runtime_data_module;
+  PyObject *capsule;
+  if (Swig_Capsule_global)
+    return 0;
+  runtime_data_module = SWIG_runtime_data_module();
+  if (!runtime_data_module)
+    return -1;
+  capsule = PyObject_GetAttrString(runtime_data_module, SWIGPY_CAPSULE_ATTR_NAME);
+  if (!capsule) {
+    if (!PyErr_ExceptionMatches(PyExc_AttributeError))
+      return -1;
+    PyErr_Clear();
+    return 0;
+  }
+  if (PyCapsule_IsValid(capsule, SWIGPY_CAPSULE_NAME))
+    Swig_Capsule_global = capsule; /* the swig_runtime_data module holds a reference */
+  SWIG_Py_DECREF(capsule);
+  return 0;
 }
 
 SWIGRUNTIME swig_type_info *

@@ -45,7 +45,7 @@ except TypeError:
     SubT = None  # SWIG_NO_HEAPTYPES: a static type cannot be subclassed
 
 def acquire_subclass_instance():
-    # Acquiring a Python subclass instance of SwigPyObject takes no reference, so freeing it must release none
+    # Acquiring a Python subclass instance of SwigPyObject takes a reference, which freeing it releases
     if SubT is not None:
         o = SubT()
         o.acquire()

@@ -41,3 +41,7 @@ if not SWIG_TypeQuery("vfncs::ArithUnaryFunction<double,double> *"):
 # this is a bad name
 if SWIG_TypeQuery("vfncs::ArithUnaryFunction<double,doublex> *"):
     raise RuntimeError
+
+# no type table to search
+if not type_query_without_module():
+    raise RuntimeError

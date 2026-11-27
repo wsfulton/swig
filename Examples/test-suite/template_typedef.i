@@ -176,4 +176,11 @@ namespace vfncs {
 
 #ifdef SWIGPYTHON
 swig_type_info *SWIG_TypeQuery(const char* name);
+
+%inline %{
+// A NULL module, as SWIG_GetModule() returns before any module has set up the type table, has no types
+bool type_query_without_module() {
+  return SWIG_TypeQueryModule(0, 0, "vfncs::ArithUnaryFunction<double,double> *") == 0;
+}
+%}
 #endif

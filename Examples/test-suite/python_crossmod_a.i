@@ -18,3 +18,9 @@ class B;
 B *make_b() { return new B(); }
 void delete_b(B *disowned) { delete disowned; }
 %}
+
+// D is wrapped by python_crossmod_b, so its type is in this module's type table too, as in the reproducer of #2638
+%inline %{
+struct D;
+bool is_d(D *d) { return d != 0; }
+%}

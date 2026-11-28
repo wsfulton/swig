@@ -69,6 +69,7 @@ swig_check(sys.getrefcount(capsule), before)
 # Destroying the capsule frees the runtime data of the second module too, once its owning wrappers are freed
 del c
 d = python_crossmod_b.D()
+swig_check(python_crossmod_a.is_d(d), True)
 destroyed = python_crossmod_b.cvar.d_destroyed
 cvar_refs = sys.getrefcount(python_crossmod_b.cvar)
 delattr(runtime, capsule_name)

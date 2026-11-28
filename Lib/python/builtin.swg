@@ -522,8 +522,8 @@ SwigPyBuiltin_destructor_closure(SwigPyWrapperFunction wrapper, const char *wrap
   PyTypeObject *tp = Py_TYPE(a);
   PyObject *capsule;
   sobj = (SwigPyObject *)a;
-  /* Released last, as the capsule must outlive the destructor wrapper's use of the runtime data. Taken out of the
-     wrapper first, so that the destructor wrapper disowning the wrapper does not release it. */
+  /* Release the capsule last as it must outlive the destructor wrapper's use of the runtime data. It is taken out of
+     the wrapper first, so that the destructor wrapper disowning the wrapper does not release it. */
   capsule = sobj->capsule;
   sobj->capsule = 0;
   SwigPyObject_ClearWeakRefs(sobj);

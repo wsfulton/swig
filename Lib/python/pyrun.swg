@@ -865,8 +865,8 @@ SwigPyObject_dealloc(PyObject *v)
   SwigPyObject *sobj = (SwigPyObject *) v;
   PyTypeObject *tp = Py_TYPE(v);
   PyObject *next = sobj->next;
-  /* Released last as the capsule must outlive the use of the type's data below. Taken out of the wrapper first, so
-     that the destructor wrapper disowning the wrapper does not release it. */
+  /* Release the capsule last as it must outlive the use of the type's data below. It is taken out of the wrapper first,
+     so that the destructor wrapper disowning the wrapper does not release it. */
   PyObject *capsule = sobj->capsule;
   sobj->capsule = 0;
   SwigPyObject_ClearWeakRefs(sobj);
@@ -1841,19 +1841,19 @@ SWIG_Python_GetModule(void *SWIGUNUSEDPARM(clientdata)) {
 
 static int interpreter_counter = 0; /* how many (sub-)interpreters are using swig_module's types */
 
-/* The data a module sets in the clientdata of its swig_module_info, so that the module that created the capsule wrapping
-   the module information can clear the runtime data of every module that uses the capsule */
+/* The clientdata of a module's swig_module_info, as SwigPyClientData is the clientdata of a swig_type_info. The module that
+   created the capsule wrapping the module information uses it to clear the runtime data of every module using the capsule. */
 typedef struct {
   int version;
   void (*clear)(swig_module_info *swig_module, PyObject *capsule, int destroy);
-} SwigPyModuleData;
+} SwigPyModuleClientData;
 
-#define SWIGPY_MODULE_DATA_VERSION 1
+#define SWIGPY_MODULE_CLIENTDATA_VERSION 1
 
-SWIGRUNTIME SwigPyModuleData *
-SWIG_Python_GetModuleData(swig_module_info *swig_module) {
-  SwigPyModuleData *data = (SwigPyModuleData *) swig_module->clientdata;
-  return (data && data->version == SWIGPY_MODULE_DATA_VERSION) ? data : 0;
+SWIGRUNTIME SwigPyModuleClientData *
+SWIG_Python_GetModuleClientData(swig_module_info *swig_module) {
+  SwigPyModuleClientData *data = (SwigPyModuleClientData *) swig_module->clientdata;
+  return (data && data->version == SWIGPY_MODULE_CLIENTDATA_VERSION) ? data : 0;
 }
 
 /* Clear a cached runtime object before releasing it, as releasing it can run code that uses the cache */
@@ -1896,11 +1896,11 @@ SWIG_Python_ClearModule(swig_module_info *swig_module, PyObject *capsule, int de
   SWIG_Python_ClearGlobal(&Swig_runtime_data_module_global);
 }
 
-/* Set the module data of a module so that the module that created the capsule can call SWIG_Python_ClearModule() for it */
+/* Set the clientdata of a module so that the module that created the capsule can call SWIG_Python_ClearModule() for it */
 SWIGRUNTIME void
-SWIG_Python_SetModuleData(swig_module_info *swig_module) {
-  static SwigPyModuleData module_data = { SWIGPY_MODULE_DATA_VERSION, SWIG_Python_ClearModule };
-  swig_module->clientdata = &module_data;
+SWIG_Python_SetModuleClientData(swig_module_info *swig_module) {
+  static SwigPyModuleClientData clientdata = { SWIGPY_MODULE_CLIENTDATA_VERSION, SWIG_Python_ClearModule };
+  swig_module->clientdata = &clientdata;
 }
 
 SWIGRUNTIME void
@@ -1911,7 +1911,7 @@ SWIG_Python_DestroyModule(PyObject *obj)
   int destroy = --interpreter_counter == 0; /* else another sub-interpreter may still be using the swig_module's types */
   SWIG_Python_ClearModule(swig_module, obj, destroy);
   for (iter = swig_module->next; iter != swig_module; iter = iter->next) {
-    SwigPyModuleData *data = SWIG_Python_GetModuleData(iter);
+    SwigPyModuleClientData *data = SWIG_Python_GetModuleClientData(iter);
     if (data)
       data->clear(iter, obj, destroy);
   }

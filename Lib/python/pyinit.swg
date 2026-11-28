@@ -295,7 +295,7 @@ SWIGINTERN int SWIG_mod_exec(PyObject *m) {
   md = d = PyModule_GetDict(m);
   (void)md;
 
-  SWIG_Python_SetModuleData(&swig_module);
+  SWIG_Python_SetModuleClientData(&swig_module);
   SWIG_InitializeModule(0);
   /* SWIG_Python_SetModule() cannot return a failure, so it leaves the exception set */
   if (PyErr_Occurred() || SWIG_Python_UseCapsule() < 0)

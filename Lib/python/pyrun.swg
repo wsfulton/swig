@@ -818,9 +818,15 @@ SwigPyObject_New(void *ptr, swig_type_info *ty, int own);
 /* The capsule wrapping the module information that this module's owning wrappers take a reference on */
 static PyObject* Swig_Capsule_global = NULL;
 
-/* An owning wrapper holds a reference on the capsule, so that the types it needs, such as for its destructor, are kept until it is freed */
+/* An owning wrapper holds a reference on the capsule, so that the types it needs, such as for its destructor, are kept until it is
+   freed. A -builtin class instance needs none, as its tp_dealloc, which can be a %feature("python:tp_dealloc") function, does
+   not use the type's clientdata. */
 SWIGRUNTIME void
 SwigPyObject_SetCapsule(SwigPyObject *sobj) {
+#ifdef SWIGPYTHON_BUILTIN
+  if (Py_TYPE((PyObject *)sobj) != SwigPyObject_Type())
+    return;
+#endif
   if (!sobj->capsule && Swig_Capsule_global) {
     sobj->capsule = Swig_Capsule_global;
     SWIG_Py_INCREF(sobj->capsule);
@@ -1769,8 +1775,6 @@ SWIG_Python_NewPointerObj(PyObject *self, void *ptr, swig_type_info *type, int f
       newobj->ptr = ptr;
       newobj->ty = type;
       newobj->own = own;
-      if (own == SWIG_POINTER_OWN)
-        SwigPyObject_SetCapsule(newobj);
       newobj->next = 0;
       return (PyObject*) newobj;
     }
@@ -1842,7 +1846,8 @@ SWIG_Python_GetModule(void *SWIGUNUSEDPARM(clientdata)) {
 static int interpreter_counter = 0; /* how many (sub-)interpreters are using swig_module's types */
 
 /* The clientdata of a module's swig_module_info, as SwigPyClientData is the clientdata of a swig_type_info. The module that
-   created the capsule wrapping the module information uses it to clear the runtime data of every module using the capsule. */
+   created the capsule wrapping the module information uses it to clear the runtime data of every module using the capsule.
+   A later version can only add members after these, as every module must be cleared to forget its pointer to the capsule. */
 typedef struct {
   int version;
   void (*clear)(swig_module_info *swig_module, PyObject *capsule, int destroy);
@@ -1853,7 +1858,7 @@ typedef struct {
 SWIGRUNTIME SwigPyModuleClientData *
 SWIG_Python_GetModuleClientData(swig_module_info *swig_module) {
   SwigPyModuleClientData *data = (SwigPyModuleClientData *) swig_module->clientdata;
-  return (data && data->version == SWIGPY_MODULE_CLIENTDATA_VERSION) ? data : 0;
+  return (data && data->version >= SWIGPY_MODULE_CLIENTDATA_VERSION) ? data : 0;
 }
 
 /* Clear a cached runtime object before releasing it, as releasing it can run code that uses the cache */

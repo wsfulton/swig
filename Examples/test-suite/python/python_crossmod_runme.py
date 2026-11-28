@@ -27,12 +27,13 @@ swig_check(type(b).__name__, "B")
 del b
 swig_check(sys.getrefcount(capsule), before)
 
-# An owning wrapper made by either module holds one reference on the capsule
+# An owning wrapper made by either module holds one reference on the capsule, a -builtin class instance none as it does not need the type's clientdata when freed
+refs = 0 if python_crossmod_a.is_python_builtin() else 1
 before = sys.getrefcount(capsule)
 a = python_crossmod_a.A()
-swig_check(sys.getrefcount(capsule), before + 1)
+swig_check(sys.getrefcount(capsule), before + refs)
 d = python_crossmod_b.D()
-swig_check(sys.getrefcount(capsule), before + 2)
+swig_check(sys.getrefcount(capsule), before + 2 * refs)
 del a, d
 swig_check(sys.getrefcount(capsule), before)
 

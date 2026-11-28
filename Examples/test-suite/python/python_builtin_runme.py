@@ -1,3 +1,4 @@
+import sys
 from python_builtin import *
 
 if is_python_builtin():
@@ -40,6 +41,9 @@ if is_python_builtin():
     raise RuntimeError("did not catch exception in hash()")
 
   # Test 4 for tp_dealloc (which is handled differently to other slots in the SWIG source)
+  runtime = [m for n, m in sys.modules.items() if n.startswith("swig_runtime_data")][0]
+  capsule = getattr(runtime, [a for a in dir(runtime) if a.startswith("type_pointer_capsule")][0])
+  capsule_refs = sys.getrefcount(capsule)
   d = Dealloc1()
   if cvar.Dealloc1CalledCount != 0:
     raise RuntimeError("count should be 0")
@@ -60,6 +64,15 @@ if is_python_builtin():
   del d
   if cvar.Dealloc3CalledCount != 1:
     raise RuntimeError("count should be 1")
+
+  # A -builtin class instance takes no reference on the runtime data, also when given ownership, as a tp_dealloc function would not release it
+  d = Dealloc1()
+  d.thisown = 0
+  d.thisown = 1
+  del d
+
+  if sys.getrefcount(capsule) != capsule_refs:
+    raise RuntimeError("a -builtin class instance kept a reference on the runtime data")
 
   # Test 5 for python:compare feature
   m10 = MyClass(10)

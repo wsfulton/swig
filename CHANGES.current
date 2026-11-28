@@ -12,7 +12,9 @@ Version 4.6.0 (in progress)
             SwigPyObject. For every target language, modules built with SWIG 4.4 and 4.5 no longer
             share type information with modules built with this version, so a wrapped object cannot be
             passed between them. Build all the modules that pass wrapped objects to each other with the
-            same version of SWIG.
+            same version of SWIG. Generate any header made with swig -external-runtime again too, as
+            SWIG_TypeQuery() in a header from SWIG 4.4 or 4.5 finds no type information for the modules
+            built with this version and crashes.
 
             *** POTENTIAL INCOMPATIBILITY ***
 
@@ -20,11 +22,11 @@ Version 4.6.0 (in progress)
             [Python] #2037 #2638 Fix problems with a module loaded after another SWIG module, as the
             modules share SWIG's runtime data by default:
 
-            - The C++ destructor was not called and "swig/python detected a memory leak of type 'Foo *',
-              no destructor found." was shown when an object the module created was freed after the
-              runtime data was destroyed, such as when the Python interpreter is finalized. The object
-              now keeps the runtime data alive until it is freed, as an object created by the first
-              module does.
+            - Without -builtin, the C++ destructor was not called and "swig/python detected a memory
+              leak of type 'Foo *', no destructor found." was shown when an object the module created was
+              freed after the runtime data was destroyed, such as when the Python interpreter is
+              finalized. The object now keeps the runtime data alive until it is freed, as an object
+              created by the first module does.
             - The global variables (cvar) and the rest of the runtime data of every module but the
               first one loaded were never freed. They are now freed with the runtime data.
             - With -builtin, freeing an object the module created that owned a pointer to a type not

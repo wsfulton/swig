@@ -23,4 +23,10 @@ void delete_b(B *disowned) { delete disowned; }
 %inline %{
 struct D;
 bool is_d(D *d) { return d != 0; }
+
+#ifdef SWIGPYTHON_BUILTIN
+bool is_python_builtin() { return true; }
+#else
+bool is_python_builtin() { return false; }
+#endif
 %}
